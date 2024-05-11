@@ -5,8 +5,8 @@ import { IoMdCall } from "react-icons/io";
 
 function AdminSidePanel() {
   return (
-    <div className="w-[300px]  max-h-[700px] bg-white text-black rounded-md my-2 shadow-md shadow-gray-700">
-      <div className="bg-gray-300 h-[150px] rounded-md m-4 w-[270px]">
+    <div className="w-[250px] h-[90vh] min-[980px]:w-[300px]  bg-white text-black rounded-md my-2 shadow-md shadow-gray-700">
+      <div className="bg-gray-300 h-[150px] rounded-md m-4 max-w-[270px]">
         <div className="flex justify-center">
           <FaRegUserCircle className="w-[40px] h-[40px] mt-2" />
         </div>
@@ -30,8 +30,12 @@ function AdminSidePanel() {
         <p className="font-bold hover:bg-purple-500 w-[60%] text-center hover:text-white">
           home
         </p>
-        <p className="font-bold hover:bg-purple-500 w-[60%] text-center hover:text-white">users</p>
-        <p className="font-bold hover:bg-purple-500 w-[60%] text-center hover:text-white">reports</p>
+        <p className="font-bold hover:bg-purple-500 w-[60%] text-center hover:text-white">
+          users
+        </p>
+        <p className="font-bold hover:bg-purple-500 w-[60%] text-center hover:text-white">
+          reports
+        </p>
       </div>
     </div>
   );

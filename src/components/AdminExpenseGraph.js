@@ -29,7 +29,7 @@ function AdminExpenseGraph() {
   };
 
   return (
-    <div className="w-[40%] border-2 h-[40vh] m-2 bg-black rounded-lg shadow-md shadow-gray-700 text-center ">
+    <div className=" w-[40%] border-2 h-[40vh] m-2 bg-black rounded-lg shadow-md shadow-gray-700 text-center ">
       <p className=" border-white border-b-2 py-2 font-bold text-[1.2rem] ">
         Vouchers Graph
       </p>
@@ -46,7 +46,7 @@ function AdminExpenseGraph() {
                 enabled: true, // hide tooltip
               },
             },
-            cutout:"75%",
+            cutout: "60%",
             responsive: true,
             maintainAspectRatio: false,
           }}
