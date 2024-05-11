@@ -2,34 +2,57 @@ import React from "react";
 
 function AdminREjectedVoucher() {
   return (
-    <div className="rounded-lg shadow-md shadow-gray-700 w-[40%] h-[40vh] m-2 bg-red-400">
-      <p className=" border-white border-b-2 py-2 font-bold text-[1.2rem]  h-[40px] text-center ">
-        Rejected Vouchers
-      </p>
-      <div className="w-[100%]">
-        <div className="m-2 bg-white text-black flex h-[40px] font-bold items-center ">
-          <p className="w-[25%] px-1">v.no</p>
-          <p className="w-[25%] px-1">name</p>
-
+    <div className=" w-[40%]  h-[50vh] m-2 bg-white rounded-lg shadow-md shadow-gray-700 text-center ">
+    <p className=" border-white  py-2 font-bold bg-purple-500 text-[1.2rem] rounded-t-lg">
+      Rejected Voucher
+    </p>
+    <div className="w-[100%]">
+        <div className="mx-2 bg-white text-black flex h-[40px] font-bold items-center">
+          <p className="w-[10%] px-1">v.no</p>
+          <p className="w-[27%] px-1">name</p>
           <p className="w-[25%] px-1">trip</p>
-          <p className="w-[25%] px-1">view</p>
+          <p className="w-[23%] px-1">Date</p>
+          <p className="w-[15%] px-1 text-center"></p>
         </div>
       </div>
       <div className="w-[100%] h-[calc(40vh-120px)] overflow-y-auto">
-        <div className="m-2 bg-white text-black flex py-2">
-          <p className="w-[25%] px-1 overflow-hidden whitespace-nowrap overflow-ellipsis">
-            v.no
+        <div className="mx-2 bg-white text-black flex py-1 text-[.8rem] font-semibold">
+          <p className="w-[10%] px-1 overflow-hidden whitespace-nowrap overflow-ellipsis">
+            1
+          </p>
+          <p className="w-[27%] px-1 overflow-hidden whitespace-nowrap overflow-ellipsis">
+            shivam singh
           </p>
           <p className="w-[25%] px-1 overflow-hidden whitespace-nowrap overflow-ellipsis">
-            name
+            HYDERABAD
           </p>
-          <p className="w-[25%] px-1 overflow-hidden whitespace-nowrap overflow-ellipsis">
-            trip
+          <p className="w-[23%] px-1 overflow-hidden whitespace-nowrap overflow-ellipsis">
+            15/03/24
           </p>
-          <div className="w-[25%] px-1 overflow-hidden whitespace-nowrap overflow-ellipsis ">
-            <p className="bg-blue-300 text-white text-center rounded hover:bg-blue-500">
+          <div className="w-[15%] px-1 overflow-hidden whitespace-nowrap overflow-ellipsis ">
+            <p className="bg-blue-300 text-white font-bold text-center rounded hover:bg-blue-500">
               {" "}
               View
+            </p>
+          </div>
+        </div>
+        <div className="mx-2 bg-white text-black flex py-1 text-[.8rem] font-semibold">
+          <p className="w-[10%] px-1 overflow-hidden whitespace-nowrap overflow-ellipsis">
+            1
+          </p>
+          <p className="w-[27%] px-1 overflow-hidden whitespace-nowrap overflow-ellipsis">
+            shivam singh
+          </p>
+          <p className="w-[25%] px-1 overflow-hidden whitespace-nowrap overflow-ellipsis">
+            HYDERABAD
+          </p>
+          <p className="w-[23%] px-1 overflow-hidden whitespace-nowrap overflow-ellipsis">
+            15/03/24
+          </p>
+          <div className="w-[15%] px-1 overflow-hidden whitespace-nowrap overflow-ellipsis ">
+            <p className="bg-blue-300 text-white font-bold text-center rounded hover:bg-blue-500">
+              {" "}
+             View
             </p>
           </div>
         </div>

@@ -12,10 +12,10 @@ function AdminExpenseGraph() {
         label: "Vouchers",
         data: [12, 19, 3],
         backgroundColor: [
-          "rgba(255, 99, 132, .8)",
+          "rgba(255, 99, 132, 1.8)",
 
-          "rgba(255, 206, 86,.8)",
-          "rgba(75, 192, 192, .8)",
+          "rgba(255, 206, 86,1.8)",
+          "rgba(75, 192, 192, 1.8)",
         ],
         borderColor: [
           "rgba(255, 99, 132, 1)",
@@ -29,8 +29,8 @@ function AdminExpenseGraph() {
   };
 
   return (
-    <div className=" w-[40%] border-2 h-[40vh] m-2 bg-black rounded-lg shadow-md shadow-gray-700 text-center ">
-      <p className=" border-white border-b-2 py-2 font-bold text-[1.2rem] ">
+    <div className=" w-[40%]  h-[40vh] m-2 bg-white rounded-lg shadow-md shadow-gray-700 text-center ">
+      <p className=" border-white  py-2 font-bold bg-purple-500 text-[1.2rem] rounded-t-lg">
         Vouchers Graph
       </p>
       <div className="w-[100%] h-[70%] my-2">
@@ -46,7 +46,7 @@ function AdminExpenseGraph() {
                 enabled: true, // hide tooltip
               },
             },
-            cutout: "60%",
+            cutout: "75%",
             responsive: true,
             maintainAspectRatio: false,
           }}
