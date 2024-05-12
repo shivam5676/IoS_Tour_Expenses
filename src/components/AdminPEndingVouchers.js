@@ -4,7 +4,7 @@ function AdminPEndingVouchers() {
   return (
     <div className="shadow-md shadow-gray-700 w-[60%] h-[40vh]  bg-white m-2 rounded-lg">
     <p className=" py-2 font-bold text-[1.2rem] text-center h-[40px] rounded-t-lg text-white bg-purple-500">
-      User All Vouchers{" "}
+      Pending Vouchers{" "}
     </p>{" "}
     <div className="w-[100%]">
       <div className="mx-2 bg-white text-black flex h-[40px] font-bold items-center">

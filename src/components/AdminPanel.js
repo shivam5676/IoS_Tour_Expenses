@@ -8,7 +8,7 @@ import AdminREjectedVoucher from "./AdminREjectedVoucher";
 
 function AdminPanel() {
   return (
-    <div className="w-[100vw] h-[100vh] text-white bg-gray-300">
+    <div className="w-[100vw] h-[100vh] text-white bg-gray-300 font-['Poppins']">
       <div className="min-[800px]:mx-4 min-[1000px]:mx-16 mx-4 min-[1200px]:mx-28 flex">
         <AdminSidePanel></AdminSidePanel>
         <div className="w-[100%]  h-[100vh] mx-2 ">
