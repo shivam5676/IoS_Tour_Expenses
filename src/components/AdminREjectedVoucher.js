@@ -2,12 +2,12 @@ import React from "react";
 
 function AdminREjectedVoucher() {
   return (
-    <div className=" w-[40%]  h-[50vh] m-2 bg-white rounded-lg shadow-md shadow-gray-700 text-center ">
-    <p className=" border-white  py-2 font-bold bg-purple-500 text-[1.2rem] rounded-t-lg">
+    <div className=" w-[40%]  h-[250px] m-2 bg-white rounded-lg shadow-md shadow-gray-700 text-center ">
+    <p className=" border-white  py-2 font-bold bg-purple-500 text-2xl rounded-t-lg">
       Rejected Voucher
     </p>
     <div className="w-[100%]">
-        <div className="mx-2 bg-white text-black flex h-[40px] font-bold items-center">
+        <div className="mx-2 bg-white text-black flex  font-bold items-center">
           <p className="w-[10%] px-1">v.no</p>
           <p className="w-[27%] px-1">name</p>
           <p className="w-[25%] px-1">trip</p>
@@ -15,7 +15,7 @@ function AdminREjectedVoucher() {
           <p className="w-[15%] px-1 text-center"></p>
         </div>
       </div>
-      <div className="w-[100%] h-[calc(40vh-120px)] overflow-y-auto">
+      <div className="w-[100%] h-[calc(250px-90px)] overflow-y-auto">
         <div className="mx-2 bg-white text-black flex py-1 text-[.8rem] font-semibold">
           <p className="w-[10%] px-1 overflow-hidden whitespace-nowrap overflow-ellipsis">
             1

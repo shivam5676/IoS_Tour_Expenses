@@ -39,6 +39,7 @@ function AdminSidePanel() {
           <p className="font-bold hover:bg-purple-500 w-[60%] text-center hover:text-white">
             reports
           </p>
+          
         </div>
         <div className=" min-w-[100%] max-w-[270px] text-white ">
           <div className="flex m-4  bg-purple-400 rounded-md py-2 items-center">

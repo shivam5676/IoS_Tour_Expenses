@@ -1,4 +1,5 @@
 import React from "react";
+import { VscDebugBreakpointLog } from "react-icons/vsc";
 
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import { Doughnut } from "react-chartjs-2";
@@ -29,11 +30,11 @@ function AdminExpenseGraph() {
   };
 
   return (
-    <div className=" w-[40%]  h-[40vh] m-2 bg-white rounded-lg shadow-md shadow-gray-700 text-center ">
-      <p className=" border-white  py-2 font-bold bg-purple-500 text-[1.2rem] rounded-t-lg">
+    <div className=" w-[40%]  h-[250px] m-2 bg-white rounded-lg shadow-md shadow-gray-700 text-center ">
+      <p className=" border-white  py-2 font-bold bg-purple-500 text-2xl rounded-t-lg">
         Vouchers Graph
       </p>
-      <div className="w-[100%] h-[70%] my-2">
+      <div className="w-[100%] h-[140px] my-2">
         {" "}
         <Doughnut
           data={data}
@@ -46,11 +47,35 @@ function AdminExpenseGraph() {
                 enabled: true, // hide tooltip
               },
             },
-            cutout: "75%",
+            cutout: "70%",
             responsive: true,
             maintainAspectRatio: false,
           }}
         />
+      </div>
+      <div className="text-black flex justify-between text-[.8rem] px-2 font-bold">
+        <div className="flex justify-center">
+          {" "}
+          <span className="text-center">
+            <VscDebugBreakpointLog className="w-[20px] h-[20px] text-green-500" />
+          </span>
+          Accepted
+        </div>
+
+        <div className="flex justify-center">
+          {" "}
+          <span className="text-center">
+            <VscDebugBreakpointLog className="w-[20px] h-[20px] text-yellow-500" />
+          </span>
+          pending
+        </div>
+        <div className="flex justify-center">
+          {" "}
+          <span className="text-center">
+            <VscDebugBreakpointLog className="w-[20px] h-[20px] text-red-500" />
+          </span>
+          rejected
+        </div>
       </div>
     </div>
   );
