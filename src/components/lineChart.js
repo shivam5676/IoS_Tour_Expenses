@@ -49,7 +49,7 @@ function LineChart() {
     "Nov",
     "Dec",
   ];
-  const dataset1Data = [400, 300, 600, 700, 200, 500, 800, 300, 600, 700, 200];
+  const dataset1Data = [400, 303, 600, 700, 200, 500, 800, 300, 600, 700, 200];
   const dataset2Data = [600, 500, 300, 200, 800, 400, 100, 300, 600, 700, 200];
   //we will create 4 data sets travel,DA(food),Accomondation,Misc
   const data = {
