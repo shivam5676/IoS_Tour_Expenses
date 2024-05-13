@@ -49,21 +49,41 @@ function LineChart() {
     "Nov",
     "Dec",
   ];
-  const dataset1Data = [400, 300, 600, 700, 200, 500, 800, 300, 600, 700, 200];
-  const dataset2Data = [600, 500, 300, 200, 800, 400, 100, 300, 600, 700, 200];
+  const dataset1Data = [
+    400, 300, 600, 700, 200, 500, 800, 300, 600, 700, 200, 222,
+  ];
+  const dataset2Data = [
+    600, 500, 300, 200, 800, 400, 100, 300, 600, 700, 200, 233,
+  ];
+  const dataset3Data = [
+    600, 500, 300, 200, 800, 400, 100, 300, 600, 700, 200, 233,
+  ];
+  const dataset4Data = [
+    400, 300, 600, 700, 200, 500, 800, 300, 600, 700, 200, 222,
+  ];
   //we will create 4 data sets travel,DA(food),Accomondation,Misc
   const data = {
     labels,
     datasets: [
       {
-        label: "Dataset 1",
+        label: "Accomondation",
         data: dataset1Data,
         backgroundColor: "rgba(255, 99, 132, 0.5)",
       },
       {
-        label: "Dataset 2",
+        label: "Food(DA)",
         data: dataset2Data,
         backgroundColor: "rgba(53, 162, 235, 0.5)",
+      },
+      {
+        label: "Travel",
+        data: dataset3Data,
+        backgroundColor: "rgba(255, 165, 0,0.7)",
+      },
+      {
+        label: "Misc",
+        data: dataset4Data,
+        backgroundColor: "rgba(93, 192, 149,.8)",
       },
     ],
   };
