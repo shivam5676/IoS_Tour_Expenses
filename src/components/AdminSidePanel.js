@@ -5,7 +5,7 @@ import { IoMdCall } from "react-icons/io";
 import iosLogo from "../assests/images/ios logo.png";
 function AdminSidePanel() {
   return (
-    <div className="w-[250px] h-[90vh] min-[980px]:w-[300px]  bg-white text-black rounded-2xl my-2 shadow-md shadow-gray-700 font-['Poppins']">
+    <div className="w-[250px] h-[600px] min-[980px]:w-[300px]  bg-white text-black rounded-2xl my-2 shadow-md shadow-gray-700 font-['Poppins']">
       <div className="bg-purple-500 h-[150px] rounded-md m-4 max-w-[270px] text-white">
         <div className="flex justify-center">
           <FaRegUserCircle className="w-[40px] h-[40px] mt-2" />
@@ -27,9 +27,8 @@ function AdminSidePanel() {
           </p>
         </div>
       </div>
-      <div className="flex flex-col items-center h-[calc(90vh-185px)] justify-between">
+      <div className="flex flex-col items-center h-[calc(600px-185px)] justify-between">
         <div className="mt-4 w-[100%] flex flex-col  items-center">
-          {" "}
           <p className="font-bold hover:bg-purple-500 w-[60%]  text-center hover:text-white">
             home
           </p>
@@ -39,18 +38,19 @@ function AdminSidePanel() {
           <p className="font-bold hover:bg-purple-500 w-[60%] text-center hover:text-white">
             reports
           </p>
-          
         </div>
         <div className=" min-w-[100%] max-w-[270px] text-white ">
           <div className="flex m-4  bg-purple-400 rounded-md py-2 items-center">
             <div className="flex ps-2">
-              {" "}
               <img src={iosLogo} className="w-[40px] h-[40px]"></img>
             </div>
             <div className="p-2">
-              {" "}
-              <p className=" text-[.8rem] font-bold border-b-2 ">Tour Expense tracker System</p>
-              <p  className=" text-[.65rem] font-bold py-1">  © copyright 2024 ( IOS pvt ltd )</p>
+              <p className=" text-[.8rem] font-bold border-b-2 ">
+                Tour Expense tracker System
+              </p>
+              <p className=" text-[.65rem] font-bold py-1">
+                © copyright 2024 ( IOS pvt ltd )
+              </p>
             </div>
           </div>
         </div>

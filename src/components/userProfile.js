@@ -1,7 +1,22 @@
-import React from "react";
+import axios from "axios";
+import React, { useEffect } from "react";
 import { FaRegUserCircle } from "react-icons/fa";
 
-function UserProfile() {
+function UserProfile() {const connectionUrl = "http://localhost:2000";
+
+useEffect(() => {
+  const fetchData = async () => {
+    try {
+      const response = await axios.post(`${connectionUrl}/admin/getUser`,{
+        userId:1
+      });
+      console.log(response);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+  fetchData();
+}, []);
   return (
     <div className="rounded-lg shadow-md shadow-gray-700  w-[40%] h-[280px] m-2 bg-white text-black">
       <p className=" rounded-t-lg py-2 font-bold text-2xl   text-center bg-purple-500 text-white ">
