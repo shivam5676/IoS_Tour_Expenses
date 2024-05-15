@@ -1,9 +1,44 @@
-import React from "react";
+import React, { useContext } from "react";
 import { VscDebugBreakpointLog } from "react-icons/vsc";
 
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import { Doughnut } from "react-chartjs-2";
-function AdminExpenseGraph() {
+import Context from "../store/Context";
+import { useLocation } from "react-router-dom";
+function AdminExpenseGraph(props) {
+  console.log(props)
+  const ctx = useContext(Context);
+  console.log(ctx.adminCurrentUserData.Vouchers);
+  const login = true;
+
+  let pending = 0;
+  let rejected = 0;
+  let accepted = 0;
+  let total = 0;
+  const location = useLocation();
+  console.log(location.pathname.toUpperCase() == "/ADMINUSER");
+  if (location.pathname.toUpperCase() == "/ADMINUSER") {
+    ctx.adminCurrentUserData.Vouchers?.forEach((current) => {
+      if ((current.statusType = "Pending")) {
+        pending++;
+      } else if ((current.statusType = "Accepted")) {
+        accepted++;
+      } else if ((current.statusType = "Rejected")) {
+        rejected++;
+      }
+    });
+  } else {
+    ctx.allVoucherData?.forEach((current) => {
+      if ((current.statusType = "Pending")) {
+        pending++;
+      } else if ((current.statusType = "Accepted")) {
+        accepted++;
+      } else if ((current.statusType = "Rejected")) {
+        rejected++;
+      }
+    });
+  }
+
   ChartJS.register(ArcElement, Tooltip, Legend);
 
   const data = {
@@ -11,7 +46,7 @@ function AdminExpenseGraph() {
     datasets: [
       {
         label: "Vouchers",
-        data: [12, 19, 3],
+        data: [rejected, pending, accepted],
         backgroundColor: [
           "rgba(255, 99, 132, 1.8)",
 

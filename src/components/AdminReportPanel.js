@@ -1,14 +1,31 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import AdminSidePanel from "./AdminSidePanel";
 import DatePicker from "react-datepicker";
 import LineChart from "./lineChart";
+import axios from "axios";
 function AdminReportPanel() {
+  const connectionUrl = "http://localhost:2000";
+
   const [startDate, setStartDate] = useState(new Date());
   const [reportType, setReportType] = useState("All");
   const handleReportTypeChange = (event) => {
     setReportType(event.target.value);
   };
   console.log(reportType);
+  useEffect(() => {
+
+    async function fetchFilterData() {
+      try {
+        const response = await axios.post(`${connectionUrl}/admin/year?year=${2024}`);
+        console.log(response.data);
+        // ctx.AllVoucher(response.data.userList);
+      } catch (err) {
+        console.log(err);
+      }
+    }
+    fetchFilterData();
+
+  }, []);
   return (
     <div className="w-[100vw]  text-white bg-purple-300 font-['Poppins'] ">
       <div className="min-[800px]:mx-4 min-[1000px]:mx-16 mx-4 min-[1200px]:mx-28 flex">

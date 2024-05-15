@@ -3,7 +3,9 @@ import { FaRegUserCircle } from "react-icons/fa";
 import { MdEmail } from "react-icons/md";
 import { IoMdCall } from "react-icons/io";
 import iosLogo from "../assests/images/ios logo.png";
+import { useNavigate } from "react-router-dom";
 function AdminSidePanel() {
+  const navigate=useNavigate()
   return (
     <div className="w-[250px] h-[600px] min-[980px]:w-[300px]  bg-white text-black rounded-2xl my-2 shadow-md shadow-gray-700 font-['Poppins']">
       <div className="bg-purple-500 h-[150px] rounded-md m-4 max-w-[270px] text-white">
@@ -29,13 +31,13 @@ function AdminSidePanel() {
       </div>
       <div className="flex flex-col items-center h-[calc(600px-185px)] justify-between">
         <div className="mt-4 w-[100%] flex flex-col  items-center">
-          <p className="font-bold hover:bg-purple-500 w-[60%]  text-center hover:text-white">
+          <p className="font-bold hover:bg-purple-500 w-[60%]  text-center hover:text-white" onClick={()=>navigate("/home")}>
             home
           </p>
-          <p className="font-bold hover:bg-purple-500 w-[60%] text-center hover:text-white">
+          <p className="font-bold hover:bg-purple-500 w-[60%] text-center hover:text-white" onClick={()=>navigate("/adminUser")}>
             users
           </p>
-          <p className="font-bold hover:bg-purple-500 w-[60%] text-center hover:text-white">
+          <p className="font-bold hover:bg-purple-500 w-[60%] text-center hover:text-white" onClick={()=>navigate("/adminReport")}>
             reports
           </p>
         </div>
