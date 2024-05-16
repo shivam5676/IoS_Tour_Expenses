@@ -8,6 +8,7 @@ const initialState = {
   allUser: [],
   adminCurrentUserData: {},
   allVoucherData: [],
+  userExpenseData: [],
 };
 const reducerFn = (state, action) => {
   if (action.type === "signupModal") {
@@ -33,6 +34,12 @@ const reducerFn = (state, action) => {
       allVoucherData: [...action.payload],
     };
   }
+  if (action.type == "addUserExpense") {
+    return {
+      ...state,
+      userExpenseData: [...state.userExpenseData, action.payload],
+    };
+  }
   return { ...state };
 };
 
@@ -51,6 +58,9 @@ const ContextProvider = (props) => {
   const allVoucherHandler = (vouchers) => {
     dispatch({ type: "allVoucher", payload: vouchers });
   };
+  const addUserExpenseHandler = (expenseData) => {
+    dispatch({ type: "addUserExpense", payload: expenseData });
+  };
   const contextStore = {
     signUpModal: signupModalOpenHandler,
     addUserData: adduserDataHandler,
@@ -59,6 +69,8 @@ const ContextProvider = (props) => {
     adminCurrentUserData: currentState.adminCurrentUserData,
     AllVoucher: allVoucherHandler,
     allVoucherData: currentState.allVoucherData,
+    userExpensesData: currentState.userExpenseData,
+    userExpenses: addUserExpenseHandler,
   };
   return (
     <Context.Provider value={contextStore}>{props.children}</Context.Provider>

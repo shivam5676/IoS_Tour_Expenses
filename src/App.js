@@ -4,11 +4,13 @@ import Login from "./components/login";
 import AdminUserPanel from "./components/AdminUserPanel";
 import AdminReportPanel from "./components/AdminReportPanel";
 import UserHomePage from "./components/user/userHomePage";
+import NavBar from "./components/NavBar";
 
 
 function App() {
   return (
     <>
+    <NavBar></NavBar>
       <Routes>
         <Route path="/login" element={ <Login></Login>}></Route>
         <Route path="/adminUser" element={   <AdminUserPanel></AdminUserPanel>}></Route>

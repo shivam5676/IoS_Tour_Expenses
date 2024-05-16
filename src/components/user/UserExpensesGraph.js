@@ -31,11 +31,11 @@ function UserExpensesGraph() {
     ],
   };
   return (
-    <div className=" w-[40%]  h-[280px] m-2 bg-white rounded-lg shadow-md shadow-gray-700 text-center ">
+    <div className=" w-[40%]  min-h-[250px] h-[40vh]  m-2 bg-white rounded-lg shadow-md shadow-gray-700 text-center ">
       <p className=" border-white  py-2 font-bold bg-purple-500 text-2xl rounded-t-lg">
         Expense Graph
       </p>
-      <div className="w-[100%] h-[180px] my-2">
+      <div className="w-[100%] h-[calc(40vh-110px)] my-2">
         {" "}
         <Doughnut
           data={data}

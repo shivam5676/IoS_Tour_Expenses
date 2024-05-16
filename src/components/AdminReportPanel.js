@@ -27,11 +27,11 @@ function AdminReportPanel() {
 
   }, []);
   return (
-    <div className="w-[100vw]  text-white bg-purple-300 font-['Poppins'] ">
+    <div className="w-[100vw] h-[100vh]  text-white bg-purple-300 font-['Poppins'] py-[90px]">
       <div className="min-[800px]:mx-4 min-[1000px]:mx-16 mx-4 min-[1200px]:mx-28 flex">
         <AdminSidePanel></AdminSidePanel>
         <div
-          className="w-[100%]  mx-2 h-[100vh] overflow-y-scroll"
+          className="w-[100%]  mx-2 h-[calc(100vh-90px)] overflow-y-scroll"
           style={{ scrollbarWidth: "none" }}
         >
           <p className="absolute bottom-4 right-4"><button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">

@@ -95,11 +95,11 @@ function AdminUserPanel() {
         </Transition.Root> */}
       {/* )} */}
       <SignUpModal></SignUpModal>
-      <div className="w-[100vw] h-[100vh] text-white bg-purple-300 font-['Poppins']">
+      <div className="w-[100vw] h-[100vh] text-white bg-transparent font-['Poppins']  pt-[90px]">
         <div className="min-[800px]:mx-4 min-[1000px]:mx-16 mx-4 min-[1200px]:mx-28 flex">
           <AdminSidePanel></AdminSidePanel>
           <div
-            className="w-[100%]  h-[100vh] mx-2 overflow-y-scroll"
+            className="w-[100%]  h-[calc(100vh-90px)] mx-2 overflow-y-scroll"
             style={{ scrollbarWidth: "none" }}
           >
             <div className="flex">

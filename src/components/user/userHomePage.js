@@ -6,10 +6,10 @@ import UserExpenseList from "./UserExpenseList";
 
 function UserHomePage() {
   return (
-    <div className="w-[100vw] h-[100vh] text-white bg-gray-300 font-['Poppins']">
+    <div className="w-[100vw] h-[100vh] text-white bg-gray-300 font-['Poppins'] pt-[90px]">
       <div className="min-[800px]:mx-4 min-[1000px]:mx-16 mx-4 min-[1200px]:mx-28 flex">
       <UserSidePanel></UserSidePanel>
-        <div className="w-[100%]  h-[100vh] mx-2 overflow-y-auto" style={{scrollbarWidth:"none"}}>
+        <div className="w-[100%]  h-[calc(100vh-90px)] mx-2 overflow-y-auto" style={{scrollbarWidth:"none"}}>
           <div className="flex">
             <UsersTour></UsersTour>
             <UserExpensesGraph></UserExpensesGraph>

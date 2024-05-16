@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 function AdminSidePanel() {
   const navigate=useNavigate()
   return (
-    <div className="w-[250px] h-[500px]  min-[980px]:w-[300px]  bg-white text-black rounded-2xl my-2 shadow-md shadow-gray-700 font-['Poppins']">
+    <div className="w-[250px] h-[81vh]  min-[980px]:w-[300px]  bg-white text-black rounded-2xl my-2 shadow-md shadow-gray-700 font-['Poppins']">
       <div className="bg-purple-500 h-[150px] rounded-md m-4 max-w-[270px] text-white">
         <div className="flex justify-center">
           <FaRegUserCircle className="w-[40px] h-[40px] mt-2" />
@@ -29,18 +29,18 @@ function AdminSidePanel() {
           </p>
         </div>
       </div>
-      <div className="flex flex-col items-center h-[calc(500px-185px)] justify-between">
+      <div className="flex flex-col items-center h-[calc(81vh-185px)] justify-between">
         <div className="mt-4 w-[100%] flex flex-col  items-center">
-          <p className="font-bold hover:bg-purple-500 w-[60%]  text-center hover:text-white" onClick={()=>navigate("/home")}>
+          <p className="font-bold hover:bg-purple-500 w-[60%] my-2  text-center hover:text-white" onClick={()=>navigate("/home")}>
             home
           </p>
-          <p className="font-bold hover:bg-purple-500 w-[60%] text-center hover:text-white" onClick={()=>navigate("/adminUser")}>
+          <p className="font-bold hover:bg-purple-500 w-[60%] my-2 text-center hover:text-white" onClick={()=>navigate("/adminUser")}>
             users
           </p>
-          <p className="font-bold hover:bg-purple-500 w-[60%] text-center hover:text-white" onClick={()=>navigate("/adminReport")}>
+          <p className="font-bold hover:bg-purple-500 w-[60%] my-2 text-center hover:text-white" onClick={()=>navigate("/adminReport")}>
             reports
           </p>
-          <p className="font-bold hover:bg-purple-500 w-[60%] text-center hover:text-white" onClick={()=>navigate("/adminReport")}>
+          <p className="font-bold hover:bg-purple-500 w-[60%] my-2 text-center hover:text-white" onClick={()=>navigate("/adminReport")}>
             change password
           </p>
         </div>

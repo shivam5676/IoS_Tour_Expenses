@@ -6,7 +6,9 @@ const Context = createContext({
   allUser: [],
   AdminCurrentUser: () => {},
   adminCurrentUserData: {},
-  AllVoucher: ()=>{},
-  allVoucherData:[]
+  AllVoucher: () => {},
+  allVoucherData: [],
+  userExpenses: () => {},
+  userExpensesData: [],
 });
 export default Context;
