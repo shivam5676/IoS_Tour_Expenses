@@ -2,10 +2,10 @@ import React from "react";
 import { FaRegUserCircle } from "react-icons/fa";
 import { MdEmail } from "react-icons/md";
 import { IoMdCall } from "react-icons/io";
-import iosLogo from "../assests/images/ios logo.png";
+import iosLogo from "../../assests/images/ios logo.png";
 import { useNavigate } from "react-router-dom";
-function AdminSidePanel() {
-  const navigate=useNavigate()
+function UserSidePanel() {
+  const navigate = useNavigate();
   return (
     <div className="w-[250px] h-[500px]  min-[980px]:w-[300px]  bg-white text-black rounded-2xl my-2 shadow-md shadow-gray-700 font-['Poppins']">
       <div className="bg-purple-500 h-[150px] rounded-md m-4 max-w-[270px] text-white">
@@ -31,18 +31,36 @@ function AdminSidePanel() {
       </div>
       <div className="flex flex-col items-center h-[calc(500px-185px)] justify-between">
         <div className="mt-4 w-[100%] flex flex-col  items-center">
-          <p className="font-bold hover:bg-purple-500 w-[60%]  text-center hover:text-white" onClick={()=>navigate("/home")}>
-            home
+          <p
+            className="font-bold hover:bg-purple-500 w-[60%]  text-center hover:text-white"
+            onClick={() => navigate("/home")}
+          >
+            Dashboard
           </p>
-          <p className="font-bold hover:bg-purple-500 w-[60%] text-center hover:text-white" onClick={()=>navigate("/adminUser")}>
-            users
+          <p
+            className="font-bold hover:bg-purple-500 w-[60%] text-center hover:text-white"
+            onClick={() => navigate("/changePassword")}
+          >
+            Vouchers
           </p>
-          <p className="font-bold hover:bg-purple-500 w-[60%] text-center hover:text-white" onClick={()=>navigate("/adminReport")}>
-            reports
-          </p>
-          <p className="font-bold hover:bg-purple-500 w-[60%] text-center hover:text-white" onClick={()=>navigate("/adminReport")}>
+          <p
+            className="font-bold hover:bg-purple-500 w-[60%] text-center hover:text-white"
+            onClick={() => navigate("/changePassword")}
+          >
             change password
           </p>
+          {/* <p
+            className="font-bold hover:bg-purple-500 w-[60%] text-center hover:text-white"
+            onClick={() => navigate("/adminReport")}
+          >
+            reports
+          </p>
+          <p
+            className="font-bold hover:bg-purple-500 w-[60%] text-center hover:text-white"
+            onClick={() => navigate("/adminReport")}
+          >
+            change password
+          </p> */}
         </div>
         <div className=" min-w-[100%] max-w-[270px] text-white ">
           <div className="flex m-4  bg-purple-400 rounded-md py-2 items-center">
@@ -64,4 +82,4 @@ function AdminSidePanel() {
   );
 }
 
-export default AdminSidePanel;
+export default UserSidePanel;

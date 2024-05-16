@@ -1,47 +1,26 @@
-import axios from "axios";
-import React, { useContext, useEffect } from "react";
-import Context from "../store/Context";
+import React from "react";
 
-function AdminUserList() {
-  const connectionUrl = "http://localhost:2000";
-
-  const ctx = useContext(Context);
-  console.log(ctx.allUser);
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.post(`${connectionUrl}/admin/getAllUser`);
-        // console.log(response.data.users);
-        response.data.users.map((current) => {
-          ctx.addUserData(current);
-        });
-      } catch (err) {
-        console.log(err);
-      }
-    };
-    fetchData();
-  }, []);
-  const fetchUserDetails = async (id) => {
-    try {
-      const response = await axios.post(
-        `${connectionUrl}/admin/getUser?id=${id}`
-      );
-      console.log(response.data.user.Vouchers)
-     ctx.AdminCurrentUser(response.data.user);
-    } catch (err) {
-      console.log(err);
-    }
+function UsersTour() {
+  const ctx = {
+    allUser: [
+      {
+        id: 23,
+        firstName: "mumbai",
+        lastName: "",
+        date: "23/12/2024",
+      },
+    ],
   };
   return (
     <div className="shadow-md shadow-gray-700 w-[60%]  h-[280px]  bg-white m-2 rounded-lg">
       <p className="bg-purple-500 py-2 font-bold text-2xl text-center text-white rounded-t-lg h-[47px]">
-        All users
+        OnGoing Tour
       </p>
       <div className="w-[100%]">
         <div className="mx-2 bg-white text-black flex h-[40px] font-bold items-center">
           <p className="w-[10%] px-1">id</p>
-          <p className="w-[35%] px-1">name</p>
-          <p className="w-[30%] px-1">mobile</p>
+          <p className="w-[35%] px-1">TourName</p>
+          <p className="w-[30%] px-1">Date</p>
 
           <p className="w-[25%] px-1 text-center"></p>
         </div>
@@ -59,14 +38,14 @@ function AdminUserList() {
                 {current.firstName + " " + current.lastName}
               </p>
               <p className="w-[30%] px-1 overflow-hidden whitespace-nowrap overflow-ellipsis">
-                {current.mobile}
+                {current.date}
               </p>
 
               <div className="w-[25%] px-1 overflow-hidden whitespace-nowrap overflow-ellipsis ">
                 <p
                   className="bg-blue-300 text-white font-bold text-center rounded hover:bg-blue-500"
                   onClick={() => {
-                    fetchUserDetails(current.id);
+                    // fetchUserDetails(current.id);
                   }}
                 >
                   {" "}
@@ -81,4 +60,4 @@ function AdminUserList() {
   );
 }
 
-export default AdminUserList;
+export default UsersTour;

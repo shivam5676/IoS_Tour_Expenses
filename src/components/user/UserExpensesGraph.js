@@ -1,51 +1,18 @@
-import React, { useContext } from "react";
+import React from "react";
 import { VscDebugBreakpointLog } from "react-icons/vsc";
 
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import { Doughnut } from "react-chartjs-2";
-import Context from "../store/Context";
-import { useLocation } from "react-router-dom";
-function AdminExpenseGraph(props) {
-  console.log(props)
-  const ctx = useContext(Context);
-  console.log(ctx.adminCurrentUserData.Vouchers);
-  const login = true;
-
-  let pending = 0;
-  let rejected = 0;
-  let accepted = 0;
-  let total = 0;
-  const location = useLocation();
-  console.log(location.pathname.toUpperCase() == "/ADMINUSER");
-  if (location.pathname.toUpperCase() == "/ADMINUSER") {
-    ctx.adminCurrentUserData.Vouchers?.forEach((current) => {
-      if ((current.statusType = "Pending")) {
-        pending++;
-      } else if ((current.statusType = "Accepted")) {
-        accepted++;
-      } else if ((current.statusType = "Rejected")) {
-        rejected++;
-      }
-    });
-  } else {
-    ctx.allVoucherData?.forEach((current) => {
-      if ((current.statusType =="Pending")) {
-        pending++;
-      } else if ((current.statusType == "Accepted")) {
-        accepted++;
-      } else if ((current.statusType == "Rejected")) {
-        rejected++;
-      }
-    });
-  }
-console.log(accepted,rejected);
+function UserExpensesGraph() {
   ChartJS.register(ArcElement, Tooltip, Legend);
-
+  let pending = 1000;
+  let rejected = 400;
+  let accepted = 200;
   const data = {
-    labels: ["Rejected", "Pending", "Accepted"],
+    labels: ["Misc","travel","Food",  ],
     datasets: [
       {
-        label: "Vouchers",
+        label: "amount",
         data: [rejected, pending, accepted],
         backgroundColor: [
           "rgba(255, 99, 132, 1.8)",
@@ -63,13 +30,12 @@ console.log(accepted,rejected);
       },
     ],
   };
-
   return (
-    <div className=" w-[40%]  h-[250px] m-2 bg-white rounded-lg shadow-md shadow-gray-700 text-center ">
+    <div className=" w-[40%]  h-[280px] m-2 bg-white rounded-lg shadow-md shadow-gray-700 text-center ">
       <p className=" border-white  py-2 font-bold bg-purple-500 text-2xl rounded-t-lg">
-        Vouchers Graph
+        Expense Graph
       </p>
-      <div className="w-[100%] h-[140px] my-2">
+      <div className="w-[100%] h-[180px] my-2">
         {" "}
         <Doughnut
           data={data}
@@ -94,7 +60,7 @@ console.log(accepted,rejected);
           <span className="text-center">
             <VscDebugBreakpointLog className="w-[20px] h-[20px] text-green-500" />
           </span>
-          Accepted
+          Food
         </div>
 
         <div className="flex justify-center">
@@ -102,18 +68,18 @@ console.log(accepted,rejected);
           <span className="text-center">
             <VscDebugBreakpointLog className="w-[20px] h-[20px] text-yellow-500" />
           </span>
-          pending
+         Travel
         </div>
         <div className="flex justify-center">
           {" "}
           <span className="text-center">
             <VscDebugBreakpointLog className="w-[20px] h-[20px] text-red-500" />
           </span>
-          rejected
+          misc
         </div>
       </div>
     </div>
   );
 }
 
-export default AdminExpenseGraph;
+export default UserExpensesGraph;

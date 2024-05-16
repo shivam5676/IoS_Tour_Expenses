@@ -34,6 +34,9 @@ function AdminReportPanel() {
           className="w-[100%]  mx-2 h-[100vh] overflow-y-scroll"
           style={{ scrollbarWidth: "none" }}
         >
+          <p className="absolute bottom-4 right-4"><button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+              Generate Report
+            </button></p>
           <div className="flex">
             <div className="flex w-[100%] m-2 bg-purple-500">
               <p className="p-2 font-extrabold text-[1.2rem]">
@@ -121,6 +124,7 @@ function AdminReportPanel() {
               <div className="bg-gradient-to-r from-white to-purple-300 flex-1 h-[2px]"></div>
             </div>
             <LineChart></LineChart>
+            <p className="mb-16"></p>
           </div>
         </div>
       </div>
