@@ -19,14 +19,14 @@ function Login() {
       const response = await axios.post("http://localhost:2000/login", {
         email: emailRef.current.value,
       });
-      console.log(response);  
-      navigate("/home")    
+      console.log(response);
+      navigate("/home");
     } catch (err) {
       console.log(err);
     }
   };
   return (
-    <div className="w-[100vw] h-[100vh] bg-red-300 flex items-center justify-center">
+    <div className="w-[100vw] h-[100vh] bg-transparent flex items-center justify-center">
       <div className="w-[400px] bg-white pb-8 shadow-emerald-900 shadow-lg rounded-md">
         <div className="flex justify-center pt-10 flex-col items-center">
           <img src={iosLogo} className="w-[80px] "></img>
@@ -63,7 +63,7 @@ function Login() {
           </div>
           <div className="w-[80%]  border-gray-300 flex my-2 justify-end">
             <div
-              className="bg-red-300 p-2 rounded-md font-semibold text-white hover:bg-red-500 cursor-pointer"
+              className="bg-blue-300 p-2 rounded-md font-semibold text-white hover:bg-blue-500 cursor-pointer"
               onClick={() => {
                 verifyLoginHandler();
               }}

@@ -13,10 +13,11 @@ function AdminReportPanel() {
   };
   console.log(reportType);
   useEffect(() => {
-
     async function fetchFilterData() {
       try {
-        const response = await axios.post(`${connectionUrl}/admin/year?year=${2024}`);
+        const response = await axios.post(
+          `${connectionUrl}/admin/year?year=${2024}`
+        );
         console.log(response.data);
         // ctx.AllVoucher(response.data.userList);
       } catch (err) {
@@ -24,22 +25,23 @@ function AdminReportPanel() {
       }
     }
     fetchFilterData();
-
   }, []);
   return (
-    <div className="w-[100vw] h-[100vh]  text-white bg-purple-300 font-['Poppins'] py-[90px]">
+    <div className="w-[100vw] h-[100vh]  text-white bg-transparent  py-[90px]">
       <div className="min-[800px]:mx-4 min-[1000px]:mx-16 mx-4 min-[1200px]:mx-28 flex">
         <AdminSidePanel></AdminSidePanel>
         <div
           className="w-[100%]  mx-2 h-[calc(100vh-90px)] overflow-y-scroll"
           style={{ scrollbarWidth: "none" }}
         >
-          <p className="absolute bottom-4 right-4"><button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-              Generate Report
-            </button></p>
+          <p className="absolute bottom-4 right-4">
+            <button className="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded-lg">
+              Download Report
+            </button>
+          </p>
           <div className="flex">
-            <div className="flex w-[100%] m-2 bg-purple-500">
-              <p className="p-2 font-extrabold text-[1.2rem]">
+            <div className="flex w-[100%] m-2 bg-gradient-to-r from-[#55ba1e] to-[#dae908] rounded-md">
+              <p className="p-2 font-bold text-2xl">
                 Report Generation :
               </p>
               <div className="flex items-center text-yellow-400 font-bold">
@@ -93,22 +95,22 @@ function AdminReportPanel() {
           </div>
           <div className="w-[100%]  mx-2 ">
             {" "}
-            <div className="flex">
-              <div className="w-[33%] bg-purple-500 font-extrabold text-xl ">
+            <div className="flex ">
+              <div className="w-[33%] bg-gradient-to-r  from-[#EA8D8D] to-[#A890FE]  font-extrabold text-xl rounded-md ">
                 <p className="p-4 border-b-2 text-center">Total Expense</p>
-                <div className="flex justify-center items-center text-3xl  h-[100px]">
+                <div className="flex justify-center items-center text-3xl  h-[100px] font-['Poppins']">
                   <p>30k</p>
                 </div>
               </div>{" "}
-              <div className="w-[31%] bg-purple-500 font-extrabold text-xl mx-2">
+              <div className="w-[31%]   bg-gradient-to-r from-[#EA8D8D] to-[#A890FE]  font-extrabold text-xl rounded-md mx-2">
                 <p className="p-4 border-b-2 text-center">Cash Mode</p>
-                <div className="flex justify-center items-center text-3xl  h-[100px]">
+                <div className="flex justify-center items-center text-3xl  h-[100px] font-['Poppins']">
                   <p>20k</p>
                 </div>
               </div>{" "}
-              <div className="w-[31%] bg-purple-500 font-extrabold text-xl">
+              <div className="w-[31%]  bg-gradient-to-r from-[#EA8D8D] to-[#A890FE]  font-extrabold text-xl rounded-md ">
                 <p className="p-4 border-b-2 text-center">Digital mode </p>
-                <div className="flex justify-center items-center text-3xl  h-[100px]">
+                <div className="flex justify-center items-center text-3xl  h-[100px] font-['Poppins']">
                   <p>10k</p>
                 </div>
               </div>
@@ -117,11 +119,11 @@ function AdminReportPanel() {
           <div className="w-[100%]  ">
             {" "}
             <div className="flex mt-3 items-center  overflow-x-auto overflow-y-hidden  mx-2">
-              <div className="bg-gradient-to-r from-purple-300 to-white flex-1 h-[2px]"></div>
+              <div className="bg-gradient-to-r from-black to-white flex-1 h-[2px]"></div>
               <div className="md:font-bold text-2xl m-3 text-white font-medium">
                 Category Wise Expenses
               </div>
-              <div className="bg-gradient-to-r from-white to-purple-300 flex-1 h-[2px]"></div>
+              <div className="bg-gradient-to-r from-white to-black flex-1 h-[2px]"></div>
             </div>
             <LineChart></LineChart>
             <p className="mb-16"></p>

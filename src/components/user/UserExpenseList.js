@@ -2,13 +2,20 @@ import React, { useContext, useState } from "react";
 import { IoMdAddCircleOutline } from "react-icons/io";
 import AddExpenseModal from "./AddExpenseModal";
 import Context from "../../store/Context";
+import AddtourDescriptionModal from "./AddtourDescription";
 
 function UserExpenseList() {
   const [open, setOpen] = useState(false);
+  const [openDescription, setOpenDescription] = useState(false);
+
   const ctx = useContext(Context);
   console.log(ctx.userExpensesData);
   return (
     <>
+      <AddtourDescriptionModal
+        open={openDescription}
+        close={() => setOpenDescription(false)}
+      ></AddtourDescriptionModal>
       <AddExpenseModal
         open={open}
         onClose={() => {
@@ -18,7 +25,10 @@ function UserExpenseList() {
       <div className="shadow-md shadow-gray-700 w-[100%] min-h-[250px] h-[40vh]  bg-white m-2 rounded-lg">
         <div className=" p-2 font-bold text-2xl flex justify-between rounded-t-lg text-white bg-purple-500">
           <p> Expenses List</p>
-          <p className="rounded-md cursor-pointer text-sm px-4 flex items-center bg-white text-black font-bold hover:bg-gray-300">
+          <p
+            className="rounded-md cursor-pointer text-sm px-4 flex items-center bg-white text-black font-bold hover:bg-gray-300"
+            onClick={() => setOpenDescription(true)}
+          >
             submit
           </p>
           <p

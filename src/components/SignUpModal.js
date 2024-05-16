@@ -1,12 +1,13 @@
-import { Fragment, useRef, useState } from "react";
+import { Fragment, useContext, useRef, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { ExclamationTriangleIcon } from "@heroicons/react/24/outline";
 import axios from "axios";
+import Context from "../store/Context";
 
-export default function SignUpModal() {
+export default function SignUpModal(props) {
   const connectionUrl = "http://localhost:2000";
-  const [open, setOpen] = useState(true);
-
+  const [open, setOpen] = useState(false);
+  const ctx = useContext(Context);
   const cancelButtonRef = useRef(null);
   const firstNameRef = useRef();
   const lastNameRef = useRef();
@@ -29,11 +30,11 @@ export default function SignUpModal() {
   };
 
   return (
-    <Transition.Root show={open} as={Fragment}>
+    <Transition.Root show={props.open} as={Fragment}>
       <Dialog
         className="relative z-10"
         initialFocus={cancelButtonRef}
-        onClose={setOpen}
+        onClose={props.close}
       >
         <Transition.Child
           as={Fragment}

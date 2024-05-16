@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 function UserSidePanel() {
   const navigate = useNavigate();
   return (
-    <div className="w-[250px] h-[81vh]  min-[980px]:w-[300px]  bg-white text-black rounded-2xl my-2 shadow-md shadow-gray-700 font-['Poppins']">
+    <div className="w-[250px] h-[81vh]  min-[980px]:w-[300px]  bg-white text-black rounded-2xl my-0 shadow-md shadow-gray-700 font-['Poppins']">
       <div className="bg-purple-500 h-[150px] rounded-md m-4 max-w-[270px] text-white">
         <div className="flex justify-center">
           <FaRegUserCircle className="w-[40px] h-[40px] mt-2" />
@@ -29,34 +29,34 @@ function UserSidePanel() {
           </p>
         </div>
       </div>
-      <div className="flex flex-col items-center h-[calc(81vh-185px)] justify-between">
+      <div className="flex flex-col items-center h-[calc(81vh-180px)] justify-between">
         <div className="mt-4 w-[100%] flex flex-col  items-center">
           <p
-            className="font-bold hover:bg-purple-500 w-[60%]  text-center hover:text-white"
+            className="font-bold hover:bg-purple-500 w-[60%] my-1 min-[1400px]:my-2   text-center hover:text-white"
             onClick={() => navigate("/home")}
           >
             Dashboard
           </p>
           <p
-            className="font-bold hover:bg-purple-500 w-[60%] text-center hover:text-white"
+            className="font-bold hover:bg-purple-500 w-[60%] my-1 min-[1400px]:my-2   text-center hover:text-white"
             onClick={() => navigate("/changePassword")}
           >
             Vouchers
           </p>
           <p
-            className="font-bold hover:bg-purple-500 w-[60%] text-center hover:text-white"
+            className="font-bold hover:bg-purple-500 w-[60%]  my-1 min-[1400px]:my-2 text-center hover:text-white"
             onClick={() => navigate("/changePassword")}
           >
             change password
           </p>
           {/* <p
-            className="font-bold hover:bg-purple-500 w-[60%] text-center hover:text-white"
+            className="font-bold hover:bg-purple-500 w-[60%] my-1 min-[1400px]:my-2  text-center hover:text-white"
             onClick={() => navigate("/adminReport")}
           >
             reports
           </p>
           <p
-            className="font-bold hover:bg-purple-500 w-[60%] text-center hover:text-white"
+            className="font-bold hover:bg-purple-500 w-[60%] my-1 min-[1400px]:my-2  text-center hover:text-white"
             onClick={() => navigate("/adminReport")}
           >
             change password

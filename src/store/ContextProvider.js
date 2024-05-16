@@ -63,6 +63,7 @@ const ContextProvider = (props) => {
   };
   const contextStore = {
     signUpModal: signupModalOpenHandler,
+    signUpModalOpen:currentState.signUpModalOpen,
     addUserData: adduserDataHandler,
     allUser: currentState.allUser,
     AdminCurrentUser: AdminCurrentUserHandler,

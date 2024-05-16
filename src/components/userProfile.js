@@ -10,14 +10,14 @@ function UserProfile() {
   const ctx = useContext(Context);
   console.log(ctx.adminCurrentUserData);
   return (
-    <div className="rounded-lg shadow-md shadow-gray-700  w-[40%] min-h-[280px] h-[40vh]  m-2 bg-white text-black">
+    <div className="rounded-lg shadow-md shadow-gray-700  w-[40%] min-h-[250px] h-[40vh]  m-2 bg-white text-black">
       <p className=" rounded-t-lg py-2 font-bold text-2xl   text-center bg-purple-500 text-white ">
         user profile
       </p>{" "}
       <div className="flex justify-center">
         <FaRegUserCircle className="w-[80px] h-[80px] mt-2" />
       </div>
-      <div className="flex justify-between my-2 max-[1760px]:flex-col max-[1760px]:items-center  text-sm">
+      <div className="flex justify-between min-[1300px]:my-2 max-[1760px]:flex-col max-[1760px]:items-center  text-sm">
         <div className="flex px-2 py-1">
           <p className=" font-bold">Name :</p>
           <p className=" font-bold">

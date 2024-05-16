@@ -8,7 +8,7 @@ import CompletedVouchers from "./completedVouchers";
 import AdminREjectedVoucher from "./AdminREjectedVoucher";
 import axios from "axios";
 import Context from "../store/Context";
-import bgImage from "../assests/images/bg1.jpg"
+import bgImage from "../assests/images/bg1.jpg";
 
 function AdminPanel() {
   const [data, setData] = useState([]);
@@ -21,7 +21,7 @@ function AdminPanel() {
       try {
         const response = await axios.post(`${connectionUrl}/admin/AllVoucher`);
         const res = response.data.userList;
-        console.log(res)
+        console.log(res);
         ctx.AllVoucher(response.data.userList);
       } catch (err) {
         console.log(err);
@@ -31,7 +31,7 @@ function AdminPanel() {
   }, []);
   const vouchers = { pending: [], accepted: [], rejected: [] };
   const allData = [...allVoucherData];
-  console.log(allData)
+  console.log(allData);
   allData?.forEach((current) => {
     console.log(current);
     if (current.statusType === "Pending") {
@@ -48,12 +48,23 @@ function AdminPanel() {
     Rejected: vouchers.rejected?.length,
     Pending: vouchers.pending?.length,
   };
-  console.log(dataArrayLength,vouchers);
+  console.log(dataArrayLength, vouchers);
   return (
-    <div className="w-[100vw] h-[100vh] text-white bg-gray-300 font-['Poppins'] pt-[90px]"  style={{ backgroundImage: `url(${bgImage})` }}>
+    <div
+      className="w-[100vw] h-[100vh] text-white font-['Poppins'] pt-[90px] bg-transparent"
+      // style={{
+      //   backgroundImage: `url(${bgImage})`,
+      //   backgroundRepeat: "no-repeat",
+      //   // backgroundPosition: "center",
+      //   backgroundSize: "cover",
+      // }}
+    >
       <div className="min-[800px]:mx-4 min-[1000px]:mx-16 mx-4 min-[1200px]:mx-28 min-[1500px] flex">
         <AdminSidePanel></AdminSidePanel>
-        <div className="w-[100%] h-[calc(100vh-90px)] mx-2 overflow-y-auto">
+        <div
+          className="w-[100%] h-[calc(100vh-90px)] mx-2 overflow-y-auto"
+          style={{ scrollbarWidth: "none" }}
+        >
           <div className="flex">
             <AdminExpenseGraph
               dataArrayLength={dataArrayLength}

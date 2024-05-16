@@ -2,6 +2,8 @@ import { createContext } from "react";
 
 const Context = createContext({
   signUpModal: () => {},
+  signUpModalOpen: "",
+
   addUserData: () => {},
   allUser: [],
   AdminCurrentUser: () => {},
