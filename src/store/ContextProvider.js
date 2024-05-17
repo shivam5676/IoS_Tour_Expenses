@@ -9,6 +9,9 @@ const initialState = {
   adminCurrentUserData: {},
   allVoucherData: [],
   userExpenseData: [],
+  onGoingData: [],
+  userCurrentTourExpensesData: [],
+  currentTourIdData: null,
 };
 const reducerFn = (state, action) => {
   if (action.type === "signupModal") {
@@ -40,6 +43,44 @@ const reducerFn = (state, action) => {
       userExpenseData: [...state.userExpenseData, action.payload],
     };
   }
+  if (action.type == "addOnGoing") {
+    return {
+      ...state,
+      onGoingData: [...state.onGoingData, action.payload],
+    };
+  }
+  if (action.type == "addCurrentTourExpense") {
+    return {
+      ...state,
+      userCurrentTourExpensesData: [
+        ...state.userCurrentTourExpensesData,
+        action.payload,
+      ],
+    };
+  }
+  if (action.type == "addCurrentTourId") {
+    return {
+      ...state,
+      currentTourIdData: action.payload,
+    };
+  }
+  if (action.type == "resetCurrentUserData") {
+    return {
+      ...state,
+      userCurrentTourExpensesData: [],
+    };
+  }
+  if (action.type == "removeOnGoingTour") {
+    console.log(action.payload)
+    const arrayAfterRemove = state.onGoingData.filter((current) => {
+      return current.id != action.payload;
+    });
+    console.log("=>>>>",arrayAfterRemove);
+    return {
+      ...state,
+      onGoingData: arrayAfterRemove,
+    };
+  }
   return { ...state };
 };
 
@@ -49,6 +90,7 @@ const ContextProvider = (props) => {
     dispatch({ type: "signupModal" });
   };
   const adduserDataHandler = (userData) => {
+    console.log(userData);
     dispatch({ type: "addUser", payload: userData });
   };
   const AdminCurrentUserHandler = (userData) => {
@@ -61,9 +103,22 @@ const ContextProvider = (props) => {
   const addUserExpenseHandler = (expenseData) => {
     dispatch({ type: "addUserExpense", payload: expenseData });
   };
+  const onGoingTourHandler = (voucherData) => {
+    dispatch({ type: "addOnGoing", payload: voucherData });
+  };
+  const userCurrentTourExpenseHandler = (tourData) => {
+    dispatch({ type: "addCurrentTourExpense", payload: tourData });
+  };
+  const currentTourIdHandler = (tourId) => {
+    dispatch({ type: "addCurrentTourId", payload: tourId });
+    dispatch({ type: "resetCurrentUserData" });
+  };
+  const removeOnGoingTourHandler = (tourId) => {
+    dispatch({ type: "removeOnGoingTour" ,payload:tourId});
+  };
   const contextStore = {
     signUpModal: signupModalOpenHandler,
-    signUpModalOpen:currentState.signUpModalOpen,
+    signUpModalOpen: currentState.signUpModalOpen,
     addUserData: adduserDataHandler,
     allUser: currentState.allUser,
     AdminCurrentUser: AdminCurrentUserHandler,
@@ -72,6 +127,13 @@ const ContextProvider = (props) => {
     allVoucherData: currentState.allVoucherData,
     userExpensesData: currentState.userExpenseData,
     userExpenses: addUserExpenseHandler,
+    onGoingTour: onGoingTourHandler,
+    onGoingData: currentState.onGoingData,
+    userCurrentTourExpenses: userCurrentTourExpenseHandler,
+    userCurrentTourExpenseData: currentState.userCurrentTourExpensesData,
+    currentTourId: currentTourIdHandler,
+    currentTourIdData: currentState.currentTourIdData,
+    removeOnGoingTour: removeOnGoingTourHandler,
   };
   return (
     <Context.Provider value={contextStore}>{props.children}</Context.Provider>

@@ -1,15 +1,26 @@
-import React from "react";
+import React, { useContext } from "react";
+import Context from "../../store/Context";
+import axios from "axios";
 
 function UsersTour() {
-  const ctx = {
-    allUser: [
-      {
-        id: 23,
-        firstName: "mumbai",
-        lastName: "",
-        date: "23/12/2024",
-      },
-    ],
+  const connectionUrl = "http://localhost:2000";
+
+  const ctx = useContext(Context);
+  const fetchTourDetails = async (id) => {
+    try {
+      const response = await axios.post(
+        `${connectionUrl}/user/getTourExpenses?id=${id}`,
+        { userId: 1, voucherId: id }
+      );
+      // console.log(response)
+      console.log(response.data.expenses);
+      response.data.expenses.forEach((current) => {
+        ctx.userCurrentTourExpenses(current);
+      });
+      //  ctx.AdminCurrentUser(response.data.user);
+    } catch (err) {
+      console.log(err);
+    }
   };
   return (
     <div className="shadow-md shadow-gray-700 w-[60%]  min-h-[250px] h-[40vh]   bg-white m-2 rounded-lg">
@@ -25,9 +36,9 @@ function UsersTour() {
           <p className="w-[25%] px-1 text-center"></p>
         </div>
       </div>
-      <div className="w-[100%] h-[calc(280px-90px)] overflow-y-auto">
+      <div className="w-[100%] h-[calc(40vh-110px)] min-h-[calc(250px-90px)] overflow-y-auto">
         {/* {console.log(ctx.allUser)} */}
-        {ctx.allUser?.map((current) => {
+        {ctx.onGoingData?.map((current) => {
           console.log(current);
           return (
             <div className="mx-2 bg-white text-black flex py-1 text-[.9rem] font-semibold">
@@ -35,17 +46,18 @@ function UsersTour() {
                 {current.id}
               </p>
               <p className="w-[35%] px-1 overflow-hidden whitespace-nowrap overflow-ellipsis">
-                {current.firstName + " " + current.lastName}
+                {current.tourLocation}
               </p>
               <p className="w-[30%] px-1 overflow-hidden whitespace-nowrap overflow-ellipsis">
-                {current.date}
+                {current.tourDate}
               </p>
 
               <div className="w-[25%] px-1 overflow-hidden whitespace-nowrap overflow-ellipsis ">
                 <p
                   className="bg-blue-300 text-white font-bold text-center rounded hover:bg-blue-500"
                   onClick={() => {
-                    // fetchUserDetails(current.id);
+                    fetchTourDetails(current.id);
+                    ctx.currentTourId(current.id);
                   }}
                 >
                   {" "}

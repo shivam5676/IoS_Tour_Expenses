@@ -23,7 +23,7 @@ const ctx=useContext(Context)
       voucher: voucherRef.current.value,
       paymentType: paymentTypeRef.current.value,
       description: descriptionRef.current.value,
-      voucherId: 1,
+      voucherId: ctx.currentTourIdData,
       userId:1
     };
     try {
@@ -33,7 +33,7 @@ const ctx=useContext(Context)
       );
       const res = response.data.expenseData;
       console.log(res);
-      ctx.userExpenses(res)
+      ctx.userCurrentTourExpenses(res)
       //   ctx.AllVoucher(response.data.userList);
     } catch (err) {
       console.log(err);

@@ -1,23 +1,28 @@
-import React, { useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import UserSidePanel from "./UserSidePanel";
 import UserExpensesGraph from "./UserExpensesGraph";
 import UsersTour from "./UsersTour";
 import UserExpenseList from "./UserExpenseList";
 import axios from "axios";
+import Context from "../../store/Context";
 
 function UserHomePage() {
   const connectionUrl = "http://localhost:2000";
+  const ctx = useContext(Context);
 
   useEffect(() => {
     const fetchTour = async () => {
       try {
-        const response = await axios.post(
-          `${connectionUrl}/user/gettour`,
-          {userId:1}
-        );
-        
+        const response = await axios.post(`${connectionUrl}/user/gettour`, {
+          userId: 1,
+        });
+
         const res = response.data;
-        console.log(res);
+        console.log(res.vouchers);
+        res.vouchers.forEach((current) => {
+          ctx.onGoingTour(current);
+        });
+
         // ctx.userExpenses(res)
         //   ctx.AllVoucher(response.data.userList);
       } catch (err) {

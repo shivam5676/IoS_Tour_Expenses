@@ -26,7 +26,7 @@ function AdminUserList() {
       const response = await axios.post(
         `${connectionUrl}/admin/getUser?id=${id}`
       );
-      console.log(response.data.user.Vouchers)
+      console.log(response.data.user)
      ctx.AdminCurrentUser(response.data.user);
     } catch (err) {
       console.log(err);

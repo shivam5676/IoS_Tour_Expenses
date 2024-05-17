@@ -12,5 +12,12 @@ const Context = createContext({
   allVoucherData: [],
   userExpenses: () => {},
   userExpensesData: [],
+  onGoingTour: () => {},
+  onGoingData: [],
+  userCurrentTourExpenses: () => {},
+  userCurrentTourExpenseData: [],
+  currentTourId: ()=>{},
+  currentTourIdData: "",
+  removeOnGoingTour:()=>{}
 });
 export default Context;

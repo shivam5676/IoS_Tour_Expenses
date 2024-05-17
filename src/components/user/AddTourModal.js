@@ -9,7 +9,8 @@ import City from "../../assests/Cities";
 import { toast } from "react-toastify";
 function AddTourModal(props) {
   const connectionUrl = "http://localhost:2000";
-  //   const [open, setOpen] = useState(true);
+  console.log(props.open)
+    // const [open, setOpen] = useState(props.open);
   const [citySelected, setCitySelected] = useState(null);
   const [cityDropDownOpen, setCityDropDownOpen] = useState(false);
 
@@ -17,6 +18,7 @@ function AddTourModal(props) {
   const [stateDropDownOpen, setStateDropDownOpen] = useState(false);
 
   const ctx = useContext(Context);
+
   const cancelButtonRef = useRef(null);
 
   const saveTourHandler = async () => {
@@ -25,9 +27,12 @@ function AddTourModal(props) {
         userId: 1,
         city: citySelected,
       });
-      const res = response.data;
-      console.log(res);
+      const res = response.data.voucher;
+      
+      ctx.onGoingTour(res)
+      // console.log(res);
       toast.success("tour created successfully...")
+      props.close()
       // ctx.userExpenses(res);
       //   ctx.AllVoucher(response.data.userList);
     } catch (err) {

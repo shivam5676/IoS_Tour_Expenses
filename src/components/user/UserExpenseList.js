@@ -9,7 +9,7 @@ function UserExpenseList() {
   const [openDescription, setOpenDescription] = useState(false);
 
   const ctx = useContext(Context);
-  console.log(ctx.userExpensesData);
+  console.log(ctx.userCurrentTourExpenseData);
   return (
     <>
       <AddtourDescriptionModal
@@ -49,7 +49,7 @@ function UserExpenseList() {
           </div>
         </div>
         <div className="w-[100%]  h-[calc(40vh-110px)] overflow-y-auto">
-          {ctx.userExpensesData.map((current) => {
+          {ctx.userCurrentTourExpenseData.map((current) => {
             console.log(current);
             return (
               <div className="mx-2 bg-white text-black flex py-1 text-[.8rem] font-semibold">

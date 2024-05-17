@@ -6,34 +6,46 @@ import axios from "axios";
 import Context from "../../store/Context";
 function AddtourDescriptionModal(props) {
   const connectionUrl = "http://localhost:2000";
-  //   const [open, setOpen] = useState(true);
+
   const ctx = useContext(Context);
   const cancelButtonRef = useRef(null);
-  const amountRef = useRef();
-  const expenseCategoryRef = useRef("Travel");
-  const descriptionRef = useRef();
-  const voucherRef = useRef();
-  const paymentTypeRef = useRef();
-  const dateRef = useRef(null);
-  const saveExpenseHandler = async () => {
+  const arrivalDateRef = useRef(null);
+  const departureDateRef = useRef(null);
+  const purposeRef = useRef();
+  const dailyAllowanceRef = useRef();
+  const advanceCashRef = useRef();
+  const transportArrivalRef = useRef(null);
+  const transportDepartureRef = useRef();
+  const arrivalTimeRef = useRef();
+  const departureTimeRef = useRef();
+  const tourDescriptionHandler = async () => {
     const data = {
-      date: dateRef.current.value,
-      amount: amountRef.current.value,
-      expenseType: expenseCategoryRef.current,
-      voucher: voucherRef.current.value,
-      paymentType: paymentTypeRef.current.value,
-      description: descriptionRef.current.value,
-      voucherId: 1,
+      purpose: purposeRef.current.value,
+      arrivalDate: arrivalDateRef.current.value,
+      departureDate: departureDateRef.current.value,
+      transportArrival: transportArrivalRef.current.value,
+      transportDeparture: transportDepartureRef.current.value,
+      arrivalTime: arrivalTimeRef.current.value,
+      departureTime: departureTimeRef.current.value,
+      advanceCash: advanceCashRef.current.value,
+
+      dailyAllowance: dailyAllowanceRef.current.value,
+      voucherId: ctx.currentTourIdData,
       userId: 1,
     };
+
+    console.log(ctx.currentTourIdData);
+    // return
     try {
       const response = await axios.post(
-        `${connectionUrl}/user/saveExpense`,
+        `${connectionUrl}/user/addDetails`,
         data
       );
-      const res = response.data.expenseData;
+      const res = response.data;
       console.log(res);
-      ctx.userExpenses(res);
+      ctx.removeOnGoingTour(res.details.id)
+      props.close();
+      // ctx.userExpenses(res);
       //   ctx.AllVoucher(response.data.userList);
     } catch (err) {
       console.log(err);
@@ -91,6 +103,7 @@ function AddtourDescriptionModal(props) {
                     <input
                       className="outline-none border-2 border-white  bg-transparent "
                       type="date"
+                      ref={arrivalDateRef}
                     ></input>
                   </div>
                   <div className="flex flex-col px-2 w-[100%] py-2">
@@ -98,6 +111,26 @@ function AddtourDescriptionModal(props) {
                     <input
                       className="outline-none border-2 border-white  bg-transparent "
                       type="date"
+                      ref={departureDateRef}
+                    ></input>
+                  </div>
+                </div>
+                <div className="flex flex-col sm:flex-row px-12">
+                  {" "}
+                  <div className="flex flex-col px-2 w-[100%] py-2">
+                    <label>Arrival Time</label>
+                    <input
+                      className="outline-none border-2 border-white  bg-transparent"
+                      ref={arrivalTimeRef}
+                      type="time"
+                    ></input>
+                  </div>
+                  <div className="flex flex-col px-2 w-[100%] py-2">
+                    <label>Deparure Time</label>
+                    <input
+                      className="outline-none border-2 border-white  bg-transparent "
+                      type="time"
+                      ref={departureTimeRef}
                     ></input>
                   </div>
                 </div>
@@ -108,32 +141,32 @@ function AddtourDescriptionModal(props) {
                     <textarea
                       rows={1}
                       className="outline-none border-2 border-white  bg-transparent"
-                      ref={descriptionRef}
+                      ref={purposeRef}
                     ></textarea>
-                  </div>
-                  <div className="flex flex-col px-2 w-[100%] py-2">
-                    <label>Daily allowance</label>
-                    <input
-                      className="outline-none border-2 border-white  bg-transparent "
-                      type="number"
-                    ></input>
                   </div>
                 </div>
                 <div className="flex flex-col sm:flex-row px-12">
                   <div className="flex flex-col px-2 w-[100%] py-2">
-                    <label>Advance Cash (if taken)</label>
-                    <input
-                      className="outline-none border-2 border-white  bg-transparent"
-                      ref={voucherRef}
-                    ></input>
-                  </div>
-                  <div className="flex flex-col px-2 w-[100%] py-2">
-                    <label>Transport</label>
+                    <label>Transport (Arrival)</label>
                     <select
                       className="outline-none border-2 text-black font-semibold border-white  bg-transparent"
-                      ref={paymentTypeRef}
+                      ref={transportDepartureRef}
                       onChange={(e) => {
-                        paymentTypeRef.current.value = e.target.value;
+                        // paymentTypeRef.current.value = e.target.value;
+                      }}
+                    >
+                      <option value={"Flight"}>Flight</option>
+                      <option value={"Train"}>Train</option>
+                      <option value={"Bus"}>Bus</option>
+                    </select>
+                  </div>
+                  <div className="flex flex-col px-2 w-[100%] py-2">
+                    <label>Transport (Departure)</label>
+                    <select
+                      className="outline-none border-2 text-black font-semibold border-white  bg-transparent"
+                      ref={transportArrivalRef}
+                      onChange={(e) => {
+                        // paymentTypeRef.current.value = e.target.value;
                       }}
                     >
                       <option value={"Flight"}>Flight</option>
@@ -143,21 +176,27 @@ function AddtourDescriptionModal(props) {
                   </div>
                 </div>
                 <div className="flex flex-col sm:flex-row px-12">
-                  {" "}
                   <div className="flex flex-col px-2 w-[100%] py-2">
-                    <label>Arrival Time</label>
-                    <input className="outline-none border-2 border-white  bg-transparent"></input>
+                    <label>Advance Cash (if taken)</label>
+                    <input
+                      className="outline-none border-2 border-white  bg-transparent"
+                      ref={advanceCashRef}
+                    ></input>
                   </div>
                   <div className="flex flex-col px-2 w-[100%] py-2">
-                    <label>Deparure Time</label>
+                    <label>Daily allowance</label>
                     <input
                       className="outline-none border-2 border-white  bg-transparent "
                       type="number"
+                      ref={dailyAllowanceRef}
                     ></input>
                   </div>
                 </div>
                 <div className="w-[100%] flex  justify-center mb-4 mt-6">
-                  <p className="w-[80%] bg-white text-black text-center font-semibold py-3 rounded-md cursor-pointer">
+                  <p
+                    className="w-[80%] bg-white text-black text-center font-semibold py-3 rounded-md cursor-pointer"
+                    onClick={tourDescriptionHandler}
+                  >
                     Send Voucher
                   </p>
                 </div>

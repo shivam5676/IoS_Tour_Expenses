@@ -1,30 +1,50 @@
-import React from "react";
+import React, { useContext } from "react";
 import { VscDebugBreakpointLog } from "react-icons/vsc";
 
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import { Doughnut } from "react-chartjs-2";
+import Context from "../../store/Context";
 function UserExpensesGraph() {
+  const ctx = useContext(Context);
   ChartJS.register(ArcElement, Tooltip, Legend);
-  let pending = 1000;
-  let rejected = 400;
-  let accepted = 200;
+  console.log(ctx.userCurrentTourExpenseData);
+  let Travel = 0;
+  let food = 0;
+  let Misc = 0;
+  let Accomondation = 0;
+  ctx.userCurrentTourExpenseData.forEach((current) => {
+    if (current.expenseType == "Food(Da)") {
+      food++;
+    } else if (current.expenseType == "Travel") {
+      Travel++;
+    } else if (current.expenseType == "Misc") {
+      Misc++;
+    } else if (current.expenseType == "Accomondation") {
+      Accomondation++;
+    }
+  });
+  // let pending = 1000;
+  // let rejected = 400;
+  // let accepted = 200;
   const data = {
-    labels: ["Misc","travel","Food",  ],
+    labels: ["Misc", "Travel", "Food","Accomondation"],
     datasets: [
       {
         label: "amount",
-        data: [rejected, pending, accepted],
+        data: [Travel, Misc, food,Accomondation],
         backgroundColor: [
           "rgba(255, 99, 132, 1.8)",
 
           "rgba(255, 206, 86,1.8)",
           "rgba(75, 192, 192, 1.8)",
+          "blue"
         ],
         borderColor: [
           "rgba(255, 99, 132, 1)",
 
           "rgba(255, 206, 86, 1)",
           "rgba(75, 192, 192, 1)",
+          "blue"
         ],
         borderWidth: 1,
       },
@@ -68,7 +88,7 @@ function UserExpensesGraph() {
           <span className="text-center">
             <VscDebugBreakpointLog className="w-[20px] h-[20px] text-yellow-500" />
           </span>
-         Travel
+          Travel
         </div>
         <div className="flex justify-center">
           {" "}
