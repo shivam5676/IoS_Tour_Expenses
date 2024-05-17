@@ -94,7 +94,7 @@ function AdminUserPanel() {
           </Dialog>
         </Transition.Root> */}
       {/* )} */}
-      <SignUpModal></SignUpModal>
+      {/* <SignUpModal></SignUpModal> */}
       <div className="w-[100vw] h-[100vh] text-white bg-transparent font-['Poppins']  pt-[90px]">
         <div className="min-[800px]:mx-4 min-[1000px]:mx-16 mx-4 min-[1200px]:mx-28 flex">
           <AdminSidePanel></AdminSidePanel>

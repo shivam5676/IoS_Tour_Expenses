@@ -4,41 +4,38 @@ import { Dialog, Transition } from "@headlessui/react";
 import { ExclamationTriangleIcon } from "@heroicons/react/24/outline";
 import axios from "axios";
 import Context from "../../store/Context";
+import State from "../../assests/State";
+import City from "../../assests/Cities";
+import { toast } from "react-toastify";
 function AddTourModal(props) {
   const connectionUrl = "http://localhost:2000";
   //   const [open, setOpen] = useState(true);
+  const [citySelected, setCitySelected] = useState(null);
+  const [cityDropDownOpen, setCityDropDownOpen] = useState(false);
+
+  const [stateSelected, setStateSelected] = useState(null);
+  const [stateDropDownOpen, setStateDropDownOpen] = useState(false);
+
   const ctx = useContext(Context);
   const cancelButtonRef = useRef(null);
-  const amountRef = useRef();
-  const expenseCategoryRef = useRef("Travel");
-  const descriptionRef = useRef();
-  const voucherRef = useRef();
-  const paymentTypeRef = useRef();
-  const dateRef = useRef(null);
-  const saveExpenseHandler = async () => {
-    const data = {
-      date: dateRef.current.value,
-      amount: amountRef.current.value,
-      expenseType: expenseCategoryRef.current,
-      voucher: voucherRef.current.value,
-      paymentType: paymentTypeRef.current.value,
-      description: descriptionRef.current.value,
-      voucherId: 1,
-      userId: 1,
-    };
+
+  const saveTourHandler = async () => {
     try {
-      const response = await axios.post(
-        `${connectionUrl}/user/saveExpense`,
-        data
-      );
-      const res = response.data.expenseData;
+      const response = await axios.post(`${connectionUrl}/user/createTour`, {
+        userId: 1,
+        city: citySelected,
+      });
+      const res = response.data;
       console.log(res);
-      ctx.userExpenses(res);
+      toast.success("tour created successfully...")
+      // ctx.userExpenses(res);
       //   ctx.AllVoucher(response.data.userList);
     } catch (err) {
+      toast.error("something went wrong ....")
       console.log(err);
     }
   };
+  console.log(stateSelected);
   return (
     <Transition.Root show={props.open} as={Fragment}>
       <Dialog
@@ -86,27 +83,72 @@ function AddTourModal(props) {
                 </div>{" "}
                 <div className="flex flex-col sm:flex-row px-12">
                   <div className="flex flex-col px-2 w-[100%] py-2">
-                    <label>Select State</label>
-                    <input
+                    <label> State</label>
+                    <div
                       className="outline-none border-2 border-white  bg-transparent "
-                      ref={amountRef}
-                      // type="phone"
-                    ></input>
+                      onClick={() => {
+                        setStateDropDownOpen(!stateDropDownOpen);
+                      }}
+                    >
+                      {!stateSelected ? (
+                        <p className="h-[30px] px-2">Select State here..</p>
+                      ) : (
+                        <p className="overflow-hidden w-[100%] flex flex-nowrap h-[30px] px-2">
+                          {stateSelected}
+                        </p>
+                      )}
+                    </div>
+                    {stateDropDownOpen && (
+                      <div className="outline-none border-2 border-white  bg-white h-[100px] overflow-y-auto overflow-x-hidden">
+                        {State.map((current) => {
+                          return (
+                            <div
+                              className="text-black border-2 border-b hover:bg-blue-400 hover:text-white"
+                              onClick={() => {
+                                setStateSelected(current);
+                                setStateDropDownOpen(false);
+                              }}
+                            >
+                              {current}
+                            </div>
+                          );
+                        })}
+                      </div>
+                    )}
                   </div>
                   <div className="flex flex-col px-2 w-[100%] py-2">
-                    <label>Select City</label>
-                    <select
-                      className="outline-none border-2 border-white text-black font-semibold bg-transparent"
-                      //   ref={expenseCategoryRef}
-                      onChange={(e) =>
-                        (expenseCategoryRef.current = e.target.value)
-                      }
+                    <label> City</label>
+                    <div
+                      className="outline-none border-2 border-white  bg-transparent "
+                      onClick={() => {
+                        setCityDropDownOpen(!cityDropDownOpen);
+                      }}
                     >
-                      <option value="Travel">Travel</option>
-                      <option value="Food(Da)">Food(Da)</option>
-                      <option value="Accomondation">Accomondation</option>
-                      <option value="Misc">Misc</option>
-                    </select>
+                      {!citySelected ? (
+                        <p className="h-[30px] px-2">Select City here..</p>
+                      ) : (
+                        <p className="overflow-hidden w-[100%] flex flex-nowrap h-[30px] px-2">
+                          {citySelected}
+                        </p>
+                      )}
+                    </div>
+                    {cityDropDownOpen && (
+                      <div className="outline-none border-2 border-white  bg-white h-[100px] overflow-y-auto overflow-x-hidden">
+                        {City[stateSelected]?.map((current) => {
+                          return (
+                            <div
+                              className="text-black border-2 border-b hover:bg-blue-400 hover:text-white"
+                              onClick={() => {
+                                setCitySelected(current);
+                                setCityDropDownOpen(false);
+                              }}
+                            >
+                              {current}
+                            </div>
+                          );
+                        })}
+                      </div>
+                    )}
                   </div>
                 </div>
                 {/* <div className="flex flex-col sm:flex-row px-12">
@@ -137,18 +179,18 @@ function AddTourModal(props) {
                         paymentTypeRef.current.value = e.target.value;
                       }}
                     >
-                      <option value={"Credit Card"}>Credit card</option>
-                      <option value={"Cash"}>Cash</option>
-                      <option value={"Online (train/flight)"}>
+                      <div value={"Credit Card"}>Credit card</div>
+                      <div value={"Cash"}>Cash</div>
+                      <div value={"Online (train/flight)"}>
                         Online(train/flight)
-                      </option>
+                      </div>
                     </select>
                   </div>
                 </div> */}
                 <div className="w-[100%] flex  justify-center mb-4 mt-6">
                   <p
                     className="w-[80%] bg-white text-black text-center font-semibold py-3 rounded-md cursor-pointer"
-                    onClick={saveExpenseHandler}
+                    onClick={saveTourHandler}
                   >
                     Create Tour
                   </p>

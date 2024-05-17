@@ -12,6 +12,7 @@ function NavBar() {
   // console.log(ctx.signUpModalOpen);
   const location = useLocation();
   const path = location.pathname.toUpperCase();
+  console.log(path);
   return (
     <>
       <AddTourModal
@@ -52,7 +53,6 @@ function NavBar() {
                 onClick={() => {
                   // setOpen(true);
                   setTourModal(true);
-
                 }}
                 className="text-lg font-bold text-semibold border-2 border-yellow-500 text-yellow-500 dark:text-white  px-2 rounded-md"
               >
