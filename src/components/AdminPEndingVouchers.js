@@ -1,11 +1,22 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import Context from "../store/Context";
+import VoucherViewer from "./VoucherViewer";
 
 function AdminPEndingVouchers(props) {
+  const [open, setOpen] = useState(false);
+  const [Id, setId] = useState(null);
   const ctx = useContext(Context);
-  console.log(props.pending);
+
+  // console.log(id);
   return (
     <div className="shadow-md shadow-gray-700 w-[60%]  min-h-[250px] h-[40vh]  bg-white m-2 rounded-lg">
+      <VoucherViewer
+        close={() => {
+          setOpen(!open);
+        }}
+        id={Id}
+        open={open}
+      ></VoucherViewer>{" "}
       <p className=" py-2 font-bold text-2xl text-center rounded-t-lg text-white bg-purple-500">
         Pending Vouchers{" "}
       </p>{" "}
@@ -35,8 +46,13 @@ function AdminPEndingVouchers(props) {
                 {current.tourDate}
               </p>
               <div className="w-[15%] px-1 overflow-hidden whitespace-nowrap overflow-ellipsis ">
-                <p className="bg-blue-300 text-white font-bold text-center rounded hover:bg-blue-500">
-                  {" "}
+                <p
+                  className="bg-blue-300 text-white font-bold text-center rounded hover:bg-blue-500"
+                  onClick={() => {
+                    setOpen(true);
+                    setId(current.id);
+                  }}
+                >
                   View
                 </p>
               </div>

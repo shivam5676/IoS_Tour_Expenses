@@ -9,13 +9,14 @@ import AdminREjectedVoucher from "./AdminREjectedVoucher";
 import axios from "axios";
 import Context from "../store/Context";
 import bgImage from "../assests/images/bg1.jpg";
+import VoucherViewer from "./VoucherViewer";
 
 function AdminPanel() {
   const [data, setData] = useState([]);
   const connectionUrl = "http://localhost:2000";
   const ctx = useContext(Context);
   const allVoucherData = ctx.allVoucherData;
-
+const [open,setOpen]=useState(true)
   useEffect(() => {
     async function fetchData() {
       try {
@@ -52,13 +53,9 @@ function AdminPanel() {
   return (
     <div
       className="w-[100vw] h-[100vh] text-white font-['Poppins'] pt-[90px] bg-transparent"
-      // style={{
-      //   backgroundImage: `url(${bgImage})`,
-      //   backgroundRepeat: "no-repeat",
-      //   // backgroundPosition: "center",
-      //   backgroundSize: "cover",
-      // }}
+      
     >
+      {/* <VoucherViewer openModal={open} closeModal={()=>setOpen(!open)}></VoucherViewer> */}
       <div className="min-[800px]:mx-4 min-[1000px]:mx-16 mx-4 min-[1200px]:mx-28 min-[1500px] flex">
         <AdminSidePanel></AdminSidePanel>
         <div
