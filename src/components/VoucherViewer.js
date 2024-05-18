@@ -69,9 +69,6 @@ export default function VoucherViewer(props) {
       if (current.expenseType === "Accomondation") {
         accomondation += +current.Amount;
       }
-      // if (current.expenseType === "Travel") {
-      //   travel += +current.Amount;
-      // }
     });
   const departureTimeArray =
     voucherData?.voucherDescription?.departureTime?.split(":");
@@ -85,18 +82,62 @@ export default function VoucherViewer(props) {
     ? +arrivalTimeArray[0] * 60 + +arrivalTimeArray[1]
     : 0;
   const tourDuration = arrivalTimeInMinutes - departureTimeInMinutes;
-  const tourDurationHours = Math.abs(Math.floor(tourDuration / 60));
+  const tourDurationHours = Math.abs(tourDuration / 60);
   const tourDurationMinutes = Math.abs(tourDuration % 60);
- // Parse the departure and arrival dates and times
-//  const departureDateTime = new Date(`${voucherData.voucherDescription.departureDate}T${voucherData.voucherDescription.departureTime}`);
-//  const arrivalDateTime = new Date(`${voucherData.voucherDescription.arrivalDate}T${voucherData.voucherDescription.arrivalTime}`);
+  function calculateHourDifference() {
+    // Check if voucherData and required properties exist
+    if (
+      voucherData &&
+      voucherData.voucherDescription &&
+      voucherData.voucherDescription.departureDate &&
+      voucherData.voucherDescription.arrivalDate
+    ) {
+      // Get the date strings
+      let departureDateStr = voucherData.voucherDescription.departureDate;
+      let arrivalDateStr = voucherData.voucherDescription.arrivalDate;
 
-//  // Calculate the difference in milliseconds
-//  const differenceInMs = arrivalDateTime - departureDateTime;
+      // Parse the date strings directly to Date objects
+      let departureDate = new Date(departureDateStr);
+      let arrivalDate = new Date(arrivalDateStr);
 
-//  // Convert the difference from milliseconds to hours
-//  const tourDurationInHours = differenceInMs / (1000 * 60 * 60)
-//  console.log(tourDurationHours)
+      // Check for invalid dates
+      if (isNaN(departureDate) || isNaN(arrivalDate)) {
+        return 0;
+      }
+
+      // Calculate the difference in milliseconds
+      let timeDifference = arrivalDate - departureDate;
+
+      // Convert the difference from milliseconds to hours
+      let hoursDifference = timeDifference / (1000 * 60 * 60);
+
+      return Math.abs(hoursDifference);
+    } else {
+      // Return 0 if either date is missing
+      return 0;
+    }
+  }
+
+  // Example usage with the provided object
+
+  let dateDifferenceInHour = calculateHourDifference();
+  const totalDa = (
+    (Math.abs(tourDurationHours - dateDifferenceInHour) *
+      +voucherData?.voucherDescription?.dailyAllowance) /
+    24
+  ).toFixed(2);
+  console.log("Difference in hours:" + tourDurationHours, dateDifferenceInHour);
+
+  // Parse the departure and arrival dates and times
+  //  const departureDateTime = new Date(`${voucherData.voucherDescription.departureDate}T${voucherData.voucherDescription.departureTime}`);
+  //  const arrivalDateTime = new Date(`${voucherData.voucherDescription.arrivalDate}T${voucherData.voucherDescription.arrivalTime}`);
+
+  //  // Calculate the difference in milliseconds
+  //  const differenceInMs = arrivalDateTime - departureDateTime;
+
+  //  // Convert the difference from milliseconds to hours
+  //  const tourDurationInHours = differenceInMs / (1000 * 60 * 60)
+  //  console.log(tourDurationHours)
   return (
     <Transition.Root show={props.open} as={Fragment}>
       <Dialog
@@ -128,165 +169,184 @@ export default function VoucherViewer(props) {
                 leaveFrom="opacity-100 translate-y-0 sm:scale-100"
                 leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
               >
-                <Dialog.Panel className="relative transform overflow-scroll rounded-lg text-left shadow-xl transition-all sm:my-8 h-[80vh] w-[80%] md:w-[600px] py-4 bg-white text-black">
+                <Dialog.Panel className="relative transform  rounded-lg text-left shadow-xl transition-all sm:my-8 h-[80vh] w-[80%] md:w-[600px] py-4 bg-white text-black">
                   <div className="text-2xl flex justify-center w-[100%] border-b-2 font-bold pb-3">
                     <p>Tour Voucher</p>
                   </div>
-                  <div className="flex w-[100%] min-[700px]:flex-row flex-col"></div>
-                  <div className="flex w-[100%] min-[700px]:flex-row flex-col">
-                    <div className="w-[40%] px-2 border-2 flex py-1">
-                      <p className="font-semibold">Name : </p>{" "}
-                      {voucherData.user?.firstName +
-                        " " +
-                        voucherData.user?.lastName}
+                  {/* <div className="flex w-[100%] min-[700px]:flex-row flex-col"></div> */}
+                  <div className="overflow-y-scroll h-[calc(100%-50px)]">
+                    <div className="flex w-[100%] min-[700px]:flex-row flex-col">
+                      <div className="w-[40%] px-2 border-2 flex py-1">
+                        <p className="font-semibold">Name : </p>{" "}
+                        {voucherData.user?.firstName +
+                          " " +
+                          voucherData.user?.lastName}
+                      </div>
+                      <div className="w-[60%] px-2 border-2 flex py-1 ">
+                        <p className="font-semibold ">Designation : </p>{" "}
+                        software Developer{" "}
+                      </div>
                     </div>
-                    <div className="w-[60%] px-2 border-2 flex py-1 ">
-                      <p className="font-semibold ">Designation : </p> software
-                      Developer{" "}
+                    <div className="flex w-[100%] min-[700px]:flex-row flex-col">
+                      <div className="w-[40%] px-2 border-2 flex py-1">
+                        <p className="font-semibold">Location : </p>{" "}
+                        {voucherData?.tourLocation}
+                      </div>
+                      <div className="w-[60%] px-2 border-2 flex py-1 ">
+                        <p className="font-semibold ">Employee id : </p>
+                        IOS/EMP/5678
+                      </div>
                     </div>
-                  </div>
-                  <div className="flex w-[100%] min-[700px]:flex-row flex-col">
-                    <div className="w-[40%] px-2 border-2 flex py-1">
-                      <p className="font-semibold">Location : </p>{" "}
-                      {voucherData?.tourLocation}
-                    </div>
-                    <div className="w-[60%] px-2 border-2 flex py-1 ">
-                      <p className="font-semibold ">Employee id : </p>
-                      IOS/EMP/5678
-                    </div>
-                  </div>
 
-                  <div className="flex w-[100%] min-[700px]:flex-row flex-col">
-                    <p className="w-[100%] px-2 py-1 font-semibold border-2">
-                      Purpose : {voucherData.voucherDescription?.purpose}
+                    <div className="flex w-[100%] min-[700px]:flex-row flex-col">
+                      <p className="w-[100%] px-2 py-1 font-semibold border-2">
+                        Purpose : {voucherData.voucherDescription?.purpose}
+                      </p>
+                    </div>
+                    <div className="flex w-[100%] min-[700px]:flex-row flex-col">
+                      <p className="w-[100%] px-2 py-1 font-semibold border-2">
+                        Advance Cash Recieved :{" "}
+                        {voucherData.voucherDescription?.advanceCash}
+                      </p>
+                    </div>
+                    <p className="text-center font-bold text-xl py-2">
+                      Tour Duration
                     </p>
-                  </div>
-                  <div className="flex w-[100%] min-[700px]:flex-row flex-col">
-                    <p className="w-[100%] px-2 py-1 font-semibold border-2">
-                      Advance Cash Recieved :{" "}
-                      {voucherData.voucherDescription?.advanceCash}
-                    </p>
-                  </div>
-                  <p className="text-center font-bold text-xl py-2">
-                    Tour Duration
-                  </p>
-                  <div className="flex w-[100%] min-[700px]:flex-row flex-col">
-                    <div className="w-[40%] px-2 border-2 flex py-1">
-                      <p className="font-semibold"> Date from : </p>{" "}
-                      {voucherData.voucherDescription?.departureDate}
+                    <div className="flex w-[100%] min-[700px]:flex-row flex-col">
+                      <div className="w-[50%] px-2 border-2 flex py-1">
+                        <p className="font-semibold"> Date from : </p>{" "}
+                        {voucherData.voucherDescription?.departureDate}
+                      </div>
+                      <div className="w-[50%] px-2 border-2 flex py-1 ">
+                        <p className="font-semibold ">Date to : </p>
+                        {voucherData.voucherDescription?.arrivalDate}
+                      </div>
                     </div>
-                    <div className="w-[60%] px-2 border-2 flex py-1 ">
-                      <p className="font-semibold ">Date to : </p>
-                      {voucherData.voucherDescription?.arrivalDate}
+                    <div className="flex w-[100%] min-[700px]:flex-row flex-col">
+                      <div className="w-[50%] px-2 border-2 flex py-1">
+                        <p className="font-semibold"> Time from : </p>{" "}
+                        {voucherData.voucherDescription?.departureTime}
+                      </div>
+                      <div className="w-[50%] px-2 border-2 flex py-1 ">
+                        <p className="font-semibold ">Time to : </p>{" "}
+                        {voucherData.voucherDescription?.arrivalTime}
+                      </div>
                     </div>
-                  </div>
-                  <div className="flex w-[100%] min-[700px]:flex-row flex-col">
-                    <div className="w-[40%] px-2 border-2 flex py-1">
-                      <p className="font-semibold"> Time from : </p>{" "}
-                      {voucherData.voucherDescription?.departureTime}
+                    <div className="flex w-[100%] min-[700px]:flex-row flex-col">
+                      <div className="w-[50%] px-2 border-2 flex py-1">
+                        <p className="font-semibold"> Travel Vehicle : </p>{" "}
+                        {voucherData.voucherDescription?.transportDeparture}
+                      </div>
+                      <div className="w-[50%] px-2 border-2 flex py-1 ">
+                        <p className="font-semibold ">
+                          Travel Vehicle (Return) :{" "}
+                        </p>{" "}
+                        {voucherData.voucherDescription?.transportArrival}
+                      </div>
                     </div>
-                    <div className="w-[60%] px-2 border-2 flex py-1 ">
-                      <p className="font-semibold ">Time to : </p>{" "}
-                      {voucherData.voucherDescription?.arrivalTime}
+                    <div className="flex w-[100%] min-[700px]:flex-row flex-col">
+                      <p className="w-[100%] px-2 font font-semibold bg-blue-300">
+                        Total Tour Duration (hrs) : 
+                        { Math.abs(tourDurationHours - dateDifferenceInHour).toFixed(2)}
+                      </p>
                     </div>
-                  </div>
-                  <div className="flex w-[100%] min-[700px]:flex-row flex-col">
-                    <div className="w-[40%] px-2 border-2 flex py-1">
-                      <p className="font-semibold"> Travel Vehicle : </p>{" "}
-                      {voucherData.voucherDescription?.transportDeparture}
-                    </div>
-                    <div className="w-[60%] px-2 border-2 flex py-1 ">
-                      <p className="font-semibold ">
-                        Travel Vehicle (Return) :{" "}
-                      </p>{" "}
-                      {voucherData.voucherDescription?.transportArrival}
-                    </div>
-                  </div>
-                  <div className="flex w-[100%] min-[700px]:flex-row flex-col">
-                    <p className="w-[100%] px-2 font font-semibold bg-blue-300">
-                      Total Tour Duration (hrs) :768
-                    </p>
-                  </div>
-                  {/* <div className="flex w-[100%] min-[700px]:flex-row flex-col">
-                  <p className="w-[40%] px-2">Travel Vehicle : bus</p>
-                  <p className="w-[60%] px-2">
-                    Travel Vehicle (Return) : train
-                  </p>
-                </div> */}
-                  <p className="text-center font-bold text-xl py-2">
-                    Tour Daily Allowance (DA)
-                  </p>
-                  <div className="flex w-[100%] min-[700px]:flex-row flex-col">
-                    <div className="w-[40%] px-2 border-2 flex py-1">
-                      <p className="font-semibold"> DA (rs/day) : </p>{" "}
-                      {+voucherData.voucherDescription?.dailyAllowance}
-                    </div>
-                    <div className="w-[60%] px-2 border-2 flex py-1 ">
-                      <p className="font-semibold"> DA (rs/hr) : </p>{" "}
-                      {+voucherData.voucherDescription?.dailyAllowance / 24}
-                    </div>
-                  </div>
 
-                  <div className="flex w-[100%] min-[700px]:flex-row flex-col">
-                    <p className="w-[100%] px-2 font font-semibold bg-blue-300">
-                      Total DA Alloted (rs) :{" "}
-                      {tourDurationHours *
-                        (+voucherData.voucherDescription?.dailyAllowance / 24)}
+                    <p className="text-center font-bold text-xl py-2">
+                      Tour Daily Allowance (DA)
                     </p>
-                  </div>
-                  <p className="text-center font-bold text-xl py-2">
-                    Tour Expenses
-                  </p>
+                    <div className="flex w-[100%] min-[700px]:flex-row flex-col">
+                      <div className="w-[50%] px-2 border-2 flex py-1">
+                        <p className="font-semibold"> DA (rs/day) : </p>{" "}
+                        {+voucherData.voucherDescription?.dailyAllowance}
+                      </div>
+                      <div className="w-[50%] px-2 border-2 flex py-1 ">
+                        <p className="font-semibold"> DA (rs/hr) : </p>{" "}
+                        {(
+                          +voucherData.voucherDescription?.dailyAllowance / 24
+                        ).toFixed(2)}
+                      </div>
+                    </div>
 
-                  <div className="flex w-[100%] min-[700px]:flex-row flex-col">
-                    <div className="w-[40%] px-2 border-2 flex py-1">
-                      <p className="font-semibold"> FOOD : </p> {food}
+                    <div className="flex w-[100%] min-[700px]:flex-row flex-col">
+                      <p className="w-[100%] px-2 font font-semibold bg-blue-300">
+                        Total DA Alloted (rs) : {totalDa}
+                      </p>
                     </div>
-                    <div className="w-[60%] px-2 border-2 flex py-1 ">
-                      <p className="font-semibold"> Travel : </p> {travel}
-                    </div>
-                  </div>
-                  <div className="flex w-[100%] min-[700px]:flex-row flex-col">
-                    <div className="w-[40%] px-2 border-2 flex py-1">
-                      <p className="font-semibold"> Accomondation : </p>{" "}
-                      {accomondation}
-                    </div>
-                    <div className="w-[60%] px-2 border-2 flex py-1 ">
-                      <p className="font-semibold"> Misc : </p> {Misc}
-                    </div>
-                  </div>
-                  <div className="flex w-[100%] min-[700px]:flex-row flex-col">
-                    <p className="w-[100%] px-2 font font-semibold bg-blue-300">
-                      Total Tour Expenses (rs) :
-                      {Misc + accomondation + travel + food}
+                    <p className="text-center font-bold text-xl py-2">
+                      Tour Expenses
                     </p>
-                  </div>
-                  <p className="text-center font-bold">
-                    Expenses Payment Method
-                  </p>
 
-                  <div className="flex w-[100%] min-[700px]:flex-row flex-col">
-                    <div className="w-[40%] px-2 border-2 flex py-1">
-                      <p className="font-semibold"> Credit Card (office) : </p>{" "}
-                      {creditCard}
+                    <div className="flex w-[100%] min-[700px]:flex-row flex-col">
+                      <div className="w-[50%] px-2 border-2 flex py-1">
+                        <p className="font-semibold"> FOOD : </p> {food}
+                      </div>
+                      <div className="w-[50%] px-2 border-2 flex py-1 ">
+                        <p className="font-semibold"> Travel : </p> {travel}
+                      </div>
                     </div>
-                    <div className="w-[60%] px-2 border-2 flex py-1 ">
-                      <p className="font-semibold"> Cash : </p> {CashPayment}
+                    <div className="flex w-[100%] min-[700px]:flex-row flex-col">
+                      <div className="w-[50%] px-2 border-2 flex py-1">
+                        <p className="font-semibold"> Accomondation : </p>{" "}
+                        {accomondation}
+                      </div>
+                      <div className="w-[50%] px-2 border-2 flex py-1 ">
+                        <p className="font-semibold"> Misc : </p> {Misc}
+                      </div>
                     </div>
-                  </div>
-                  <div className="flex w-[100%] min-[700px]:flex-row flex-col font-semibold">
-                    <p className="w-[100%] px-2 border-2">
-                      online (train/bus/flight tickets by office):{" "}
-                      {onlinePayment}
+                    <div className="flex w-[100%] min-[700px]:flex-row flex-col">
+                      <p className="w-[100%] px-2 font font-semibold bg-blue-300">
+                        Total Tour Expenses (rs) :
+                        {Misc + accomondation + travel + food}
+                      </p>
+                    </div>
+                    <p className="text-center font-bold">
+                      Expenses Payment Method
                     </p>
-                  </div>
-                  {/* <p className="w-[100%] px-2 font font-semibold bg-blue-300">
-                  Total Amount Paid on expense (rs) : 17931
-                </p> */}
-                  <div className="flex w-[100%] min-[700px]:flex-row flex-col">
-                    <p className="w-[100%] px-2 font font-semibold bg-green-400 text-white">
-                      Amount for settlement : {CashPayment}
-                    </p>
+
+                    <div className="flex w-[100%] min-[700px]:flex-row flex-col">
+                      <div className="w-[50%] px-2 border-2 flex py-1">
+                        <p className="font-semibold">
+                          {" "}
+                          Credit Card (office) :{" "}
+                        </p>{" "}
+                        {creditCard}
+                      </div>
+                      <div className="w-[50%] px-2 border-2 flex py-1 ">
+                        <p className="font-semibold"> Cash : </p> {CashPayment}
+                      </div>
+                    </div>
+                    <div className="flex w-[100%] min-[700px]:flex-row flex-col font-semibold">
+                      <p className="w-[100%] px-2 border-2">
+                        online (train/bus/flight tickets by office):{" "}
+                        {onlinePayment}
+                      </p>
+                    </div>
+
+                    <div className="flex w-[100%] min-[700px]:flex-row flex-col">
+                      <p className="w-[100%] px-2 font font-semibold bg-green-400 text-white">
+                        Amount for settlement :{" "}
+                        {(
+                          +CashPayment +
+                          +totalDa -
+                          +voucherData?.voucherDescription?.advanceCash
+                        ).toFixed(2)}
+                      </p>
+                    </div>
+                    <div className="my-2 flex w-[100%]  ">
+                      <div className="font-semibold my-2 px-2">Comment</div>
+                      <textarea
+                        rows={3}
+                        className="max-h-[100px] min-h-[50px] border-2 m-2 w-[60%]"
+                      ></textarea>
+                    </div>
+                    <div className="my-2 flex w-[100%] justify-evenly font-bold text-white">
+                      <p className="p-2 bg-blue-400 w-fit rounded-md hover:bg-blue-600 cursor-pointer">
+                        Accept
+                      </p>
+                      <p className="p-2 bg-orange-400 w-fit mx-2 rounded-md hover:bg-orange-600 cursor-pointer">
+                        Reject
+                      </p>
+                    </div>
                   </div>
                 </Dialog.Panel>
               </Transition.Child>
