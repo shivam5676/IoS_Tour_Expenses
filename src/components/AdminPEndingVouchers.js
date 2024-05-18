@@ -14,7 +14,7 @@ function AdminPEndingVouchers(props) {
         close={() => {
           setOpen(!open);
         }}
-        id={Id}
+        voucherId={Id}
         open={open}
       ></VoucherViewer>{" "}
       <p className=" py-2 font-bold text-2xl text-center rounded-t-lg text-white bg-purple-500">
