@@ -1,9 +1,10 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import Context from "../../store/Context";
 import axios from "axios";
 
-function UsersTour() {
+function UsersTour(props) {
   const connectionUrl = "http://localhost:2000";
+  const [selected, setSelected] = useState(null);
 
   const ctx = useContext(Context);
   const fetchTourDetails = async (id) => {
@@ -24,11 +25,11 @@ function UsersTour() {
   };
   return (
     <div className="shadow-md shadow-gray-700 w-[60%]  min-h-[250px] h-[40vh]   bg-white m-2 rounded-lg">
-      <p className="bg-purple-500 py-2 font-bold text-2xl text-center text-white rounded-t-lg h-[47px]">
+      <p className="bg-gradient-to-r from-[#dd2476] to-[#ff7e5f] py-2 font-bold text-2xl text-center text-white rounded-t-lg h-[47px]">
         OnGoing Tour
       </p>
       <div className="w-[100%]">
-        <div className="mx-2 bg-white text-black flex h-[40px] font-bold items-center">
+        <div className="mx-2 bg-white text-black flex h-[35px] font-bold items-center border-b-2">
           <p className="w-[10%] px-1">id</p>
           <p className="w-[35%] px-1">TourName</p>
           <p className="w-[30%] px-1">Date</p>
@@ -41,7 +42,11 @@ function UsersTour() {
         {ctx.onGoingData?.map((current) => {
           console.log(current);
           return (
-            <div className="mx-2 bg-white text-black flex py-1 text-[.9rem] font-semibold">
+            <div
+              className={`mx-2 ${
+                selected != current.id ? "bg-white" : "bg-yellow-500"
+              } text-black flex py-1 text-[.9rem] font-semibold`}
+            >
               <p className="w-[10%] px-1 overflow-hidden whitespace-nowrap overflow-ellipsis">
                 {current.id}
               </p>
@@ -56,12 +61,14 @@ function UsersTour() {
                 <p
                   className="bg-blue-300 text-white font-bold text-center rounded hover:bg-blue-500"
                   onClick={() => {
-                    fetchTourDetails(current.id);
-                    ctx.currentTourId(current.id);
+                    selected != current.id && fetchTourDetails(current.id);
+                    selected != current.id && ctx.currentTourId(current.id);
+                    selected != current.id && setSelected(current.id);
+                    props.selected();
                   }}
                 >
                   {" "}
-                  Select
+                  {selected == current.id ? "Selected" : "Select"}
                 </p>
               </div>
             </div>

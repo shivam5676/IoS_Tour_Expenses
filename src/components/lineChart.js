@@ -11,7 +11,7 @@ import {
 
 import { Bar } from "react-chartjs-2";
 // import faker from "faker";
-function LineChart() {
+function LineChart(props) {
   ChartJS.register(
     CategoryScale,
     LinearScale,
@@ -49,41 +49,38 @@ function LineChart() {
     "Nov",
     "Dec",
   ];
-  const dataset1Data = [
-    400, 300, 600, 700, 200, 500, 800, 300, 600, 700, 200, 222,
-  ];
-  const dataset2Data = [
-    600, 500, 300, 200, 800, 400, 100, 300, 600, 700, 200, 233,
-  ];
-  const dataset3Data = [
-    600, 500, 300, 200, 800, 400, 100, 300, 600, 700, 200, 233,
-  ];
-  const dataset4Data = [
-    400, 300, 600, 700, 200, 500, 800, 300, 600, 700, 200, 222,
-  ];
-  //we will create 4 data sets travel,DA(food),Accomondation,Misc
+  const expenseData = props.expenseData ? props.expenseData : "";
+
+  const getExpenseValues = (category) => {
+    return labels.map((label) => {
+      return expenseData[label] && expenseData[label][category] !== undefined
+        ? expenseData[label][category]
+        : 0;
+    });
+  };
+
   const data = {
     labels,
     datasets: [
       {
-        label: "Accomondation",
-        data: dataset1Data,
+        label: "Accommodation",
+        data: getExpenseValues("acc"),
         backgroundColor: "rgba(255, 99, 132, 0.5)",
       },
       {
         label: "Food(DA)",
-        data: dataset2Data,
+        data: getExpenseValues("food"),
         backgroundColor: "rgba(53, 162, 235, 0.5)",
       },
       {
         label: "Travel",
-        data: dataset3Data,
+        data: getExpenseValues("travel"),
         backgroundColor: "rgba(255, 165, 0,0.7)",
       },
       {
         label: "Misc",
-        data: dataset4Data,
-        backgroundColor: "rgba(93, 192, 149,.8)",
+        data: getExpenseValues("misc"),
+        backgroundColor: "rgba(93, 192, 149, 0.8)",
       },
     ],
   };

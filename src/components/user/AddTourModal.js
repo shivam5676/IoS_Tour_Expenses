@@ -7,10 +7,11 @@ import Context from "../../store/Context";
 import State from "../../assests/State";
 import City from "../../assests/Cities";
 import { toast } from "react-toastify";
+import { IoIosCloseCircle } from "react-icons/io";
 function AddTourModal(props) {
   const connectionUrl = "http://localhost:2000";
-  console.log(props.open)
-    // const [open, setOpen] = useState(props.open);
+  console.log(props.open);
+  // const [open, setOpen] = useState(props.open);
   const [citySelected, setCitySelected] = useState(null);
   const [cityDropDownOpen, setCityDropDownOpen] = useState(false);
 
@@ -28,15 +29,15 @@ function AddTourModal(props) {
         city: citySelected,
       });
       const res = response.data.voucher;
-      
-      ctx.onGoingTour(res)
+
+      ctx.onGoingTour(res);
       // console.log(res);
-      toast.success("tour created successfully...")
-      props.close()
+      toast.success("tour created successfully...");
+      props.close();
       // ctx.userExpenses(res);
       //   ctx.AllVoucher(response.data.userList);
     } catch (err) {
-      toast.error("something went wrong ....")
+      toast.error("something went wrong ....");
       console.log(err);
     }
   };
@@ -71,7 +72,14 @@ function AddTourModal(props) {
               leaveFrom="opacity-100 translate-y-0 sm:scale-100"
               leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
             >
-              <Dialog.Panel className="relative transform overflow-hidden rounded-lg text-left shadow-xl transition-all sm:my-8 w-[80%] md:w-[500px] py-4 bg-[#F33A6A] text-white">
+              <Dialog.Panel className="relative transform overflow-hidden rounded-lg text-left shadow-xl transition-all sm:my-8 w-[80%] md:w-[500px] py-4 bg-gradient-to-r from-[#3199ad] to-[#144786] text-white">
+                <div
+                  className="fixed right-4 top-2 flex cursor-pointer font-bold underline"
+                  onClick={() => props.close()}
+                >
+                  <IoIosCloseCircle className="w-[30px] h-[30px]"></IoIosCloseCircle>
+                  close
+                </div>{" "}
                 <div className="text-center pb-4">
                   <div className="text-2xl font-semibold flex items-center">
                     {" "}
@@ -194,7 +202,7 @@ function AddTourModal(props) {
                 </div> */}
                 <div className="w-[100%] flex  justify-center mb-4 mt-6">
                   <p
-                    className="w-[80%] bg-white text-black text-center font-semibold py-3 rounded-md cursor-pointer"
+                    className="w-[80%] hover:bg-gray-300 bg-white text-black text-center font-semibold py-3 rounded-md cursor-pointer"
                     onClick={saveTourHandler}
                   >
                     Create Tour

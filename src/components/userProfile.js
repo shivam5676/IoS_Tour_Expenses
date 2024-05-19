@@ -11,7 +11,7 @@ function UserProfile() {
   console.log(ctx.adminCurrentUserData);
   return (
     <div className="rounded-lg shadow-md shadow-gray-700  w-[40%] min-h-[250px] h-[40vh]  m-2 bg-white text-black">
-      <p className=" rounded-t-lg py-2 font-bold text-2xl   text-center bg-purple-500 text-white ">
+      <p className=" rounded-t-lg py-2 font-bold text-2xl   text-center  bg-gradient-to-r from-[#dd2476] to-[#ff7e5f]  text-white ">
         user profile
       </p>{" "}
       <div className="flex justify-center">

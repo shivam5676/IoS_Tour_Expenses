@@ -4,10 +4,13 @@ import { Dialog, Transition } from "@headlessui/react";
 import { ExclamationTriangleIcon } from "@heroicons/react/24/outline";
 import axios from "axios";
 import Context from "../../store/Context";
+import { toast } from "react-toastify";
+import { IoIosCloseCircle } from "react-icons/io";
+
 function AddExpenseModal(props) {
   const connectionUrl = "http://localhost:2000";
   //   const [open, setOpen] = useState(true);
-const ctx=useContext(Context)
+  const ctx = useContext(Context);
   const cancelButtonRef = useRef(null);
   const amountRef = useRef();
   const expenseCategoryRef = useRef("Travel");
@@ -24,7 +27,7 @@ const ctx=useContext(Context)
       paymentType: paymentTypeRef.current.value,
       description: descriptionRef.current.value,
       voucherId: ctx.currentTourIdData,
-      userId:1
+      userId: 1,
     };
     try {
       const response = await axios.post(
@@ -33,10 +36,12 @@ const ctx=useContext(Context)
       );
       const res = response.data.expenseData;
       console.log(res);
-      ctx.userCurrentTourExpenses(res)
+      ctx.userCurrentTourExpenses(res);
+      toast.success("expense added .....");
       //   ctx.AllVoucher(response.data.userList);
     } catch (err) {
       console.log(err);
+      toast.error(err.response?.data?.msg);
     }
   };
   return (
@@ -69,15 +74,22 @@ const ctx=useContext(Context)
               leaveFrom="opacity-100 translate-y-0 sm:scale-100"
               leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
             >
-              <Dialog.Panel className="relative transform overflow-hidden rounded-lg text-left shadow-xl transition-all sm:my-8 w-[80%] md:w-[500px] py-4 bg-[#F33A6A] text-white">
+              <Dialog.Panel className="relative transform overflow-hidden rounded-lg text-left shadow-xl transition-all sm:my-8 w-[80%] md:w-[500px] py-4 bg-gradient-to-r from-[#26718f] to-[#37aa3d] text-white">
+                <div
+                  className="fixed right-4 top-2 flex cursor-pointer font-bold underline"
+                  onClick={() => props.onClose()}
+                >
+                  <IoIosCloseCircle className="w-[30px] h-[30px]"></IoIosCloseCircle>
+                  close
+                </div>
                 <div className="text-center pb-4">
                   <div className="text-2xl font-semibold flex items-center">
                     {" "}
-                    <div className="bg-gradient-to-r from-[#F33A6A] to-white flex-1 h-[2px]"></div>
+                    <div className="bg-gradient-to-r from-[#26718f] to-yellow-400 flex-1 h-[2px]"></div>
                     <div className="md:font-bold text-2xl m-3  text-white font-medium">
                       ADD EXPENSE
                     </div>
-                    <div className="bg-gradient-to-r from-white to-[#F33A6A] flex-1 h-[2px]"></div>
+                    <div className="bg-gradient-to-r from-yellow-400 to-[#37aa3d] flex-1 h-[2px]"></div>
                   </div>
                   <div>
                     Date:
@@ -95,7 +107,7 @@ const ctx=useContext(Context)
                   <div className="flex flex-col px-2 w-[100%] py-2">
                     <label>Amount</label>
                     <input
-                      className="outline-none border-2 border-white  bg-transparent "
+                      className="outline-none border-2 border-white  bg-transparent px-2 text-black"
                       ref={amountRef}
                       // type="phone"
                     ></input>
@@ -122,7 +134,7 @@ const ctx=useContext(Context)
                     <label>Description</label>
                     <textarea
                       rows={3}
-                      className="outline-none border-2 border-white  bg-transparent"
+                      className="outline-none border-2 border-white  bg-transparent px-2 text-black"
                       ref={descriptionRef}
                     ></textarea>
                   </div>
@@ -131,7 +143,7 @@ const ctx=useContext(Context)
                   <div className="flex flex-col px-2 w-[100%] py-2">
                     <label>Voucher No (if present)</label>
                     <input
-                      className="outline-none border-2 border-white  bg-transparent"
+                      className="outline-none border-2 border-white  bg-transparent text-black px-2"
                       ref={voucherRef}
                     ></input>
                   </div>
@@ -154,7 +166,7 @@ const ctx=useContext(Context)
                 </div>
                 <div className="w-[100%] flex  justify-center mb-4 mt-6">
                   <p
-                    className="w-[80%] bg-white text-black text-center font-semibold py-3 rounded-md cursor-pointer"
+                    className="w-[80%] hover:bg-gray-400 bg-white text-black text-center font-semibold py-3 rounded-md cursor-pointer"
                     onClick={saveExpenseHandler}
                   >
                     Add Expense

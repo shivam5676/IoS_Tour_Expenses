@@ -8,7 +8,7 @@ function UserSidePanel() {
   const navigate = useNavigate();
   return (
     <div className="w-[250px] h-[81vh]  min-[980px]:w-[300px]  bg-white text-black rounded-2xl my-0 shadow-md shadow-gray-700 font-['Poppins']">
-      <div className="bg-purple-500 h-[150px] rounded-md m-4 max-w-[270px] text-white">
+      <div className="bg-gradient-to-r from-[#EA8D8D] to-[#553cb1] h-[150px] rounded-md m-4 max-w-[270px] text-white">
         <div className="flex justify-center">
           <FaRegUserCircle className="w-[40px] h-[40px] mt-2" />
         </div>
@@ -63,7 +63,7 @@ function UserSidePanel() {
           </p> */}
         </div>
         <div className=" min-w-[100%] max-w-[270px] text-white ">
-          <div className="flex m-4  bg-purple-400 rounded-md py-2 items-center">
+          <div className="flex m-4 bg-gradient-to-r from-[#EA8D8D] to-[#553cb1] rounded-md py-2 items-center">
             <div className="flex ps-2">
               <img src={iosLogo} className="w-[40px] h-[40px]"></img>
             </div>

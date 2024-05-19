@@ -17,7 +17,7 @@ function AdminPEndingVouchers(props) {
         voucherId={Id}
         open={open}
       ></VoucherViewer>{" "}
-      <p className=" py-2 font-bold text-2xl text-center rounded-t-lg text-white bg-purple-500">
+      <p className=" py-2 font-bold text-2xl text-center rounded-t-lg text-white bg-gradient-to-r from-[#dd2476] to-[#ff7e5f] ">
         Pending Vouchers{" "}
       </p>{" "}
       <div className="w-[100%]">

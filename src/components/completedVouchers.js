@@ -3,7 +3,7 @@ import React from "react";
 function CompletedVouchers(props) {
   return (
     <div className="shadow-md shadow-gray-700 w-[60%]  min-h-[250px] h-[40vh]  bg-white m-2 rounded-lg">
-      <p className=" py-2 font-bold text-2xl text-center  rounded-t-lg text-white bg-purple-500">
+      <p className=" py-2 font-bold text-2xl text-center  rounded-t-lg text-white  bg-gradient-to-r from-[#dd2476] to-[#ff7e5f] ">
         Accepted Vouchers{" "}
       </p>{" "}
       <div className="w-[100%]">

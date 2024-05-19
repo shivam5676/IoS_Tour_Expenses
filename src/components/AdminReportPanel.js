@@ -3,29 +3,31 @@ import AdminSidePanel from "./AdminSidePanel";
 import DatePicker from "react-datepicker";
 import LineChart from "./lineChart";
 import axios from "axios";
+import YearWiseReportGeneration from "./YearWiseReportGeneration";
 function AdminReportPanel() {
   const connectionUrl = "http://localhost:2000";
 
   const [startDate, setStartDate] = useState(new Date());
   const [reportType, setReportType] = useState("All");
+  // const [chartData, setChartData] = useState({});
   const handleReportTypeChange = (event) => {
     setReportType(event.target.value);
   };
   console.log(reportType);
-  useEffect(() => {
-    async function fetchFilterData() {
-      try {
-        const response = await axios.post(
-          `${connectionUrl}/admin/year?year=${2024}`
-        );
-        console.log(response.data);
-        // ctx.AllVoucher(response.data.userList);
-      } catch (err) {
-        console.log(err);
-      }
-    }
-    fetchFilterData();
-  }, []);
+  // useEffect(() => {
+  //   async function fetchFilterData() {
+  //     try {
+  //       const response = await axios.post(
+  //         `${connectionUrl}/admin/year?year=${2024}`
+  //       );
+  //       console.log(response.data);
+  //       // ctx.AllVoucher(response.data.userList);
+  //     } catch (err) {
+  //       console.log(err);
+  //     }
+  //   }
+  //   fetchFilterData();
+  // }, []);
   return (
     <div className="w-[100vw] h-[100vh]  text-white bg-transparent  py-[90px]">
       <div className="min-[800px]:mx-4 min-[1000px]:mx-16 mx-4 min-[1200px]:mx-28 flex">
@@ -40,10 +42,8 @@ function AdminReportPanel() {
             </button>
           </p>
           <div className="flex">
-            <div className="flex w-[100%] m-2 bg-gradient-to-r from-[#55ba1e] to-[#dae908] rounded-md">
-              <p className="p-2 font-bold text-2xl">
-                Report Generation :
-              </p>
+            <div className="flex w-[100%] m-2 bg-gradient-to-r from-[#1e5aba] to-[#0884e9] rounded-md">
+              <p className="p-2 font-bold text-2xl">Report Generation :</p>
               <div className="flex items-center text-yellow-400 font-bold">
                 <select
                   className="border-2 border-white bg-transparent px-2"
@@ -94,8 +94,10 @@ function AdminReportPanel() {
             </div>
           </div>
           <div className="w-[100%]  mx-2 ">
-            {" "}
-            <div className="flex ">
+            {reportType === "yyyy" && (
+              <YearWiseReportGeneration></YearWiseReportGeneration>
+            )}{" "}
+            {/* <div className="flex ">
               <div className="w-[33%] bg-gradient-to-r  from-[#EA8D8D] to-[#A890FE]  font-extrabold text-xl rounded-md ">
                 <p className="p-4 border-b-2 text-center">Total Expense</p>
                 <div className="flex justify-center items-center text-3xl  h-[100px] font-['Poppins']">
@@ -114,9 +116,9 @@ function AdminReportPanel() {
                   <p>10k</p>
                 </div>
               </div>
-            </div>
+            </div> */}
           </div>
-          <div className="w-[100%]  ">
+          {/* <div className="w-[100%]  ">
             {" "}
             <div className="flex mt-3 items-center  overflow-x-auto overflow-y-hidden  mx-2">
               <div className="bg-gradient-to-r from-black to-white flex-1 h-[2px]"></div>
@@ -127,7 +129,7 @@ function AdminReportPanel() {
             </div>
             <LineChart></LineChart>
             <p className="mb-16"></p>
-          </div>
+          </div> */}
         </div>
       </div>
     </div>

@@ -4,6 +4,8 @@ import { Dialog, Transition } from "@headlessui/react";
 import { ExclamationTriangleIcon } from "@heroicons/react/24/outline";
 import axios from "axios";
 import Context from "../../store/Context";
+import { toast } from "react-toastify";
+import { IoIosCloseCircle } from "react-icons/io";
 function AddtourDescriptionModal(props) {
   const connectionUrl = "http://localhost:2000";
 
@@ -43,12 +45,14 @@ function AddtourDescriptionModal(props) {
       );
       const res = response.data;
       console.log(res);
-      ctx.removeOnGoingTour(res.details.id)
+      ctx.removeOnGoingTour(res.details.id);
       props.close();
+      toast.success("voucher has been send to admin ...wait for thier action");
       // ctx.userExpenses(res);
       //   ctx.AllVoucher(response.data.userList);
     } catch (err) {
       console.log(err);
+      toast.error(err.response.data.msg);
     }
   };
   return (
@@ -81,12 +85,18 @@ function AddtourDescriptionModal(props) {
               leaveFrom="opacity-100 translate-y-0 sm:scale-100"
               leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
             >
-              <Dialog.Panel className="relative transform overflow-hidden rounded-lg text-left shadow-xl transition-all sm:my-8 w-[80%] md:w-[500px] py-4 bg-[#F33A6A] text-white">
+              <Dialog.Panel className="relative transform overflow-hidden rounded-lg text-left shadow-xl transition-all sm:my-8 w-[80%] md:w-[500px] py-4 bg-gradient-to-r from-[#7f8f32] to-[#5da861] text-white">
                 <div className="text-center pb-2">
                   <div className="text-sm font-semibold flex items-center">
                     {" "}
-                    {/* <div className="bg-gradient-to-r from-[#F33A6A] to-white flex-1 h-[2px]"></div> */}
-                    <div className="md:font-bold text-md m-3  text-white font-medium px-2">
+                    <div
+                      className="fixed right-4 top-2 flex cursor-pointer font-bold underline"
+                      onClick={() => props.close()}
+                    >
+                      <IoIosCloseCircle className="w-[30px] h-[30px]"></IoIosCloseCircle>
+                      close
+                    </div>{" "}
+                    <div className="md:font-bold text-md m-3 mt-7  text-white font-medium px-2">
                       we want some more details about this tour before sending
                       your voucher to the administrator.
                     </div>
@@ -101,7 +111,7 @@ function AddtourDescriptionModal(props) {
                   <div className="flex flex-col px-2 w-[100%] py-2">
                     <label>Arrival date</label>
                     <input
-                      className="outline-none border-2 border-white  bg-transparent "
+                      className="outline-none border-2 border-white  bg-transparent text-black"
                       type="date"
                       ref={arrivalDateRef}
                     ></input>
@@ -109,7 +119,7 @@ function AddtourDescriptionModal(props) {
                   <div className="flex flex-col px-2 w-[100%] py-2">
                     <label>Departure date</label>
                     <input
-                      className="outline-none border-2 border-white  bg-transparent "
+                      className="outline-none border-2 border-white  bg-transparent text-black"
                       type="date"
                       ref={departureDateRef}
                     ></input>
@@ -120,7 +130,7 @@ function AddtourDescriptionModal(props) {
                   <div className="flex flex-col px-2 w-[100%] py-2">
                     <label>Arrival Time</label>
                     <input
-                      className="outline-none border-2 border-white  bg-transparent"
+                      className="outline-none border-2 border-white  bg-transparent text-black"
                       ref={arrivalTimeRef}
                       type="time"
                     ></input>
@@ -128,7 +138,7 @@ function AddtourDescriptionModal(props) {
                   <div className="flex flex-col px-2 w-[100%] py-2">
                     <label>Deparure Time</label>
                     <input
-                      className="outline-none border-2 border-white  bg-transparent "
+                      className="outline-none border-2 border-white  bg-transparent text-black"
                       type="time"
                       ref={departureTimeRef}
                     ></input>
@@ -140,7 +150,7 @@ function AddtourDescriptionModal(props) {
                     <label>purpose</label>
                     <textarea
                       rows={1}
-                      className="outline-none border-2 border-white  bg-transparent"
+                      className="outline-none border-2 border-white  bg-transparent text-black"
                       ref={purposeRef}
                     ></textarea>
                   </div>
@@ -163,7 +173,7 @@ function AddtourDescriptionModal(props) {
                   <div className="flex flex-col px-2 w-[100%] py-2">
                     <label>Transport (Departure)</label>
                     <select
-                      className="outline-none border-2 text-black font-semibold border-white  bg-transparent"
+                      className="outline-none border-2 text-black font-semibold border-white  bg-transparent text-black"
                       ref={transportArrivalRef}
                       onChange={(e) => {
                         // paymentTypeRef.current.value = e.target.value;
@@ -179,14 +189,14 @@ function AddtourDescriptionModal(props) {
                   <div className="flex flex-col px-2 w-[100%] py-2">
                     <label>Advance Cash (if taken)</label>
                     <input
-                      className="outline-none border-2 border-white  bg-transparent"
+                      className="outline-none border-2 border-white  bg-transparent text-black"
                       ref={advanceCashRef}
                     ></input>
                   </div>
                   <div className="flex flex-col px-2 w-[100%] py-2">
                     <label>Daily allowance</label>
                     <input
-                      className="outline-none border-2 border-white  bg-transparent "
+                      className="outline-none border-2 border-white  bg-transparent text-black"
                       type="number"
                       ref={dailyAllowanceRef}
                     ></input>
@@ -194,7 +204,8 @@ function AddtourDescriptionModal(props) {
                 </div>
                 <div className="w-[100%] flex  justify-center mb-4 mt-6">
                   <p
-                    className="w-[80%] bg-white text-black text-center font-semibold py-3 rounded-md cursor-pointer"
+                    className="w-[80%] hover:bg-gray-300
+                     bg-white text-black text-center font-semibold py-3 rounded-md cursor-pointer"
                     onClick={tourDescriptionHandler}
                   >
                     Send Voucher

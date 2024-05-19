@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import UserSidePanel from "./UserSidePanel";
 import UserExpensesGraph from "./UserExpensesGraph";
 import UsersTour from "./UsersTour";
@@ -9,7 +9,7 @@ import Context from "../../store/Context";
 function UserHomePage() {
   const connectionUrl = "http://localhost:2000";
   const ctx = useContext(Context);
-
+  const [tourSelected, setTourSelected] = useState(false);
   useEffect(() => {
     const fetchTour = async () => {
       try {
@@ -41,23 +41,22 @@ function UserHomePage() {
           style={{ scrollbarWidth: "none" }}
         >
           <div className="flex">
-            <UsersTour></UsersTour>
-            <UserExpensesGraph></UserExpensesGraph>
-            {/* <AdminExpenseGraph
-              dataArrayLength={dataArrayLength}
-            ></AdminExpenseGraph>
-
-            <AdminPEndingVouchers
-              pending={vouchers.pending}
-            ></AdminPEndingVouchers> */}
+            <UsersTour
+              selected={() => {
+                setTourSelected(true);
+              }}
+            ></UsersTour>
+            {tourSelected && (
+              <UserExpensesGraph
+                tourSelected={tourSelected}
+              ></UserExpensesGraph>
+            )}
           </div>
-          <div className="flex">
-            <UserExpenseList></UserExpenseList>{" "}
-            {/* <CompletedVouchers accepted={vouchers.accepted}></CompletedVouchers> */}
-            {/* <AdminREjectedVoucher
-              rejected={vouchers.rejected}
-            ></AdminREjectedVoucher> */}
-          </div>
+          {tourSelected && (
+            <div className="flex">
+              <UserExpenseList></UserExpenseList>
+            </div>
+          )}
         </div>
       </div>
     </div>

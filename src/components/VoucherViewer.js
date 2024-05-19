@@ -3,10 +3,13 @@ import { Dialog, Transition } from "@headlessui/react";
 import { ExclamationTriangleIcon } from "@heroicons/react/24/outline";
 import axios from "axios";
 import Context from "../store/Context";
-
+import { IoIosCloseCircle } from "react-icons/io";
+import acceptedIcon from "../assests/images/accepted.png";
+import rejectedIcon from "../assests/images/rejected.png";
 export default function VoucherViewer(props) {
   console.log(props.voucherId);
   const [voucherData, setVoucherData] = useState(null);
+  const [voucherStatus, setVoucherStatus] = useState("Pending");
   const connectionUrl = "http://localhost:2000";
   //   const [open, setOpen] = useState(false);
   const ctx = useContext(Context);
@@ -21,6 +24,7 @@ export default function VoucherViewer(props) {
   // }, []);
 
   useEffect(() => {
+    setVoucherStatus("Pending")
     async function fetchData() {
       console.log("object");
       try {
@@ -138,6 +142,14 @@ export default function VoucherViewer(props) {
   //  // Convert the difference from milliseconds to hours
   //  const tourDurationInHours = differenceInMs / (1000 * 60 * 60)
   //  console.log(tourDurationHours)
+  let settlementAmount = 0;
+  if (voucherData) {
+    settlementAmount = (
+      +CashPayment +
+      +totalDa -
+      +voucherData?.voucherDescription?.advanceCash
+    ).toFixed(2);
+  }
   return (
     <Transition.Root show={props.open} as={Fragment}>
       <Dialog
@@ -170,29 +182,48 @@ export default function VoucherViewer(props) {
                 leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
               >
                 <Dialog.Panel className="relative transform  rounded-lg text-left shadow-xl transition-all sm:my-8 h-[80vh] w-[80%] md:w-[600px] py-4 bg-white text-black">
+                  {voucherStatus == "Accepted" && (
+                    <img
+                      className="fixed left-4 w-[90px]  top-0 flex cursor-pointer font-bold underline"
+                      src={acceptedIcon}
+                    ></img>
+                  )}
+                  {voucherStatus == "Rejected" && (
+                    <img
+                      className="fixed left-4 w-[90px]  top-2 flex cursor-pointer font-bold underline"
+                      src={rejectedIcon}
+                    ></img>
+                  )}
+                  <div
+                    className="fixed right-4 top-2 flex cursor-pointer font-bold underline"
+                    onClick={() => props.close()}
+                  >
+                    <IoIosCloseCircle className="w-[30px] h-[30px]"></IoIosCloseCircle>
+                    close
+                  </div>{" "}
                   <div className="text-2xl flex justify-center w-[100%] border-b-2 font-bold pb-3">
                     <p>Tour Voucher</p>
                   </div>
                   {/* <div className="flex w-[100%] min-[700px]:flex-row flex-col"></div> */}
                   <div className="overflow-y-scroll h-[calc(100%-50px)]">
                     <div className="flex w-[100%] min-[700px]:flex-row flex-col">
-                      <div className="w-[40%] px-2 border-2 flex py-1">
+                      <div className="w-[40%] px-2 border-2 max-[700px]:w-[100%] flex py-1">
                         <p className="font-semibold">Name : </p>{" "}
                         {voucherData.user?.firstName +
                           " " +
                           voucherData.user?.lastName}
                       </div>
-                      <div className="w-[60%] px-2 border-2 flex py-1 ">
+                      <div className="w-[60%] px-2 border-2 max-[700px]:w-[100%] flex py-1 ">
                         <p className="font-semibold ">Designation : </p>{" "}
                         software Developer{" "}
                       </div>
                     </div>
                     <div className="flex w-[100%] min-[700px]:flex-row flex-col">
-                      <div className="w-[40%] px-2 border-2 flex py-1">
+                      <div className="w-[40%] px-2 border-2 max-[700px]:w-[100%] flex py-1">
                         <p className="font-semibold">Location : </p>{" "}
                         {voucherData?.tourLocation}
                       </div>
-                      <div className="w-[60%] px-2 border-2 flex py-1 ">
+                      <div className="w-[60%] px-2 border-2 max-[700px]:w-[100%] flex py-1 ">
                         <p className="font-semibold ">Employee id : </p>
                         IOS/EMP/5678
                       </div>
@@ -213,31 +244,31 @@ export default function VoucherViewer(props) {
                       Tour Duration
                     </p>
                     <div className="flex w-[100%] min-[700px]:flex-row flex-col">
-                      <div className="w-[50%] px-2 border-2 flex py-1">
+                      <div className="w-[50%] px-2 border-2 max-[700px]:w-[100%] flex py-1">
                         <p className="font-semibold"> Date from : </p>{" "}
                         {voucherData.voucherDescription?.departureDate}
                       </div>
-                      <div className="w-[50%] px-2 border-2 flex py-1 ">
+                      <div className="w-[50%] px-2 border-2 max-[700px]:w-[100%] flex py-1 ">
                         <p className="font-semibold ">Date to : </p>
                         {voucherData.voucherDescription?.arrivalDate}
                       </div>
                     </div>
                     <div className="flex w-[100%] min-[700px]:flex-row flex-col">
-                      <div className="w-[50%] px-2 border-2 flex py-1">
+                      <div className="w-[50%] px-2 border-2 max-[700px]:w-[100%] flex py-1">
                         <p className="font-semibold"> Time from : </p>{" "}
                         {voucherData.voucherDescription?.departureTime}
                       </div>
-                      <div className="w-[50%] px-2 border-2 flex py-1 ">
+                      <div className="w-[50%] px-2 border-2 max-[700px]:w-[100%] flex py-1 ">
                         <p className="font-semibold ">Time to : </p>{" "}
                         {voucherData.voucherDescription?.arrivalTime}
                       </div>
                     </div>
                     <div className="flex w-[100%] min-[700px]:flex-row flex-col">
-                      <div className="w-[50%] px-2 border-2 flex py-1">
+                      <div className="w-[50%] px-2 border-2 max-[700px]:w-[100%] flex py-1">
                         <p className="font-semibold"> Travel Vehicle : </p>{" "}
                         {voucherData.voucherDescription?.transportDeparture}
                       </div>
-                      <div className="w-[50%] px-2 border-2 flex py-1 ">
+                      <div className="w-[50%] px-2 border-2 max-[700px]:w-[100%] flex py-1 ">
                         <p className="font-semibold ">
                           Travel Vehicle (Return) :{" "}
                         </p>{" "}
@@ -246,8 +277,10 @@ export default function VoucherViewer(props) {
                     </div>
                     <div className="flex w-[100%] min-[700px]:flex-row flex-col">
                       <p className="w-[100%] px-2 font font-semibold bg-blue-300">
-                        Total Tour Duration (hrs) : 
-                        { Math.abs(tourDurationHours - dateDifferenceInHour).toFixed(2)}
+                        Total Tour Duration (hrs) :
+                        {Math.abs(
+                          tourDurationHours - dateDifferenceInHour
+                        ).toFixed(2)}
                       </p>
                     </div>
 
@@ -255,11 +288,11 @@ export default function VoucherViewer(props) {
                       Tour Daily Allowance (DA)
                     </p>
                     <div className="flex w-[100%] min-[700px]:flex-row flex-col">
-                      <div className="w-[50%] px-2 border-2 flex py-1">
+                      <div className="w-[50%] px-2 border-2 max-[700px]:w-[100%] flex py-1">
                         <p className="font-semibold"> DA (rs/day) : </p>{" "}
                         {+voucherData.voucherDescription?.dailyAllowance}
                       </div>
-                      <div className="w-[50%] px-2 border-2 flex py-1 ">
+                      <div className="w-[50%] px-2 border-2 max-[700px]:w-[100%] flex py-1 ">
                         <p className="font-semibold"> DA (rs/hr) : </p>{" "}
                         {(
                           +voucherData.voucherDescription?.dailyAllowance / 24
@@ -277,19 +310,19 @@ export default function VoucherViewer(props) {
                     </p>
 
                     <div className="flex w-[100%] min-[700px]:flex-row flex-col">
-                      <div className="w-[50%] px-2 border-2 flex py-1">
+                      <div className="w-[50%] px-2 border-2 max-[700px]:w-[100%] flex py-1">
                         <p className="font-semibold"> FOOD : </p> {food}
                       </div>
-                      <div className="w-[50%] px-2 border-2 flex py-1 ">
+                      <div className="w-[50%] px-2 border-2 max-[700px]:w-[100%] flex py-1 ">
                         <p className="font-semibold"> Travel : </p> {travel}
                       </div>
                     </div>
                     <div className="flex w-[100%] min-[700px]:flex-row flex-col">
-                      <div className="w-[50%] px-2 border-2 flex py-1">
+                      <div className="w-[50%] px-2 border-2 max-[700px]:w-[100%] flex py-1">
                         <p className="font-semibold"> Accomondation : </p>{" "}
                         {accomondation}
                       </div>
-                      <div className="w-[50%] px-2 border-2 flex py-1 ">
+                      <div className="w-[50%] px-2 border-2 max-[700px]:w-[100%] flex py-1 ">
                         <p className="font-semibold"> Misc : </p> {Misc}
                       </div>
                     </div>
@@ -304,33 +337,52 @@ export default function VoucherViewer(props) {
                     </p>
 
                     <div className="flex w-[100%] min-[700px]:flex-row flex-col">
-                      <div className="w-[50%] px-2 border-2 flex py-1">
+                      <div className="w-[50%] px-2 border-2 max-[700px]:w-[100%] flex py-1">
                         <p className="font-semibold">
                           {" "}
                           Credit Card (office) :{" "}
                         </p>{" "}
                         {creditCard}
                       </div>
-                      <div className="w-[50%] px-2 border-2 flex py-1 ">
+                      <div className="w-[50%] px-2 border-2 max-[700px]:w-[100%] flex py-1 ">
                         <p className="font-semibold"> Cash : </p> {CashPayment}
                       </div>
                     </div>
                     <div className="flex w-[100%] min-[700px]:flex-row flex-col font-semibold">
-                      <p className="w-[100%] px-2 border-2">
+                      <p className="w-[100%] px-2 border-2 max-[700px]:w-[100%]">
                         online (train/bus/flight tickets by office):{" "}
                         {onlinePayment}
                       </p>
                     </div>
 
                     <div className="flex w-[100%] min-[700px]:flex-row flex-col">
-                      <p className="w-[100%] px-2 font font-semibold bg-green-400 text-white">
-                        Amount for settlement :{" "}
-                        {(
-                          +CashPayment +
-                          +totalDa -
-                          +voucherData?.voucherDescription?.advanceCash
-                        ).toFixed(2)}
-                      </p>
+                      {settlementAmount > 0 && (
+                        <>
+                          {" "}
+                          <p
+                            className={`w-[100%] px-2 font font-semibold ${"bg-green-400"} text-white p-2`}
+                          >
+                            Amount for settlement : {settlementAmount}
+                            <span> (office will pay to user)</span>
+                          </p>
+                        </>
+                      )}
+                      {settlementAmount <= 0 && (
+                        <p
+                          className={`w-[100%] px-2 font font-semibold ${"bg-red-400"} text-white p-2`}
+                        >
+                          Amount for settlement : {settlementAmount}
+                          <span> (user will deposit in office)</span>
+                        </p>
+                      )}
+                      {settlementAmount == 0 ||
+                        (!settlementAmount && (
+                          <p
+                            className={`w-[100%] px-2 font font-semibold ${"bg-yellow-400"} text-white p-2`}
+                          >
+                            Amount for settlement : {settlementAmount}
+                          </p>
+                        ))}
                     </div>
                     <div className="my-2 flex w-[100%]  ">
                       <div className="font-semibold my-2 px-2">Comment</div>
@@ -339,14 +391,26 @@ export default function VoucherViewer(props) {
                         className="max-h-[100px] min-h-[50px] border-2 m-2 w-[60%]"
                       ></textarea>
                     </div>
-                    <div className="my-2 flex w-[100%] justify-evenly font-bold text-white">
-                      <p className="p-2 bg-blue-400 w-fit rounded-md hover:bg-blue-600 cursor-pointer">
-                        Accept
-                      </p>
-                      <p className="p-2 bg-orange-400 w-fit mx-2 rounded-md hover:bg-orange-600 cursor-pointer">
-                        Reject
-                      </p>
-                    </div>
+                    {voucherStatus == "Pending" && (
+                      <div className="my-2 flex w-[100%] justify-evenly font-bold text-white">
+                        <p
+                          className="p-2 bg-blue-400 w-fit rounded-md hover:bg-blue-600 cursor-pointer"
+                          onClick={() => {
+                            setVoucherStatus("Accepted");
+                          }}
+                        >
+                          Accept
+                        </p>
+                        <p
+                          className="p-2 bg-orange-400 w-fit mx-2 rounded-md hover:bg-orange-600 cursor-pointer"
+                          onClick={() => {
+                            setVoucherStatus("Rejected");
+                          }}
+                        >
+                          Reject
+                        </p>
+                      </div>
+                    )}
                   </div>
                 </Dialog.Panel>
               </Transition.Child>
