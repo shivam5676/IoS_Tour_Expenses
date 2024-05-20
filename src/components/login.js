@@ -67,21 +67,21 @@ function Login() {
           </div>
           <div className="w-[80%]  border-gray-300 flex my-2 justify-between">
           <div
-              className="bg-blue-300 p-2 rounded-md font-semibold text-white hover:bg-blue-400 cursor-pointer"
+              className="bg-blue-400 p-2 rounded-md font-semibold text-white hover:bg-blue-500 cursor-pointer"
               onClick={() => {
               
               }}
             >
               Sign in with bitrix
             </div>
-            <div
+            <div1
               className="bg-blue-400 p-2 rounded-md font-semibold text-white hover:bg-blue-500 cursor-pointer"
               onClick={() => {
                 verifyLoginHandler();
               }}
             >
               Sign in
-            </div>
+            </div1>
           </div>
         </div>
       </div>
