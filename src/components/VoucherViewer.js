@@ -9,11 +9,12 @@ import rejectedIcon from "../assests/images/rejected.png";
 export default function VoucherViewer(props) {
   console.log(props.voucherId);
   const [voucherData, setVoucherData] = useState(null);
-  const [voucherStatus, setVoucherStatus] = useState("Pending");
+  // const [voucherStatus, setVoucherStatus] = useState("Pending");
   const connectionUrl = "http://localhost:2000";
   //   const [open, setOpen] = useState(false);
   const ctx = useContext(Context);
   const cancelButtonRef = useRef(null);
+  let CommentRef = useRef();
   const firstNameRef = useRef();
   const lastNameRef = useRef();
   const emailRef = useRef();
@@ -22,9 +23,46 @@ export default function VoucherViewer(props) {
   // useEffect(() => {
   //   console.log("object");
   // }, []);
+  const acceptVoucherHandler = async () => {
+    try {
+      const response = await axios.post(
+        `${connectionUrl}/admin/acceptVoucher`,
+        {
+          voucherId: props.voucherId,
+          userId: 1,
+        }
+      );
+      // setVoucherStatus("Accepted");
 
+      console.log(voucherData);
+      setVoucherData((prev) => {
+        return { ...prev, statusType: "Accepted" };
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  };
+  const rejectVoucherHandler = async () => {
+    try {
+      const response = await axios.post(
+        `${connectionUrl}/admin/rejectVoucher`,
+        {
+          voucherId: props.voucherId,
+          // userId: 1,
+        }
+      );
+      // setVoucherStatus("Accepted");
+
+      console.log(voucherData);
+      setVoucherData((prev) => {
+        return { ...prev, statusType: "Rejected" };
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  };
   useEffect(() => {
-    setVoucherStatus("Pending")
+    // setVoucherStatus("Pending");
     async function fetchData() {
       console.log("object");
       try {
@@ -42,7 +80,6 @@ export default function VoucherViewer(props) {
     }
     fetchData();
   }, [props.voucherId]);
-  console.log(voucherData);
   let CashPayment = 0;
   let onlinePayment = 0;
   let creditCard = 0;
@@ -182,13 +219,13 @@ export default function VoucherViewer(props) {
                 leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
               >
                 <Dialog.Panel className="relative transform  rounded-lg text-left shadow-xl transition-all sm:my-8 h-[80vh] w-[80%] md:w-[600px] py-4 bg-white text-black">
-                  {voucherStatus == "Accepted" && (
+                  {voucherData.statusType == "Accepted" && (
                     <img
                       className="fixed left-4 w-[90px]  top-0 flex cursor-pointer font-bold underline"
                       src={acceptedIcon}
                     ></img>
                   )}
-                  {voucherStatus == "Rejected" && (
+                  {voucherData.statusType == "Rejected" && (
                     <img
                       className="fixed left-4 w-[90px]  top-2 flex cursor-pointer font-bold underline"
                       src={rejectedIcon}
@@ -391,12 +428,12 @@ export default function VoucherViewer(props) {
                         className="max-h-[100px] min-h-[50px] border-2 m-2 w-[60%]"
                       ></textarea>
                     </div>
-                    {voucherStatus == "Pending" && (
+                    {voucherData.statusType == "Pending" && (
                       <div className="my-2 flex w-[100%] justify-evenly font-bold text-white">
                         <p
                           className="p-2 bg-blue-400 w-fit rounded-md hover:bg-blue-600 cursor-pointer"
                           onClick={() => {
-                            setVoucherStatus("Accepted");
+                            acceptVoucherHandler();
                           }}
                         >
                           Accept
@@ -404,7 +441,8 @@ export default function VoucherViewer(props) {
                         <p
                           className="p-2 bg-orange-400 w-fit mx-2 rounded-md hover:bg-orange-600 cursor-pointer"
                           onClick={() => {
-                            setVoucherStatus("Rejected");
+                            // setVoucherStatus("Rejected");
+                            rejectVoucherHandler();
                           }}
                         >
                           Reject
