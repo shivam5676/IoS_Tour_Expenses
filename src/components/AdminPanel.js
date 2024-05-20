@@ -16,14 +16,16 @@ function AdminPanel() {
   const connectionUrl = "http://localhost:2000";
   const ctx = useContext(Context);
   const allVoucherData = ctx.allVoucherData;
-const [open,setOpen]=useState(true)
+  const [open, setOpen] = useState(true);
   useEffect(() => {
     async function fetchData() {
       try {
         const response = await axios.post(`${connectionUrl}/admin/AllVoucher`);
         const res = response.data.userList;
         console.log(res);
-        ctx.AllVoucher(response.data.userList);
+        if (response?.data?.userList) {
+          ctx.AllVoucher(response.data.userList);
+        }
       } catch (err) {
         console.log(err);
       }
@@ -51,10 +53,7 @@ const [open,setOpen]=useState(true)
   };
   console.log(dataArrayLength, vouchers);
   return (
-    <div
-      className="w-[100vw] h-[100vh] text-white font-['Poppins'] pt-[90px] bg-transparent"
-      
-    >
+    <div className="w-[100vw] h-[100vh] text-white font-['Poppins'] pt-[90px] bg-transparent">
       {/* <VoucherViewer openModal={open} closeModal={()=>setOpen(!open)}></VoucherViewer> */}
       <div className="min-[800px]:mx-4 min-[1000px]:mx-16 mx-4 min-[1200px]:mx-28 min-[1500px] flex">
         <AdminSidePanel></AdminSidePanel>

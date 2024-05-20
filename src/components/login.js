@@ -1,14 +1,16 @@
-import React, { useRef } from "react";
+import React, { useContext, useRef } from "react";
 import iosLogo from "../assests/images/ios logo.png";
 import { AiTwotoneMail } from "react-icons/ai";
 import { RiLockPasswordLine } from "react-icons/ri";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import Context from "../store/Context";
 function Login() {
   const emailRef = useRef();
   const passwordRef = useRef();
   const roleRef = useRef();
   const navigate = useNavigate();
+  const ctx=useContext(Context)
   const verifyLoginHandler = async () => {
     console.log(
       emailRef.current.value,
@@ -19,7 +21,9 @@ function Login() {
       const response = await axios.post("http://localhost:2000/login", {
         email: emailRef.current.value,
       });
-      console.log(response);
+      console.log(response.data.data);
+      localStorage.setItem("token", JSON.stringify(response.data.data));
+      ctx.loginDataHandler(response.data.data)
       navigate("/home");
     } catch (err) {
       console.log(err);

@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import iosLogo from "../assests/images/ios logo.png";
 import Context from "../store/Context";
 import SignUpModal from "./SignUpModal";
@@ -7,8 +7,14 @@ import AddTourModal from "./user/AddTourModal";
 function NavBar() {
   const [open, setOpen] = useState(false);
   const [openTourModal, setTourModal] = useState(false);
-
+  const [userType, setUserType] = useState(
+    JSON.parse(localStorage.getItem("token"))
+  );
   const ctx = useContext(Context);
+
+  useEffect(() => {
+    setUserType(JSON.parse(localStorage.getItem("token")));
+  }, [ctx.loginData]);
   // console.log(ctx.signUpModalOpen);
   const location = useLocation();
   const path = location.pathname.toUpperCase();
@@ -38,8 +44,14 @@ function NavBar() {
               Voucher Tracker
             </p>
           </a>
+          {userType?.isAdmin && (
+            <p className="bg-blue-500 p-2 rounded-md text-white font-semibold">
+              Admin Mode
+            </p>
+          )}
+          
           <div className="flex items-center space-x-6 rtl:space-x-reverse">
-            {!path == "/USER" ? (
+            {userType?.isAdmin ? (
               <a
                 onClick={() => {
                   setOpen(true);
@@ -59,12 +71,24 @@ function NavBar() {
                 Add Tour
               </a>
             )}
-            <a
-              href="/login"
-              className="text-lg font-bold text-semibold border-2 border-yellow-500 text-yellow-500 dark:text-white  px-2 rounded-md"
-            >
-              Login
-            </a>
+            {!userType ? (
+              <a
+                href="/login"
+                className="text-lg font-bold text-semibold border-2 border-yellow-500 text-yellow-500 dark:text-white  px-2 rounded-md"
+              >
+                Login
+              </a>
+            ) : (
+              <a
+                // href="/login"
+                className="text-lg font-bold text-semibold border-2 border-yellow-500 text-yellow-500 dark:text-white  px-2 rounded-md"
+                onClick={() => {
+                  ctx.logOutHandler();
+                }}
+              >
+                LogOut
+              </a>
+            )}
           </div>
         </div>
       </nav>

@@ -16,8 +16,12 @@ const Context = createContext({
   onGoingData: [],
   userCurrentTourExpenses: () => {},
   userCurrentTourExpenseData: [],
-  currentTourId: ()=>{},
+  currentTourId: () => {},
   currentTourIdData: "",
-  removeOnGoingTour:()=>{}
+  removeOnGoingTour: () => {},
+  loginDataHandler: () => {},
+  loginData: "",
+  logOutHandler:()=>{}
+
 });
 export default Context;

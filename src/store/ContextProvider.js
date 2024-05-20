@@ -12,6 +12,7 @@ const initialState = {
   onGoingData: [],
   userCurrentTourExpensesData: [],
   currentTourIdData: null,
+  loginData: null,
 };
 const reducerFn = (state, action) => {
   if (action.type === "signupModal") {
@@ -32,6 +33,7 @@ const reducerFn = (state, action) => {
     };
   }
   if (action.type === "allVoucher") {
+    console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
     return {
       ...state,
       allVoucherData: [...action.payload],
@@ -71,14 +73,31 @@ const reducerFn = (state, action) => {
     };
   }
   if (action.type == "removeOnGoingTour") {
-    console.log(action.payload)
+    console.log(action.payload);
     const arrayAfterRemove = state.onGoingData.filter((current) => {
       return current.id != action.payload;
     });
-    console.log("=>>>>",arrayAfterRemove);
+    console.log("=>>>>", arrayAfterRemove);
     return {
       ...state,
       onGoingData: arrayAfterRemove,
+    };
+  }
+  if (action.type == "saveLoginDetails") {
+    return { ...state, loginData: action.payload };
+  }
+  if (action.type == "logOut") {
+    localStorage.removeItem("token");
+    return {
+      signUpModalOpen: false,
+      allUser: [],
+      adminCurrentUserData: {},
+      allVoucherData: [],
+      userExpenseData: [],
+      onGoingData: [],
+      userCurrentTourExpensesData: [],
+      currentTourIdData: null,
+      loginData: null,
     };
   }
   return { ...state };
@@ -114,8 +133,15 @@ const ContextProvider = (props) => {
     dispatch({ type: "resetCurrentUserData" });
   };
   const removeOnGoingTourHandler = (tourId) => {
-    dispatch({ type: "removeOnGoingTour" ,payload:tourId});
+    dispatch({ type: "removeOnGoingTour", payload: tourId });
   };
+  const loginDataHandler = (userData) => {
+    dispatch({ type: "saveLoginDetails", payload: userData });
+  };
+  const logOutHandler = () => {
+    dispatch({ type: "logOut" });
+  };
+
   const contextStore = {
     signUpModal: signupModalOpenHandler,
     signUpModalOpen: currentState.signUpModalOpen,
@@ -134,6 +160,9 @@ const ContextProvider = (props) => {
     currentTourId: currentTourIdHandler,
     currentTourIdData: currentState.currentTourIdData,
     removeOnGoingTour: removeOnGoingTourHandler,
+    loginDataHandler: loginDataHandler,
+    loginData: currentState.loginData,
+    logOutHandler: logOutHandler,
   };
   return (
     <Context.Provider value={contextStore}>{props.children}</Context.Provider>

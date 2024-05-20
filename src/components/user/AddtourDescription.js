@@ -85,7 +85,7 @@ function AddtourDescriptionModal(props) {
               leaveFrom="opacity-100 translate-y-0 sm:scale-100"
               leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
             >
-              <Dialog.Panel className="relative transform overflow-hidden rounded-lg text-left shadow-xl transition-all sm:my-8 w-[80%] md:w-[500px] py-4 bg-gradient-to-r from-[#7f8f32] to-[#5da861] text-white">
+              <Dialog.Panel className="relative transform overflow-hidden rounded-lg text-left shadow-xl transition-all sm:my-8 w-[80%] md:w-[500px] py-4 bg-gradient-to-r from-[#5f9e57] to-[#759b2e] text-white">
                 <div className="text-center pb-2">
                   <div className="text-sm font-semibold flex items-center">
                     {" "}
@@ -111,7 +111,7 @@ function AddtourDescriptionModal(props) {
                   <div className="flex flex-col px-2 w-[100%] py-2">
                     <label>Arrival date</label>
                     <input
-                      className="outline-none border-2 border-white  bg-transparent text-black"
+                      className="outline-none border-2 border-white  bg-transparent text-white"
                       type="date"
                       ref={arrivalDateRef}
                     ></input>
@@ -119,7 +119,7 @@ function AddtourDescriptionModal(props) {
                   <div className="flex flex-col px-2 w-[100%] py-2">
                     <label>Departure date</label>
                     <input
-                      className="outline-none border-2 border-white  bg-transparent text-black"
+                      className="outline-none border-2 border-white  bg-transparent text-white"
                       type="date"
                       ref={departureDateRef}
                     ></input>
@@ -130,7 +130,7 @@ function AddtourDescriptionModal(props) {
                   <div className="flex flex-col px-2 w-[100%] py-2">
                     <label>Arrival Time</label>
                     <input
-                      className="outline-none border-2 border-white  bg-transparent text-black"
+                      className="outline-none border-2 border-white  bg-transparent text-white"
                       ref={arrivalTimeRef}
                       type="time"
                     ></input>
@@ -138,7 +138,7 @@ function AddtourDescriptionModal(props) {
                   <div className="flex flex-col px-2 w-[100%] py-2">
                     <label>Deparure Time</label>
                     <input
-                      className="outline-none border-2 border-white  bg-transparent text-black"
+                      className="outline-none border-2 border-white  bg-transparent text-white"
                       type="time"
                       ref={departureTimeRef}
                     ></input>
@@ -150,7 +150,7 @@ function AddtourDescriptionModal(props) {
                     <label>purpose</label>
                     <textarea
                       rows={1}
-                      className="outline-none border-2 border-white  bg-transparent text-black"
+                      className="outline-none border-2 border-white  bg-transparent text-white"
                       ref={purposeRef}
                     ></textarea>
                   </div>
@@ -173,7 +173,7 @@ function AddtourDescriptionModal(props) {
                   <div className="flex flex-col px-2 w-[100%] py-2">
                     <label>Transport (Departure)</label>
                     <select
-                      className="outline-none border-2 text-black font-semibold border-white  bg-transparent text-black"
+                      className="outline-none border-2 text-black font-semibold border-white  bg-transparent "
                       ref={transportArrivalRef}
                       onChange={(e) => {
                         // paymentTypeRef.current.value = e.target.value;
@@ -189,14 +189,14 @@ function AddtourDescriptionModal(props) {
                   <div className="flex flex-col px-2 w-[100%] py-2">
                     <label>Advance Cash (if taken)</label>
                     <input
-                      className="outline-none border-2 border-white  bg-transparent text-black"
+                      className="outline-none border-2 border-white  bg-transparent text-white"
                       ref={advanceCashRef}
                     ></input>
                   </div>
                   <div className="flex flex-col px-2 w-[100%] py-2">
                     <label>Daily allowance</label>
                     <input
-                      className="outline-none border-2 border-white  bg-transparent text-black"
+                      className="outline-none border-2 border-white  bg-transparent text-white"
                       type="number"
                       ref={dailyAllowanceRef}
                     ></input>
