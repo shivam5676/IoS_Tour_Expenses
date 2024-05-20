@@ -18,7 +18,9 @@ function AddExpenseModal(props) {
   const voucherRef = useRef();
   const paymentTypeRef = useRef();
   const dateRef = useRef(null);
+  const user = JSON.parse(localStorage.getItem("token"));
   const saveExpenseHandler = async () => {
+    console.log(user);
     const data = {
       date: dateRef.current.value,
       amount: amountRef.current.value,
@@ -27,7 +29,7 @@ function AddExpenseModal(props) {
       paymentType: paymentTypeRef.current.value,
       description: descriptionRef.current.value,
       voucherId: ctx.currentTourIdData,
-      userId: 1,
+      userId: user.id,
     };
     try {
       const response = await axios.post(

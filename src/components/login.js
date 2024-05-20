@@ -65,9 +65,17 @@ function Login() {
               <option>Employee</option>
             </select>
           </div>
-          <div className="w-[80%]  border-gray-300 flex my-2 justify-end">
+          <div className="w-[80%]  border-gray-300 flex my-2 justify-between">
+          <div
+              className="bg-blue-300 p-2 rounded-md font-semibold text-white hover:bg-blue-400 cursor-pointer"
+              onClick={() => {
+              
+              }}
+            >
+              Sign in with bitrix
+            </div>
             <div
-              className="bg-blue-300 p-2 rounded-md font-semibold text-white hover:bg-blue-500 cursor-pointer"
+              className="bg-blue-400 p-2 rounded-md font-semibold text-white hover:bg-blue-500 cursor-pointer"
               onClick={() => {
                 verifyLoginHandler();
               }}

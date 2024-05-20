@@ -21,11 +21,12 @@ function AddTourModal(props) {
   const ctx = useContext(Context);
 
   const cancelButtonRef = useRef(null);
+  const user = JSON.parse(localStorage.getItem("token"));
 
   const saveTourHandler = async () => {
     try {
       const response = await axios.post(`${connectionUrl}/user/createTour`, {
-        userId: 1,
+        userId: user.id,
         city: citySelected,
       });
       const res = response.data.voucher;

@@ -46,14 +46,14 @@ function AdminReportPanel() {
               <p className="p-2 font-bold text-2xl">Report Generation :</p>
               <div className="flex items-center text-yellow-400 font-bold">
                 <select
-                  className="border-2 border-white bg-transparent px-2"
+                  className="border-2 border-white bg-transparent px-2 font-bold"
                   onChange={handleReportTypeChange}
                 >
-                  <option value="All">All Time</option>
-                  <option value="yyyy">Year wise</option>
-                  <option value="mm/yyyy">Month wise</option>
-                  <option value="user">User wise</option>
-                  <option value="token">Token wise</option>
+                  <option value="All" className="bg-gray-500 text-white font-semibold">All Time</option>
+                  <option value="yyyy"  className="bg-gray-500 text-white font-semibold">Year wise</option>
+                  <option value="mm/yyyy"  className="bg-gray-500 text-white font-semibold">Month wise</option>
+                  <option value="user"  className="bg-gray-500 text-white font-semibold">User wise</option>
+                  <option value="token"  className="bg-gray-500 text-white font-semibold">Token wise</option>
                 </select>
               </div>
               {reportType != "All" &&

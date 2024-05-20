@@ -10,11 +10,13 @@ function UserHomePage() {
   const connectionUrl = "http://localhost:2000";
   const ctx = useContext(Context);
   const [tourSelected, setTourSelected] = useState(false);
+  const user = JSON.parse(localStorage.getItem("token"));
+
   useEffect(() => {
     const fetchTour = async () => {
       try {
         const response = await axios.post(`${connectionUrl}/user/gettour`, {
-          userId: 1,
+          userId: user.id,
         });
 
         const res = response.data;
