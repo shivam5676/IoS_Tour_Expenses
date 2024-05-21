@@ -93,14 +93,10 @@ function Login() {
     }
   };
   const bitrixHandler = useCallback(async () => {
-    console.log("called")
-    const REDIRECT_URI = 'http://localhost:3000/home';
-    const CLIENT_ID = "local.6648983f0cc5d5.97469898";
-    const queryParams = queryString.stringify({
-      response_type: 'code',
-      client_id: CLIENT_ID,
-      redirect_uri: REDIRECT_URI
-    });
+
+    const response = await axios.get(`http://localhost:2000/queryParams/`);
+    console.log(response.data.data)
+    const queryParams = response.data.data;
     const authorizationUrl = `https://oipl.bitrix24.in/oauth/authorize?${queryParams}`;
     // Redirect the user to the Bitrix24 authorization URL
     window.location.href = authorizationUrl;
