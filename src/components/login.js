@@ -5,14 +5,13 @@ import { RiLockPasswordLine } from "react-icons/ri";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Context from "../store/Context";
-import queryString from 'query-string';
+import queryString from "query-string";
 
 function Login() {
   const emailRef = useRef();
   const passwordRef = useRef();
   const roleRef = useRef();
   const navigate = useNavigate();
-  const ctx = useContext(Context)
   // useEffect(() => {
   //   console.log("use called")
   //   // This script should be included in the /home page
@@ -20,8 +19,18 @@ function Login() {
   //     // Step 1: Create a new URL object
   //     const url = new URL(window.location.href);
 
+  const ctx = useContext(Context);
+  useEffect(() => {
+    console.log("use called");
+    // This script should be included in the /home page
+    window.onload = function () {
+      // Step 1: Create a new URL object
+      const url = new URL(window.location.href);
+
+
   //     // Step 2: Get the search parameters
   //     const params = url.searchParams;
+
 
   //     // Step 3: Retrieve the desired query parameter
   //     const code = params.get('code');
@@ -74,6 +83,9 @@ function Login() {
       console.log('No authorization code found in the URL.');
     }
   }, []);
+
+   
+
   const verifyLoginHandler = async () => {
     console.log(
       emailRef.current.value,
@@ -84,15 +96,16 @@ function Login() {
       const response = await axios.post("http://localhost:2000/login", {
         email: emailRef.current.value,
       });
-      console.log(response.data.data);
-      localStorage.setItem("token", JSON.stringify(response.data.data));
-      ctx.loginDataHandler(response.data.data)
+      // console.log(response.data);
+      localStorage.setItem("data", JSON.stringify(response.data.data));
+      ctx.loginDataHandler(response.data.data);
       navigate("/home");
     } catch (err) {
       console.log(err);
     }
   };
   const bitrixHandler = useCallback(async () => {
+
 
     const response = await axios.get(`http://localhost:2000/queryParams/`);
     console.log(response.data.data)
@@ -101,6 +114,9 @@ function Login() {
     // Redirect the user to the Bitrix24 authorization URL
     window.location.href = authorizationUrl;
   }, [])
+
+ 
+
   return (
     <div className="w-[100vw] h-[100vh] bg-transparent flex items-center justify-center">
       <div className="w-[400px] bg-white pb-8 shadow-emerald-900 shadow-lg rounded-md">
