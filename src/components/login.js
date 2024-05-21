@@ -12,59 +12,21 @@ function Login() {
   const passwordRef = useRef();
   const roleRef = useRef();
   const navigate = useNavigate();
-  // useEffect(() => {
-  //   console.log("use called")
-  //   // This script should be included in the /home page
-  //   window.onload = function () {
-  //     // Step 1: Create a new URL object
-  //     const url = new URL(window.location.href);
-
   const ctx = useContext(Context);
-  useEffect(() => {
-    console.log("use called");
-    // This script should be included in the /home page
-    window.onload = function () {
-      // Step 1: Create a new URL object
-      const url = new URL(window.location.href);
-
-
-  //     // Step 2: Get the search parameters
-  //     const params = url.searchParams;
-
-
-  //     // Step 3: Retrieve the desired query parameter
-  //     const code = params.get('code');
-
-  //     if (code) {
-  //       const getAccessToken = async () => {
-  //         const response = await axios.get(`http://localhost:2000/callback/${code}`)
-  //         console.log(response.data.data);
-  //         localStorage.setItem("token", JSON.stringify(response.data.data));
-  //         ctx.loginDataHandler(response.data.data);
-  //         window.location.href = "http://localhost:3000/home"
-  //         // navigate("/home");
-  //       }
-
-  //       getAccessToken()
-
-  //     } else {
-  //       console.log('No authorization code found in the URL.');
-  //     }
-  //   };
-
-  // }, [window.onload])
 
   useEffect(() => {
     console.log("useEffect called");
 
     const url = new URL(window.location.href);
     const params = url.searchParams;
-    const code = params.get('code');
+    const code = params.get("code");
 
     if (code) {
       const getAccessToken = async () => {
         try {
-          const response = await axios.get(`http://localhost:2000/callback/${code}`);
+          const response = await axios.get(
+            `http://localhost:2000/callback/${code}`
+          );
           if (response.data.data.access_token) {
             localStorage.setItem("token", JSON.stringify(response.data.data));
             ctx.loginDataHandler(response.data.data);
@@ -72,19 +34,16 @@ function Login() {
           } else {
             window.location.href = "http://localhost:3000";
           }
-
         } catch (error) {
-          console.error('Error fetching the access token', error);
+          console.error("Error fetching the access token", error);
         }
       };
 
       getAccessToken();
     } else {
-      console.log('No authorization code found in the URL.');
+      console.log("No authorization code found in the URL.");
     }
   }, []);
-
-   
 
   const verifyLoginHandler = async () => {
     console.log(
@@ -105,17 +64,13 @@ function Login() {
     }
   };
   const bitrixHandler = useCallback(async () => {
-
-
     const response = await axios.get(`http://localhost:2000/queryParams/`);
-    console.log(response.data.data)
+    console.log(response.data.data);
     const queryParams = response.data.data;
     const authorizationUrl = `https://oipl.bitrix24.in/oauth/authorize?${queryParams}`;
     // Redirect the user to the Bitrix24 authorization URL
     window.location.href = authorizationUrl;
-  }, [])
-
- 
+  }, []);
 
   return (
     <div className="w-[100vw] h-[100vh] bg-transparent flex items-center justify-center">
