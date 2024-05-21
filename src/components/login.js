@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useRef } from "react";
+import React, { useCallback, useContext, useEffect, useRef } from "react";
 import iosLogo from "../assests/images/ios logo.png";
 import { AiTwotoneMail } from "react-icons/ai";
 import { RiLockPasswordLine } from "react-icons/ri";
@@ -13,6 +13,36 @@ function Login() {
   const roleRef = useRef();
   const navigate = useNavigate();
   const ctx = useContext(Context)
+  useEffect(() => {
+    console.log("use called")
+    // This script should be included in the /home page
+    window.onload = function () {
+      // Step 1: Create a new URL object
+      const url = new URL(window.location.href);
+
+      // Step 2: Get the search parameters
+      const params = url.searchParams;
+
+      // Step 3: Retrieve the desired query parameter
+      const code = params.get('code');
+
+      if (code) {
+        const getAccessToken = async () => {
+          const response = await axios.get(`http://localhost:2000/callback/${code}`)
+          console.log(response.data.data);
+          localStorage.setItem("token", JSON.stringify(response.data.data));
+          ctx.loginDataHandler(response.data.data)
+          navigate("/home");
+        }
+
+        getAccessToken()
+
+      } else {
+        console.log('No authorization code found in the URL.');
+      }
+    };
+
+  }, [window.onload])
   const verifyLoginHandler = async () => {
     console.log(
       emailRef.current.value,
@@ -32,6 +62,7 @@ function Login() {
     }
   };
   const bitrixHandler = useCallback(async () => {
+    console.log("called")
     const REDIRECT_URI = 'http://localhost:3000/home';
     const CLIENT_ID = "local.6648983f0cc5d5.97469898";
     const queryParams = queryString.stringify({
@@ -43,6 +74,17 @@ function Login() {
 
     // Redirect the user to the Bitrix24 authorization URL
     window.location.href = authorizationUrl;
+    // Step 1: Create a new URL object
+    const url = new URL(window.location.href);
+
+    // Step 2: Get the search parameters
+    const params = url.searchParams;
+
+    // Step 3: Retrieve the desired query parameter
+    const code = params.get('code');
+
+    console.log(code); // Output: 1234
+
   }, [])
   return (
     <div className="w-[100vw] h-[100vh] bg-transparent flex items-center justify-center">
@@ -87,14 +129,14 @@ function Login() {
             >
               Sign in with bitrix
             </div>
-            <div1
+            <div
               className="bg-blue-400 p-2 rounded-md font-semibold text-white hover:bg-blue-500 cursor-pointer"
               onClick={() => {
                 verifyLoginHandler();
               }}
             >
               Sign in
-            </div1>
+            </div>
           </div>
         </div>
       </div>
