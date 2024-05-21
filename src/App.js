@@ -53,7 +53,7 @@ function App() {
             {!isLoggedIn.isAdmin && (
               <>
                 <Route
-                  path="/*"
+                  path="*"
                   element={<UserHomePage></UserHomePage>}
                 ></Route>
               </>

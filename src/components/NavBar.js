@@ -84,6 +84,7 @@ function NavBar() {
                 className="text-lg font-bold text-semibold border-2 border-yellow-500 text-yellow-500 dark:text-white  px-2 rounded-md"
                 onClick={() => {
                   ctx.logOutHandler();
+                
                 }}
               >
                 LogOut

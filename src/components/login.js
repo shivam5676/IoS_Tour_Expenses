@@ -21,9 +21,9 @@ function Login() {
       const response = await axios.post("http://localhost:2000/login", {
         email: emailRef.current.value,
       });
-      console.log(response.data.data);
-      localStorage.setItem("token", JSON.stringify(response.data.data));
-      ctx.loginDataHandler(response.data.data)
+      // console.log(response.data);
+      localStorage.setItem("data", JSON.stringify(response.data.data));
+      ctx.loginDataHandler(response.data)
       navigate("/home");
     } catch (err) {
       console.log(err);
