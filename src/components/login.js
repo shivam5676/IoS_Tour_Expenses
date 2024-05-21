@@ -1,16 +1,49 @@
-import React, { useContext, useRef } from "react";
+import React, { useCallback, useContext, useEffect, useRef } from "react";
 import iosLogo from "../assests/images/ios logo.png";
 import { AiTwotoneMail } from "react-icons/ai";
 import { RiLockPasswordLine } from "react-icons/ri";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Context from "../store/Context";
+import queryString from 'query-string';
+
 function Login() {
   const emailRef = useRef();
   const passwordRef = useRef();
   const roleRef = useRef();
   const navigate = useNavigate();
-  const ctx=useContext(Context)
+  const ctx = useContext(Context)
+  useEffect(() => {
+    console.log("use called")
+    // This script should be included in the /home page
+    window.onload = function () {
+      // Step 1: Create a new URL object
+      const url = new URL(window.location.href);
+
+      // Step 2: Get the search parameters
+      const params = url.searchParams;
+
+      // Step 3: Retrieve the desired query parameter
+      const code = params.get('code');
+
+      if (code) {
+        const getAccessToken = async () => {
+          const response = await axios.get(`http://localhost:2000/callback/${code}`)
+          console.log(response.data.data);
+          localStorage.setItem("token", JSON.stringify(response.data.data));
+          ctx.loginDataHandler(response.data.data);
+          window.location.href = "http://localhost:3000/home"
+          // navigate("/home");
+        }
+
+        getAccessToken()
+
+      } else {
+        console.log('No authorization code found in the URL.');
+      }
+    };
+
+  }, [window.onload])
   const verifyLoginHandler = async () => {
     console.log(
       emailRef.current.value,
@@ -29,6 +62,21 @@ function Login() {
       console.log(err);
     }
   };
+  const bitrixHandler = useCallback(async () => {
+    console.log("called")
+    const REDIRECT_URI = 'http://localhost:3000/home';
+    const CLIENT_ID = "local.6648983f0cc5d5.97469898";
+    const queryParams = queryString.stringify({
+      response_type: 'code',
+      client_id: CLIENT_ID,
+      redirect_uri: REDIRECT_URI
+    });
+    const authorizationUrl = `https://oipl.bitrix24.in/oauth/authorize?${queryParams}`;
+    // Redirect the user to the Bitrix24 authorization URL
+    window.location.href = authorizationUrl;
+
+
+  }, [])
   return (
     <div className="w-[100vw] h-[100vh] bg-transparent flex items-center justify-center">
       <div className="w-[400px] bg-white pb-8 shadow-emerald-900 shadow-lg rounded-md">
@@ -66,22 +114,20 @@ function Login() {
             </select>
           </div>
           <div className="w-[80%]  border-gray-300 flex my-2 justify-between">
-          <div
+            <div
               className="bg-blue-400 p-2 rounded-md font-semibold text-white hover:bg-blue-500 cursor-pointer"
-              onClick={() => {
-              
-              }}
+              onClick={bitrixHandler}
             >
               Sign in with bitrix
             </div>
-            <div1
+            <div
               className="bg-blue-400 p-2 rounded-md font-semibold text-white hover:bg-blue-500 cursor-pointer"
               onClick={() => {
                 verifyLoginHandler();
               }}
             >
               Sign in
-            </div1>
+            </div>
           </div>
         </div>
       </div>

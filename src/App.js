@@ -37,10 +37,10 @@ function App() {
         {isLoggedIn && (
           <>
             {" "}
-            {isLoggedIn.isAdmin && (
+            {!isLoggedIn && (
               <>
                 <Route
-                  path="/adminUser"
+                  path="/home"
                   element={<AdminUserPanel></AdminUserPanel>}
                 ></Route>
                 <Route
@@ -50,7 +50,7 @@ function App() {
                 <Route path="*" element={<AdminPanel></AdminPanel>}></Route>
               </>
             )}
-            {!isLoggedIn.isAdmin && (
+            {!isLoggedIn && (
               <>
                 <Route
                   path="*"
