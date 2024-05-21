@@ -1,10 +1,10 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-
 import CountUp from "react-countup";
-import BarChartYear from "./barChartYearWise";
+import BarChartUser from "./BarChartUser";
+// import LineChart from "./barChartYearWise";
 
-function YearWiseReportGeneration() {
+function UserWiseReportGeneration() {
   const connectionUrl = "http://localhost:2000";
   const [reportData, setReportData] = useState(null);
   const [expenseData, setExpenseData] = useState({
@@ -32,72 +32,60 @@ function YearWiseReportGeneration() {
     async function fetchFilterData() {
       try {
         const response = await axios.post(
-          `${connectionUrl}/admin/year?year=${2024}`
+          `${connectionUrl}/admin/user?uid=${1}`
         );
-        console.log(response.data.data);
-        response.data.data.forEach((current) => {
-          const dateObj = new Date(current.date);
-          const MonthIndex = dateObj.getMonth();
-          const monthName = monthNameArray[MonthIndex];
-          console.log(monthName);
-          if (monthName in expensesObj) {
-            console.log("object exists for", monthName);
-            // expensesObj[monthName] += 1;
-            if (current.expenseType == "Travel") {
-              expensesObj[monthName].travel += +current.Amount;
+        console.log(response.data);
+        response.data.forEach((current) => {
+          const uniqueKey = `${current.tourLocation}-${current.tourDate}`; // Assuming 'tourId' is a unique identifier for each tour
+          console.log(uniqueKey);
+          expensesObj[uniqueKey] = {
+            food: 0,
+            travel: 0,
+            accomondation: 0,
+            misc: 0,
+            // cash: 0,
+            // digitalpayment: 0,
+          };
+          current.voucherExpenses.forEach((currentExpense) => {
+            console.log(currentExpense.expenseType);
+            if (currentExpense.expenseType === "Food(Da)") {
+              expensesObj[uniqueKey].food += +currentExpense.Amount;
             }
-            if (current.expenseType == "Accomondation") {
-              expensesObj[monthName].acc += +current.Amount;
+            if (currentExpense.expenseType === "Travel") {
+              expensesObj[uniqueKey].travel += +currentExpense.Amount;
             }
-            if (current.expenseType == "Misc") {
-              expensesObj[monthName].misc += +current.Amount;
+            if (currentExpense.expenseType === "Accomondation") {
+              expensesObj[uniqueKey].accomondation += +currentExpense.Amount;
             }
-            if (current.expenseType == "Food(Da)") {
-              expensesObj[monthName].food += +current.Amount;
+            if (currentExpense.expenseType === "Misc") {
+              expensesObj[uniqueKey].misc += +currentExpense.Amount;
             }
-            if (current.paymentType == "Cash") {
-              cashExpense += +current.Amount;
+            if (currentExpense.paymentType === "Cash") {
+              setExpenseData((prev) => {
+                return {
+                  cashExpense: prev.cashExpense + +currentExpense.Amount,
+                  digitalExpense: prev.digitalExpense,
+                };
+              });
+            } else {
+              setExpenseData((prev) => {
+                return {
+                  cashExpense: prev.cashExpense,
+                  digitalExpense: prev.digitalExpense + +currentExpense.Amount,
+                };
+              });
             }
-            if (
-              current.paymentType == "Online (train/flight)" ||
-              current.paymentType == "Credit Card"
-            ) {
-              digitalExpense += +current.Amount;
-            }
-          } else {
-            expensesObj[monthName] = {
-              acc:
-                current.expenseType === "Accomondation" ? +current.Amount : 0,
-              food: current.expenseType === "Food(Da)" ? +current.Amount : 0,
-              misc: current.expenseType === "Misc" ? +current.Amount : 0,
-              travel: current.expenseType === "Travel" ? +current.Amount : 0,
-            };
-            if (current.paymentType == "Cash") {
-              cashExpense += +current.Amount;
-            }
-            if (
-              current.paymentType == "Online (train/flight)" ||
-              current.paymentType == "Credit Card"
-            ) {
-              digitalExpense += +current.Amount;
-            }
-          }
+          });
         });
-
+        console.log(expensesObj);
         setReportData(expensesObj);
-        setExpenseData((prev) => {
-          return { cashExpense: cashExpense, digitalExpense: digitalExpense };
-        });
-        console.log(expensesObj, cashExpense, digitalExpense);
-        // setReportData(response.data.data);
-        // ctx.AllVoucher(response.data.userList);
       } catch (err) {
         console.log(err);
       }
     }
     fetchFilterData();
   }, []);
-  // let jan=[];
+  console.log(expenseData);
   return (
     <>
       <div className="flex ">
@@ -107,9 +95,10 @@ function YearWiseReportGeneration() {
             <p>
               {" "}
               <CountUp
-                end={expenseData.digitalExpense + expenseData.cashExpense}
+                end={expenseData.cashExpense+ expenseData.digitalExpense}
                 duration={2.2}
-              /> Rs
+              />{" "}
+              Rs
             </p>
           </div>
         </div>{" "}
@@ -139,14 +128,15 @@ function YearWiseReportGeneration() {
           </div>
           <div className="bg-gradient-to-r from-white to-black flex-1 h-[2px]"></div>
         </div>
-        <BarChartYear
+        {/* <LineChart
           headers={monthNameArray}
           expenseData={reportData}
-        ></BarChartYear>
+        ></LineChart> */}
+        {reportData && <BarChartUser reportData={reportData}></BarChartUser>}{" "}
         <p className="mb-16"></p>
       </div>
     </>
   );
 }
 
-export default YearWiseReportGeneration;
+export default UserWiseReportGeneration;

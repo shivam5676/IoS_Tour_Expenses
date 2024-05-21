@@ -11,7 +11,7 @@ import {
 
 import { Bar } from "react-chartjs-2";
 // import faker from "faker";
-function LineChart(props) {
+function BarChartYear(props) {
   ChartJS.register(
     CategoryScale,
     LinearScale,
@@ -92,4 +92,4 @@ function LineChart(props) {
   );
 }
 
-export default LineChart;
+export default BarChartYear;
