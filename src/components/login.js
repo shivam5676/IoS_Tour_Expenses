@@ -31,8 +31,9 @@ function Login() {
           const response = await axios.get(`http://localhost:2000/callback/${code}`)
           console.log(response.data.data);
           localStorage.setItem("token", JSON.stringify(response.data.data));
-          ctx.loginDataHandler(response.data.data)
-          navigate("/home");
+          ctx.loginDataHandler(response.data.data);
+          window.location.href = "http://localhost:3000/home"
+          // navigate("/home");
         }
 
         getAccessToken()
@@ -71,19 +72,9 @@ function Login() {
       redirect_uri: REDIRECT_URI
     });
     const authorizationUrl = `https://oipl.bitrix24.in/oauth/authorize?${queryParams}`;
-
     // Redirect the user to the Bitrix24 authorization URL
     window.location.href = authorizationUrl;
-    // Step 1: Create a new URL object
-    const url = new URL(window.location.href);
 
-    // Step 2: Get the search parameters
-    const params = url.searchParams;
-
-    // Step 3: Retrieve the desired query parameter
-    const code = params.get('code');
-
-    console.log(code); // Output: 1234
 
   }, [])
   return (
