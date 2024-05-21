@@ -1,7 +1,8 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import LineChart from "./lineChart";
+
 import CountUp from "react-countup";
+import BarChartYear from "./barChartYearWise";
 
 function YearWiseReportGeneration() {
   const connectionUrl = "http://localhost:2000";
@@ -138,10 +139,10 @@ function YearWiseReportGeneration() {
           </div>
           <div className="bg-gradient-to-r from-white to-black flex-1 h-[2px]"></div>
         </div>
-        <LineChart
+        <BarChartYear
           headers={monthNameArray}
           expenseData={reportData}
-        ></LineChart>
+        ></BarChartYear>
         <p className="mb-16"></p>
       </div>
     </>

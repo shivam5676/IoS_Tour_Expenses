@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import AdminSidePanel from "./AdminSidePanel";
 import DatePicker from "react-datepicker";
-import LineChart from "./lineChart";
 import axios from "axios";
 import YearWiseReportGeneration from "./YearWiseReportGeneration";
 import UserWiseReportGeneration from "./UserWiseReportGeneration";
+import TokenWiseReport from "./tokenWiseReport";
 function AdminReportPanel() {
   const connectionUrl = "http://localhost:2000";
 
@@ -51,22 +51,10 @@ function AdminReportPanel() {
                   onChange={handleReportTypeChange}
                 >
                   <option
-                    value="All"
-                    className="bg-gray-500 text-white font-semibold"
-                  >
-                    All Time
-                  </option>
-                  <option
                     value="yyyy"
                     className="bg-gray-500 text-white font-semibold"
                   >
                     Year wise
-                  </option>
-                  <option
-                    value="mm/yyyy"
-                    className="bg-gray-500 text-white font-semibold"
-                  >
-                    Month wise
                   </option>
                   <option
                     value="user"
@@ -78,7 +66,19 @@ function AdminReportPanel() {
                     value="token"
                     className="bg-gray-500 text-white font-semibold"
                   >
-                    Token wise
+                    Voucher wise
+                  </option>{" "}
+                  <option
+                    value="mm/yyyy"
+                    className="bg-gray-500 text-white font-semibold"
+                  >
+                    Month wise
+                  </option>
+                  <option
+                    value="All"
+                    className="bg-gray-500 text-white font-semibold"
+                  >
+                    All Time
                   </option>
                 </select>
               </div>
@@ -127,6 +127,7 @@ function AdminReportPanel() {
             {reportType === "user" && (
               <UserWiseReportGeneration></UserWiseReportGeneration>
             )}
+            {reportType === "token" && <TokenWiseReport></TokenWiseReport>}
           </div>
         </div>
       </div>

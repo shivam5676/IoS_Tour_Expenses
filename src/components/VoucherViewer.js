@@ -159,15 +159,12 @@ export default function VoucherViewer(props) {
     }
   }
 
-  // Example usage with the provided object
-
   let dateDifferenceInHour = calculateHourDifference();
   const totalDa = (
     (Math.abs(tourDurationHours - dateDifferenceInHour) *
       +voucherData?.voucherDescription?.dailyAllowance) /
     24
   ).toFixed(2);
-  console.log("Difference in hours:" + tourDurationHours, dateDifferenceInHour);
 
   // Parse the departure and arrival dates and times
   //  const departureDateTime = new Date(`${voucherData.voucherDescription.departureDate}T${voucherData.voucherDescription.departureTime}`);

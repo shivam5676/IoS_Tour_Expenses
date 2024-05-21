@@ -1,7 +1,8 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import CountUp from "react-countup";
-import LineChart from "./lineChart";
+import BarChartUser from "./BarChartUser";
+// import LineChart from "./barChartYearWise";
 
 function UserWiseReportGeneration() {
   const connectionUrl = "http://localhost:2000";
@@ -35,46 +36,56 @@ function UserWiseReportGeneration() {
         );
         console.log(response.data);
         response.data.forEach((current) => {
-          expensesObj[current.tourLocation] = {
+          const uniqueKey = `${current.tourLocation}-${current.tourDate}`; // Assuming 'tourId' is a unique identifier for each tour
+          console.log(uniqueKey);
+          expensesObj[uniqueKey] = {
             food: 0,
             travel: 0,
             accomondation: 0,
             misc: 0,
-            cash: 0,
-            digitalpayment: 0,
+            // cash: 0,
+            // digitalpayment: 0,
           };
           current.voucherExpenses.forEach((currentExpense) => {
             console.log(currentExpense.expenseType);
             if (currentExpense.expenseType === "Food(Da)") {
-              expensesObj[current.tourLocation].food += +currentExpense.Amount;
+              expensesObj[uniqueKey].food += +currentExpense.Amount;
             }
             if (currentExpense.expenseType === "Travel") {
-              expensesObj[current.tourLocation].travel +=
-                +currentExpense.Amount;
+              expensesObj[uniqueKey].travel += +currentExpense.Amount;
             }
             if (currentExpense.expenseType === "Accomondation") {
-              expensesObj[current.tourLocation].accomondation +=
-                +currentExpense.Amount;
+              expensesObj[uniqueKey].accomondation += +currentExpense.Amount;
             }
             if (currentExpense.expenseType === "Misc") {
-              expensesObj[current.tourLocation].misc += +currentExpense.Amount;
+              expensesObj[uniqueKey].misc += +currentExpense.Amount;
             }
             if (currentExpense.paymentType === "Cash") {
-              expensesObj[current.tourLocation].cash += +currentExpense.Amount;
-            }
-            else{
-                expensesObj[current.tourLocation].digitalpayment += +currentExpense.Amount;
-
+              setExpenseData((prev) => {
+                return {
+                  cashExpense: prev.cashExpense + +currentExpense.Amount,
+                  digitalExpense: prev.digitalExpense,
+                };
+              });
+            } else {
+              setExpenseData((prev) => {
+                return {
+                  cashExpense: prev.cashExpense,
+                  digitalExpense: prev.digitalExpense + +currentExpense.Amount,
+                };
+              });
             }
           });
         });
         console.log(expensesObj);
+        setReportData(expensesObj);
       } catch (err) {
         console.log(err);
       }
     }
     fetchFilterData();
   }, []);
+  console.log(expenseData);
   return (
     <>
       <div className="flex ">
@@ -84,7 +95,7 @@ function UserWiseReportGeneration() {
             <p>
               {" "}
               <CountUp
-                end={expenseData.digitalExpense + expenseData.cashExpense}
+                end={expenseData.cashExpense+ expenseData.digitalExpense}
                 duration={2.2}
               />{" "}
               Rs
@@ -121,6 +132,7 @@ function UserWiseReportGeneration() {
           headers={monthNameArray}
           expenseData={reportData}
         ></LineChart> */}
+        {reportData && <BarChartUser reportData={reportData}></BarChartUser>}{" "}
         <p className="mb-16"></p>
       </div>
     </>
