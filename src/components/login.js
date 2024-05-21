@@ -5,16 +5,16 @@ import { RiLockPasswordLine } from "react-icons/ri";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Context from "../store/Context";
-import queryString from 'query-string';
+import queryString from "query-string";
 
 function Login() {
   const emailRef = useRef();
   const passwordRef = useRef();
   const roleRef = useRef();
   const navigate = useNavigate();
-  const ctx = useContext(Context)
+  const ctx = useContext(Context);
   useEffect(() => {
-    console.log("use called")
+    console.log("use called");
     // This script should be included in the /home page
     window.onload = function () {
       // Step 1: Create a new URL object
@@ -24,26 +24,26 @@ function Login() {
       const params = url.searchParams;
 
       // Step 3: Retrieve the desired query parameter
-      const code = params.get('code');
+      const code = params.get("code");
 
       if (code) {
         const getAccessToken = async () => {
-          const response = await axios.get(`http://localhost:2000/callback/${code}`)
-          console.log(response.data.data);
+          const response = await axios.get(
+            `http://localhost:2000/callback/${code}`
+          );
+          console.log("response",".........");
           localStorage.setItem("token", JSON.stringify(response.data.data));
           ctx.loginDataHandler(response.data.data);
-          window.location.href = "http://localhost:3000/home"
+          window.location.href = "http://localhost:3000/home";
           // navigate("/home");
-        }
+        };
 
-        getAccessToken()
-
+        getAccessToken();
       } else {
-        console.log('No authorization code found in the URL.');
+        console.log("No authorization code found in the URL.");
       }
     };
-
-  }, [window.onload])
+  }, [window.onload]);
   const verifyLoginHandler = async () => {
     console.log(
       emailRef.current.value,
@@ -56,27 +56,25 @@ function Login() {
       });
       // console.log(response.data);
       localStorage.setItem("data", JSON.stringify(response.data.data));
-      ctx.loginDataHandler(response.data)
+      ctx.loginDataHandler(response.data.data);
       navigate("/home");
     } catch (err) {
       console.log(err);
     }
   };
   const bitrixHandler = useCallback(async () => {
-    console.log("called")
-    const REDIRECT_URI = 'http://localhost:3000/home';
+    console.log("called");
+    const REDIRECT_URI = "http://localhost:3000/home";
     const CLIENT_ID = "local.6648983f0cc5d5.97469898";
     const queryParams = queryString.stringify({
-      response_type: 'code',
+      response_type: "code",
       client_id: CLIENT_ID,
-      redirect_uri: REDIRECT_URI
+      redirect_uri: REDIRECT_URI,
     });
     const authorizationUrl = `https://oipl.bitrix24.in/oauth/authorize?${queryParams}`;
     // Redirect the user to the Bitrix24 authorization URL
     window.location.href = authorizationUrl;
-
-
-  }, [])
+  }, []);
   return (
     <div className="w-[100vw] h-[100vh] bg-transparent flex items-center justify-center">
       <div className="w-[400px] bg-white pb-8 shadow-emerald-900 shadow-lg rounded-md">

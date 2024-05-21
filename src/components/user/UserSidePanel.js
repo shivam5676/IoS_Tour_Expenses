@@ -1,11 +1,14 @@
-import React from "react";
+import React, { useContext } from "react";
 import { FaRegUserCircle } from "react-icons/fa";
 import { MdEmail } from "react-icons/md";
 import { IoMdCall } from "react-icons/io";
 import iosLogo from "../../assests/images/ios logo.png";
 import { useNavigate } from "react-router-dom";
+import Context from "../../store/Context";
 function UserSidePanel() {
   const navigate = useNavigate();
+  const ctx=useContext(Context)
+  console.log(ctx.loginData)
   return (
     <div className="w-[250px] h-[81vh]  min-[980px]:w-[300px]  bg-white text-black rounded-2xl my-0 shadow-md shadow-gray-700 font-['Poppins']">
       <div className="bg-gradient-to-r from-[#EA8D8D] to-[#553cb1] h-[150px] rounded-md m-4 max-w-[270px] text-white">

@@ -2,9 +2,10 @@ import React, { useContext, useEffect, useState } from "react";
 import iosLogo from "../assests/images/ios logo.png";
 import Context from "../store/Context";
 import SignUpModal from "./SignUpModal";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import AddTourModal from "./user/AddTourModal";
 function NavBar() {
+  const navigate = useNavigate();
   const [open, setOpen] = useState(false);
   const [openTourModal, setTourModal] = useState(false);
   const [userType, setUserType] = useState(
@@ -49,7 +50,7 @@ function NavBar() {
               Admin Mode
             </p>
           )}
-          
+
           <div className="flex items-center space-x-6 rtl:space-x-reverse">
             {userType?.isAdmin ? (
               <a
@@ -83,8 +84,10 @@ function NavBar() {
                 // href="/login"
                 className="text-lg font-bold text-semibold border-2 border-yellow-500 text-yellow-500 dark:text-white  px-2 rounded-md"
                 onClick={() => {
+                  localStorage.removeItem("token");
                   ctx.logOutHandler();
-                
+
+                  navigate("/home");
                 }}
               >
                 LogOut

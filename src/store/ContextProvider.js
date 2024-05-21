@@ -85,10 +85,11 @@ const reducerFn = (state, action) => {
     };
   }
   if (action.type == "saveLoginDetails") {
+    console.log("inside payload", action.payload);
     return {
       ...state,
-      loginData: action.payload.data,
-      token: action.payload.token,
+      loginData: action.payload,
+      // token: action.payload.token,
     };
   }
   if (action.type == "logOut") {
