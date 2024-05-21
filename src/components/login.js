@@ -58,7 +58,7 @@ function Login() {
       // console.log(response.data);
       localStorage.setItem("data", JSON.stringify(response.data.data));
       ctx.loginDataHandler(response.data.data);
-      navigate("/home");
+      // navigate("/home");
     } catch (err) {
       console.log(err);
     }
