@@ -29,7 +29,9 @@ function AddExpenseModal(props) {
       paymentType: paymentTypeRef.current.value,
       description: descriptionRef.current.value,
       voucherId: ctx.currentTourIdData,
-      userId: user.id,
+      token: user.access_token,
+      domain: user.domain,
+      // userId: user.id,
     };
     try {
       const response = await axios.post(

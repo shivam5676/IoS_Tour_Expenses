@@ -16,7 +16,9 @@ function UserHomePage() {
     const fetchTour = async () => {
       try {
         const response = await axios.post(`${connectionUrl}/user/gettour`, {
-          userId: user.id,
+          // userId: user.id,
+          token: user.access_token,
+          domain: user.domain,
         });
 
         const res = response.data;
@@ -24,16 +26,18 @@ function UserHomePage() {
         res.vouchers.forEach((current) => {
           ctx.onGoingTour(current);
         });
-
-        // ctx.userExpenses(res)
-        //   ctx.AllVoucher(response.data.userList);
+        // const response = await axios.post(`${connectionUrl}/check-token`, {
+        //   token:user.access_token,
+        //   domain:user.domain
+        // });
+        console.log(response.data.valid);
       } catch (err) {
         console.log(err);
       }
     };
     fetchTour();
   }, []);
-
+  console.log(tourSelected);
   return (
     <div className="w-[100vw] h-[100vh] text-white bg-transparent font-['Poppins'] pt-[90px]">
       <div className="min-[800px]:mx-4 min-[1000px]:mx-16 mx-4 min-[1200px]:mx-28 flex">
@@ -56,7 +60,9 @@ function UserHomePage() {
           </div>
           {tourSelected && (
             <div className="flex">
-              <UserExpenseList></UserExpenseList>
+              <UserExpenseList
+                removeOnGoingTour={() => setTourSelected(null)}
+              ></UserExpenseList>
             </div>
           )}
         </div>

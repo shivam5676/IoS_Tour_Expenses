@@ -35,13 +35,13 @@ function App() {
       <Routes>
         {!isLoggedIn ? (
           <Route path="*" element={<Login />} />
-        ) : isLoggedIn.admin ? (
+        ) : isLoggedIn.isAdmin ? (
           <>
             <Route path="/adminUser" element={<AdminUserPanel />} />
             <Route path="/adminReport" element={<AdminReportPanel />} />
             <Route path="*" element={<AdminPanel />} />
           </>
-        ) : !isLoggedIn.admin ? (
+        ) : !isLoggedIn.isAdmin ? (
           <Route path="*" element={<UserHomePage />} />
         ) : (
           <Route path="*" element={<Login />} />

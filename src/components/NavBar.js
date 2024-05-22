@@ -86,8 +86,8 @@ function NavBar() {
                 onClick={() => {
                   localStorage.removeItem("token");
                   ctx.logOutHandler();
-
-                  navigate("/home");
+                  window.location.href = '/login'
+                  // navigate("/home");
                 }}
               >
                 LogOut

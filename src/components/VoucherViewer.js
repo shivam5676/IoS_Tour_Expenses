@@ -23,6 +23,8 @@ export default function VoucherViewer(props) {
   // useEffect(() => {
   //   console.log("object");
   // }, []);
+  const user = JSON.parse(localStorage.getItem("token"));
+
   const acceptVoucherHandler = async () => {
     try {
       const response = await axios.post(
@@ -30,6 +32,8 @@ export default function VoucherViewer(props) {
         {
           voucherId: props.voucherId,
           userId: 1,
+          token: user.access_token,
+          domain: user.domain,
         }
       );
       // setVoucherStatus("Accepted");

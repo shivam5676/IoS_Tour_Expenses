@@ -13,6 +13,7 @@ function Login() {
   const roleRef = useRef();
   const navigate = useNavigate();
   const ctx = useContext(Context);
+  const user = JSON.parse(localStorage.getItem("token"));
 
   useEffect(() => {
     console.log("useEffect called");
@@ -25,7 +26,7 @@ function Login() {
       const getAccessToken = async () => {
         try {
           const response = await axios.get(
-            `http://localhost:2000/callback/${code}`
+            `http://localhost:2000/callback/${code}`,
           );
           if (response.data.data.access_token) {
             localStorage.setItem("token", JSON.stringify(response.data.data));
