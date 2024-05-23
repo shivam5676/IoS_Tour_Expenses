@@ -13,6 +13,7 @@ const initialState = {
   userCurrentTourExpensesData: [],
   currentTourIdData: null,
   loginData: null,
+  token: null,
 };
 const reducerFn = (state, action) => {
   if (action.type === "signupModal") {
@@ -33,7 +34,7 @@ const reducerFn = (state, action) => {
     };
   }
   if (action.type === "allVoucher") {
-    console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
+    console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
     return {
       ...state,
       allVoucherData: [...action.payload],
@@ -84,7 +85,12 @@ const reducerFn = (state, action) => {
     };
   }
   if (action.type == "saveLoginDetails") {
-    return { ...state, loginData: action.payload };
+    console.log("inside payload", action.payload);
+    return {
+      ...state,
+      loginData: action.payload,
+      // token: action.payload.token,
+    };
   }
   if (action.type == "logOut") {
     localStorage.removeItem("token");
@@ -98,6 +104,7 @@ const reducerFn = (state, action) => {
       userCurrentTourExpensesData: [],
       currentTourIdData: null,
       loginData: null,
+      token: null,
     };
   }
   return { ...state };

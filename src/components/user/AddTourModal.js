@@ -26,7 +26,8 @@ function AddTourModal(props) {
   const saveTourHandler = async () => {
     try {
       const response = await axios.post(`${connectionUrl}/user/createTour`, {
-        userId: user.id,
+        token:user.access_token,
+        domain:user.domain,
         city: citySelected,
       });
       const res = response.data.voucher;

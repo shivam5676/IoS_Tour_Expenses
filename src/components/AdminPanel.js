@@ -17,10 +17,15 @@ function AdminPanel() {
   const ctx = useContext(Context);
   const allVoucherData = ctx.allVoucherData;
   const [open, setOpen] = useState(true);
+  const user = JSON.parse(localStorage.getItem("token"));
+
   useEffect(() => {
     async function fetchData() {
       try {
-        const response = await axios.post(`${connectionUrl}/admin/AllVoucher`);
+        const response = await axios.post(`${connectionUrl}/admin/AllVoucher`, {
+          token: user.access_token,
+          domain: user.domain,
+        });
         const res = response.data.userList;
         console.log(res);
         if (response?.data?.userList) {

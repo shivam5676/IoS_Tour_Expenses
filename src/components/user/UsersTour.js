@@ -5,13 +5,14 @@ import axios from "axios";
 function UsersTour(props) {
   const connectionUrl = "http://localhost:2000";
   const [selected, setSelected] = useState(null);
+  const user = JSON.parse(localStorage.getItem("token"));
 
   const ctx = useContext(Context);
   const fetchTourDetails = async (id) => {
     try {
       const response = await axios.post(
         `${connectionUrl}/user/getTourExpenses?id=${id}`,
-        { userId: 1, voucherId: id }
+        { token: user.access_token, domain: user.domain, voucherId: id }
       );
       // console.log(response)
       console.log(response.data.expenses);

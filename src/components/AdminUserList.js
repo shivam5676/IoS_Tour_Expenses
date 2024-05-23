@@ -4,13 +4,15 @@ import Context from "../store/Context";
 
 function AdminUserList() {
   const connectionUrl = "http://localhost:2000";
+  const user = JSON.parse(localStorage.getItem("token"));
 
   const ctx = useContext(Context);
   console.log(ctx.allUser);
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.post(`${connectionUrl}/admin/getAllUser`);
+        const response = await axios.post(`${connectionUrl}/admin/getAllUser`,{token: user.access_token,
+          domain: user.domain,});
         // console.log(response.data.users);
         response.data.users.map((current) => {
           ctx.addUserData(current);

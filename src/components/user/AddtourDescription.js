@@ -10,6 +10,8 @@ function AddtourDescriptionModal(props) {
   const connectionUrl = "http://localhost:2000";
 
   const ctx = useContext(Context);
+  const user = JSON.parse(localStorage.getItem("token"));
+
   const cancelButtonRef = useRef(null);
   const arrivalDateRef = useRef(null);
   const departureDateRef = useRef(null);
@@ -33,7 +35,8 @@ function AddtourDescriptionModal(props) {
 
       dailyAllowance: dailyAllowanceRef.current.value,
       voucherId: ctx.currentTourIdData,
-      userId: 1,
+      token: user.access_token,
+      domain: user.domain,
     };
 
     console.log(ctx.currentTourIdData);
@@ -60,7 +63,10 @@ function AddtourDescriptionModal(props) {
       <Dialog
         className="relative z-10"
         initialFocus={cancelButtonRef}
-        onClose={props.close}
+        onClose={() => {
+          props.close();
+          props.removeOnGoingTour()
+        }}
       >
         <Transition.Child
           as={Fragment}

@@ -14,7 +14,8 @@ export default function SignUpModal(props) {
   const lastNameRef = useRef();
   const emailRef = useRef();
   const passwordRef = useRef();
-  const mobileRef = useRef();
+  const mobileRef = useRef();  const user = JSON.parse(localStorage.getItem("token"));
+
   const signUpHandler = async () => {
     try {
       const response = await axios.post(`${connectionUrl}/admin/createUser`, {
@@ -23,6 +24,8 @@ export default function SignUpModal(props) {
         firstName: firstNameRef.current.value,
         lastName: lastNameRef.current.value,
         mobile: mobileRef.current.value,
+        token: user.access_token,
+        domain: user.domain,
       });
       toast.success("user created successsfully");
       console.log(response);

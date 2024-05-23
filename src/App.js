@@ -36,34 +36,18 @@ function App() {
     >
       <NavBar></NavBar>
       <Routes>
-        {!isLoggedIn && <Route path="*" element={<Login></Login>}></Route>}
-        {isLoggedIn && (
+        {!isLoggedIn ? (
+          <Route path="*" element={<Login />} />
+        ) : isLoggedIn.isAdmin ? (
           <>
-            {" "}
-            {isLoggedIn.isAdmin && (
-              <>
-                <Route
-                  path="/adminUser"
-                  element={<AdminUserPanel></AdminUserPanel>}
-                ></Route>
-                <Route
-                  path="/adminReport"
-                  element={<AdminReportPanel></AdminReportPanel>}
-                ></Route>
-                <Route path="*" element={<AdminPanel></AdminPanel>}></Route>
-              </>
-            )}
-            {!isLoggedIn.isAdmin && (
-              <>
-                <Route
-                  path="/*"
-                  element={<UserHomePage></UserHomePage>}
-                ></Route>
-              </>
-            )}
-            {/* <Route path="/user" element={<UserHomePage></UserHomePage>}></Route> */}
-            {/* <Route path="*" element={<AdminPanel></AdminPanel>}></Route> */}
+            <Route path="/adminUser" element={<AdminUserPanel />} />
+            <Route path="/adminReport" element={<AdminReportPanel />} />
+            <Route path="*" element={<AdminPanel />} />
           </>
+        ) : !isLoggedIn.isAdmin ? (
+          <Route path="*" element={<UserHomePage />} />
+        ) : (
+          <Route path="*" element={<Login />} />
         )}
       </Routes>
       <div>

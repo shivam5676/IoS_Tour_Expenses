@@ -5,7 +5,7 @@ import Context from "../../store/Context";
 import AddtourDescriptionModal from "./AddtourDescription";
 import { FaPenSquare } from "react-icons/fa";
 
-function UserExpenseList() {
+function UserExpenseList(props) {
   const [open, setOpen] = useState(false);
   const [openDescription, setOpenDescription] = useState(false);
 
@@ -15,7 +15,10 @@ function UserExpenseList() {
     <>
       <AddtourDescriptionModal
         open={openDescription}
-        close={() => setOpenDescription(false)}
+        close={() => {
+          setOpenDescription(false);
+          props.removeOnGoingTour();
+        }}
       ></AddtourDescriptionModal>
       <AddExpenseModal
         open={open}
