@@ -8,6 +8,9 @@ import NavBar from "./components/NavBar";
 import bgImage from "../src/assests/images/bg1.jpg";
 import { useContext, useEffect, useState } from "react";
 import Context from "./store/Context";
+import { BlobProvider } from "@react-pdf/renderer";
+import MyDocument from "./components/MyDocument";
+import FileSaver from "file-saver";
 
 function App() {
   const ctx = useContext(Context);
@@ -63,6 +66,19 @@ function App() {
           </>
         )}
       </Routes>
+      <div>
+        <BlobProvider document={<MyDocument />}>
+          {({ blob, url, loading, error }) => {
+            if (loading) return <div>Loading...</div>;
+            if (error) return <div>Error: {error.message}</div>;
+            return (
+              <button onClick={() => FileSaver.saveAs(blob, "voucher.pdf")}>
+                Download PDF
+              </button>
+            );
+          }}
+        </BlobProvider>
+      </div>
     </div>
   );
 }

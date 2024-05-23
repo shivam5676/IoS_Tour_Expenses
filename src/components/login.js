@@ -24,7 +24,7 @@ function Login() {
       console.log(response.data.data);
       localStorage.setItem("token", JSON.stringify(response.data.data));
       ctx.loginDataHandler(response.data.data)
-      navigate("/home");
+      // navigate("/home");
     } catch (err) {
       console.log(err);
     }
