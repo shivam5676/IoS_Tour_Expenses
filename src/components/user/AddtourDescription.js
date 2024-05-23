@@ -65,7 +65,7 @@ function AddtourDescriptionModal(props) {
         initialFocus={cancelButtonRef}
         onClose={() => {
           props.close();
-          props.removeOnGoingTour()
+          // props.removeOnGoingTour()
         }}
       >
         <Transition.Child

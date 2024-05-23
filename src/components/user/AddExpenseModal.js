@@ -17,6 +17,7 @@ function AddExpenseModal(props) {
   const descriptionRef = useRef();
   const voucherRef = useRef();
   const paymentTypeRef = useRef();
+  const billImageRef = useRef();
   const dateRef = useRef(null);
   const user = JSON.parse(localStorage.getItem("token"));
   const saveExpenseHandler = async () => {
@@ -145,7 +146,7 @@ function AddExpenseModal(props) {
                 </div>
                 <div className="flex flex-col sm:flex-row px-12">
                   <div className="flex flex-col px-2 w-[100%] py-2">
-                    <label>Voucher No (if present)</label>
+                    <label>Bill No (if present)</label>
                     <input
                       className="outline-none border-2 border-white  bg-transparent text-black px-2"
                       ref={voucherRef}
@@ -167,6 +168,19 @@ function AddExpenseModal(props) {
                       </option>
                     </select>
                   </div>
+                </div>{" "}
+                <div className="text-center py-4">
+                  <div>
+                    Bill Image :
+                    <input
+                      type="file"
+                      className="border-2 bg-transparent mx-3 px-2"
+                      ref={billImageRef}
+                    ></input>
+                  </div>
+                  {/* <p className="pb-2 text-[.9rem]">
+                  Enjoy all Features of VTS{" "}
+                </p> */}
                 </div>
                 <div className="w-[100%] flex  justify-center mb-4 mt-6">
                   <p

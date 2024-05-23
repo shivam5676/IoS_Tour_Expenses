@@ -24,36 +24,36 @@ function App() {
   // const isLoggedIn = ctx.loginData
   console.log(ctx.loginData);
   return (
-    // <div
-    //   style={{
-    //     width: "100vw",
-    //     height: "100vh",
-    //     backgroundImage: `url(${bgImage})`,
-    //     backgroundRepeat: "no-repeat",
-    //     backgroundPosition: "center",
-    //     backgroundSize: "cover",
-    //   }}
-    // >
-    //   <NavBar></NavBar>
-    //   <Routes>
-    //     {!isLoggedIn ? (
-    //       <Route path="*" element={<Login />} />
-    //     ) : isLoggedIn.isAdmin ? (
-    //       <>
-    //         <Route path="/adminUser" element={<AdminUserPanel />} />
-    //         <Route path="/adminReport" element={<AdminReportPanel />} />
-    //         <Route path="*" element={<AdminPanel />} />
-    //       </>
-    //     ) : !isLoggedIn.isAdmin ? (
-    //       <Route path="*" element={<UserHomePage />} />
-    //     ) : (
-    //       <Route path="*" element={<Login />} />
-    //     )}
-    //   </Routes>
-    // </div>
+    <div
+      style={{
+        width: "100vw",
+        height: "100vh",
+        backgroundImage: `url(${bgImage})`,
+        backgroundRepeat: "no-repeat",
+        backgroundPosition: "center",
+        backgroundSize: "cover",
+      }}
+    >
+      <NavBar></NavBar>
+      <Routes>
+        {!isLoggedIn ? (
+          <Route path="*" element={<Login />} />
+        ) : isLoggedIn.isAdmin ? (
+          <>
+            <Route path="/adminUser" element={<AdminUserPanel />} />
+            <Route path="/adminReport" element={<AdminReportPanel />} />
+            <Route path="*" element={<AdminPanel />} />
+          </>
+        ) : !isLoggedIn.isAdmin ? (
+          <Route path="*" element={<UserHomePage />} />
+        ) : (
+          <Route path="*" element={<Login />} />
+        )}
+      </Routes>
+    </div>
     // <AllTimePdf></AllTimePdf>
     // <YearlyPdf></YearlyPdf>
-    <MonthlyPdf></MonthlyPdf>
+    // <MonthlyPdf></MonthlyPdf>
   );
 }
 
