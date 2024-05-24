@@ -9,6 +9,7 @@ import rejectedIcon from "../assests/images/rejected.png";
 export default function VoucherViewer(props) {
   console.log(props.voucherId);
   const [voucherData, setVoucherData] = useState(null);
+
   // const [voucherStatus, setVoucherStatus] = useState("Pending");
   const connectionUrl = "http://localhost:2000";
   //   const [open, setOpen] = useState(false);
@@ -52,6 +53,8 @@ export default function VoucherViewer(props) {
         `${connectionUrl}/admin/rejectVoucher`,
         {
           voucherId: props.voucherId,
+          token: user.access_token,
+          domain: user.domain,
           // userId: 1,
         }
       );
@@ -74,9 +77,11 @@ export default function VoucherViewer(props) {
           `${connectionUrl}/admin/trackVoucher`,
           {
             voucherId: props.voucherId,
+            token: user.access_token,
+            domain: user.domain,
           }
         );
-        // console.log(response.data.response);
+        console.log(response.data.response);
         setVoucherData(response.data.response);
       } catch (err) {
         console.log(err);
@@ -429,6 +434,7 @@ export default function VoucherViewer(props) {
                         className="max-h-[100px] min-h-[50px] border-2 m-2 w-[60%]"
                       ></textarea>
                     </div>
+                    <img src={`${connectionUrl}/uploads/1716541163656-billImage.png`}></img>
                     {voucherData.statusType == "Pending" && (
                       <div className="my-2 flex w-[100%] justify-evenly font-bold text-white">
                         <p
