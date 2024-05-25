@@ -31,13 +31,14 @@ function AdminPEndingVouchers(props) {
       </div>
       <div className="w-[100%]  h-[calc(40vh-90px)] min-h-[calc(250px-90px)] overflow-y-auto">
         {props.pending.map((current) => {
+          console.log(current);
           return (
             <div className="mx-2 bg-white text-black flex py-1 text-[.8rem] font-semibold">
               <p className="w-[13%] px-1 overflow-hidden whitespace-nowrap overflow-ellipsis">
                 {current.id}
               </p>
               <p className="w-[27%] px-1 overflow-hidden whitespace-nowrap overflow-ellipsis">
-                {current.user.firstName}
+                {current.user?.firstName}
               </p>
               <p className="w-[25%] px-1 overflow-hidden whitespace-nowrap overflow-ellipsis">
                 {current.tourLocation}

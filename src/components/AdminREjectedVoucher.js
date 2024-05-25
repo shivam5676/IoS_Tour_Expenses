@@ -23,7 +23,7 @@ function AdminREjectedVoucher(props) {
                 {current.id}
               </p>
               <p className="w-[27%] px-1 overflow-hidden whitespace-nowrap overflow-ellipsis">
-              {current.user.firstName + " " + current.user.lastName}
+              {current.user?.firstName + " " + current.user?.lastName}
               </p>
               <p className="w-[25%] px-1 overflow-hidden whitespace-nowrap overflow-ellipsis">
               {current.tourLocation}

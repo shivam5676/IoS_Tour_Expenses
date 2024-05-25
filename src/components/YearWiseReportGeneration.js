@@ -5,6 +5,8 @@ import CountUp from "react-countup";
 import BarChartYear from "./barChartYearWise";
 
 function YearWiseReportGeneration() {
+  const user = JSON.parse(localStorage.getItem("token"));
+
   const connectionUrl = "http://localhost:2000";
   const [reportData, setReportData] = useState(null);
   const [expenseData, setExpenseData] = useState({
@@ -32,7 +34,11 @@ function YearWiseReportGeneration() {
     async function fetchFilterData() {
       try {
         const response = await axios.post(
-          `${connectionUrl}/admin/year?year=${2024}`
+          `${connectionUrl}/admin/year?year=${2024}`,
+          {
+            token: user.access_token,
+            domain: user.domain,
+          }
         );
         console.log(response.data.data);
         response.data.data.forEach((current) => {
@@ -109,7 +115,8 @@ function YearWiseReportGeneration() {
               <CountUp
                 end={expenseData.digitalExpense + expenseData.cashExpense}
                 duration={2.2}
-              /> Rs
+              />{" "}
+              Rs
             </p>
           </div>
         </div>{" "}

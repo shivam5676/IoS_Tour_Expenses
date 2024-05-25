@@ -5,6 +5,8 @@ import BarChartUser from "./BarChartUser";
 // import LineChart from "./barChartYearWise";
 
 function UserWiseReportGeneration() {
+  const user = JSON.parse(localStorage.getItem("token"));
+
   const connectionUrl = "http://localhost:2000";
   const [reportData, setReportData] = useState(null);
   const [expenseData, setExpenseData] = useState({
@@ -32,7 +34,11 @@ function UserWiseReportGeneration() {
     async function fetchFilterData() {
       try {
         const response = await axios.post(
-          `${connectionUrl}/admin/user?uid=${1}`
+          `${connectionUrl}/admin/user?uid=${1}`,
+          {
+            token: user.access_token,
+            domain: user.domain,
+          }
         );
         console.log(response.data);
         response.data.forEach((current) => {
@@ -95,7 +101,7 @@ function UserWiseReportGeneration() {
             <p>
               {" "}
               <CountUp
-                end={expenseData.cashExpense+ expenseData.digitalExpense}
+                end={expenseData.cashExpense + expenseData.digitalExpense}
                 duration={2.2}
               />{" "}
               Rs

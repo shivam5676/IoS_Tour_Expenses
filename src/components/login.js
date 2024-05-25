@@ -68,7 +68,7 @@ function Login() {
     const response = await axios.get(`http://localhost:2000/queryParams/`);
     console.log(response.data.data);
     const queryParams = response.data.data;
-    const authorizationUrl = `https://oipl.bitrix24.in/oauth/authorize?${queryParams}`;
+    const authorizationUrl = `https://b24-awzvaa.bitrix24.in/oauth/authorize?${queryParams}`;
     // Redirect the user to the Bitrix24 authorization URL
     window.location.href = authorizationUrl;
   }, []);

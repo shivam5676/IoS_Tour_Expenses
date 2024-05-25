@@ -11,8 +11,10 @@ function AdminUserList() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.post(`${connectionUrl}/admin/getAllUser`,{token: user.access_token,
-          domain: user.domain,});
+        const response = await axios.post(`${connectionUrl}/admin/getAllUser`, {
+          token: user.access_token,
+          domain: user.domain,
+        });
         // console.log(response.data.users);
         response.data.users.map((current) => {
           ctx.addUserData(current);
@@ -26,10 +28,13 @@ function AdminUserList() {
   const fetchUserDetails = async (id) => {
     try {
       const response = await axios.post(
-        `${connectionUrl}/admin/getUser?id=${id}`
+        `${connectionUrl}/admin/getUser?id=${id}`,{
+          token: user.access_token,
+          domain: user.domain,
+        }
       );
-      console.log(response.data.user)
-     ctx.AdminCurrentUser(response.data.user);
+      console.log(response.data.user);
+      ctx.AdminCurrentUser(response.data.user);
     } catch (err) {
       console.log(err);
     }
