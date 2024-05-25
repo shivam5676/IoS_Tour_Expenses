@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import CountUp from "react-countup";
+import DownloadPdfButton from "./DownloadPdfButton";
 
 function TokenWiseReport() {
   const [voucherData, setVoucherData] = useState(null);
@@ -65,6 +66,10 @@ function TokenWiseReport() {
     setExpenseData({
       cashExpense: CashPayment,
       digitalExpense: onlinePayment + creditCard,
+      creditCard,
+      accomondation,
+      food,
+      Misc,
     });
   }, [voucherData]);
   const departureTimeArray =
@@ -140,15 +145,36 @@ function TokenWiseReport() {
       +voucherData?.voucherDescription?.advanceCash
     ).toFixed(2);
   }
+  console.log(
+    settlementAmount,
+    dateDifferenceInHour,
+    tourDurationHours,
+    expenseData
+  );
   return (
     <>
       <div className="flex ">
+        {" "}
+      {voucherData&&  <DownloadPdfButton
+          expenseData={expenseData}
+          data={{
+            settlementAmount,
+            dateDifferenceInHour,
+            tourDurationHours,
+            expenseData,
+          }}
+          voucherData={voucherData}
+        ></DownloadPdfButton>}
         <div className="w-[33%] bg-gradient-to-r  from-[#EA8D8D] to-[#A890FE]  font-extrabold text-xl rounded-md ">
           <p className="p-4 border-b-2 text-center">Total Expense</p>
           <div className="flex justify-center items-center text-3xl  h-[100px] font-['Poppins']">
             <p>
               {" "}
-              <CountUp end={expenseData.cashExpense+expenseData.digitalExpense} duration={2.2} /> Rs
+              <CountUp
+                end={expenseData.cashExpense + expenseData.digitalExpense}
+                duration={2.2}
+              />{" "}
+              Rs
             </p>
           </div>
         </div>{" "}

@@ -51,7 +51,7 @@ function App() {
         )}
       </Routes>
       <div>
-        <BlobProvider document={<MyDocument />}>
+        {/* <BlobProvider document={<MyDocument />}>
           {({ blob, url, loading, error }) => {
             if (loading) return <div>Loading...</div>;
             if (error) return <div>Error: {error.message}</div>;
@@ -61,7 +61,7 @@ function App() {
               </button>
             );
           }}
-        </BlobProvider>
+        </BlobProvider> */}
       </div>
     </div>
   );

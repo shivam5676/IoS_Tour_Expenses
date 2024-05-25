@@ -37,11 +37,11 @@ function AdminReportPanel() {
           className="w-[100%]  mx-2 h-[calc(100vh-90px)] overflow-y-scroll"
           style={{ scrollbarWidth: "none" }}
         >
-          <p className="absolute bottom-4 right-4">
+          {/* <p className="absolute bottom-4 right-4">
             <button className="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded-lg">
               Download Report
             </button>
-          </p>
+          </p> */}
           <div className="flex">
             <div className="flex w-[100%] m-2 bg-gradient-to-r from-[#1e5aba] to-[#0884e9] rounded-md">
               <p className="p-2 font-bold text-2xl">Report Generation :</p>
