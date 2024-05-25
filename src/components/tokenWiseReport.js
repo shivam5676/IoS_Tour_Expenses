@@ -4,6 +4,9 @@ import CountUp from "react-countup";
 import DownloadPdfButton from "./DownloadPdfButton";
 
 function TokenWiseReport() {
+  const user = JSON.parse(localStorage.getItem("token"));
+  const [imageArray, setImageArray] = useState(null);
+
   const [voucherData, setVoucherData] = useState(null);
   const [expenseData, setExpenseData] = useState({
     cashExpense: 0,
@@ -18,10 +21,13 @@ function TokenWiseReport() {
         const response = await axios.post(
           `${connectionUrl}/admin/trackVoucher`,
           {
-            voucherId: 4,
+            voucherId: 2,
+            token: user.access_token,
+            domain: user.domain,
           }
         );
-        console.log(response.data.response);
+        console.log(response.data);
+        setImageArray(response.data.imagePaths);
         setVoucherData(response.data.response);
       } catch (err) {
         console.log(err);
@@ -61,7 +67,7 @@ function TokenWiseReport() {
           accomondation += +current.Amount;
         }
       });
-
+    console.log(imageArray);
     // Update state with calculated expenses
     setExpenseData({
       cashExpense: CashPayment,
@@ -70,6 +76,7 @@ function TokenWiseReport() {
       accomondation,
       food,
       Misc,
+      travel,
     });
   }, [voucherData]);
   const departureTimeArray =
@@ -139,8 +146,14 @@ function TokenWiseReport() {
   //  console.log(tourDurationHours)
   let settlementAmount = 0;
   if (voucherData) {
+    console.log(
+      CashPayment,
+      totalDa,
+      voucherData?.voucherDescription?.advanceCash
+    );
+
     settlementAmount = (
-      +CashPayment +
+      +expenseData.cashExpense +
       +totalDa -
       +voucherData?.voucherDescription?.advanceCash
     ).toFixed(2);
@@ -149,22 +162,27 @@ function TokenWiseReport() {
     settlementAmount,
     dateDifferenceInHour,
     tourDurationHours,
-    expenseData
+    expenseData,
+    totalDa
   );
   return (
     <>
       <div className="flex ">
         {" "}
-      {voucherData&&  <DownloadPdfButton
-          expenseData={expenseData}
-          data={{
-            settlementAmount,
-            dateDifferenceInHour,
-            tourDurationHours,
-            expenseData,
-          }}
-          voucherData={voucherData}
-        ></DownloadPdfButton>}
+        {voucherData && (
+          <DownloadPdfButton
+            expenseData={expenseData}
+            data={{
+              settlementAmount,
+              dateDifferenceInHour,
+              tourDurationHours,
+              expenseData,
+              totalDa
+            }}
+            voucherData={voucherData}
+            bills={imageArray}
+          ></DownloadPdfButton>
+        )}
         <div className="w-[33%] bg-gradient-to-r  from-[#EA8D8D] to-[#A890FE]  font-extrabold text-xl rounded-md ">
           <p className="p-4 border-b-2 text-center">Total Expense</p>
           <div className="flex justify-center items-center text-3xl  h-[100px] font-['Poppins']">

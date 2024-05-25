@@ -73,16 +73,17 @@ export default function VoucherViewer(props) {
   useEffect(() => {
     // setVoucherStatus("Pending");
     async function fetchData() {
-      console.log("object");
+      console.log("object",props.voucherId);
       try {
         const response = await axios.post(
           `${connectionUrl}/admin/trackVoucher`,
           {
-            voucherId: props.voucherId,
+            voucherId:2,
             token: user.access_token,
             domain: user.domain,
           }
         );
+        console.log(response.data.response)
         setImageArray(response.data.imagePaths);
         setVoucherData(response.data.response);
       } catch (err) {
@@ -189,12 +190,14 @@ export default function VoucherViewer(props) {
   //  console.log(tourDurationHours)
   let settlementAmount = 0;
   if (voucherData) {
+    console.log(CashPayment,totalDa,voucherData?.voucherDescription?.advanceCash)
     settlementAmount = (
       +CashPayment +
       +totalDa -
       +voucherData?.voucherDescription?.advanceCash
     ).toFixed(2);
   }
+  console.log(settlementAmount)
   return (
     <Transition.Root show={props.open} as={Fragment}>
       <Dialog

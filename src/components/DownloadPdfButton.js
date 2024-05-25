@@ -7,7 +7,7 @@ function DownloadPdfButton(props) {
   const expenseData = props.expenseData;
   const data = props.data;
   const voucherData = props.voucherData;
-  console.log(expenseData, data);
+  console.log(expenseData, data,props.bills);
   return (
     <BlobProvider
       document={
@@ -15,6 +15,7 @@ function DownloadPdfButton(props) {
           expenseData={expenseData}
           data={data}
           voucherData={props.voucherData}
+          billsImages={props.bills}
         />
       }
     >

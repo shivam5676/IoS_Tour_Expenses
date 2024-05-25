@@ -296,7 +296,7 @@ const MyDocument = (props) => (
                   fontWeight: "500",
                 }}
               >
-                Total DA Calculated(rs) :{" "}
+                Total DA Calculated(rs) : {props.data?.totalDa}
               </Text>
             </View>
           </View>
@@ -471,14 +471,20 @@ const MyDocument = (props) => (
                 >
                   <Text>flight/bus</Text> <Text>(office)</Text>
                 </View>
-                <Text>Amount (Rs)</Text>
+                <Text> {props.expenseData?.Misc}</Text>
               </View>
             </View>
           </View>
           <View
             style={{ borderTop: "1px", padding: "4px", fontFamily: "Roboto" }}
           >
-            <Text>Total Expenses (rs) :</Text>
+            <Text>
+              Total Expenses (rs) :
+              {props.expenseData?.Misc +
+                props.expenseData?.food +
+                props.expenseData?.travel +
+                props.expenseData?.accomondation}
+            </Text>
           </View>
         </View>
       </View>
@@ -500,7 +506,7 @@ const MyDocument = (props) => (
             paddingHorizontal: "10",
           }}
         >
-          Payable Amount :{" "}
+          Payable Amount :
         </Text>
         <View style={{ width: "50%", padding: "10" }}>
           <Text>{props.data.settlementAmount}</Text>
@@ -508,8 +514,18 @@ const MyDocument = (props) => (
         </View>
       </View>
     </Page>
-
-    <VoucherDocumentExpenseList></VoucherDocumentExpenseList>
+    {console.log(props?.billsImages)}
+    <VoucherDocumentExpenseList
+      expenseList={props.voucherData}
+    ></VoucherDocumentExpenseList>
+    {props?.billsImages?.map((current) => {
+      const imageurl = current;
+      return (
+        <Page>
+          <Image src={imageurl}></Image>
+        </Page>
+      );
+    })}
   </Document>
   // <PDFViewer style={{ position: "absolute", height: "400px", width: "500px" }}>
   //   {" "}
