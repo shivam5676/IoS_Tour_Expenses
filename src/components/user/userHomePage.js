@@ -5,6 +5,7 @@ import UsersTour from "./UsersTour";
 import UserExpenseList from "./UserExpenseList";
 import axios from "axios";
 import Context from "../../store/Context";
+import MyDocument from "../MyDocument";
 
 function UserHomePage() {
   const connectionUrl = "http://localhost:2000";

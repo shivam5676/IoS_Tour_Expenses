@@ -11,6 +11,9 @@ import Context from "./store/Context";
 import AllTimePdf from "./components/AllTimePdf";
 import YearlyPdf from "./components/YearlyPdf";
 import MonthlyPdf from "./components/MonthlyPdf";
+import { BlobProvider } from "@react-pdf/renderer";
+import MyDocument from "./components/MyDocument";
+import FileSaver from "file-saver";
 
 function App() {
   const ctx = useContext(Context);
@@ -50,6 +53,19 @@ function App() {
           <Route path="*" element={<Login />} />
         )}
       </Routes>
+      <div>
+        {/* <BlobProvider document={<MyDocument />}>
+          {({ blob, url, loading, error }) => {
+            if (loading) return <div>Loading...</div>;
+            if (error) return <div>Error: {error.message}</div>;
+            return (
+              <button onClick={() => FileSaver.saveAs(blob, "voucher.pdf")}>
+                Download PDF
+              </button>
+            );
+          }}
+        </BlobProvider> */}
+      </div>
     </div>
     // <AllTimePdf></AllTimePdf>
     // <YearlyPdf></YearlyPdf>
