@@ -87,18 +87,21 @@ const UserPdf = (props) => (
               borderBottom: "1px",
             }}
           >
-            <Text style={{ width: "50%", paddingVertical: "5px" }}>Name :</Text>
-            <Text style={{ width: "50%" }}>UserId : </Text>
+            <Text style={{ width: "50%", paddingVertical: "5px" }}>
+              Name : {props.userData.firstName} {props.userData.lastName}
+            </Text>
+            <Text style={{ width: "50%" }}>
+              UserId : {props.userData.userId}
+            </Text>
           </View>
           <Text style={{ paddingVertical: "5px" }}>
-          Total Tours : {props.tourData ? Object.keys(props.tourData)?.length : 0}
+            Total Tours :{" "}
+            {props.tourData ? Object.keys(props.tourData)?.length : 0}
           </Text>
         </View>
       </View>
       {props.tourData &&
         Object.keys(props.tourData).map((keys) => {
-         
-
           return (
             <View style={{ border: "1px", marginTop: "10px" }}>
               {" "}
@@ -269,68 +272,72 @@ const UserPdf = (props) => (
                   </Text>
                 </View>
 
-                <View
-                  style={{
-                    wdth: "100%",
-                    flexDirection: "row",
-                    fontSize: "14px",
-                  }}
-                >
-                  <Text
-                    style={{
-                      width: "10%",
-                      padding: "5px",
-                      textAlign: "center",
-                    }}
-                  >
-                    voucher id
-                  </Text>
-                  <Text
-                    style={{
-                      width: "20%",
-                      padding: "5px",
-                      textAlign: "center",
-                    }}
-                  >
-                    Year
-                  </Text>
-                  <Text
-                    style={{
-                      width: "17.5%",
-                      padding: "5px",
-                      textAlign: "center",
-                    }}
-                  >
-                    Cash Expenses
-                  </Text>
-                  <Text
-                    style={{
-                      width: "20%",
-                      padding: "5px",
-                      textAlign: "center",
-                    }}
-                  >
-                    Amount
-                  </Text>{" "}
-                  <Text
-                    style={{
-                      width: "17.5%",
-                      padding: "5px",
-                      textAlign: "center",
-                    }}
-                  >
-                    Digital Expenses
-                  </Text>
-                  <Text
-                    style={{
-                      width: "15%",
-                      padding: "5px",
-                      textAlign: "center",
-                    }}
-                  >
-                    Month
-                  </Text>
-                </View>
+                {props?.tourData[keys]?.expenseList?.map((currentExpense) => {
+                  return (
+                    <View
+                      style={{
+                        wdth: "100%",
+                        flexDirection: "row",
+                        fontSize: "14px",
+                      }}
+                    >
+                      <Text
+                        style={{
+                          width: "10%",
+                          padding: "5px",
+                          textAlign: "center",
+                        }}
+                      >
+                        {currentExpense.id}
+                      </Text>
+                      <Text
+                        style={{
+                          width: "20%",
+                          padding: "5px",
+                          textAlign: "center",
+                        }}
+                      >
+                        {currentExpense.description}
+                      </Text>
+                      <Text
+                        style={{
+                          width: "17.5%",
+                          padding: "5px",
+                          textAlign: "center",
+                        }}
+                      >
+                        {currentExpense.expenseType}
+                      </Text>
+                      <Text
+                        style={{
+                          width: "20%",
+                          padding: "5px",
+                          textAlign: "center",
+                        }}
+                      >
+                        {currentExpense.Amount}
+                      </Text>{" "}
+                      <Text
+                        style={{
+                          width: "17.5%",
+                          padding: "5px",
+                          textAlign: "center",
+                        }}
+                      >
+                        {currentExpense.paymentType}
+                      </Text>
+                      <Text
+                        style={{
+                          width: "15%",
+                          padding: "5px",
+                          textAlign: "center",
+                        }}
+                      >
+                        {currentExpense.date}
+                      </Text>
+                    </View>
+                  );
+                })}
               </View>
             </View>
           );

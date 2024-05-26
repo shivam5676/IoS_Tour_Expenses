@@ -6,6 +6,8 @@ import iosLogo from "../assests/images/ios logo.png";
 import { useNavigate } from "react-router-dom";
 function AdminSidePanel() {
   const navigate=useNavigate()
+  const userData = JSON.parse(localStorage.getItem("token"));
+
   return (
     <div className="w-[250px] h-[81vh]  min-[980px]:w-[300px]  bg-white text-black rounded-2xl my-1 min-[1400px]:my-2 shadow-md shadow-gray-700 font-['Poppins']">
       <div className="bg-gradient-to-r from-[#EA8D8D] to-[#553cb1] h-[150px] rounded-md m-4 max-w-[270px] text-white">
@@ -14,18 +16,18 @@ function AdminSidePanel() {
         </div>
 
         <p className=" p-2 font-bold text-center font-['Poppins']">
-          SHIVAM SINGH
+        {userData?.firstName + " " + userData?.lastName}
         </p>
         <div className="flex border-b-2">
           <MdEmail className="w-[25px] h-[25px] mx-2" />
           <p className="px-2 w-[100%] overflow-hidden whitespace-nowrap overflow-ellipsis text-[.9rem]">
-            shivam.handler@gmail.com
+          {userData?.email}{" "}
           </p>
         </div>
         <div className="flex">
           <IoMdCall className="w-[25px] h-[25px] mx-2" />
           <p className="px-2 w-[100%] overflow-hidden whitespace-nowrap overflow-ellipsis">
-            +91 9559923286
+          {userData?.mobile}
           </p>
         </div>
       </div>

@@ -10,6 +10,11 @@ function UserWiseReportGeneration() {
 
   const connectionUrl = "http://localhost:2000";
   const [reportData, setReportData] = useState(null);
+  const [userData, setuserData] = useState({
+    firstName: "",
+    lastName: "",
+    userId: "",
+  });
   const [expenseData, setExpenseData] = useState({
     cashExpense: 0,
     digitalExpense: 0,
@@ -42,6 +47,11 @@ function UserWiseReportGeneration() {
           }
         );
         console.log(response.data);
+        setuserData({
+          firstName: response.data[0].user.firstName,
+          lastName: response.data[0].user.lastName,
+          userId: response.data[0].userId,
+        });
         response.data.forEach((current) => {
           const uniqueKey = `${current.tourLocation}-${current.tourDate}`; // Assuming 'tourId' is a unique identifier for each tour
           console.log(uniqueKey);
@@ -52,6 +62,7 @@ function UserWiseReportGeneration() {
             misc: 0,
             cash: 0,
             digitalpayment: 0,
+            expenseList: [...current.voucherExpenses],
           };
           current.voucherExpenses.forEach((currentExpense) => {
             console.log(currentExpense.expenseType);
@@ -94,10 +105,14 @@ function UserWiseReportGeneration() {
     }
     fetchFilterData();
   }, []);
-  console.log(expenseData);
+  console.log(userData);
   return (
     <>
-      <DownloadUserPdfButton expenseData={expenseData} tourData={reportData}></DownloadUserPdfButton>
+      <DownloadUserPdfButton
+        expenseData={expenseData}
+        tourData={reportData}
+        userData={userData}
+      ></DownloadUserPdfButton>
       <div className="flex ">
         <div className="w-[33%] bg-gradient-to-r  from-[#EA8D8D] to-[#A890FE]  font-extrabold text-xl rounded-md ">
           <p className="p-4 border-b-2 text-center">Total Expense</p>

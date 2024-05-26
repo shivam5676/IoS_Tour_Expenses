@@ -38,6 +38,7 @@ function DownloadUserPdfButton(props) {
         <UserPdf
           expenseData={props.expenseData}
           tourData={props.tourData}
+          userData={props.userData}
 
         //   data={data}
         //   voucherData={props.voucherData}
