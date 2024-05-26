@@ -5,30 +5,45 @@ import axios from "axios";
 import YearWiseReportGeneration from "./YearWiseReportGeneration";
 import UserWiseReportGeneration from "./UserWiseReportGeneration";
 import TokenWiseReport from "./tokenWiseReport";
+import { format } from "date-fns";
+
 function AdminReportPanel() {
   const connectionUrl = "http://localhost:2000";
 
   const [startDate, setStartDate] = useState(new Date());
   const [reportType, setReportType] = useState("All");
+  const [formattedDate, setFormattedDate] = useState(null);
+
   // const [chartData, setChartData] = useState({});
   const handleReportTypeChange = (event) => {
     setReportType(event.target.value);
+    setFormattedDate(null);
   };
-  console.log(reportType);
-  // useEffect(() => {
-  //   async function fetchFilterData() {
-  //     try {
-  //       const response = await axios.post(
-  //         `${connectionUrl}/admin/year?year=${2024}`
-  //       );
-  //       console.log(response.data);
-  //       // ctx.AllVoucher(response.data.userList);
-  //     } catch (err) {
-  //       console.log(err);
-  //     }
-  //   }
-  //   fetchFilterData();
-  // }, []);
+  const handleDateChange = (date) => {
+    console.log("fuction triggered");
+    setStartDate(date);
+
+    // Format the date based on the report type
+    let formatted;
+    if (reportType === "mm/yyyy") {
+      formatted = format(date, "MM/yyyy");
+    } else if (reportType === "yyyy") {
+      formatted = format(date, "yyyy");
+    } else {
+      formatted = format(date, "MM/dd/yyyy");
+    }
+    setFormattedDate(formatted);
+  };
+  console.log(reportType, formattedDate);
+  const getDatePickerFormat = (reportType) => {
+    if (reportType === "mm/yyyy") {
+      return "MM/yyyy";
+    } else if (reportType === "yyyy") {
+      return "yyyy";
+    }
+    return "MM/dd/yyyy";
+  };
+
   return (
     <div className="w-[100vw] h-[100vh]  text-white bg-transparent  py-[90px]">
       <div className="min-[800px]:mx-4 min-[1000px]:mx-16 mx-4 min-[1200px]:mx-28 flex">
@@ -82,15 +97,16 @@ function AdminReportPanel() {
                   </option>
                 </select>
               </div>
-              {reportType != "All" &&
-                reportType != "user" &&
-                reportType != "token" && (
-                  <div className="flex items-center text-yellow-400 font-bold ">
-                    {" "}
+              {reportType !== "All" &&
+                reportType !== "user" &&
+                reportType !== "token" && (
+                  <div className="flex items-center text-yellow-400 font-bold">
                     <DatePicker
                       selected={startDate}
-                      onChange={(date) => setStartDate(date)}
-                      dateFormat={reportType}
+                      onChange={handleDateChange}
+                      dateFormat={getDatePickerFormat(reportType)}
+                      showMonthYearPicker={reportType === "mm/yyyy"}
+                      showYearPicker={reportType === "yyyy"}
                       className="bg-transparent border-white border-2 mx-2 px-2 w-[100px]"
                     />
                   </div>
@@ -120,10 +136,16 @@ function AdminReportPanel() {
             </div>
           </div>
           <div className="w-[100%]  mx-2 ">
-            {reportType === "yyyy" && (
-              <YearWiseReportGeneration></YearWiseReportGeneration>
+            {reportType === "yyyy" && formattedDate && (
+              <YearWiseReportGeneration
+                selectedYear={formattedDate}
+              ></YearWiseReportGeneration>
             )}
-
+            {/* {reportType === "mm/yyyy" && formattedDate && (
+              <YearWiseReportGeneration
+                selectedYear={formattedDate}
+              ></YearWiseReportGeneration>
+            )} */}
             {reportType === "user" && (
               <UserWiseReportGeneration></UserWiseReportGeneration>
             )}

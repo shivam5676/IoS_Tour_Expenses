@@ -40,262 +40,232 @@ const styles = StyleSheet.create({
 });
 
 // Create Document Component
-const YearlyPdf = () => (
-    <PDFViewer style={{ width: "600px", height: "800px" }}>
-    <Document>
-      <Page size="A4" style={styles.page}>
-        <View
+const YearlyPdf = (props) => (
+  // <PDFViewer style={{ width: "600px", height: "800px" }}>
+  <Document>
+    <Page size="A4" style={styles.page}>
+      {" "}
+      {console.log(props.categoryData, props.expenseData)}
+      <View
+        style={{
+          width: "100%",
+          border: "1px",
+          flexDirection: "row",
+          height: "100px",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        <Image
+          src={iosLogo}
+          style={{ height: "80px", width: "80px", padding: "10px" }}
+        ></Image>
+        <Text
           style={{
-            width: "100%",
-            border: "1px",
-            flexDirection: "row",
-            height: "100px",
-            alignItems: "center",
-            justifyContent: "center",
+            padding: "10px",
+            fontFamily: "Roboto",
+            fontWeight: "bold",
           }}
         >
-          <Image
-            src={iosLogo}
-            style={{ height: "80px", width: "80px", padding: "10px" }}
-          ></Image>
-          <Text
-            style={{
-              padding: "10px",
-              fontFamily: "Roboto",
-              fontWeight: "bold",
-            }}
-          >
-            Yearly Tour Voucher Report
-          </Text>
+          Yearly Tour Voucher Report
+        </Text>
+      </View>
+      <View style={{ width: "100%", border: "1px", marginTop: "10px" }}>
+        <View
+          style={{
+            borderBottom: "1px",
+            padding: "5px",
+            fontSize: "14px",
+            fontFamily: "Roboto",
+            fontWeight: "bold",
+          }}
+        >
+          <Text>Total Tours :</Text>
         </View>
-        <View style={{ width: "100%", border: "1px", marginTop: "10px" }}>
-          <View
-            style={{
-              borderBottom: "1px",
-              padding: "5px",
-              fontSize: "14px",
-              fontFamily: "Roboto",
-              fontWeight: "bold",
-            }}
-          >
-            <Text>Total Tours :</Text>
+        <View
+          style={{
+            borderBottom: "1px",
+            padding: "5px",
+            alignItems: "center",
+            fontFamily: "Roboto",
+            fontWeight: "bold",
+            fontSize: "17px",
+          }}
+        >
+          <Text>Company Expenditure</Text>
+        </View>
+        <View
+          style={{
+            borderBottom: "1px",
+            padding: "5px",
+            flexDirection: "row",
+            fontSize: "14px",
+            fontFamily: "Roboto",
+            fontWeight: "bold",
+          }}
+        >
+          <View style={{ width: "50%" }}>
+            <Text>By Cash : {props?.expenseData?.cashExpense}</Text>
           </View>
-          <View
-            style={{
-              borderBottom: "1px",
-              padding: "5px",
-              alignItems: "center",
-              fontFamily: "Roboto",
-              fontWeight: "bold",
-              fontSize: "17px",
-            }}
-          >
-            <Text>Company Expenditure</Text>
-          </View>
-          <View
-            style={{
-              borderBottom: "1px",
-              padding: "5px",
-              flexDirection: "row",
-              fontSize: "14px",
-              fontFamily: "Roboto",
-              fontWeight: "bold",
-            }}
-          >
-            <View style={{ width: "50%" }}>
-              <Text>By Cash : </Text>
-            </View>
-            <View>
-              <Text>By Digital Method : </Text>
-            </View>
-          </View>
-          <View
-            style={{
-              borderBottom: "1px",
-              padding: "5px",
-              alignItems: "center",
-              fontFamily: "Roboto",
-              fontWeight: "bold",
-              fontSize: "17px",
-            }}
-          >
-            <Text>Category Wise Expense</Text>
-          </View>
-          <View
-            style={{
-              borderBottom: "1px",
-              padding: "5px",
-              flexDirection: "row",
-              fontSize: "14px",
-              fontFamily: "Roboto",
-              fontWeight: "bold",
-            }}
-          >
-            <View style={{ width: "50%" }}>
-              <Text>Food: </Text>
-            </View>
-            <View>
-              <Text>Travel : </Text>
-            </View>
-          </View>
-          <View
-            style={{
-              borderBottom: "1px",
-              padding: "5px",
-              flexDirection: "row",
-              fontSize: "14px",
-              fontFamily: "Roboto",
-              fontWeight: "bold",
-            }}
-          >
-            <View style={{ width: "50%" }}>
-              <Text>Accomondation : </Text>
-            </View>
-            <View>
-              <Text>Misc : </Text>
-            </View>
-          </View>
-          <View
-            style={{
-              borderBottom: "1px",
-              padding: "5px",
-              alignItems: "Left",
-              fontFamily: "Roboto",
-              fontWeight: "bold",
-              fontSize: "17px",
-            }}
-          >
-            <Text>Total Amount Expenditure :</Text>
+          <View>
+            <Text>
+              By Digital Method : {props?.expenseData?.digitalExpense}
+            </Text>
           </View>
         </View>
-        <View style={{ width: "100%", border: "1px", marginTop: "10px" }}>
-          <View
-            style={{
-              wdth: "100%",
-              flexDirection: "row",
-              fontSize: "16px",
-              borderBottom: "1px",
-              fontFamily: "Roboto",
-            }}
-          >
-            <Text style={{ width: "15%", padding: "5px" }}>UserId</Text>
-            <Text style={{ width: "20%", padding: "5px" }}>Tours no</Text>
-            <Text style={{ width: "25%", padding: "5px" }}>
-              Cash Expenses
-            </Text>{" "}
-            <Text style={{ width: "25%", padding: "5px" }}>
-              Digital Expenses
-            </Text>{" "}
-            <Text style={{ width: "15%", padding: "5px" }}>Month</Text>
+        <View
+          style={{
+            borderBottom: "1px",
+            padding: "5px",
+            alignItems: "center",
+            fontFamily: "Roboto",
+            fontWeight: "bold",
+            fontSize: "17px",
+          }}
+        >
+          <Text>Category Wise Expense</Text>
+        </View>
+        <View
+          style={{
+            borderBottom: "1px",
+            padding: "5px",
+            flexDirection: "row",
+            fontSize: "14px",
+            fontFamily: "Roboto",
+            fontWeight: "bold",
+          }}
+        >
+          <View style={{ width: "50%" }}>
+            <Text>Food: {props?.categoryData?.food}</Text>
           </View>
-          <View
-            style={{ wdth: "100%", flexDirection: "row", fontSize: "14px" }}
-          >
-            <Text style={{ width: "15%", padding: "5px" }}>Year</Text>
-            <Text style={{ width: "20%", padding: "5px" }}>Tours no</Text>
-            <Text style={{ width: "25%", padding: "5px" }}>
-              Cash Expenses
-            </Text>{" "}
-            <Text style={{ width: "25%", padding: "5px" }}>
-              Digital Expenses
-            </Text>
-            <Text style={{ width: "15%", padding: "5px" }}>Month</Text>
-          </View>
-          <View
-            style={{ wdth: "100%", flexDirection: "row", fontSize: "14px" }}
-          >
-            <Text style={{ width: "15%", padding: "5px" }}>Year</Text>
-            <Text style={{ width: "20%", padding: "5px" }}>Tours no</Text>
-            <Text style={{ width: "25%", padding: "5px" }}>
-              Cash Expenses
-            </Text>{" "}
-            <Text style={{ width: "25%", padding: "5px" }}>
-              Digital Expenses
-            </Text>
-            <Text style={{ width: "15%", padding: "5px" }}>Month</Text>
-          </View>
-          <View
-            style={{ wdth: "100%", flexDirection: "row", fontSize: "14px" }}
-          >
-            <Text style={{ width: "15%", padding: "5px" }}>Year</Text>
-            <Text style={{ width: "20%", padding: "5px" }}>Tours no</Text>
-            <Text style={{ width: "25%", padding: "5px" }}>
-              Cash Expenses
-            </Text>{" "}
-            <Text style={{ width: "25%", padding: "5px" }}>
-              Digital Expenses
-            </Text>
-            <Text style={{ width: "15%", padding: "5px" }}>Month</Text>
-          </View>
-          <View
-            style={{ wdth: "100%", flexDirection: "row", fontSize: "14px" }}
-          >
-            <Text style={{ width: "15%", padding: "5px" }}>Year</Text>
-            <Text style={{ width: "20%", padding: "5px" }}>Tours no</Text>
-            <Text style={{ width: "25%", padding: "5px" }}>
-              Cash Expenses
-            </Text>{" "}
-            <Text style={{ width: "25%", padding: "5px" }}>
-              Digital Expenses
-            </Text>
-            <Text style={{ width: "15%", padding: "5px" }}>Month</Text>
-          </View>
-          <View
-            style={{ wdth: "100%", flexDirection: "row", fontSize: "14px" }}
-          >
-            <Text style={{ width: "15%", padding: "5px" }}>Year</Text>
-            <Text style={{ width: "20%", padding: "5px" }}>Tours no</Text>
-            <Text style={{ width: "25%", padding: "5px" }}>
-              Cash Expenses
-            </Text>{" "}
-            <Text style={{ width: "25%", padding: "5px" }}>
-              Digital Expenses
-            </Text>
-            <Text style={{ width: "15%", padding: "5px" }}>Month</Text>
-          </View>
-          <View
-            style={{ wdth: "100%", flexDirection: "row", fontSize: "14px" }}
-          >
-            <Text style={{ width: "15%", padding: "5px" }}>Year</Text>
-            <Text style={{ width: "20%", padding: "5px" }}>Tours no</Text>
-            <Text style={{ width: "25%", padding: "5px" }}>
-              Cash Expenses
-            </Text>{" "}
-            <Text style={{ width: "25%", padding: "5px" }}>
-              Digital Expenses
-            </Text>
-            <Text style={{ width: "15%", padding: "5px" }}>Month</Text>
-          </View>
-          <View
-            style={{ wdth: "100%", flexDirection: "row", fontSize: "14px" }}
-          >
-            <Text style={{ width: "15%", padding: "5px" }}>Year</Text>
-            <Text style={{ width: "20%", padding: "5px" }}>Tours no</Text>
-            <Text style={{ width: "25%", padding: "5px" }}>
-              Cash Expenses
-            </Text>{" "}
-            <Text style={{ width: "25%", padding: "5px" }}>
-              Digital Expenses
-            </Text>
-            <Text style={{ width: "15%", padding: "5px" }}>Month</Text>
-          </View>
-          <View
-            style={{ wdth: "100%", flexDirection: "row", fontSize: "14px" }}
-          >
-            <Text style={{ width: "15%", padding: "5px" }}>Year</Text>
-            <Text style={{ width: "20%", padding: "5px" }}>Tours no</Text>
-            <Text style={{ width: "25%", padding: "5px" }}>
-              Cash Expenses
-            </Text>{" "}
-            <Text style={{ width: "25%", padding: "5px" }}>
-              Digital Expenses
-            </Text>
-            <Text style={{ width: "15%", padding: "5px" }}>Month</Text>
+          <View>
+            <Text>Travel : {props?.categoryData?.travel}</Text>
           </View>
         </View>
-      </Page>
-    </Document>
-  </PDFViewer>
+        <View
+          style={{
+            borderBottom: "1px",
+            padding: "5px",
+            flexDirection: "row",
+            fontSize: "14px",
+            fontFamily: "Roboto",
+            fontWeight: "bold",
+          }}
+        >
+          <View style={{ width: "50%" }}>
+            <Text>Accomondation : {props?.categoryData?.accomondation}</Text>
+          </View>
+          <View>
+            <Text>Misc : {props?.categoryData?.misc}</Text>
+          </View>
+        </View>
+        <View
+          style={{
+            borderBottom: "1px",
+            padding: "5px",
+            alignItems: "Left",
+            fontFamily: "Roboto",
+            fontWeight: "bold",
+            fontSize: "17px",
+          }}
+        >
+          <Text>Total Amount Expenditure : {props?.expenseData?.cashExpense+props?.expenseData?.digitalExpense}</Text>
+        </View>
+      </View>
+      <View style={{ width: "100%", border: "1px", marginTop: "10px" }}>
+        <View
+          style={{
+            wdth: "100%",
+            flexDirection: "row",
+            fontSize: "16px",
+            borderBottom: "1px",
+            fontFamily: "Roboto",
+          }}
+        >
+          <Text style={{ width: "15%", padding: "5px" }}>UserId</Text>
+          <Text style={{ width: "20%", padding: "5px" }}>Tours no</Text>
+          <Text style={{ width: "25%", padding: "5px" }}>
+            Cash Expenses
+          </Text>{" "}
+          <Text style={{ width: "25%", padding: "5px" }}>Digital Expenses</Text>{" "}
+          <Text style={{ width: "15%", padding: "5px" }}>Month</Text>
+        </View>
+        <View style={{ wdth: "100%", flexDirection: "row", fontSize: "14px" }}>
+          <Text style={{ width: "15%", padding: "5px" }}>Year</Text>
+          <Text style={{ width: "20%", padding: "5px" }}>Tours no</Text>
+          <Text style={{ width: "25%", padding: "5px" }}>
+            Cash Expenses
+          </Text>{" "}
+          <Text style={{ width: "25%", padding: "5px" }}>Digital Expenses</Text>
+          <Text style={{ width: "15%", padding: "5px" }}>Month</Text>
+        </View>
+        <View style={{ wdth: "100%", flexDirection: "row", fontSize: "14px" }}>
+          <Text style={{ width: "15%", padding: "5px" }}>Year</Text>
+          <Text style={{ width: "20%", padding: "5px" }}>Tours no</Text>
+          <Text style={{ width: "25%", padding: "5px" }}>
+            Cash Expenses
+          </Text>{" "}
+          <Text style={{ width: "25%", padding: "5px" }}>Digital Expenses</Text>
+          <Text style={{ width: "15%", padding: "5px" }}>Month</Text>
+        </View>
+        <View style={{ wdth: "100%", flexDirection: "row", fontSize: "14px" }}>
+          <Text style={{ width: "15%", padding: "5px" }}>Year</Text>
+          <Text style={{ width: "20%", padding: "5px" }}>Tours no</Text>
+          <Text style={{ width: "25%", padding: "5px" }}>
+            Cash Expenses
+          </Text>{" "}
+          <Text style={{ width: "25%", padding: "5px" }}>Digital Expenses</Text>
+          <Text style={{ width: "15%", padding: "5px" }}>Month</Text>
+        </View>
+        <View style={{ wdth: "100%", flexDirection: "row", fontSize: "14px" }}>
+          <Text style={{ width: "15%", padding: "5px" }}>Year</Text>
+          <Text style={{ width: "20%", padding: "5px" }}>Tours no</Text>
+          <Text style={{ width: "25%", padding: "5px" }}>
+            Cash Expenses
+          </Text>{" "}
+          <Text style={{ width: "25%", padding: "5px" }}>Digital Expenses</Text>
+          <Text style={{ width: "15%", padding: "5px" }}>Month</Text>
+        </View>
+        <View style={{ wdth: "100%", flexDirection: "row", fontSize: "14px" }}>
+          <Text style={{ width: "15%", padding: "5px" }}>Year</Text>
+          <Text style={{ width: "20%", padding: "5px" }}>Tours no</Text>
+          <Text style={{ width: "25%", padding: "5px" }}>
+            Cash Expenses
+          </Text>{" "}
+          <Text style={{ width: "25%", padding: "5px" }}>Digital Expenses</Text>
+          <Text style={{ width: "15%", padding: "5px" }}>Month</Text>
+        </View>
+        <View style={{ wdth: "100%", flexDirection: "row", fontSize: "14px" }}>
+          <Text style={{ width: "15%", padding: "5px" }}>Year</Text>
+          <Text style={{ width: "20%", padding: "5px" }}>Tours no</Text>
+          <Text style={{ width: "25%", padding: "5px" }}>
+            Cash Expenses
+          </Text>{" "}
+          <Text style={{ width: "25%", padding: "5px" }}>Digital Expenses</Text>
+          <Text style={{ width: "15%", padding: "5px" }}>Month</Text>
+        </View>
+        <View style={{ wdth: "100%", flexDirection: "row", fontSize: "14px" }}>
+          <Text style={{ width: "15%", padding: "5px" }}>Year</Text>
+          <Text style={{ width: "20%", padding: "5px" }}>Tours no</Text>
+          <Text style={{ width: "25%", padding: "5px" }}>
+            Cash Expenses
+          </Text>{" "}
+          <Text style={{ width: "25%", padding: "5px" }}>Digital Expenses</Text>
+          <Text style={{ width: "15%", padding: "5px" }}>Month</Text>
+        </View>
+        <View style={{ wdth: "100%", flexDirection: "row", fontSize: "14px" }}>
+          <Text style={{ width: "15%", padding: "5px" }}>Year</Text>
+          <Text style={{ width: "20%", padding: "5px" }}>Tours no</Text>
+          <Text style={{ width: "25%", padding: "5px" }}>
+            Cash Expenses
+          </Text>{" "}
+          <Text style={{ width: "25%", padding: "5px" }}>Digital Expenses</Text>
+          <Text style={{ width: "15%", padding: "5px" }}>Month</Text>
+        </View>
+      </View>
+    </Page>
+  </Document>
+  // </PDFViewer>
 );
 
 export default YearlyPdf;

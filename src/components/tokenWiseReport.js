@@ -21,7 +21,7 @@ function TokenWiseReport() {
         const response = await axios.post(
           `${connectionUrl}/admin/trackVoucher`,
           {
-            voucherId: 2,
+            voucherId: 1,
             token: user.access_token,
             domain: user.domain,
           }

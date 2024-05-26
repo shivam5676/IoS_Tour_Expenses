@@ -14,6 +14,7 @@ import MonthlyPdf from "./components/MonthlyPdf";
 import { BlobProvider } from "@react-pdf/renderer";
 import MyDocument from "./components/MyDocument";
 import FileSaver from "file-saver";
+import UserPdf from "./components/UserPdf";
 
 function App() {
   const ctx = useContext(Context);
@@ -70,6 +71,7 @@ function App() {
     // <AllTimePdf></AllTimePdf>
     // <YearlyPdf></YearlyPdf>
     // <MonthlyPdf></MonthlyPdf>
+    // <UserPdf></UserPdf>
   );
 }
 

@@ -3,10 +3,11 @@ import React, { useEffect, useState } from "react";
 
 import CountUp from "react-countup";
 import BarChartYear from "./barChartYearWise";
+import DownloadYearReportButton from "./DownloadYearReportButton";
 
-function YearWiseReportGeneration() {
+function YearWiseReportGeneration(props) {
   const user = JSON.parse(localStorage.getItem("token"));
-
+  console.log("formattedYear", props.selectedYear);
   const connectionUrl = "http://localhost:2000";
   const [reportData, setReportData] = useState(null);
   const [expenseData, setExpenseData] = useState({
@@ -34,7 +35,7 @@ function YearWiseReportGeneration() {
     async function fetchFilterData() {
       try {
         const response = await axios.post(
-          `${connectionUrl}/admin/year?year=${2024}`,
+          `${connectionUrl}/admin/year?year=${props.selectedYear}`,
           {
             token: user.access_token,
             domain: user.domain,
@@ -102,10 +103,14 @@ function YearWiseReportGeneration() {
       }
     }
     fetchFilterData();
-  }, []);
+  }, [props.selectedYear]);
   // let jan=[];
   return (
     <>
+      <DownloadYearReportButton
+        categoryData={reportData}
+        expenseData={expenseData}
+      ></DownloadYearReportButton>
       <div className="flex ">
         <div className="w-[33%] bg-gradient-to-r  from-[#EA8D8D] to-[#A890FE]  font-extrabold text-xl rounded-md ">
           <p className="p-4 border-b-2 text-center">Total Expense</p>

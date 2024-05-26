@@ -137,7 +137,7 @@ const MyDocument = (props) => (
         }}
       >
         <Text>Voucher No :</Text>
-        <Text style={{ borderTop: "1px" }}>{props.voucherData?.id}</Text>
+        <Text style={{ borderTop: "1px" }}>{`OMR/YEAR/${props.voucherData?.id}`}</Text>
       </View>
       {/* <View style={{ position: "absolute",right:20,marginTop:"50",border:"2",paddingHorizontal:"15",paddingVertical:"7",flexDirection:"row" }}>
           <Text>3444256</Text>
@@ -155,7 +155,7 @@ const MyDocument = (props) => (
               {props.voucherData.user.lastName}
             </Text>
             <Text style={styles.nameField}>
-              designation : {props.voucherData?.user?.designation}
+              Designation : {props.voucherData?.user?.designation}
             </Text>
             <Text style={styles.nameField}>
               Purpose : {props.voucherData?.voucherDescription?.purpose}

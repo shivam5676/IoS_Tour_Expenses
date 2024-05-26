@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import CountUp from "react-countup";
 import BarChartUser from "./BarChartUser";
+import DownloadUserPdfButton from "./DownloadUserPdfButton";
 // import LineChart from "./barChartYearWise";
 
 function UserWiseReportGeneration() {
@@ -34,7 +35,7 @@ function UserWiseReportGeneration() {
     async function fetchFilterData() {
       try {
         const response = await axios.post(
-          `${connectionUrl}/admin/user?uid=${1}`,
+          `${connectionUrl}/admin/user?uid=${18}`,
           {
             token: user.access_token,
             domain: user.domain,
@@ -49,8 +50,8 @@ function UserWiseReportGeneration() {
             travel: 0,
             accomondation: 0,
             misc: 0,
-            // cash: 0,
-            // digitalpayment: 0,
+            cash: 0,
+            digitalpayment: 0,
           };
           current.voucherExpenses.forEach((currentExpense) => {
             console.log(currentExpense.expenseType);
@@ -67,6 +68,7 @@ function UserWiseReportGeneration() {
               expensesObj[uniqueKey].misc += +currentExpense.Amount;
             }
             if (currentExpense.paymentType === "Cash") {
+              expensesObj[uniqueKey].cash += +currentExpense.Amount;
               setExpenseData((prev) => {
                 return {
                   cashExpense: prev.cashExpense + +currentExpense.Amount,
@@ -74,6 +76,7 @@ function UserWiseReportGeneration() {
                 };
               });
             } else {
+              expensesObj[uniqueKey].digitalpayment += +currentExpense.Amount;
               setExpenseData((prev) => {
                 return {
                   cashExpense: prev.cashExpense,
@@ -94,6 +97,7 @@ function UserWiseReportGeneration() {
   console.log(expenseData);
   return (
     <>
+      <DownloadUserPdfButton expenseData={expenseData} tourData={reportData}></DownloadUserPdfButton>
       <div className="flex ">
         <div className="w-[33%] bg-gradient-to-r  from-[#EA8D8D] to-[#A890FE]  font-extrabold text-xl rounded-md ">
           <p className="p-4 border-b-2 text-center">Total Expense</p>

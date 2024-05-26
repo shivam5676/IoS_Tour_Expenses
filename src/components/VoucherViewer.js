@@ -78,7 +78,7 @@ export default function VoucherViewer(props) {
         const response = await axios.post(
           `${connectionUrl}/admin/trackVoucher`,
           {
-            voucherId:2,
+            voucherId:props.voucherId,
             token: user.access_token,
             domain: user.domain,
           }
