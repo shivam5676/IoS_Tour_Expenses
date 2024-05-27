@@ -73,17 +73,17 @@ export default function VoucherViewer(props) {
   useEffect(() => {
     // setVoucherStatus("Pending");
     async function fetchData() {
-      console.log("object",props.voucherId);
+      console.log("object", props.voucherId);
       try {
         const response = await axios.post(
           `${connectionUrl}/admin/trackVoucher`,
           {
-            voucherId:props.voucherId,
+            voucherId: props.voucherId,
             token: user.access_token,
             domain: user.domain,
           }
         );
-        console.log(response.data.response)
+        console.log(response.data.response);
         setImageArray(response.data.imagePaths);
         setVoucherData(response.data.response);
       } catch (err) {
@@ -190,14 +190,18 @@ export default function VoucherViewer(props) {
   //  console.log(tourDurationHours)
   let settlementAmount = 0;
   if (voucherData) {
-    console.log(CashPayment,totalDa,voucherData?.voucherDescription?.advanceCash)
+    console.log(
+      CashPayment,
+      totalDa,
+      voucherData?.voucherDescription?.advanceCash
+    );
     settlementAmount = (
       +CashPayment +
       +totalDa -
       +voucherData?.voucherDescription?.advanceCash
     ).toFixed(2);
   }
-  console.log(settlementAmount)
+  console.log(settlementAmount);
   return (
     <Transition.Root show={props.open} as={Fragment}>
       <Dialog
@@ -432,6 +436,47 @@ export default function VoucherViewer(props) {
                           </p>
                         ))}
                     </div>
+                    <div className="w-full h-[300px] border-2 border-gray-300 overflow-x-auto">
+                      <div className="flex w-[600px] border-b-2">
+                        <div className="w-[105px] font-bold px-2">date</div>
+                        <div className="w-[140px] font-bold px-2">
+                          Description
+                        </div>
+                        <div className="w-[105px] font-bold px-2">
+                          Exp. Type
+                        </div>
+                        <div className="w-[105px] font-bold px-2">
+                          Paym. Type
+                        </div>
+                        <div className="w-[100px] font-bold px-2">Amount</div>
+                      </div>
+                      {voucherData?.voucherExpenses?.map((current) => {
+                        return (
+                          <div className="flex w-[600px] border-b-2">
+                            <div className="w-[105px]  px-2">
+                              {current.date}
+                            </div>
+                            <div className="w-[140px] px-2">
+                              {current.description}
+                            </div>
+                            <div className="w-[105px]  px-2">
+                              {current.expenseType}
+                            </div>
+                            <div className="w-[105px]  px-2">
+                              {current.paymentType}{" "}
+                            </div>
+                            <div className="w-[100px]  px-2">
+                              {current.Amount}
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </div>
+                    <div className="font-bold w-[100%] text-center border-b-2 py-2">Bills Images</div>
+                    {imageArray &&
+                      imageArray.map((current) => {
+                        return <img src={`${current}`}></img>;
+                      })}
                     <div className="my-2 flex w-[100%]  ">
                       <div className="font-semibold my-2 px-2">Comment</div>
                       <textarea
@@ -439,11 +484,6 @@ export default function VoucherViewer(props) {
                         className="max-h-[100px] min-h-[50px] border-2 m-2 w-[60%]"
                       ></textarea>
                     </div>
-                    {imageArray &&
-                      imageArray.map((current) => {
-                        return <img src={`${current}`}></img>;
-                      })}
-
                     {voucherData.statusType == "Pending" && (
                       <div className="my-2 flex w-[100%] justify-evenly font-bold text-white">
                         <p

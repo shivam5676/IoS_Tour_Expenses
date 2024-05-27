@@ -17,14 +17,15 @@ function DownloadYearReportButton(props) {
   useEffect(() => {
     console.log(props.categoryData);
     // if()
-   props.categoryData && Object.keys(props.categoryData).forEach((currentKey) => {
-      const currentData = props.categoryData[currentKey];
-      food += currentData.food || 0;
-      travel += currentData.travel || 0;
-      accomondation += currentData.acc || 0;
-      misc += currentData.misc || 0;
-    });
-    
+    props.categoryData &&
+      Object.keys(props.categoryData).forEach((currentKey) => {
+        const currentData = props.categoryData[currentKey];
+        food += currentData.food || 0;
+        travel += currentData.travel || 0;
+        accomondation += currentData.acc || 0;
+        misc += currentData.misc || 0;
+      });
+
     setCategory({ food, travel, accomondation, misc });
   }, [props.categoryData]);
 
@@ -35,7 +36,8 @@ function DownloadYearReportButton(props) {
         <YearlyPdf
           expenseData={props.expenseData}
           categoryData={category}
-
+          monthExpense={props.categoryData}
+          year={props.year}
           //   data={data}
           //   voucherData={props.voucherData}
           //   billsImages={props.bills}

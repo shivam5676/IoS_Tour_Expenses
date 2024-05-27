@@ -63,12 +63,15 @@ function YearWiseReportGeneration(props) {
               expensesObj[monthName].food += +current.Amount;
             }
             if (current.paymentType == "Cash") {
+              expensesObj[monthName].cash += +current.Amount;
               cashExpense += +current.Amount;
             }
             if (
               current.paymentType == "Online (train/flight)" ||
               current.paymentType == "Credit Card"
             ) {
+              expensesObj[monthName].digital += +current.Amount;
+
               digitalExpense += +current.Amount;
             }
           } else {
@@ -78,14 +81,19 @@ function YearWiseReportGeneration(props) {
               food: current.expenseType === "Food(Da)" ? +current.Amount : 0,
               misc: current.expenseType === "Misc" ? +current.Amount : 0,
               travel: current.expenseType === "Travel" ? +current.Amount : 0,
+              digital: 0,
+              cash: 0,
             };
             if (current.paymentType == "Cash") {
               cashExpense += +current.Amount;
+              expensesObj[monthName].cash += +current.Amount;
             }
             if (
               current.paymentType == "Online (train/flight)" ||
               current.paymentType == "Credit Card"
             ) {
+              expensesObj[monthName].digital += +current.Amount;
+
               digitalExpense += +current.Amount;
             }
           }
@@ -110,6 +118,7 @@ function YearWiseReportGeneration(props) {
       <DownloadYearReportButton
         categoryData={reportData}
         expenseData={expenseData}
+        year={props.selectedYear}
       ></DownloadYearReportButton>
       <div className="flex ">
         <div className="w-[33%] bg-gradient-to-r  from-[#EA8D8D] to-[#A890FE]  font-extrabold text-xl rounded-md ">
