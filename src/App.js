@@ -15,6 +15,7 @@ import { BlobProvider } from "@react-pdf/renderer";
 import MyDocument from "./components/MyDocument";
 import FileSaver from "file-saver";
 import UserPdf from "./components/UserPdf";
+import UserVoucherPanel from "./components/user/userVoucherPanel";
 
 function App() {
   const ctx = useContext(Context);
@@ -49,7 +50,11 @@ function App() {
             <Route path="*" element={<AdminPanel />} />
           </>
         ) : !isLoggedIn.isAdmin ? (
-          <Route path="*" element={<UserHomePage />} />
+          <>
+            {" "}
+            <Route path="*" element={<UserHomePage />} />
+            <Route path="/userVouchers" element={<UserVoucherPanel></UserVoucherPanel>}></Route>
+          </>
         ) : (
           <Route path="*" element={<Login />} />
         )}

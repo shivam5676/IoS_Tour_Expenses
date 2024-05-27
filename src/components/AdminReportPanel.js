@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import AdminSidePanel from "./AdminSidePanel";
 import DatePicker from "react-datepicker";
 import axios from "axios";
@@ -13,7 +13,9 @@ function AdminReportPanel() {
   const [startDate, setStartDate] = useState(new Date());
   const [reportType, setReportType] = useState("All");
   const [formattedDate, setFormattedDate] = useState(null);
-
+  const userIdRef = useRef(null);
+  const [userId, setUserId] = useState(null);
+  console.log(userIdRef.current);
   // const [chartData, setChartData] = useState({});
   const handleReportTypeChange = (event) => {
     setReportType(event.target.value);
@@ -43,7 +45,19 @@ function AdminReportPanel() {
     }
     return "MM/dd/yyyy";
   };
-
+  const userIdHandler = (e) => {
+    const value = e.target.value;
+    // Allow only digits
+    if (/^\d*$/.test(value)) {
+      setUserId(value);
+    }
+    // userIdRef.current = e.target.value;
+  };
+  const searchUserHandler = () => {
+    userIdRef.current = userId;
+    setUserId(+userId.current)
+  };
+  console.log(userId);
   return (
     <div className="w-[100vw] h-[100vh]  text-white bg-transparent  py-[90px]">
       <div className="min-[800px]:mx-4 min-[1000px]:mx-16 mx-4 min-[1200px]:mx-28 flex">
@@ -114,10 +128,17 @@ function AdminReportPanel() {
               {reportType == "user" && (
                 <div className="flex items-center text-yellow-400 font-bold ">
                   <input
+                    value={userId}
                     className="bg-transparent border-white border-2 mx-2 w-[100px] px-2 text-white"
                     placeholder="enter user id here"
+                    onChange={userIdHandler}
                   ></input>
-                  <p className="bg-white text-[.9rem] px-2 py-1 rounded-md">
+                  <p
+                    className="bg-white text-[.9rem] px-2 py-1 rounded-md"
+                    onClick={() => {
+                      searchUserHandler();
+                    }}
+                  >
                     search
                   </p>
                 </div>
@@ -146,8 +167,10 @@ function AdminReportPanel() {
                 selectedYear={formattedDate}
               ></YearWiseReportGeneration>
             )} */}
-            {reportType === "user" && (
-              <UserWiseReportGeneration></UserWiseReportGeneration>
+            {reportType === "user" && userIdRef.current && (
+              <UserWiseReportGeneration
+                userId={userId}
+              ></UserWiseReportGeneration>
             )}
             {reportType === "token" && <TokenWiseReport></TokenWiseReport>}
           </div>

@@ -5,7 +5,7 @@ import BarChartUser from "./BarChartUser";
 import DownloadUserPdfButton from "./DownloadUserPdfButton";
 // import LineChart from "./barChartYearWise";
 
-function UserWiseReportGeneration() {
+function UserWiseReportGeneration(props) {
   const user = JSON.parse(localStorage.getItem("token"));
 
   const connectionUrl = "http://localhost:2000";
@@ -40,7 +40,7 @@ function UserWiseReportGeneration() {
     async function fetchFilterData() {
       try {
         const response = await axios.post(
-          `${connectionUrl}/admin/user?uid=${18}`,
+          `${connectionUrl}/admin/user?uid=${props.userId}`,
           {
             token: user.access_token,
             domain: user.domain,
@@ -104,7 +104,7 @@ function UserWiseReportGeneration() {
       }
     }
     fetchFilterData();
-  }, []);
+  }, [props.userId]);
   console.log(userData);
   return (
     <>

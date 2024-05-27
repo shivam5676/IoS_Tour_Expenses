@@ -44,7 +44,7 @@ function UserSidePanel() {
           </p>
           <p
             className="font-bold hover:bg-purple-500 w-[60%] my-1 min-[1400px]:my-2   text-center hover:text-white"
-            onClick={() => navigate("/changePassword")}
+            onClick={() => navigate("/userVouchers")}
           >
             Vouchers
           </p>
