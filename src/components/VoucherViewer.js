@@ -33,7 +33,7 @@ export default function VoucherViewer(props) {
         `${connectionUrl}/admin/acceptVoucher`,
         {
           voucherId: props.voucherId,
-          userId: 1,
+          // userId: ,
           token: user.access_token,
           domain: user.domain,
         }

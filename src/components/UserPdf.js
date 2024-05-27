@@ -44,7 +44,7 @@ const UserPdf = (props) => (
   <Document>
     <Page size="A4" style={styles.page}>
       {" "}
-      {console.log(props.tourData, props.expenseData)}
+      {/* {console.log(props.tourData, props.expenseData)} */}
       <View
         style={{
           width: "100%",
@@ -88,10 +88,10 @@ const UserPdf = (props) => (
             }}
           >
             <Text style={{ width: "50%", paddingVertical: "5px" }}>
-              Name : {props.userData.firstName} {props.userData.lastName}
+              Name : {props.userData?.firstName} {props?.userData?.lastName}
             </Text>
             <Text style={{ width: "50%" }}>
-              UserId : {props.userData.userId}
+              UserId : {props?.userData?.userId}
             </Text>
           </View>
           <Text style={{ paddingVertical: "5px" }}>
@@ -135,7 +135,7 @@ const UserPdf = (props) => (
                 </View>
                 <View>
                   <Text>
-                    By Digital Method : {props?.tourData[keys].digitalExpense}
+                    By Digital Method : {props?.tourData[keys].digitalpayment}
                   </Text>
                 </View>
               </View>

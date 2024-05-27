@@ -137,7 +137,9 @@ const MyDocument = (props) => (
         }}
       >
         <Text>Voucher No :</Text>
-        <Text style={{ borderTop: "1px" }}>{`OMR/YEAR/${props.voucherData?.id}`}</Text>
+        <Text
+          style={{ borderTop: "1px" }}
+        >{`OMR/YEAR/${props?.voucherData?.id}`}</Text>
       </View>
       {/* <View style={{ position: "absolute",right:20,marginTop:"50",border:"2",paddingHorizontal:"15",paddingVertical:"7",flexDirection:"row" }}>
           <Text>3444256</Text>
@@ -151,8 +153,8 @@ const MyDocument = (props) => (
           <View style={{ width: "70%" }}>
             {" "}
             <Text style={styles.nameField}>
-              Name : {props.voucherData?.user.firstName}{" "}
-              {props.voucherData.user.lastName}
+              Name : {props.voucherData?.user?.firstName}{" "}
+              {props.voucherData.user?.lastName}
             </Text>
             <Text style={styles.nameField}>
               Designation : {props.voucherData?.user?.designation}
@@ -478,12 +480,13 @@ const MyDocument = (props) => (
           <View
             style={{ borderTop: "1px", padding: "4px", fontFamily: "Roboto" }}
           >
+            {console.log(props?.expenseData)}
             <Text>
               Total Expenses (rs) :
-              {props.expenseData?.Misc +
-                props.expenseData?.food +
-                props.expenseData?.travel +
-                props.expenseData?.accomondation}
+              {+props.expenseData?.Misc +
+                +props.expenseData?.food +
+                +props.expenseData?.travel +
+                +props.expenseData?.accomondation}
             </Text>
           </View>
         </View>
@@ -508,8 +511,9 @@ const MyDocument = (props) => (
         >
           Payable Amount :
         </Text>
+        {console.log(props?.data)}
         <View style={{ width: "50%", padding: "10" }}>
-          <Text>{props.data.settlementAmount}</Text>
+          <Text>{props.data?.settlementAmount}</Text>
           <Text>(user will pay)</Text>
         </View>
       </View>

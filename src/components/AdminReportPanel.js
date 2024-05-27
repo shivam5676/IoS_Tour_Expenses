@@ -15,6 +15,8 @@ function AdminReportPanel() {
   const [formattedDate, setFormattedDate] = useState(null);
   const userIdRef = useRef(null);
   const [userId, setUserId] = useState(null);
+  const [voucherId, setVoucherId] = useState(null);
+  const voucherIdRef = useRef(null);
   console.log(userIdRef.current);
   // const [chartData, setChartData] = useState({});
   const handleReportTypeChange = (event) => {
@@ -55,9 +57,9 @@ function AdminReportPanel() {
   };
   const searchUserHandler = () => {
     userIdRef.current = userId;
-    setUserId(+userId.current)
+    setUserId(+userIdRef.current);
   };
-  console.log(userId);
+  console.log(userId, userIdRef.current);
   return (
     <div className="w-[100vw] h-[100vh]  text-white bg-transparent  py-[90px]">
       <div className="min-[800px]:mx-4 min-[1000px]:mx-16 mx-4 min-[1200px]:mx-28 flex">
@@ -134,7 +136,7 @@ function AdminReportPanel() {
                     onChange={userIdHandler}
                   ></input>
                   <p
-                    className="bg-white text-[.9rem] px-2 py-1 rounded-md"
+                    className="bg-yellow-300 text-black text-[.9rem] px-2 py-1 rounded-md cursor-pointer hover:text-gray-500"
                     onClick={() => {
                       searchUserHandler();
                     }}
@@ -148,8 +150,15 @@ function AdminReportPanel() {
                   <input
                     className="bg-transparent border-white border-2 mx-2 w-[100px] px-2 text-white"
                     placeholder="enter Voucher Token "
+                    ref={voucherIdRef}
                   ></input>
-                  <p className="bg-white text-[.9rem] px-2 py-1 rounded-md">
+                  <p
+                    className="bg-yellow-300 text-black text-[.9rem] px-2 py-1 rounded-md cursor-pointer hover:text-gray-500"
+                    onClick={() => {
+                      console.log(voucherIdRef.current.value);
+                      setVoucherId(voucherIdRef.current.value)
+                    }}
+                  >
                     search
                   </p>
                 </div>
@@ -172,7 +181,9 @@ function AdminReportPanel() {
                 userId={userId}
               ></UserWiseReportGeneration>
             )}
-            {reportType === "token" && <TokenWiseReport></TokenWiseReport>}
+            {reportType === "token" && voucherIdRef.current?.value && (
+              <TokenWiseReport voucherId={voucherId }></TokenWiseReport>
+            )}
           </div>
         </div>
       </div>

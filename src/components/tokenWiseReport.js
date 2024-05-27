@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import CountUp from "react-countup";
 import DownloadPdfButton from "./DownloadPdfButton";
 
-function TokenWiseReport() {
+function TokenWiseReport(props) {
   const user = JSON.parse(localStorage.getItem("token"));
   const [imageArray, setImageArray] = useState(null);
 
@@ -21,7 +21,7 @@ function TokenWiseReport() {
         const response = await axios.post(
           `${connectionUrl}/admin/trackVoucher`,
           {
-            voucherId: 1,
+            voucherId: props.voucherId,
             token: user.access_token,
             domain: user.domain,
           }
@@ -34,7 +34,7 @@ function TokenWiseReport() {
       }
     }
     fetchData();
-  }, []);
+  }, [props.voucherId]);
   let CashPayment = 0;
   let onlinePayment = 0;
   let creditCard = 0;

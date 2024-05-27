@@ -36,6 +36,7 @@ function UserWiseReportGeneration(props) {
   let cashExpense = 0;
   let digitalExpense = 0;
   let expensesObj = {};
+  console.log(props.userId);
   useEffect(() => {
     async function fetchFilterData() {
       try {
@@ -149,7 +150,7 @@ function UserWiseReportGeneration(props) {
         <div className="flex mt-3 items-center  overflow-x-auto overflow-y-hidden  mx-2">
           <div className="bg-gradient-to-r from-black to-white flex-1 h-[2px]"></div>
           <div className="md:font-bold text-2xl m-3 text-white font-medium">
-            Category Wise Expenses
+            Tour Wise Expenses
           </div>
           <div className="bg-gradient-to-r from-white to-black flex-1 h-[2px]"></div>
         </div>
