@@ -49,7 +49,7 @@ function AdminSidePanel() {
         <div className=" min-w-[100%] max-w-[270px] text-white ">
           <div className="flex m-4  bg-gradient-to-r from-[#EA8D8D] to-[#553cb1] rounded-md py-2 items-center">
             <div className="flex ps-2">
-              <img src={iosLogo} className="w-[40px] h-[40px]"></img>
+              <img src={iosLogo} className="w-[40px] h-[40px]" draggable={false}></img>
             </div>
             <div className="p-2">
               <p className=" text-[.8rem] font-bold border-b-2 ">
