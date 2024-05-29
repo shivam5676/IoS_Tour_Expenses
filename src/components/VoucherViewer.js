@@ -16,7 +16,7 @@ export default function VoucherViewer(props) {
   //   const [open, setOpen] = useState(false);
   const ctx = useContext(Context);
   const cancelButtonRef = useRef(null);
-  let CommentRef = useRef();
+  let CommentRef = useRef("");
   const firstNameRef = useRef();
   const lastNameRef = useRef();
   const emailRef = useRef();
@@ -33,7 +33,7 @@ export default function VoucherViewer(props) {
         `${connectionUrl}/admin/acceptVoucher`,
         {
           voucherId: props.voucherId,
-          // userId: ,
+          comment: CommentRef.current.value,
           token: user.access_token,
           domain: user.domain,
         }
@@ -56,7 +56,7 @@ export default function VoucherViewer(props) {
           voucherId: props.voucherId,
           token: user.access_token,
           domain: user.domain,
-          // userId: 1,
+          comment: CommentRef.current.value,
         }
       );
       // setVoucherStatus("Accepted");
@@ -202,6 +202,30 @@ export default function VoucherViewer(props) {
     ).toFixed(2);
   }
   console.log(settlementAmount);
+  const sendCommentHandler = async () => {
+    try {
+      const response = await axios.post(`${connectionUrl}/admin/postComment`, {
+        voucherId: props.voucherId,
+        // userId: ,
+        token: user.access_token,
+        domain: user.domain,
+        comment: CommentRef.current.value,
+      });
+      // setVoucherStatus("Accepted");
+
+      console.log(voucherData);
+      setVoucherData((prev) => {
+        return {
+          ...prev,
+          comment: CommentRef.current.value,
+          firstName: voucherData.user.firstName,
+          lastNAme: voucherData.user.lastNAme,
+        };
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  };
   return (
     <Transition.Root show={props.open} as={Fragment}>
       <Dialog
@@ -472,20 +496,45 @@ export default function VoucherViewer(props) {
                         );
                       })}
                     </div>
-                    <div className="font-bold w-[100%] text-center border-b-2 py-2">Bills Images</div>
+                    <div className="font-bold w-[100%] text-center border-b-2 py-2">
+                      Bills Images
+                    </div>
                     {imageArray &&
                       imageArray.map((current) => {
                         return <img src={`${current}`}></img>;
                       })}
-                    <div className="my-2 flex w-[100%]  ">
-                      <div className="font-semibold my-2 px-2">Comment</div>
-                      <textarea
-                        rows={3}
-                        className="max-h-[100px] min-h-[50px] border-2 m-2 w-[60%]"
-                      ></textarea>
-                    </div>
+                    {!voucherData.comment ? (
+                      <div className="my-2 flex w-[100%]  ">
+                        <div className="font-semibold my-2 px-2">Comment</div>
+                        <textarea
+                          rows={3}
+                          className="max-h-[100px] min-h-[50px] border-2 m-2 w-[60%]"
+                          ref={CommentRef}
+                        ></textarea>
+                      </div>
+                    ) : (
+                      <div className="my-2 flex w-[100%]  ">
+                        <div className="font-semibold my-2 px-2">Comment : </div>
+                        <div rows={3} className="text-[.85rem] m-2 w-[60%]">
+                          {voucherData.comment}
+                        </div>
+                      </div>
+                    )}
                     {voucherData.statusType == "Pending" && (
                       <div className="my-2 flex w-[100%] justify-evenly font-bold text-white">
+                        {!voucherData?.comment && (
+                          <p
+                            className="p-2 bg-orange-400 w-fit mx-2 rounded-md hover:bg-orange-600 cursor-pointer"
+                            onClick={() => {
+                              // setVoucherStatus("Rejected");
+                              // rejectVoucherHandler();
+                              console.log(CommentRef.current.value);
+                              sendCommentHandler();
+                            }}
+                          >
+                            Comment Only
+                          </p>
+                        )}
                         <p
                           className="p-2 bg-blue-400 w-fit rounded-md hover:bg-blue-600 cursor-pointer"
                           onClick={() => {
