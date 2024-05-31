@@ -1,6 +1,7 @@
 import React from "react";
 import acceptedGif from "../assests/vote.gif";
 function CompletedVouchers(props) {
+  console.log(props?.accepted);
   return (
     <div className="shadow-md shadow-gray-700 w-[60%]  min-h-[250px] h-[40vh]  bg-white m-2 rounded-lg">
       <p className=" py-2 font-bold text-2xl text-center  rounded-t-lg text-white  bg-gradient-to-r from-[#dd2476] to-[#ff7e5f] ">
@@ -33,13 +34,13 @@ function CompletedVouchers(props) {
                     {current.id}
                   </p>
                   <p className="w-[27%] px-1 overflow-hidden whitespace-nowrap overflow-ellipsis">
-                    {current.user.firstName + " " + current.user.lastName}{" "}
+                    {current.user?.firstName + " " + current.user?.lastName}{" "}
                   </p>
                   <p className="w-[25%] px-1 overflow-hidden whitespace-nowrap overflow-ellipsis">
-                    {current.tourLocation}
+                    {current?.tourLocation}
                   </p>
                   <p className="w-[20%] px-1 overflow-hidden whitespace-nowrap overflow-ellipsis">
-                    {current.tourDate}{" "}
+                    {current?.tourDate}{" "}
                   </p>
                   <div className="w-[15%] px-1 overflow-hidden whitespace-nowrap overflow-ellipsis ">
                     <p className="bg-blue-300 text-white font-bold text-center rounded hover:bg-blue-500">

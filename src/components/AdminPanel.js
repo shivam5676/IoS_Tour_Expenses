@@ -42,11 +42,11 @@ function AdminPanel() {
   console.log(allData);
   allData?.forEach((current) => {
     console.log(current);
-    if (current.statusType === "Pending") {
+    if (current.status === "Pending") {
       vouchers.pending.push(current);
-    } else if (current.statusType === "Accepted") {
+    } else if (current.status === "Accepted") {
       vouchers.accepted.push(current);
-    } else if (current.statusType === "Rejected") {
+    } else if (current.status === "Rejected") {
       vouchers.rejected.push(current);
     }
   });
