@@ -496,14 +496,15 @@ export default function VoucherViewer(props) {
                         );
                       })}
                     </div>
-                    <div className="font-bold w-[100%] text-center border-b-2 py-2">
+                    <div className="font-bold w-[100%] text-center border-b-2 py-3">
                       Bills Images
                     </div>
                     {imageArray &&
                       imageArray.map((current) => {
                         return <img src={`${current}`}></img>;
                       })}
-                    {!voucherData.comment ? (
+                    {!voucherData.comment &&
+                    voucherData.statusType == "Pending" ? (
                       <div className="my-2 flex w-[100%]  ">
                         <div className="font-semibold my-2 px-2">Comment</div>
                         <textarea
@@ -514,44 +515,77 @@ export default function VoucherViewer(props) {
                       </div>
                     ) : (
                       <div className="my-2 flex w-[100%]  ">
-                        <div className="font-semibold my-2 px-2">Comment : </div>
+                        <div className="font-semibold my-2 px-2">
+                          Comment :{" "}
+                        </div>
                         <div rows={3} className="text-[.85rem] m-2 w-[60%]">
                           {voucherData.comment}
                         </div>
                       </div>
                     )}
+
+                    <div className="my-4 flex w-[100%]  ">
+                      <p className="mx-2  ">DA Allowances :</p>
+                      <input className="border-2 " type="number" ></input>
+                      <a
+                        className="group relative inline-block overflow-hidden border border-indigo-600 px-8 py-1 focus:outline-none focus:ring mx-2 "
+                        href="#"
+                        onClick={() => {
+                          setVoucherData((prev) => {
+                            return {
+                              ...prev,
+                              voucherDescription: {
+                                ...voucherData?.voucherDescription,
+                                dailyAllowance: 300,
+                              },
+                            };
+                          });
+                        }}
+                      >
+                        <span className="absolute inset-x-0 bottom-0 h-[2px] bg-indigo-600 transition-all group-hover:h-full group-active:bg-indigo-500"></span>
+
+                        <span className="relative text-sm font-medium text-indigo-600 transition-colors group-hover:text-white">
+                          Apply
+                        </span>
+                      </a>
+                    </div>
+
                     {voucherData.statusType == "Pending" && (
                       <div className="my-2 flex w-[100%] justify-evenly font-bold text-white">
-                        {!voucherData?.comment && (
+                        {!voucherData?.comment &&
+                          voucherData.statusType == "Pending" && (
+                            <p
+                              className="p-2 bg-orange-400 w-fit mx-2 rounded-md hover:bg-orange-600 cursor-pointer"
+                              onClick={() => {
+                                // setVoucherStatus("Rejected");
+                                // rejectVoucherHandler();
+                                console.log(CommentRef.current.value);
+                                sendCommentHandler();
+                              }}
+                            >
+                              Comment Only
+                            </p>
+                          )}
+
+                        <>
+                          <p
+                            className="p-2 bg-blue-400 w-fit rounded-md hover:bg-blue-600 cursor-pointer"
+                            onClick={() => {
+                              acceptVoucherHandler();
+                            }}
+                          >
+                            Accept
+                          </p>
                           <p
                             className="p-2 bg-orange-400 w-fit mx-2 rounded-md hover:bg-orange-600 cursor-pointer"
                             onClick={() => {
                               // setVoucherStatus("Rejected");
-                              // rejectVoucherHandler();
-                              console.log(CommentRef.current.value);
-                              sendCommentHandler();
+                              rejectVoucherHandler();
                             }}
                           >
-                            Comment Only
+                            Reject
                           </p>
-                        )}
-                        <p
-                          className="p-2 bg-blue-400 w-fit rounded-md hover:bg-blue-600 cursor-pointer"
-                          onClick={() => {
-                            acceptVoucherHandler();
-                          }}
-                        >
-                          Accept
-                        </p>
-                        <p
-                          className="p-2 bg-orange-400 w-fit mx-2 rounded-md hover:bg-orange-600 cursor-pointer"
-                          onClick={() => {
-                            // setVoucherStatus("Rejected");
-                            rejectVoucherHandler();
-                          }}
-                        >
-                          Reject
-                        </p>
+                        </>
                       </div>
                     )}
                   </div>

@@ -31,16 +31,16 @@ function CompletedVouchers(props) {
               return (
                 <div className="mx-2 bg-white text-black flex py-1 text-[.8rem] font-semibold">
                   <p className="w-[13%] px-1 overflow-hidden whitespace-nowrap overflow-ellipsis">
-                    {current.id}
+                    {current?.Voucher?.id}
                   </p>
                   <p className="w-[27%] px-1 overflow-hidden whitespace-nowrap overflow-ellipsis">
                     {current.user?.firstName + " " + current.user?.lastName}{" "}
                   </p>
                   <p className="w-[25%] px-1 overflow-hidden whitespace-nowrap overflow-ellipsis">
-                    {current?.tourLocation}
+                    {current?.Voucher.tourLocation}
                   </p>
                   <p className="w-[20%] px-1 overflow-hidden whitespace-nowrap overflow-ellipsis">
-                    {current?.tourDate}{" "}
+                    {current?.Voucher?.tourDate}{" "}
                   </p>
                   <div className="w-[15%] px-1 overflow-hidden whitespace-nowrap overflow-ellipsis ">
                     <p className="bg-blue-300 text-white font-bold text-center rounded hover:bg-blue-500">

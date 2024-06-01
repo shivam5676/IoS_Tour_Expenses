@@ -112,7 +112,7 @@ function AddExpenseModal(props) {
               leaveFrom="opacity-100 translate-y-0 sm:scale-100"
               leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
             >
-              <Dialog.Panel className="relative transform overflow-hidden rounded-lg text-left shadow-xl transition-all sm:my-8 w-[80%] md:w-[500px] py-4 bg-gradient-to-r from-[#26718f] to-[#37aa3d] text-white">
+              <Dialog.Panel className="relative transform overflow-hidden rounded-lg text-left shadow-xl transition-all sm:my-8 w-[80%] md:w-[500px] py-4 bg-gradient-to-r from-[#3a5f66] to-[#144786] text-white">
                 <div
                   className="fixed right-4 top-2 flex cursor-pointer font-bold underline"
                   onClick={() => props.onClose()}
