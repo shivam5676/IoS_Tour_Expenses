@@ -360,11 +360,11 @@ export default function VoucherViewer(props) {
                     </p>
                     <div className="flex w-[100%] min-[700px]:flex-row flex-col">
                       <div className="w-[50%] px-2 border-2 max-[700px]:w-[100%] flex py-1">
-                        <p className="font-semibold"> DA (rs/day) : </p>{" "}
+                        <p className="font-semibold"> DA ({voucherData?.currency}/day) : </p>{" "}
                         {+voucherData.voucherDescription?.dailyAllowance}
                       </div>
                       <div className="w-[50%] px-2 border-2 max-[700px]:w-[100%] flex py-1 ">
-                        <p className="font-semibold"> DA (rs/hr) : </p>{" "}
+                        <p className="font-semibold"> DA ({voucherData?.currency}/hr) : </p>{" "}
                         {(
                           +voucherData.voucherDescription?.dailyAllowance / 24
                         ).toFixed(2)}
@@ -373,7 +373,7 @@ export default function VoucherViewer(props) {
 
                     <div className="flex w-[100%] min-[700px]:flex-row flex-col">
                       <p className="w-[100%] px-2 font font-semibold bg-blue-300">
-                        Total DA Alloted (rs) : {totalDa}
+                        Total DA Alloted ({voucherData?.currency}) : {totalDa}
                       </p>
                     </div>
                     <p className="text-center font-bold text-xl py-2">
@@ -399,7 +399,7 @@ export default function VoucherViewer(props) {
                     </div>
                     <div className="flex w-[100%] min-[700px]:flex-row flex-col">
                       <p className="w-[100%] px-2 font font-semibold bg-blue-300">
-                        Total Tour Expenses (rs) :
+                        Total Tour Expenses ({voucherData?.currency}) :
                         {Misc + accomondation + travel + food}
                       </p>
                     </div>
@@ -442,7 +442,8 @@ export default function VoucherViewer(props) {
                         <p
                           className={`w-[100%] px-2 font font-semibold ${"bg-red-400"} text-white p-2`}
                         >
-                          Amount for settlement : {settlementAmount}
+                          Amount for settlement : {settlementAmount} (
+                          {voucherData?.currency})
                           <span> (user will deposit in office)</span>
                         </p>
                       )}
@@ -451,7 +452,9 @@ export default function VoucherViewer(props) {
                           <p
                             className={`w-[100%] px-2 font font-semibold ${"bg-yellow-400"} text-white p-2`}
                           >
-                            Amount for settlement : {settlementAmount}
+                            Amount for settlement : {settlementAmount} (
+                            {voucherData?.currency})
+                            <span> (user will recieve from office )</span>{" "}
                           </p>
                         ))}
                     </div>

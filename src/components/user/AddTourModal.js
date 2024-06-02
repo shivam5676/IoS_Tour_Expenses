@@ -26,11 +26,6 @@ function AddTourModal(props) {
   const user = JSON.parse(localStorage.getItem("token"));
 
   const saveTourHandler = async () => {
-    // console.log({
-    //   city: citySelected || cityRef.current.value,
-    //   currency: currencyRef.current.value,
-    // });
-    // return;
     try {
       const response = await axios.post(`${connectionUrl}/user/createTour`, {
         token: user.access_token,
@@ -44,7 +39,7 @@ function AddTourModal(props) {
       // console.log(res);
       toast.success("tour created successfully...");
       props.close();
-      
+
       // ctx.userExpenses(res);
       //   ctx.AllVoucher(response.data.userList);
     } catch (err) {
@@ -179,17 +174,6 @@ function AddTourModal(props) {
                     )}
                   </div>
                 </div>
-                {/* <div className="flex flex-col sm:flex-row px-12">
-                  {" "}
-                  <div className="flex flex-col px-2 w-[100%] py-2">
-                    <label>Description</label>
-                    <textarea
-                      rows={3}
-                      className="outline-none border-2 border-white  bg-transparent"
-                      ref={descriptionRef}
-                    ></textarea>
-                  </div>
-                </div>*/}
                 <div className="flex  px-12">
                   <div className="flex  px-2 w-[100%] py-2">
                     <div>

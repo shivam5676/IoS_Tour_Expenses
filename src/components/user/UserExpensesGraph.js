@@ -15,18 +15,17 @@ function UserExpensesGraph(props) {
   let Accomondation = 0;
   ctx.userCurrentTourExpenseData.forEach((current) => {
     if (current.expenseType == "Food(Da)") {
-      food++;
+      food += +current.Amount;
     } else if (current.expenseType == "Travel") {
-      Travel++;
+      Travel += +current.Amount;
     } else if (current.expenseType == "Misc") {
-      Misc++;
+      Misc += +current.Amount;
     } else if (current.expenseType == "Accomondation") {
-      Accomondation++;
+      Accomondation += +current.Amount;
     }
   });
-  // let pending = 1000;
-  // let rejected = 400;
-  // let accepted = 200;
+  
+  console.log(Travel, Misc, food, Accomondation);
   const data = {
     labels: ["Misc", "Travel", "Food", "Accomondation"],
     datasets: [
