@@ -44,6 +44,7 @@ function AddTourModal(props) {
       // console.log(res);
       toast.success("tour created successfully...");
       props.close();
+      
       // ctx.userExpenses(res);
       //   ctx.AllVoucher(response.data.userList);
     } catch (err) {
