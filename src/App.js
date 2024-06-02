@@ -48,6 +48,8 @@ function App() {
             <Route path="/adminUser" element={<AdminUserPanel />} />
             <Route path="/adminReport" element={<AdminReportPanel />} />
             <Route path="*" element={<AdminPanel />} />
+            <Route path="/user" element={<UserHomePage />} />
+            <Route path="/userVouchers" element={<UserVoucherPanel></UserVoucherPanel>}></Route>
           </>
         ) : !isLoggedIn.isAdmin ? (
           <>

@@ -17,6 +17,8 @@ function AddTourModal(props) {
 
   const [stateSelected, setStateSelected] = useState(null);
   const [stateDropDownOpen, setStateDropDownOpen] = useState(false);
+  const currencyRef = useRef("");
+  const cityRef = useRef("");
 
   const ctx = useContext(Context);
 
@@ -24,11 +26,17 @@ function AddTourModal(props) {
   const user = JSON.parse(localStorage.getItem("token"));
 
   const saveTourHandler = async () => {
+    // console.log({
+    //   city: citySelected || cityRef.current.value,
+    //   currency: currencyRef.current.value,
+    // });
+    // return;
     try {
       const response = await axios.post(`${connectionUrl}/user/createTour`, {
-        token:user.access_token,
-        domain:user.domain,
-        city: citySelected,
+        token: user.access_token,
+        domain: user.domain,
+        city: citySelected || cityRef.current.value,
+        currency: currencyRef.current.value,
       });
       const res = response.data.voucher;
 
@@ -39,7 +47,11 @@ function AddTourModal(props) {
       // ctx.userExpenses(res);
       //   ctx.AllVoucher(response.data.userList);
     } catch (err) {
-      toast.error("something went wrong ....");
+      if (err.response && err.response.data) {
+        toast.error(err.response.data.msg);
+      } else {
+        toast.error("something went wrong");
+      }
       console.log(err);
     }
   };
@@ -176,32 +188,35 @@ function AddTourModal(props) {
                       ref={descriptionRef}
                     ></textarea>
                   </div>
+                </div>*/}
+                <div className="flex  px-12">
+                  <div className="flex  px-2 w-[100%] py-2">
+                    <div>
+                      <p>
+                        City :
+                        <input
+                          className="outline-none border-2 border-white  bg-transparent mx-2"
+                          ref={cityRef}
+                        ></input>
+                      </p>
+                      <p className="text-sm">(if Not present in Above list)</p>
+                    </div>
+                  </div>
                 </div>
-                <div className="flex flex-col sm:flex-row px-12">
-                  <div className="flex flex-col px-2 w-[100%] py-2">
-                    <label>Voucher No (if present)</label>
-                    <input
-                      className="outline-none border-2 border-white  bg-transparent"
-                      ref={voucherRef}
-                    ></input>
+                <div className="flex  px-12">
+                  <div className="flex  px-2 w-[100%] py-2">
+                    <div>
+                      <p>
+                        Currency :
+                        <input
+                          className="outline-none border-2 border-white  bg-transparent mx-2"
+                          ref={currencyRef}
+                        ></input>
+                      </p>
+                      <p className="text-sm"> (Rupees ,Euro ,USD , etc ....)</p>
+                    </div>
                   </div>
-                  <div className="flex flex-col px-2 w-[100%] py-2">
-                    <label>Payment Type</label>
-                    <select
-                      className="outline-none border-2 text-black font-semibold border-white  bg-transparent"
-                      ref={paymentTypeRef}
-                      onChange={(e) => {
-                        paymentTypeRef.current.value = e.target.value;
-                      }}
-                    >
-                      <div value={"Credit Card"}>Credit card</div>
-                      <div value={"Cash"}>Cash</div>
-                      <div value={"Online (train/flight)"}>
-                        Online(train/flight)
-                      </div>
-                    </select>
-                  </div>
-                </div> */}
+                </div>
                 <div className="w-[100%] flex  justify-center mb-4 mt-6">
                   <p
                     className="w-[80%] hover:bg-gray-300 bg-white text-black text-center font-semibold py-3 rounded-md cursor-pointer"

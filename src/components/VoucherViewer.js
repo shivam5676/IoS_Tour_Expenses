@@ -17,14 +17,8 @@ export default function VoucherViewer(props) {
   const ctx = useContext(Context);
   const cancelButtonRef = useRef(null);
   let CommentRef = useRef("");
-  const firstNameRef = useRef();
-  const lastNameRef = useRef();
-  const emailRef = useRef();
-  const passwordRef = useRef();
-  const mobileRef = useRef();
-  // useEffect(() => {
-  //   console.log("object");
-  // }, []);
+  const daAllowanceRef = useRef(0);
+
   const user = JSON.parse(localStorage.getItem("token"));
 
   const acceptVoucherHandler = async () => {
@@ -36,6 +30,7 @@ export default function VoucherViewer(props) {
           comment: CommentRef.current.value,
           token: user.access_token,
           domain: user.domain,
+          dailyAllowance: daAllowanceRef.current.value,
         }
       );
       // setVoucherStatus("Accepted");
@@ -301,7 +296,7 @@ export default function VoucherViewer(props) {
                       </div>
                       <div className="w-[60%] px-2 border-2 max-[700px]:w-[100%] flex py-1 ">
                         <p className="font-semibold ">Employee id : </p>
-                        IOS/EMP/5678
+                        IOS/EMP/{voucherData?.userId}
                       </div>
                     </div>
 
@@ -526,7 +521,11 @@ export default function VoucherViewer(props) {
 
                     <div className="my-4 flex w-[100%]  ">
                       <p className="mx-2  ">DA Allowances :</p>
-                      <input className="border-2 " type="number" ></input>
+                      <input
+                        className="border-2 "
+                        type="number"
+                        ref={daAllowanceRef}
+                      ></input>
                       <a
                         className="group relative inline-block overflow-hidden border border-indigo-600 px-8 py-1 focus:outline-none focus:ring mx-2 "
                         href="#"
@@ -536,7 +535,7 @@ export default function VoucherViewer(props) {
                               ...prev,
                               voucherDescription: {
                                 ...voucherData?.voucherDescription,
-                                dailyAllowance: 300,
+                                dailyAllowance: daAllowanceRef.current.value,
                               },
                             };
                           });

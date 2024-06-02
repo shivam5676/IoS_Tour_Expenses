@@ -45,33 +45,50 @@ function NavBar() {
               Voucher Tracker
             </p>
           </a>
-          {userType?.isAdmin && (
-            <p className="bg-blue-500 p-2 rounded-md text-white font-semibold">
-              Admin Mode
-            </p>
-          )}
+          {userType?.isAdmin &&
+            path !== "/USER" &&
+            path !== "/USERVOUCHERS" && (
+              <p className="bg-blue-500 p-2 rounded-md text-white font-semibold">
+                Admin Mode
+              </p>
+            )}
 
           <div className="flex items-center space-x-6 rtl:space-x-reverse">
-            {userType?.isAdmin ? (
-              <a
-                onClick={() => {
-                  setOpen(true);
-                }}
-                className="text-lg font-bold text-semibold border-2 border-yellow-500 text-yellow-500 dark:text-white  px-2 rounded-md"
-              >
-                create user
-              </a>
-            ) : (
-              <a
-                onClick={() => {
-                  // setOpen(true);
-                  setTourModal(true);
-                }}
-                className="text-lg font-bold text-semibold border-2 border-yellow-500 text-yellow-500 dark:text-white  px-2 rounded-md"
-              >
-                Add Tour
-              </a>
-            )}
+            {userType?.isAdmin &&
+              path != "/USER" &&
+              path != "/USERVOUCHERS" && (
+                <a
+                  onClick={() => {
+                    setOpen(true);
+                  }}
+                  className="text-lg font-bold text-semibold border-2 border-yellow-500 text-yellow-500 dark:text-white  px-2 rounded-md"
+                >
+                  create user
+                </a>
+              )}{" "}
+            {userType?.isAdmin
+              ? (path == "/USER" || path == "/USERVOUCHERS") && (
+                  <a
+                    onClick={() => {
+                      // setOpen(true);
+                      setTourModal(true);
+                    }}
+                    className="text-lg font-bold text-semibold border-2 border-yellow-500 text-yellow-500 dark:text-white  px-2 rounded-md"
+                  >
+                    Add Tour
+                  </a>
+                )
+              : userType && (
+                  <a
+                    onClick={() => {
+                      // setOpen(true);
+                      setTourModal(true);
+                    }}
+                    className="text-lg font-bold text-semibold border-2 border-yellow-500 text-yellow-500 dark:text-white  px-2 rounded-md"
+                  >
+                    Add Tour
+                  </a>
+                )}
             {!userType ? (
               <a
                 href="/login"
@@ -86,7 +103,7 @@ function NavBar() {
                 onClick={() => {
                   localStorage.removeItem("token");
                   ctx.logOutHandler();
-                  window.location.href = '/login'
+                  window.location.href = "/login";
                   // navigate("/home");
                 }}
               >
