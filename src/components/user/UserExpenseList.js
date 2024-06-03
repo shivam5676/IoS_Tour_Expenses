@@ -5,13 +5,30 @@ import Context from "../../store/Context";
 import AddtourDescriptionModal from "./AddtourDescription";
 import { FaPenSquare } from "react-icons/fa";
 import { RiDeleteBin2Fill } from "react-icons/ri";
+import axios from "axios";
+import { toast } from "react-toastify";
 
 function UserExpenseList(props) {
   const [open, setOpen] = useState(false);
   const [openDescription, setOpenDescription] = useState(false);
+  const connectionUrl = "http://localhost:2000";
+  const user = JSON.parse(localStorage.getItem("token"));
 
   const ctx = useContext(Context);
   console.log(ctx.userCurrentTourExpenseData);
+  const deleteExpenseHAndler = async (id) => {
+    try {
+      const response = await axios.post(`${connectionUrl}/user/deleteExpense`, {
+        expenseId: id,
+        token: user.access_token,
+        domain: user.domain,
+      });
+      ctx.deleteUserCurrentTourExpenseHandler(id);
+      toast.success("expense deleted successfully");
+    } catch (err) {
+      console.log(err);
+    }
+  };
   return (
     <>
       <AddtourDescriptionModal
@@ -91,7 +108,12 @@ function UserExpenseList(props) {
                         View
                       </p>
                       <div>
-                        <RiDeleteBin2Fill className="w-[25px] h-[25px] mx-2 text-red-500 hover:text-red-700 cursor-pointer"></RiDeleteBin2Fill>
+                        <RiDeleteBin2Fill
+                          className="w-[25px] h-[25px] mx-2 text-red-500 hover:text-red-700 cursor-pointer"
+                          onClick={() => {
+                            deleteExpenseHAndler(current.id);
+                          }}
+                        ></RiDeleteBin2Fill>
                       </div>
                     </div>
                   </div>

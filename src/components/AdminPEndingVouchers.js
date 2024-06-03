@@ -17,7 +17,7 @@ function AdminPEndingVouchers(props) {
         voucherId={Id}
         open={open}
       ></VoucherViewer>{" "}
-      <p className=" py-2 font-bold text-2xl text-center rounded-t-lg text-white bg-gradient-to-r from-[#dd2476] to-[#ff7e5f] ">
+      <p className=" py-2 font-bold text-2xl text-center rounded-t-lg text-white  bg-[#44dbbb] ">
         Pending Vouchers{" "}
       </p>
       {props.pending.length == 0 && (
@@ -59,7 +59,7 @@ function AdminPEndingVouchers(props) {
                   </p>
                   <div className="w-[15%] px-1 overflow-hidden whitespace-nowrap overflow-ellipsis ">
                     <p
-                      className="bg-blue-300 text-white font-bold text-center rounded hover:bg-blue-500"
+                      className="bg-blue-500 text-white font-bold text-center rounded hover:bg-blue-700  cursor-pointer"
                       onClick={() => {
                         setOpen(true);
                         setId(current.Voucher.id);

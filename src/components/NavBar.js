@@ -34,7 +34,7 @@ function NavBar() {
           setOpen(false);
         }}
       ></SignUpModal>
-      <nav className=" border-gray-200  fixed w-[100vw]  border-b-2  ">
+      <nav className=" border-gray-200  fixed w-[100vw]  border-b-2  backdrop-blur-sm bg-white/20">
         <div className="flex flex-wrap justify-between items-center mx-auto max-w-screen-xl px-16 py-3">
           <a
             href=""
@@ -61,7 +61,7 @@ function NavBar() {
                   onClick={() => {
                     setOpen(true);
                   }}
-                  className="text-lg font-bold text-semibold border-2 border-yellow-500 text-yellow-500 dark:text-white  px-2 rounded-md"
+                  className="text-lg font-bold text-semibold border-2 border-yellow-500 text-yellow-500 dark:text-white hover:bg-yellow-500 hover:text-white  px-2 py-1 rounded-md"
                 >
                   create user
                 </a>
@@ -84,7 +84,7 @@ function NavBar() {
                       // setOpen(true);
                       setTourModal(true);
                     }}
-                    className="text-lg font-bold text-semibold border-2 border-yellow-500 text-yellow-500 dark:text-white  px-2 rounded-md"
+                    className="text-lg font-bold text-semibold border-2  text-yellow-500 dark:text-white hover:bg-yellow-500 hover:text-white  px-2 py-1 rounded-md"
                   >
                     Add Tour
                   </a>
@@ -92,14 +92,14 @@ function NavBar() {
             {!userType ? (
               <a
                 href="/login"
-                className="text-lg font-bold text-semibold border-2 border-yellow-500 text-yellow-500 dark:text-white  px-2 rounded-md"
+                className="text-lg font-bold text-semibold border-2 border-yellow-500  text-yellow-500 dark:text-white hover:bg-yellow-500 hover:text-white  px-2 py-1   rounded-md"
               >
                 Login
               </a>
             ) : (
               <a
                 // href="/login"
-                className="text-lg font-bold text-semibold border-2 border-yellow-500 text-yellow-500 dark:text-white  px-2 rounded-md"
+                className="text-lg font-bold text-semibold border-2 border-yellow-500 text-white dark:text-white bg-yellow-500  px-2 py-1 cursor-pointer rounded-md"
                 onClick={() => {
                   localStorage.removeItem("token");
                   ctx.logOutHandler();

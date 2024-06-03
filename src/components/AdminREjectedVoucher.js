@@ -3,7 +3,7 @@ import rejectedGif from "../assests/payment.gif";
 function AdminREjectedVoucher(props) {
   return (
     <div className=" w-[40%] min-h-[250px] h-[40vh] m-2 bg-white rounded-lg shadow-md shadow-gray-700 text-center ">
-      <p className=" border-white  py-2 font-bold  bg-gradient-to-r from-[#dd2476] to-[#ff7e5f]  text-2xl rounded-t-lg">
+      <p className=" border-white  py-2 font-bold bg-[#44dbbb]  text-2xl rounded-t-lg">
         Rejected Voucher
       </p>
       {props.rejected.length == 0 && (
@@ -42,7 +42,7 @@ function AdminREjectedVoucher(props) {
                     {current.Voucher.tourDate}
                   </p>
                   <div className="w-[15%] px-1 overflow-hidden whitespace-nowrap overflow-ellipsis ">
-                    <p className="bg-blue-300 text-white font-bold text-center rounded hover:bg-blue-500">
+                    <p className="bg-blue-500 text-white font-bold text-center rounded hover:bg-blue-700">
                       {" "}
                       View
                     </p>

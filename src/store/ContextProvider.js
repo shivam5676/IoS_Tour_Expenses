@@ -92,6 +92,16 @@ const reducerFn = (state, action) => {
       // token: action.payload.token,
     };
   }
+  if (action.type == "deleteExpense") {
+    const currentUSerExpenses = [...state.userCurrentTourExpensesData];
+    const expensesAfterDeletion = currentUSerExpenses.filter(
+      (current) => current.id != action.payload
+    );
+    return {
+      ...state,
+      userCurrentTourExpensesData: expensesAfterDeletion,
+    };
+  }
   if (action.type == "logOut") {
     localStorage.removeItem("token");
     return {
@@ -148,7 +158,9 @@ const ContextProvider = (props) => {
   const logOutHandler = () => {
     dispatch({ type: "logOut" });
   };
-
+  const deleteUserCurrentTourExpenseHandler = (id) => {
+    dispatch({ type: "deleteExpense", payload: id });
+  };
   const contextStore = {
     signUpModal: signupModalOpenHandler,
     signUpModalOpen: currentState.signUpModalOpen,
@@ -164,6 +176,7 @@ const ContextProvider = (props) => {
     onGoingData: currentState.onGoingData,
     userCurrentTourExpenses: userCurrentTourExpenseHandler,
     userCurrentTourExpenseData: currentState.userCurrentTourExpensesData,
+    deleteUserCurrentTourExpenseHandler: deleteUserCurrentTourExpenseHandler,
     currentTourId: currentTourIdHandler,
     currentTourIdData: currentState.currentTourIdData,
     removeOnGoingTour: removeOnGoingTourHandler,

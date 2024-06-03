@@ -20,10 +20,22 @@ function AddExpenseModal(props) {
   const billImageRef = useRef(null);
   const dateRef = useRef(null);
   const user = JSON.parse(localStorage.getItem("token"));
+  const [imagePreview, setImagePreview] = useState(null);
+
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onloadend = () => {
+        setImagePreview(reader.result);
+      };
+    }
+  };
   const saveExpenseHandler = async () => {
     let base64Image = "";
     if (billImageRef.current.files[0]) {
-      console.log(billImageRef.current.files[0])
+      console.log(billImageRef.current.files[0]);
       const file = billImageRef.current.files[0];
       const reader = new FileReader();
       reader.readAsDataURL(file);
@@ -209,8 +221,19 @@ function AddExpenseModal(props) {
                       type="file"
                       className="border-2 bg-transparent mx-3 px-2"
                       ref={billImageRef}
+                      accept=".jpg,.jpeg,.png"
+                      onChange={handleImageChange}
                     ></input>
                   </div>
+                  {imagePreview && (
+                    <div className="mt-4">
+                      <img
+                        src={imagePreview}
+                        alt="Bill Preview"
+                        className="max-w-full h-auto"
+                      />
+                    </div>
+                  )}
                 </div>
                 <div className="w-[100%] flex  justify-center mb-4 mt-6">
                   <p
