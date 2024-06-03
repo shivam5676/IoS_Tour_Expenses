@@ -4,7 +4,7 @@ import AddExpenseModal from "./AddExpenseModal";
 import Context from "../../store/Context";
 import AddtourDescriptionModal from "./AddtourDescription";
 import { FaPenSquare } from "react-icons/fa";
-
+import { RiDeleteBin2Fill } from "react-icons/ri";
 
 function UserExpenseList(props) {
   const [open, setOpen] = useState(false);
@@ -44,16 +44,17 @@ function UserExpenseList(props) {
             Add
           </p>
         </div>{" "}
-        {ctx.userCurrentTourExpenseData.length==0 && (
-        <>
-          <div className="w-[100%] h-[calc(40vh-90px)] min-h-[calc(250px-90px)] text-black flex justify-center items-center flex-col">
-            {/* <img src={pendingGif} className="h-[80px]" draggable={false}></img> */}
-            <p className="font-bold">No Expenses ....plz add some expenses </p>
-          </div>
-        </>
-      )}
-
-        {ctx.userCurrentTourExpenseData.length>0 && (
+        {ctx.userCurrentTourExpenseData.length == 0 && (
+          <>
+            <div className="w-[100%] h-[calc(40vh-90px)] min-h-[calc(250px-90px)] text-black flex justify-center items-center flex-col">
+              {/* <img src={pendingGif} className="h-[80px]" draggable={false}></img> */}
+              <p className="font-bold">
+                No Expenses ....plz add some expenses{" "}
+              </p>
+            </div>
+          </>
+        )}
+        {ctx.userCurrentTourExpenseData.length > 0 && (
           <>
             <div className="w-[100%]">
               <div className="mx-2 bg-white text-black flex h-[40px] font-bold items-center">
@@ -81,11 +82,17 @@ function UserExpenseList(props) {
                     <p className="w-[20%] px-1 overflow-hidden whitespace-nowrap overflow-ellipsis">
                       {current.date}{" "}
                     </p>
-                    <div className="w-[15%] px-1 overflow-hidden whitespace-nowrap overflow-ellipsis ">
-                      <p className="bg-blue-300 text-white font-bold text-center rounded hover:bg-blue-500">
+                    <div className="w-[15%] px-1 overflow-hidden whitespace-nowrap overflow-ellipsis flex ">
+                      {/* <p className="bg-blue-300 text-white font-bold text-center rounded hover:bg-blue-500">
                         {" "}
                         View
+                      </p> */}
+                      <p className="bg-blue-500 text-white font-bold text-center rounded hover:bg-blue-600 p-1 cursor-pointer">
+                        View
                       </p>
+                      <div>
+                        <RiDeleteBin2Fill className="w-[25px] h-[25px] mx-2 text-red-500 hover:text-red-700 cursor-pointer"></RiDeleteBin2Fill>
+                      </div>
                     </div>
                   </div>
                 );

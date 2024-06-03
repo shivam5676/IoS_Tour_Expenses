@@ -28,6 +28,7 @@ function Login() {
           const response = await axios.get(
             `http://localhost:2000/callback/${code}`,
           );
+          console.log(response)
           if (response.data.data.access_token) {
             localStorage.setItem("token", JSON.stringify(response.data.data));
             ctx.loginDataHandler(response.data.data);
@@ -68,7 +69,7 @@ function Login() {
     const response = await axios.get(`http://localhost:2000/queryParams/`);
     console.log(response.data.data);
     const queryParams = response.data.data;
-    const authorizationUrl = `https://b24-awzvaa.bitrix24.in/oauth/authorize?${queryParams}`;
+    const authorizationUrl = `https://b24-ohsmbq.bitrix24.in/oauth/authorize?${queryParams}`;
     // Redirect the user to the Bitrix24 authorization URL
     window.location.href = authorizationUrl;
   }, []);
