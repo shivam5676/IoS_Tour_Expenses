@@ -23,7 +23,7 @@ const reducerFn = (state, action) => {
     return { ...state, allUser: [...state.allUser, action.payload] };
   }
   if (action.type === "currentUserDetails") {
-    console.log(action.payload);
+    console.log("current user", action.payload);
 
     return {
       ...state,

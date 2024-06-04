@@ -3,7 +3,6 @@ import React, { useContext, useEffect } from "react";
 import { FaRegUserCircle } from "react-icons/fa";
 import Context from "../store/Context";
 
-
 function UserProfile() {
   const connectionUrl = "http://localhost:2000";
 
@@ -11,7 +10,7 @@ function UserProfile() {
   console.log(ctx.adminCurrentUserData);
   return (
     <div className="rounded-lg shadow-md shadow-gray-700  w-[40%] min-h-[250px] h-[40vh]  m-2 bg-white text-black">
-      <p className=" rounded-t-lg py-2 font-bold text-2xl   text-center  bg-gradient-to-r from-[#dd2476] to-[#ff7e5f]  text-white ">
+      <p className=" rounded-t-lg py-2 font-bold text-2xl   text-center  bg-gradient-to-r bg-[#44dbbb]  text-white ">
         user profile
       </p>{" "}
       <div className="flex justify-center">
@@ -29,20 +28,24 @@ function UserProfile() {
         <div className="flex px-2 py-1">
           <p className=" font-bold">Role :</p>
           <p p className=" font-bold">
-            Software Developer
+            {ctx.adminCurrentUserData?.designation}{" "}
           </p>
         </div>
       </div>
       <div className="flex flex-col justify-between   max-[1760px]:items-center">
         <div className="flex px-2 py-1">
           <p className=" font-bold text-sm">Email :</p>
-          <p className=" font-bold text-sm">{ctx.adminCurrentUserData?.email}</p>
+          <p className=" font-bold text-sm">
+            {ctx.adminCurrentUserData?.email}
+          </p>
         </div>
         <div className="flex px-2 ">
           <p className="  text-sm font-bold  max-[1760px]:items-center">
             phone :
           </p>
-          <p className="  text-sm font-bold">{ctx.adminCurrentUserData?.mobile}</p>
+          <p className="  text-sm font-bold">
+            {ctx.adminCurrentUserData?.mobile}
+          </p>
         </div>
       </div>
     </div>
