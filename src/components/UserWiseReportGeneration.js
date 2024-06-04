@@ -8,7 +8,7 @@ import DownloadUserPdfButton from "./DownloadUserPdfButton";
 function UserWiseReportGeneration(props) {
   const user = JSON.parse(localStorage.getItem("token"));
 
-  const connectionUrl = "http://localhost:2000";
+  const connectionUrl = process.env.REACT_APP_CONNECTION_STRING
   const [reportData, setReportData] = useState(null);
   const [userData, setuserData] = useState({
     firstName: "",
@@ -41,7 +41,7 @@ function UserWiseReportGeneration(props) {
     async function fetchFilterData() {
       try {
         const response = await axios.post(
-          `${connectionUrl}/admin/user?uid=${props.userId}`,
+          `${connectionUrl}:${process.env.REACT_APP_BACKEND_PORT}/admin/user?uid=${props.userId}`,
           {
             token: user.access_token,
             domain: user.domain,

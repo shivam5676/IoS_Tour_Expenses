@@ -6,11 +6,12 @@ function UsersAllVouchers() {
   console.log(ctx.adminCurrentUserData);
   return (
     <div className="shadow-md shadow-gray-700 w-[60%] min-h-[250px] h-[40vh]  bg-white m-2 rounded-lg">
+      <p className=" py-2 font-bold text-2xl text-center  rounded-t-lg text-white  bg-gradient-to-r bg-[#44dbbb] ">
+        {ctx.adminCurrentUserData?.firstName}`s Vouchers{" "}
+      </p>{" "}
       {ctx.adminCurrentUserData?.Vouchers && (
         <>
-          <p className=" py-2 font-bold text-2xl text-center  rounded-t-lg text-white  bg-gradient-to-r bg-[#44dbbb] ">
-            {ctx.adminCurrentUserData?.firstName}`s Vouchers{" "}
-          </p>{" "}
+          {" "}
           <div className="w-[100%]">
             <div className="mx-2 bg-white text-black flex h-[40px] font-bold items-center">
               <p className="w-[20%] px-1">v.no</p>

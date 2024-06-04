@@ -7,7 +7,7 @@ import Context from "../../store/Context";
 import { toast } from "react-toastify";
 import { IoIosCloseCircle } from "react-icons/io";
 function AddtourDescriptionModal(props) {
-  const connectionUrl = "http://localhost:2000";
+  const connectionUrl = process.env.REACT_APP_CONNECTION_STRING;
 
   const ctx = useContext(Context);
   const user = JSON.parse(localStorage.getItem("token"));
@@ -43,7 +43,7 @@ function AddtourDescriptionModal(props) {
     // return
     try {
       const response = await axios.post(
-        `${connectionUrl}/user/addDetails`,
+        `${connectionUrl}:${process.env.REACT_APP_BACKEND_PORT}/user/addDetails`,
         data
       );
       const res = response.data;

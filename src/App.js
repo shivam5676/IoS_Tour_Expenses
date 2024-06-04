@@ -5,16 +5,10 @@ import AdminUserPanel from "./components/AdminUserPanel";
 import AdminReportPanel from "./components/AdminReportPanel";
 import UserHomePage from "./components/user/userHomePage";
 import NavBar from "./components/NavBar";
-import bgImage from "../src/assests/images/bg1.jpg";
+import bgImage from "../src/assests/images/bg5.jpg";
 import { useContext, useEffect, useState } from "react";
 import Context from "./store/Context";
-import AllTimePdf from "./components/AllTimePdf";
-import YearlyPdf from "./components/YearlyPdf";
-import MonthlyPdf from "./components/MonthlyPdf";
-import { BlobProvider } from "@react-pdf/renderer";
-import MyDocument from "./components/MyDocument";
-import FileSaver from "file-saver";
-import UserPdf from "./components/UserPdf";
+
 import UserVoucherPanel from "./components/user/userVoucherPanel";
 
 function App() {

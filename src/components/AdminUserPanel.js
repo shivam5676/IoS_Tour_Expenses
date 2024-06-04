@@ -8,11 +8,15 @@ import SignUpModal from "./SignUpModal";
 import { Fragment, useRef, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { ExclamationTriangleIcon } from "@heroicons/react/24/outline";
+import Context from "../store/Context";
 function AdminUserPanel() {
-  const [open, setOpen] = useState(true);
+  const [showData, setShowData] = useState(false);
 
   const cancelButtonRef = useRef(null);
   // const ctx=useContext()
+  const ctx = useContext(Context);
+  console.log(showData);
+  // console.log(ctx.adminCurrentUserData&&Object.values(ctx.adminCurrentUserData?.length));
   return (
     <>
       <div className="w-[100vw] h-[100vh] text-white bg-transparent font-['Poppins']  pt-[90px]">
@@ -23,13 +27,13 @@ function AdminUserPanel() {
             style={{ scrollbarWidth: "none" }}
           >
             <div className="flex">
-              <AdminUserList></AdminUserList>
-              <UserProfile></UserProfile>
+              <AdminUserList showData={() => setShowData(true)}></AdminUserList>
+              {showData && <UserProfile></UserProfile>}
             </div>
             <div className="flex">
               {" "}
-              <AdminExpenseGraph></AdminExpenseGraph>
-              <UsersAllVouchers></UsersAllVouchers>
+              {showData && <AdminExpenseGraph></AdminExpenseGraph>}{" "}
+              {showData && <UsersAllVouchers></UsersAllVouchers>}{" "}
             </div>
           </div>
         </div>

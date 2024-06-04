@@ -2,8 +2,8 @@ import axios from "axios";
 import React, { useContext, useEffect } from "react";
 import Context from "../store/Context";
 
-function AdminUserList() {
-  const connectionUrl = "http://localhost:2000";
+function AdminUserList(props) {
+  const connectionUrl = process.env.REACT_APP_CONNECTION_STRING;
   const user = JSON.parse(localStorage.getItem("token"));
 
   const ctx = useContext(Context);
@@ -11,14 +11,16 @@ function AdminUserList() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.post(`${connectionUrl}/admin/getAllUser`, {
+        const response = await axios.post(`${connectionUrl}:${process.env.REACT_APP_BACKEND_PORT}/admin/getAllUser`, {
           token: user.access_token,
           domain: user.domain,
         });
         // console.log(response.data.users);
-        response.data.users.map((current) => {
-          ctx.addUserData(current);
-        });
+        // response.data.users.map((current) => {
+        //   ctx.addUserData(current);
+        // });
+        ctx.addUserData(response.data.users);
+
       } catch (err) {
         console.log(err);
       }
@@ -28,7 +30,7 @@ function AdminUserList() {
   const fetchUserDetails = async (id) => {
     try {
       const response = await axios.post(
-        `${connectionUrl}/admin/getUser?id=${id}`,{
+        `${connectionUrl}:${process.env.REACT_APP_BACKEND_PORT}/admin/getUser?id=${id}`,{
           token: user.access_token,
           domain: user.domain,
         }
@@ -74,6 +76,7 @@ function AdminUserList() {
                   className="bg-blue-300 text-white font-bold text-center rounded hover:bg-blue-500"
                   onClick={() => {
                     fetchUserDetails(current.id);
+                    props.showData()
                   }}
                 >
                   {" "}

@@ -9,7 +9,7 @@ import City from "../../assests/Cities";
 import { toast } from "react-toastify";
 import { IoIosCloseCircle } from "react-icons/io";
 function AddTourModal(props) {
-  const connectionUrl = "http://localhost:2000";
+  const connectionUrl = process.env.REACT_APP_CONNECTION_STRING;
   console.log(props.open);
   // const [open, setOpen] = useState(props.open);
   const [citySelected, setCitySelected] = useState(null);
@@ -27,7 +27,7 @@ function AddTourModal(props) {
 
   const saveTourHandler = async () => {
     try {
-      const response = await axios.post(`${connectionUrl}/user/createTour`, {
+      const response = await axios.post(`${connectionUrl}:${process.env.REACT_APP_BACKEND_PORT}/user/createTour`, {
         token: user.access_token,
         domain: user.domain,
         city: citySelected || cityRef.current.value,

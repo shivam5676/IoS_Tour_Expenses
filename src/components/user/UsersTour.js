@@ -3,7 +3,7 @@ import Context from "../../store/Context";
 import axios from "axios";
 import travelGif from "../../assests/trip.gif"
 function UsersTour(props) {
-  const connectionUrl = "http://localhost:2000";
+  const connectionUrl = process.env.REACT_APP_CONNECTION_STRING
   const [selected, setSelected] = useState(null);
   const user = JSON.parse(localStorage.getItem("token"));
 
@@ -11,7 +11,7 @@ function UsersTour(props) {
   const fetchTourDetails = async (id) => {
     try {
       const response = await axios.post(
-        `${connectionUrl}/user/getTourExpenses?id=${id}`,
+        `${connectionUrl}:${process.env.REACT_APP_BACKEND_PORT}/user/getTourExpenses?id=${id}`,
         { token: user.access_token, domain: user.domain, voucherId: id }
       );
       // console.log(response)

@@ -20,7 +20,7 @@ const reducerFn = (state, action) => {
     return { ...state, signUpModalOpen: !state.signUpModalOpen };
   }
   if (action.type === "addUser") {
-    return { ...state, allUser: [...state.allUser, action.payload] };
+    return { ...state, allUser: [... action.payload] };
   }
   if (action.type === "currentUserDetails") {
     console.log("current user", action.payload);

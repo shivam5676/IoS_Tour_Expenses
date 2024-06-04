@@ -12,7 +12,7 @@ export default function VoucherViewer(props) {
   const [imageArray, setImageArray] = useState(null);
 
   // const [voucherStatus, setVoucherStatus] = useState("Pending");
-  const connectionUrl = "http://localhost:2000";
+  const connectionUrl = process.env.REACT_APP_CONNECTION_STRING
   //   const [open, setOpen] = useState(false);
   const ctx = useContext(Context);
   const cancelButtonRef = useRef(null);
@@ -24,7 +24,7 @@ export default function VoucherViewer(props) {
   const acceptVoucherHandler = async () => {
     try {
       const response = await axios.post(
-        `${connectionUrl}/admin/acceptVoucher`,
+        `${connectionUrl}:${process.env.REACT_APP_BACKEND_PORT}/admin/acceptVoucher`,
         {
           voucherId: props.voucherId,
           comment: CommentRef.current.value,
@@ -46,7 +46,7 @@ export default function VoucherViewer(props) {
   const rejectVoucherHandler = async () => {
     try {
       const response = await axios.post(
-        `${connectionUrl}/admin/rejectVoucher`,
+        `${connectionUrl}:${process.env.REACT_APP_BACKEND_PORT}/admin/rejectVoucher`,
         {
           voucherId: props.voucherId,
           token: user.access_token,
@@ -71,7 +71,7 @@ export default function VoucherViewer(props) {
       console.log("object", props.voucherId);
       try {
         const response = await axios.post(
-          `${connectionUrl}/admin/trackVoucher`,
+          `${connectionUrl}:${process.env.REACT_APP_BACKEND_PORT}/admin/trackVoucher`,
           {
             voucherId: props.voucherId,
             token: user.access_token,

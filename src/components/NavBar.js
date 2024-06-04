@@ -42,7 +42,8 @@ function NavBar() {
           >
             <img src={iosLogo} className="h-12" alt="Flowbite Logo" />
             <p className="self-center text-3xl font-semibolds whitespace-nowrap text-yellow-500  dark:text-white font-bold ">
-              Voucher Tracker
+              V<span className="text-white">oucher </span>T
+              <span className="text-white">racker</span>
             </p>
           </a>
           {userType?.isAdmin &&
@@ -54,7 +55,7 @@ function NavBar() {
             )}
 
           <div className="flex items-center space-x-6 rtl:space-x-reverse">
-            {userType?.isAdmin &&
+            {/* {userType?.isAdmin &&
               path != "/USER" &&
               path != "/USERVOUCHERS" && (
                 <a
@@ -65,7 +66,26 @@ function NavBar() {
                 >
                   create user
                 </a>
-              )}{" "}
+              )}{" "} */}
+            {userType?.isAdmin && path != "/USER" && path != "/USERVOUCHERS" ? (
+              <a
+                onClick={() => {
+                  navigate("/user");
+                }}
+                className="text-lg font-bold text-semibold border-2 border-yellow-500 text-yellow-500 dark:text-white hover:bg-yellow-500 hover:text-white  px-2 py-1 rounded-md"
+              >
+                User Panel
+              </a>
+            ) : (
+              <a
+                onClick={() => {
+                  navigate("/home");
+                }}
+                className="text-lg font-bold text-semibold border-2 border-yellow-500 text-yellow-500 dark:text-white hover:bg-yellow-500 hover:text-white  px-2 py-1 rounded-md"
+              >
+                Admin Panel
+              </a>
+            )}
             {userType?.isAdmin
               ? (path == "/USER" || path == "/USERVOUCHERS") && (
                   <a
@@ -84,7 +104,7 @@ function NavBar() {
                       // setOpen(true);
                       setTourModal(true);
                     }}
-                    className="text-lg font-bold text-semibold border-2  text-yellow-500 dark:text-white hover:bg-yellow-500 hover:text-white  px-2 py-1 rounded-md"
+                    className="text-lg font-bold text-semibold border-2 border-yellow-400  text-yellow-500  hover:bg-yellow-500 hover:text-white  px-2 py-1 rounded-md"
                   >
                     Add Tour
                   </a>
@@ -99,7 +119,7 @@ function NavBar() {
             ) : (
               <a
                 // href="/login"
-                className="text-lg font-bold text-semibold border-2 border-yellow-500 text-white dark:text-white bg-yellow-500  px-2 py-1 cursor-pointer rounded-md"
+                className="text-lg font-bold text-semibold border-2  text-white dark:text-white  px-2 py-1 cursor-pointer rounded-md"
                 onClick={() => {
                   localStorage.removeItem("token");
                   ctx.logOutHandler();

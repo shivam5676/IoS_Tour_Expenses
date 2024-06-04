@@ -4,7 +4,7 @@ import { FaRegUserCircle } from "react-icons/fa";
 import Context from "../store/Context";
 
 function UserProfile() {
-  const connectionUrl = "http://localhost:2000";
+  const connectionUrl = process.env.REACT_APP_CONNECTION_STRING
 
   const ctx = useContext(Context);
   console.log(ctx.adminCurrentUserData);

@@ -8,7 +8,7 @@ import TokenWiseReport from "./tokenWiseReport";
 import { format } from "date-fns";
 
 function AdminReportPanel() {
-  const connectionUrl = "http://localhost:2000";
+  const connectionUrl = process.env.REACT_APP_CONNECTION_STRING;
 
   const [startDate, setStartDate] = useState(new Date());
   const [reportType, setReportType] = useState("All");

@@ -8,7 +8,7 @@ import { toast } from "react-toastify";
 import { IoIosCloseCircle } from "react-icons/io";
 
 function AddExpenseModal(props) {
-  const connectionUrl = "http://localhost:2000";
+  const connectionUrl = process.env.REACT_APP_CONNECTION_STRING;
   //   const [open, setOpen] = useState(true);
   const ctx = useContext(Context);
   const cancelButtonRef = useRef(null);
@@ -56,7 +56,7 @@ function AddExpenseModal(props) {
 
         try {
           const response = await axios.post(
-            `${connectionUrl}/user/saveExpense`,
+            `${connectionUrl}:${process.env.REACT_APP_BACKEND_PORT}/user/saveExpense`,
             data
           );
           const res = response.data.expenseData;
@@ -82,7 +82,7 @@ function AddExpenseModal(props) {
 
       try {
         const response = await axios.post(
-          `${connectionUrl}/user/saveExpense`,
+          `${connectionUrl}:${process.env.REACT_APP_BACKEND_PORT}/user/saveExpense`,
           data
         );
         const res = response.data.expenseData;

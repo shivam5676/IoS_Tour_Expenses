@@ -11,14 +11,14 @@ import { toast } from "react-toastify";
 function UserExpenseList(props) {
   const [open, setOpen] = useState(false);
   const [openDescription, setOpenDescription] = useState(false);
-  const connectionUrl = "http://localhost:2000";
+  const connectionUrl = process.env.REACT_APP_CONNECTION_STRING;
   const user = JSON.parse(localStorage.getItem("token"));
 
   const ctx = useContext(Context);
   console.log(ctx.userCurrentTourExpenseData);
   const deleteExpenseHAndler = async (id) => {
     try {
-      const response = await axios.post(`${connectionUrl}/user/deleteExpense`, {
+      const response = await axios.post(`${connectionUrl}:${process.env.REACT_APP_BACKEND_PORT}/user/deleteExpense`, {
         expenseId: id,
         token: user.access_token,
         domain: user.domain,

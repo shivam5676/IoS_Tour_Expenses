@@ -8,7 +8,7 @@ import Context from "../../store/Context";
 import MyDocument from "../MyDocument";
 
 function UserHomePage() {
-  const connectionUrl = "http://localhost:2000";
+  const connectionUrl = process.env.REACT_APP_CONNECTION_STRING
   const ctx = useContext(Context);
   const [tourSelected, setTourSelected] = useState(false);
   const user = JSON.parse(localStorage.getItem("token"));
@@ -16,7 +16,7 @@ function UserHomePage() {
   useEffect(() => {
     const fetchTour = async () => {
       try {
-        const response = await axios.post(`${connectionUrl}/user/gettour`, {
+        const response = await axios.post(`${connectionUrl}:${process.env.REACT_APP_BACKEND_PORT}/user/gettour`, {
           // userId: user.id,
           token: user.access_token,
           domain: user.domain,

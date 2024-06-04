@@ -8,7 +8,7 @@ import DownloadYearReportButton from "./DownloadYearReportButton";
 function YearWiseReportGeneration(props) {
   const user = JSON.parse(localStorage.getItem("token"));
   console.log("formattedYear", props.selectedYear);
-  const connectionUrl = "http://localhost:2000";
+  const connectionUrl =process.env.REACT_APP_CONNECTION_STRING
   const [reportData, setReportData] = useState(null);
   const [expenseData, setExpenseData] = useState({
     cashExpense: 0,
@@ -35,7 +35,7 @@ function YearWiseReportGeneration(props) {
     async function fetchFilterData() {
       try {
         const response = await axios.post(
-          `${connectionUrl}/admin/year?year=${props.selectedYear}`,
+          `${connectionUrl}:${process.env.REACT_APP_BACKEND_PORT}/admin/year?year=${props.selectedYear}`,
           {
             token: user.access_token,
             domain: user.domain,

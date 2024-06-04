@@ -11,13 +11,13 @@ function UserPendingVouchers(props) {
   const [PendingVoucherData, setPendingVoucherData] = useState(null);
   //   const ctx = useContext(Context);
   const user = JSON.parse(localStorage.getItem("token"));
-  const connectionUrl = "http://localhost:2000";
+  const connectionUrl = process.env.REACT_APP_CONNECTION_STRING
   // const [id,setId]=useState(null)
   useEffect(() => {
     async function fetchData() {
       try {
         const response = await axios.post(
-          `${connectionUrl}/user/getPendingvouchers`,
+          `${connectionUrl}:${process.env.REACT_APP_BACKEND_PORT}/user/getPendingvouchers`,
           {
             token: user.access_token,
             domain: user.domain,

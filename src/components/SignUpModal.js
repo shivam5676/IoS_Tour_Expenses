@@ -6,7 +6,7 @@ import Context from "../store/Context";
 import { toast } from "react-toastify";
 
 export default function SignUpModal(props) {
-  const connectionUrl = "http://localhost:2000";
+  const connectionUrl = process.env.REACT_APP_CONNECTION_STRING;
   const [open, setOpen] = useState(false);
   const ctx = useContext(Context);
   const cancelButtonRef = useRef(null);
@@ -18,7 +18,7 @@ export default function SignUpModal(props) {
 
   const signUpHandler = async () => {
     try {
-      const response = await axios.post(`${connectionUrl}/admin/createUser`, {
+      const response = await axios.post(`${connectionUrl}:${process.env.REACT_APP_BACKEND_PORT}/admin/createUser`, {
         email: emailRef.current.value,
         password: passwordRef.current.value,
         firstName: firstNameRef.current.value,

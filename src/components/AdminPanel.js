@@ -13,7 +13,7 @@ import VoucherViewer from "./VoucherViewer";
 
 function AdminPanel() {
   const [data, setData] = useState([]);
-  const connectionUrl = "http://localhost:2000";
+  const connectionUrl = process.env.REACT_APP_CONNECTION_STRING;
   const ctx = useContext(Context);
   const allVoucherData = ctx.allVoucherData;
   const [open, setOpen] = useState(true);
@@ -22,7 +22,7 @@ function AdminPanel() {
   useEffect(() => {
     async function fetchData() {
       try {
-        const response = await axios.post(`${connectionUrl}/admin/AllVoucher`, {
+        const response = await axios.post(`${connectionUrl}:${process.env.REACT_APP_BACKEND_PORT}/admin/AllVoucher`, {
           token: user.access_token,
           domain: user.domain,
         });
