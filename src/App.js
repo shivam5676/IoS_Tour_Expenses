@@ -37,7 +37,7 @@ function App() {
       <Routes>
         {!isLoggedIn ? (
           <Route path="*" element={<Login />} />
-        ) : isLoggedIn.isAdmin ? (
+        ) : isLoggedIn.isAdmin || isLoggedIn.supervisor ? (
           <>
             <Route path="/adminUser" element={<AdminUserPanel />} />
             <Route path="/adminReport" element={<AdminReportPanel />} />

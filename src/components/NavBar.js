@@ -46,7 +46,7 @@ function NavBar() {
               <span className="text-white">racker</span>
             </p>
           </a>
-          {userType?.isAdmin &&
+          {(userType?.isAdmin || userType?.supervisor) &&
             path !== "/USER" &&
             path !== "/USERVOUCHERS" && (
               <p className="bg-blue-500 p-2 rounded-md text-white font-semibold">
@@ -55,60 +55,53 @@ function NavBar() {
             )}
 
           <div className="flex items-center space-x-6 rtl:space-x-reverse">
-            {/* {userType?.isAdmin &&
+            {(userType?.isAdmin || userType?.supervisor) &&
               path != "/USER" &&
               path != "/USERVOUCHERS" && (
                 <a
                   onClick={() => {
-                    setOpen(true);
+                    navigate("/user");
                   }}
                   className="text-lg font-bold text-semibold border-2 border-yellow-500 text-yellow-500 dark:text-white hover:bg-yellow-500 hover:text-white  px-2 py-1 rounded-md"
                 >
-                  create user
+                  User Panel
                 </a>
-              )}{" "} */}
-            {userType?.isAdmin && path != "/USER" && path != "/USERVOUCHERS" ? (
+              )}
+            {(userType?.isAdmin || userType?.supervisor) &&
+              (path === "/USER" || path === "/USERVOUCHERS") && (
+                <a
+                  onClick={() => {
+                    navigate("/home");
+                  }}
+                  className="text-lg font-bold text-semibold border-2 border-yellow-500 text-yellow-500 dark:text-white hover:bg-yellow-500 hover:text-white px-2 py-1 rounded-md"
+                >
+                  Admin Panel
+                </a>
+              )}
+
+            {(userType?.isAdmin || userType?.supervisor) &&
+              (path === "/USER" || path === "/USERVOUCHERS") && (
+                <a
+                  onClick={() => {
+                    // setOpen(true);
+                    setTourModal(true);
+                  }}
+                  className="text-lg font-bold text-semibold border-2 border-yellow-500 text-yellow-500 dark:text-white  px-2 rounded-md"
+                >
+                  Add Tour
+                </a>
+              )}
+            {userType && !userType?.isAdmin && !userType?.supervisor && (
               <a
                 onClick={() => {
-                  navigate("/user");
+                  // setOpen(true);
+                  setTourModal(true);
                 }}
-                className="text-lg font-bold text-semibold border-2 border-yellow-500 text-yellow-500 dark:text-white hover:bg-yellow-500 hover:text-white  px-2 py-1 rounded-md"
+                className="text-lg font-bold text-semibold border-2 border-yellow-500 text-yellow-500 dark:text-white  px-2 rounded-md"
               >
-                User Panel
-              </a>
-            ) : (
-              <a
-                onClick={() => {
-                  navigate("/home");
-                }}
-                className="text-lg font-bold text-semibold border-2 border-yellow-500 text-yellow-500 dark:text-white hover:bg-yellow-500 hover:text-white  px-2 py-1 rounded-md"
-              >
-                Admin Panel
+                Add Tour
               </a>
             )}
-            {userType?.isAdmin
-              ? (path == "/USER" || path == "/USERVOUCHERS") && (
-                  <a
-                    onClick={() => {
-                      // setOpen(true);
-                      setTourModal(true);
-                    }}
-                    className="text-lg font-bold text-semibold border-2 border-yellow-500 text-yellow-500 dark:text-white  px-2 rounded-md"
-                  >
-                    Add Tour
-                  </a>
-                )
-              : userType && (
-                  <a
-                    onClick={() => {
-                      // setOpen(true);
-                      setTourModal(true);
-                    }}
-                    className="text-lg font-bold text-semibold border-2 border-yellow-400  text-yellow-500  hover:bg-yellow-500 hover:text-white  px-2 py-1 rounded-md"
-                  >
-                    Add Tour
-                  </a>
-                )}
             {!userType ? (
               <a
                 href="/login"
@@ -130,6 +123,107 @@ function NavBar() {
                 LogOut
               </a>
             )}
+
+            {/* {userType?.isAdmin &&
+              path != "/USER" &&
+              path != "/USERVOUCHERS" && (
+                <a
+                  onClick={() => {
+                    setOpen(true);
+                  }}
+                  className="text-lg font-bold text-semibold border-2 border-yellow-500 text-yellow-500 dark:text-white hover:bg-yellow-500 hover:text-white  px-2 py-1 rounded-md"
+                >
+                  create user
+                </a>
+              )}{" "} */}
+            {/* 
+           { (!userType?.isAdmin || !userType?.supervisor)&&<a
+              onClick={() => {
+                navigate("/user");
+              }}
+              className="text-lg font-bold text-semibold border-2 border-yellow-500 text-yellow-500 dark:text-white hover:bg-yellow-500 hover:text-white  px-2 py-1 rounded-md"
+            >
+              User Panel
+            </a>} */}
+            {/* {(userType?.isAdmin || userType?.supervisor) &&
+            (path != "/USER" || path != "/USERVOUCHERS") ? (
+              <a
+                onClick={() => {
+                  navigate("/user");
+                }}
+                className="text-lg font-bold text-semibold border-2 border-yellow-500 text-yellow-500 dark:text-white hover:bg-yellow-500 hover:text-white  px-2 py-1 rounded-md"
+              >
+                User Panel
+              </a>
+            ) : (
+              userType?.isAdmin && (
+                <a
+                  onClick={() => {
+                    navigate("/home");
+                  }}
+                  className="text-lg font-bold text-semibold border-2 border-yellow-500 text-yellow-500 dark:text-white hover:bg-yellow-500 hover:text-white  px-2 py-1 rounded-md"
+                >
+                  Admin Panel
+                </a>
+              )
+            )} */}
+            {console.log(userType?.isAdmin)}
+            {/* {!userType?.isAdmin && !userType?.supervisor && (
+              <a
+                onClick={() => {
+                  // setOpen(true);
+                  setTourModal(true);
+                }}
+                className="text-lg font-bold text-semibold border-2 border-yellow-400  text-yellow-500  hover:bg-yellow-500 hover:text-white  px-2 py-1 rounded-md"
+              >
+                Add Tour
+              </a>
+            )} */}
+            {/* {userType?.isAdmin || userType?.supervisor
+              ? (path == "/USER" || path == "/USERVOUCHERS") && (
+                  <a
+                    onClick={() => {
+                      // setOpen(true);
+                      setTourModal(true);
+                    }}
+                    className="text-lg font-bold text-semibold border-2 border-yellow-500 text-yellow-500 dark:text-white  px-2 rounded-md"
+                  >
+                    Add Tour
+                  </a>
+                )
+              : userType &&
+                (path == "/USER" || path == "/USERVOUCHERS") && (
+                  <a
+                    onClick={() => {
+                      // setOpen(true);
+                      setTourModal(true);
+                    }}
+                    className="text-lg font-bold text-semibold border-2 border-yellow-400  text-yellow-500  hover:bg-yellow-500 hover:text-white  px-2 py-1 rounded-md"
+                  >
+                    Add Tour
+                  </a>
+                )} */}
+            {/* {!userType ? (
+              <a
+                href="/login"
+                className="text-lg font-bold text-semibold border-2 border-yellow-500  text-yellow-500 dark:text-white hover:bg-yellow-500 hover:text-white  px-2 py-1   rounded-md"
+              >
+                Login
+              </a>
+            ) : (
+              <a
+                // href="/login"
+                className="text-lg font-bold text-semibold border-2  text-white dark:text-white  px-2 py-1 cursor-pointer rounded-md"
+                onClick={() => {
+                  localStorage.removeItem("token");
+                  ctx.logOutHandler();
+                  window.location.href = "/login";
+                  // navigate("/home");
+                }}
+              >
+                LogOut
+              </a>
+            )} */}
           </div>
         </div>
       </nav>

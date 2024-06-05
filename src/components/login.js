@@ -64,7 +64,7 @@ function Login() {
           email: emailRef.current.value,
         }
       );
-      // console.log(response.data);
+      console.log(response.data);
       localStorage.setItem("data", JSON.stringify(response.data.data));
       ctx.loginDataHandler(response.data.data);
       // navigate("/home");
