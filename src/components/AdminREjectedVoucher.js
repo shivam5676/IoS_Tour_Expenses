@@ -1,8 +1,18 @@
-import React from "react";
+import React, { useState } from "react";
 import rejectedGif from "../assests/payment.gif";
+import VoucherViewer from "./VoucherViewer";
 function AdminREjectedVoucher(props) {
+  const [open, setOpen] = useState(false);
+  const [Id, setId] = useState(null);
   return (
     <div className=" w-[40%] min-h-[250px] h-[40vh] m-2 bg-white rounded-lg shadow-md shadow-gray-700 text-center ">
+       <VoucherViewer
+        close={() => {
+          setOpen(!open);
+        }}
+        voucherId={Id}
+        open={open}
+      ></VoucherViewer>{" "}
       <p className=" border-white  py-2 font-bold bg-[#44dbbb]  text-2xl rounded-t-lg">
         Rejected Voucher
       </p>
@@ -42,7 +52,13 @@ function AdminREjectedVoucher(props) {
                     {current.Voucher.tourDate}
                   </p>
                   <div className="w-[15%] px-1 overflow-hidden whitespace-nowrap overflow-ellipsis ">
-                    <p className="bg-blue-500 text-white font-bold text-center rounded hover:bg-blue-700">
+                    <p
+                      className="bg-blue-500 text-white font-bold text-center rounded hover:bg-blue-700"
+                      onClick={() => {
+                        setOpen(true);
+                        setId(current.Voucher.id);
+                      }}
+                    >
                       {" "}
                       View
                     </p>

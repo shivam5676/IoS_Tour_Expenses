@@ -17,6 +17,7 @@ const Context = createContext({
   userCurrentTourExpenses: () => {},
   userCurrentTourExpenseData: [],
   deleteUserCurrentTourExpenseHandler:()=>{},
+  removeVoucherfromAllVoucher:()=>{},
   currentTourId: () => {},
   currentTourIdData: "",
   removeOnGoingTour: () => {},

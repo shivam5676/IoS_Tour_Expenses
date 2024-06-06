@@ -6,13 +6,15 @@ import Context from "../store/Context";
 import { IoIosCloseCircle } from "react-icons/io";
 import acceptedIcon from "../assests/images/accepted.png";
 import rejectedIcon from "../assests/images/rejected.png";
+import { toast } from "react-toastify";
 export default function VoucherViewer(props) {
   console.log(props.voucherId);
   const [voucherData, setVoucherData] = useState(null);
+  const [editComment, setEditComment] = useState(false);
   const [imageArray, setImageArray] = useState(null);
   const [paymentDepartmentOpen, setPaymentDepartMentOpen] = useState(false);
   const [paymentSupervisor, setPaymentSupervisor] = useState(null);
-  const [selectedSupervisor, setSelectedSupervisor] = useState({});
+  const [selectedSupervisor, setSelectedSupervisor] = useState(null);
 
   // const [voucherStatus, setVoucherStatus] = useState("Pending");
   const connectionUrl = process.env.REACT_APP_CONNECTION_STRING;
@@ -21,10 +23,18 @@ export default function VoucherViewer(props) {
   const cancelButtonRef = useRef(null);
   let CommentRef = useRef("");
   const daAllowanceRef = useRef(0);
-  console.log(CommentRef.current.value);
+  // console.log(CommentRef.current.value);
   const user = JSON.parse(localStorage.getItem("token"));
 
   const acceptVoucherHandler = async () => {
+    if (user.isAdmin && !selectedSupervisor) {
+      console.log(selectedSupervisor);
+      toast.error("Please select Account department supervisor");
+      return;
+    }
+    console.log(selectedSupervisor);
+
+    // return;
     try {
       const response = await axios.post(
         `${connectionUrl}:${process.env.REACT_APP_BACKEND_PORT}/admin/acceptVoucher`,
@@ -34,11 +44,17 @@ export default function VoucherViewer(props) {
           token: user.access_token,
           domain: user.domain,
           dailyAllowance: daAllowanceRef.current.value,
+          AccountDepartment: selectedSupervisor?.id || undefined,
         }
       );
       // setVoucherStatus("Accepted");
 
       console.log(voucherData);
+      ctx.removeVoucherfromAllVoucher({
+        id: props?.voucherId,
+        status: "Accepted",
+      });
+
       setVoucherData((prev) => {
         return { ...prev, statusType: "Accepted" };
       });
@@ -57,9 +73,13 @@ export default function VoucherViewer(props) {
           comment: CommentRef.current.value,
         }
       );
-      // setVoucherStatus("Accepted");
+      ctx.removeVoucherfromAllVoucher({
+        id: props?.voucherId,
+        status: "Rejected",
+      });
 
       console.log(voucherData);
+
       setVoucherData((prev) => {
         return { ...prev, statusType: "Rejected" };
       });
@@ -237,6 +257,7 @@ export default function VoucherViewer(props) {
       // setVoucherStatus("Accepted");
 
       console.log(response);
+      setEditComment(false);
       setVoucherData((prev) => {
         return {
           ...prev,
@@ -448,10 +469,7 @@ export default function VoucherViewer(props) {
 
                     <div className="flex w-[100%] min-[700px]:flex-row flex-col">
                       <div className="w-[50%] px-2 border-2 max-[700px]:w-[100%] flex py-1">
-                        <p className="font-semibold">
-                          {" "}
-                          Credit Card (office) :{" "}
-                        </p>{" "}
+                        <p className="font-semibold">Credit Card (office) :</p>
                         {creditCard}
                       </div>
                       <div className="w-[50%] px-2 border-2 max-[700px]:w-[100%] flex py-1 ">
@@ -516,22 +534,22 @@ export default function VoucherViewer(props) {
                         return (
                           <div className="flex w-[600px] border-b-2">
                             <div className="w-[105px]  px-2">
-                              {current.date}
+                              {current?.date}
                             </div>
                             <div className="w-[140px] px-2">
-                              {current.description}
+                              {current?.description}
                             </div>
                             <div className="w-[105px]  px-2">
-                              {current.expenseType}
+                              {current?.expenseType}
                             </div>
                             <div className="w-[105px]  px-2">
-                              {current.paymentType}{" "}
+                              {current?.paymentType}{" "}
                             </div>
                             <div className="w-[100px]  px-2">
-                              {current.Amount}
+                              {current?.Amount}
                             </div>{" "}
                             <div className="w-[100px]  px-2">
-                              {current.voucherNo}
+                              {current?.voucherNo}
                             </div>
                           </div>
                         );
@@ -553,8 +571,8 @@ export default function VoucherViewer(props) {
                         );
                       })}
                     {!voucherData.comment &&
-                    voucherData.statusType == "Pending" &&
-                    (user.isAdmin || user.supervisor) ? (
+                    voucherData?.statusType == "Pending" &&
+                    (user?.isAdmin || user?.supervisor) ? (
                       <div className="my-2 flex w-[100%]  border-b-2">
                         <div className="font-semibold my-2 px-2">Comment</div>
                         <textarea
@@ -568,12 +586,58 @@ export default function VoucherViewer(props) {
                         <div className="font-semibold my-2 px-2">
                           Comment :{" "}
                         </div>
-                        <div rows={3} className="text-[.85rem] m-2 w-[60%]">
-                          {voucherData.comment}
-                        </div>
+                        {!editComment ? (
+                          <>
+                            {" "}
+                            <div
+                              rows={3}
+                              className="text-[.85rem] m-2 w-[60%] border-yellow-400 border-2 "
+                            >
+                             <p className="p-2">{voucherData?.comment}</p> 
+                            </div>
+                            <a
+                              className="group relative inline-block overflow-hidden border border-indigo-600 px-8 py-1 focus:outline-none focus:ring mx-2 mt-3 h-[40px] "
+                              href="#"
+                            >
+                              <span className="absolute inset-x-0 bottom-0 h-[2px] bg-indigo-600 transition-all group-hover:h-full group-active:bg-indigo-500"></span>
+
+                              <span
+                                className="relative text-sm font-medium text-indigo-600 transition-colors group-hover:text-white"
+                                onClick={() => {
+                                  setEditComment(true);
+                                }}
+                              >
+                                Edit
+                              </span>
+                            </a>
+                          </>
+                        ) : (
+                          <>
+                            {" "}
+                            <textarea
+                              rows={3}
+                              className="max-h-[100px] min-h-[50px] border-2 m-2 w-[60%]"
+                              ref={CommentRef}
+                            ></textarea>
+                            <div className="flex items-center">
+                              {" "}
+                              <p
+                                className="p-2 bg-orange-400 text-white mx-2 rounded-md hover:bg-orange-600 cursor-pointer  h-fit"
+                                onClick={() => {
+                                  // setVoucherStatus("Rejected");
+                                  // rejectVoucherHandler();
+                                  console.log(CommentRef.current.value);
+                                  sendCommentHandler();
+                                }}
+                              >
+                                Re-comment{" "}
+                              </p>
+                            </div>
+                          </>
+                        )}
                       </div>
                     )}
-                    <div className="my-4 flex w-[100%] flex-col  border-b-2 items-center pb-2">
+                    <div className="my-4 flex w-[100%] flex-col  border-b-2  items-center pb-2">
                       <p className="mx-2  font-bold">
                         Assign to Account Department :
                       </p>
@@ -584,23 +648,23 @@ export default function VoucherViewer(props) {
                         }}
                       >
                         {selectedSupervisor
-                          ? `${selectedSupervisor.firstName} ${selectedSupervisor.firstName}`
-                          : "                        Select a value..."}{" "}
+                          ? `${selectedSupervisor?.firstName} ${selectedSupervisor?.lastName}`
+                          : "Select a value..."}
                       </div>
-                      {paymentDepartmentOpen && (
+                      {paymentDepartmentOpen && paymentSupervisor && (
                         <div className="h-[150px] w-[250px] border-2 overflow-y-auto">
                           {paymentSupervisor.map((current) => {
                             console.log(current);
                             return (
                               <div className="font-semibold border-b-2">
                                 <p
-                                  className="text-ellipsis overflow-hidden whitespace-nowrap px-2 py-1 hover:bg-blue-500 cursor-pointer"
+                                  className="text-ellipsis overflow-hidden whitespace-nowrap px-2 py-1 bg-blue-500  hover:bg-gray-400 cursor-pointer"
                                   onClick={() => {
                                     setPaymentDepartMentOpen(false);
                                     setSelectedSupervisor(current);
                                   }}
                                 >
-                                  {current.firstName} {current.lastNAme}
+                                  {current?.firstName} {current?.lastName}
                                 </p>
                               </div>
                             );
@@ -609,14 +673,17 @@ export default function VoucherViewer(props) {
                       )}
                     </div>
 
-                    {user.isAdmin && (
-                      <div className="my-4 flex w-[100%]   border-b-2 ">
+                    {user.isAdmin &&voucherData?.voucherDescription?.dailyAllowance.length==0&& (
+                      <div className="my-4 flex w-[100%]   border-b-2 py-2">
                         <p className="mx-2  font-bold">DA Allowances :</p>
                         <input
-                          className="border-2 "
+                          className="border-2 w-[100px] px-2"
                           type="number"
                           ref={daAllowanceRef}
                         ></input>
+                        <p className="p-2 font-semibold">
+                          {voucherData?.currency}
+                        </p>
                         <a
                           className="group relative inline-block overflow-hidden border border-indigo-600 px-8 py-1 focus:outline-none focus:ring mx-2 "
                           href="#"

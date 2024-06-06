@@ -1,11 +1,22 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import Context from "../store/Context";
+import VoucherViewer from './VoucherViewer';
 
 function UsersAllVouchers() {
+  const [open, setOpen] = useState(false);
+  const [Id, setId] = useState(null);
   const ctx = useContext(Context);
   console.log(ctx.adminCurrentUserData);
   return (
     <div className="shadow-md shadow-gray-700 w-[60%] min-h-[250px] h-[40vh]  bg-white m-2 rounded-lg">
+      {" "}
+      <VoucherViewer
+        close={() => {
+          setOpen(!open);
+        }}
+        voucherId={Id}
+        open={open}
+      ></VoucherViewer>{" "}
       <p className=" py-2 font-bold text-2xl text-center  rounded-t-lg text-white  bg-gradient-to-r bg-[#44dbbb] ">
         {ctx.adminCurrentUserData?.firstName}`s Vouchers{" "}
       </p>{" "}
@@ -23,6 +34,7 @@ function UsersAllVouchers() {
           </div>
           <div className="w-[100%] h-[calc(40vh-90px)] min-h-[calc(250px-90px)] overflow-y-auto">
             {ctx.adminCurrentUserData.Vouchers?.map((current) => {
+              console.log(current)
               return (
                 <div className="mx-2 bg-white text-black flex py-1 text-[.8rem] font-semibold">
                   <p className="w-[20%] px-1 overflow-hidden whitespace-nowrap overflow-ellipsis">
@@ -38,7 +50,13 @@ function UsersAllVouchers() {
                     {current.tourDate}
                   </p>
                   <div className="w-[15%] px-1 overflow-hidden whitespace-nowrap overflow-ellipsis ">
-                    <p className="bg-blue-300 text-white font-bold text-center rounded hover:bg-blue-500">
+                    <p
+                      className="bg-blue-300 text-white font-bold text-center rounded hover:bg-blue-500"
+                      onClick={() => {
+                        setOpen(true);
+                        setId(current.id);
+                      }}
+                    >
                       {" "}
                       View
                     </p>

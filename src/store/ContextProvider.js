@@ -20,7 +20,7 @@ const reducerFn = (state, action) => {
     return { ...state, signUpModalOpen: !state.signUpModalOpen };
   }
   if (action.type === "addUser") {
-    return { ...state, allUser: [... action.payload] };
+    return { ...state, allUser: [...action.payload] };
   }
   if (action.type === "currentUserDetails") {
     console.log("current user", action.payload);
@@ -61,19 +61,19 @@ const reducerFn = (state, action) => {
       ],
     };
   }
-  if (action.type == "addCurrentTourId") {
+  if (action.type === "addCurrentTourId") {
     return {
       ...state,
       currentTourIdData: action.payload,
     };
   }
-  if (action.type == "resetCurrentUserData") {
+  if (action.type === "resetCurrentUserData") {
     return {
       ...state,
       userCurrentTourExpensesData: [],
     };
   }
-  if (action.type == "removeOnGoingTour") {
+  if (action.type === "removeOnGoingTour") {
     console.log(action.payload);
     const arrayAfterRemove = state.onGoingData.filter((current) => {
       return current.id != action.payload;
@@ -84,7 +84,7 @@ const reducerFn = (state, action) => {
       onGoingData: arrayAfterRemove,
     };
   }
-  if (action.type == "saveLoginDetails") {
+  if (action.type === "saveLoginDetails") {
     console.log("inside payload", action.payload);
     return {
       ...state,
@@ -92,7 +92,7 @@ const reducerFn = (state, action) => {
       // token: action.payload.token,
     };
   }
-  if (action.type == "deleteExpense") {
+  if (action.type === "deleteExpense") {
     const currentUSerExpenses = [...state.userCurrentTourExpensesData];
     const expensesAfterDeletion = currentUSerExpenses.filter(
       (current) => current.id != action.payload
@@ -102,7 +102,26 @@ const reducerFn = (state, action) => {
       userCurrentTourExpensesData: expensesAfterDeletion,
     };
   }
-  if (action.type == "logOut") {
+  if (action.type === "changeStateFromAllVoucher") {
+    const allVoucherDataCopy = [...state.allVoucherData];
+    console.log(allVoucherDataCopy);
+    const findVoucherId = allVoucherDataCopy.findIndex(
+      (current) => current.Voucher.id == action.payload.id
+    );
+    console.log(allVoucherDataCopy[findVoucherId]);
+    allVoucherDataCopy[findVoucherId].Voucher.statusType =  action.payload.status
+    allVoucherDataCopy[findVoucherId].status =  action.payload.status;
+
+    console.log(allVoucherDataCopy[findVoucherId]);
+
+    // allVoucherDataCopy[findVoucherId];
+    // return;
+    return {
+      ...state,
+      allVoucherData:allVoucherDataCopy
+    };
+  }
+  if (action.type === "logOut") {
     localStorage.removeItem("token");
     return {
       signUpModalOpen: false,
@@ -117,6 +136,7 @@ const reducerFn = (state, action) => {
       token: null,
     };
   }
+
   return { ...state };
 };
 
@@ -161,6 +181,10 @@ const ContextProvider = (props) => {
   const deleteUserCurrentTourExpenseHandler = (id) => {
     dispatch({ type: "deleteExpense", payload: id });
   };
+  const removeVoucherfromAllVoucher = (id) => {
+    console.log(id);
+    dispatch({ type: "changeStateFromAllVoucher", payload: id });
+  };
   const contextStore = {
     signUpModal: signupModalOpenHandler,
     signUpModalOpen: currentState.signUpModalOpen,
@@ -183,6 +207,7 @@ const ContextProvider = (props) => {
     loginDataHandler: loginDataHandler,
     loginData: currentState.loginData,
     logOutHandler: logOutHandler,
+    removeVoucherfromAllVoucher: removeVoucherfromAllVoucher,
   };
   return (
     <Context.Provider value={contextStore}>{props.children}</Context.Provider>
