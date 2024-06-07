@@ -33,7 +33,7 @@ function AddtourDescriptionModal(props) {
       departureTime: departureTimeRef.current.value,
       advanceCash: advanceCashRef.current.value,
 
-      dailyAllowance: dailyAllowanceRef.current.value,
+      dailyAllowance: 0,
       voucherId: ctx.currentTourIdData,
       token: user.access_token,
       domain: user.domain,
@@ -91,7 +91,7 @@ function AddtourDescriptionModal(props) {
               leaveFrom="opacity-100 translate-y-0 sm:scale-100"
               leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
             >
-              <Dialog.Panel className="relative transform overflow-hidden rounded-lg text-left shadow-xl transition-all sm:my-8 w-[80%] md:w-[500px] py-4 bg-gradient-to-r from-[#3199ad] to-[#144786] text-white">
+              <Dialog.Panel className="relative transform overflow-hidden rounded-lg text-left shadow-xl transition-all sm:my-8 w-[80%] md:w-[500px] py-4 bg-[#257894] text-white">
                 <div className="text-center pb-2">
                   <div className="text-sm font-semibold flex items-center">
                     {" "}
@@ -156,7 +156,7 @@ function AddtourDescriptionModal(props) {
                     <label>purpose</label>
                     <textarea
                       rows={1}
-                      className="outline-none border-2 border-white  bg-transparent text-white"
+                      className="outline-none border-2 border-white  bg-transparent text-white px-2"
                       ref={purposeRef}
                     ></textarea>
                   </div>
@@ -165,29 +165,41 @@ function AddtourDescriptionModal(props) {
                   <div className="flex flex-col px-2 w-[100%] py-2">
                     <label>Transport (Arrival)</label>
                     <select
-                      className="outline-none border-2 text-black font-semibold border-white  bg-transparent"
+                      className="outline-none border-2  font-semibold border-white  bg-transparent"
                       ref={transportDepartureRef}
                       onChange={(e) => {
                         // paymentTypeRef.current.value = e.target.value;
                       }}
                     >
-                      <option value={"Flight"}>Flight</option>
-                      <option value={"Train"}>Train</option>
-                      <option value={"Bus"}>Bus</option>
+                      <option value={"Flight"} className="bg-blue-400">
+                        Flight
+                      </option>
+                      <option value={"Train"} className="bg-blue-400">
+                        Train
+                      </option>
+                      <option value={"Bus"} className="bg-blue-400">
+                        Bus
+                      </option>
                     </select>
                   </div>
                   <div className="flex flex-col px-2 w-[100%] py-2">
                     <label>Transport (Departure)</label>
                     <select
-                      className="outline-none border-2 text-black font-semibold border-white  bg-transparent "
+                      className="outline-none border-2  font-semibold border-white  bg-transparent bg-blue-500"
                       ref={transportArrivalRef}
                       onChange={(e) => {
                         // paymentTypeRef.current.value = e.target.value;
                       }}
                     >
-                      <option value={"Flight"}>Flight</option>
-                      <option value={"Train"}>Train</option>
-                      <option value={"Bus"}>Bus</option>
+                      <option value={"Flight"} className="bg-blue-400">
+                        Flight
+                      </option>
+                      <option value={"Train"} className="bg-blue-400">
+                        Train
+                      </option>
+                      <option value={"Bus"} className="bg-blue-400">
+                        Bus
+                      </option>
                     </select>
                   </div>
                 </div>
@@ -195,23 +207,23 @@ function AddtourDescriptionModal(props) {
                   <div className="flex flex-col px-2 w-[100%] py-2">
                     <label>Advance Cash (if taken)</label>
                     <input
-                      className="outline-none border-2 border-white  bg-transparent text-white"
+                      className="outline-none border-2 border-white  bg-transparent text-white px-2"
                       ref={advanceCashRef}
                     ></input>
                   </div>
-                  <div className="flex flex-col px-2 w-[100%] py-2">
+                  {/* <div className="flex flex-col px-2 w-[100%] py-2">
                     <label>Daily allowance</label>
                     <input
-                      className="outline-none border-2 border-white  bg-transparent text-white"
+                      className="outline-none border-2 border-white  bg-transparent text-white ps-2"
                       type="number"
                       ref={dailyAllowanceRef}
                     ></input>
-                  </div>
+                  </div> */}
                 </div>
                 <div className="w-[100%] flex  justify-center mb-4 mt-6">
                   <p
                     className="w-[80%] hover:bg-gray-300
-                     bg-white text-black text-center font-semibold py-3 rounded-md cursor-pointer"
+                     bg-white text-black  text-center font-semibold py-3 rounded-md cursor-pointer"
                     onClick={tourDescriptionHandler}
                   >
                     Send Voucher

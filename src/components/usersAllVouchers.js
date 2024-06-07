@@ -17,17 +17,17 @@ function UsersAllVouchers() {
         voucherId={Id}
         open={open}
       ></VoucherViewer>{" "}
-      <p className=" py-2 font-bold text-2xl text-center  rounded-t-lg text-white  bg-gradient-to-r bg-[#44dbbb] ">
+      <p className=" py-2 font-bold text-2xl text-center  rounded-t-lg text-white  bg-gradient-to-r bg-[#2fc7f8] font-sans">
         {ctx.adminCurrentUserData?.firstName}`s Vouchers{" "}
       </p>{" "}
       {ctx.adminCurrentUserData?.Vouchers && (
         <>
           {" "}
           <div className="w-[100%]">
-            <div className="mx-2 bg-white text-black flex h-[40px] font-bold items-center">
-              <p className="w-[20%] px-1">v.no</p>
-              <p className="w-[20%] px-1">status</p>
-              <p className="w-[25%] px-1">trip</p>
+            <div className="mx-2 bg-white text-black flex h-[40px] font-bold items-center ">
+              <p className="w-[20%] px-1">V.no</p>
+              <p className="w-[20%] px-1">Status</p>
+              <p className="w-[25%] px-1">Trip</p>
               <p className="w-[20%] px-1">Date</p>
               <p className="w-[15%] px-1 text-center"></p>
             </div>

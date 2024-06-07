@@ -7,8 +7,12 @@ import { IoIosCloseCircle } from "react-icons/io";
 import acceptedIcon from "../assests/images/accepted.png";
 import rejectedIcon from "../assests/images/rejected.png";
 import { toast } from "react-toastify";
+import { CiEdit } from "react-icons/ci";
+import { MdAssignmentInd } from "react-icons/md";
+
 export default function VoucherViewer(props) {
   console.log(props.voucherId);
+  const [reAssignVoucher, setReAsignVoucher] = useState(false);
   const [voucherData, setVoucherData] = useState(null);
   const [editComment, setEditComment] = useState(false);
   const [imageArray, setImageArray] = useState(null);
@@ -26,6 +30,35 @@ export default function VoucherViewer(props) {
   // console.log(CommentRef.current.value);
   const user = JSON.parse(localStorage.getItem("token"));
 
+  const reAssignVoucherHandler = async () => {
+    try {
+      const response = await axios.post(
+        `${connectionUrl}:${process.env.REACT_APP_BACKEND_PORT}/admin/reAssign`,
+        {
+          voucherId: props.voucherId,
+
+          token: user.access_token,
+          domain: user.domain,
+          AccountDepartment: selectedSupervisor?.id || undefined,
+        }
+      );
+      // setVoucherStatus("Accepted");
+
+      setReAsignVoucher(false);
+      console.log(voucherData);
+      ctx.removeVoucherfromAllVoucher({
+        id: props?.voucherId,
+        status: "Accepted",
+      });
+
+      setVoucherData((prev) => {
+        return { ...prev, statusType: "Accepted" };
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   const acceptVoucherHandler = async () => {
     if (user.isAdmin && !selectedSupervisor) {
       console.log(selectedSupervisor);
@@ -33,8 +66,11 @@ export default function VoucherViewer(props) {
       return;
     }
     console.log(selectedSupervisor);
-
+    console.log(CommentRef.current);
     // return;
+    if (!CommentRef.current) {
+      CommentRef.current = { value: voucherData.comment };
+    }
     try {
       const response = await axios.post(
         `${connectionUrl}:${process.env.REACT_APP_BACKEND_PORT}/admin/acceptVoucher`,
@@ -43,7 +79,7 @@ export default function VoucherViewer(props) {
           comment: CommentRef.current.value,
           token: user.access_token,
           domain: user.domain,
-          dailyAllowance: daAllowanceRef.current.value,
+          dailyAllowance: daAllowanceRef?.current?.value,
           AccountDepartment: selectedSupervisor?.id || undefined,
         }
       );
@@ -586,133 +622,219 @@ export default function VoucherViewer(props) {
                         <div className="font-semibold my-2 px-2">
                           Comment :{" "}
                         </div>
-                        {!editComment ? (
+                        {(user?.isAdmin || user?.supervisor) && !editComment ? (
                           <>
                             {" "}
                             <div
                               rows={3}
-                              className="text-[.85rem] m-2 w-[60%] border-yellow-400 border-2 "
+                              className="text-[.85rem] m-2 w-[60%] border-yellow-400 border-2"
                             >
-                             <p className="p-2">{voucherData?.comment}</p> 
+                              <p className="p-2">{voucherData?.comment}</p>
                             </div>
-                            <a
-                              className="group relative inline-block overflow-hidden border border-indigo-600 px-8 py-1 focus:outline-none focus:ring mx-2 mt-3 h-[40px] "
-                              href="#"
-                            >
-                              <span className="absolute inset-x-0 bottom-0 h-[2px] bg-indigo-600 transition-all group-hover:h-full group-active:bg-indigo-500"></span>
-
-                              <span
-                                className="relative text-sm font-medium text-indigo-600 transition-colors group-hover:text-white"
-                                onClick={() => {
-                                  setEditComment(true);
-                                }}
+                            <div className="mb-2">
+                              <a
+                                className="group relative inline-block overflow-hidden border border-indigo-600 px-8 py-1 focus:outline-none focus:ring mx-2 mt-3 h-[35px] "
+                                href="#"
                               >
-                                Edit
-                              </span>
-                            </a>
+                                <span className="absolute inset-x-0 bottom-0 h-[2px] bg-indigo-600 transition-all group-hover:h-full group-active:bg-indigo-500"></span>
+
+                                <span
+                                  className="relative text-sm font-medium text-indigo-600 transition-colors group-hover:text-white flex"
+                                  onClick={() => {
+                                    setEditComment(true);
+                                  }}
+                                >
+                                  <CiEdit className="w-[20px] h-[20px]" />
+                                  edit
+                                </span>
+                              </a>
+                            </div>
                           </>
                         ) : (
-                          <>
-                            {" "}
-                            <textarea
-                              rows={3}
-                              className="max-h-[100px] min-h-[50px] border-2 m-2 w-[60%]"
-                              ref={CommentRef}
-                            ></textarea>
-                            <div className="flex items-center">
+                          editComment && (
+                            <>
                               {" "}
-                              <p
-                                className="p-2 bg-orange-400 text-white mx-2 rounded-md hover:bg-orange-600 cursor-pointer  h-fit"
-                                onClick={() => {
-                                  // setVoucherStatus("Rejected");
-                                  // rejectVoucherHandler();
-                                  console.log(CommentRef.current.value);
-                                  sendCommentHandler();
-                                }}
-                              >
-                                Re-comment{" "}
-                              </p>
-                            </div>
-                          </>
+                              <textarea
+                                rows={3}
+                                className="max-h-[100px] min-h-[50px] border-2 m-2 w-[60%]"
+                                ref={CommentRef}
+                              ></textarea>
+                              <div className="flex items-center">
+                                {" "}
+                                <p
+                                  className="p-2 bg-orange-400 text-white mx-2 rounded-md hover:bg-orange-600 cursor-pointer  h-fit"
+                                  onClick={() => {
+                                    // setVoucherStatus("Rejected");
+                                    // rejectVoucherHandler();
+                                    console.log(CommentRef.current.value);
+                                    sendCommentHandler();
+                                  }}
+                                >
+                                  Re-comment{" "}
+                                </p>
+                              </div>
+                            </>
+                          )
                         )}
                       </div>
                     )}
-                    <div className="my-4 flex w-[100%] flex-col  border-b-2  items-center pb-2">
-                      <p className="mx-2  font-bold">
-                        Assign to Account Department :
-                      </p>
-                      <div
-                        className="border-2 w-[250px] text-center cursor-pointer"
-                        onClick={() => {
-                          setPaymentDepartMentOpen(!paymentDepartmentOpen);
-                        }}
-                      >
-                        {selectedSupervisor
-                          ? `${selectedSupervisor?.firstName} ${selectedSupervisor?.lastName}`
-                          : "Select a value..."}
-                      </div>
-                      {paymentDepartmentOpen && paymentSupervisor && (
-                        <div className="h-[150px] w-[250px] border-2 overflow-y-auto">
-                          {paymentSupervisor.map((current) => {
-                            console.log(current);
-                            return (
-                              <div className="font-semibold border-b-2">
-                                <p
-                                  className="text-ellipsis overflow-hidden whitespace-nowrap px-2 py-1 bg-blue-500  hover:bg-gray-400 cursor-pointer"
-                                  onClick={() => {
-                                    setPaymentDepartMentOpen(false);
-                                    setSelectedSupervisor(current);
-                                  }}
-                                >
-                                  {current?.firstName} {current?.lastName}
-                                </p>
-                              </div>
-                            );
-                          })}
-                        </div>
-                      )}
-                    </div>
 
-                    {user.isAdmin &&voucherData?.voucherDescription?.dailyAllowance.length==0&& (
-                      <div className="my-4 flex w-[100%]   border-b-2 py-2">
-                        <p className="mx-2  font-bold">DA Allowances :</p>
-                        <input
-                          className="border-2 w-[100px] px-2"
-                          type="number"
-                          ref={daAllowanceRef}
-                        ></input>
-                        <p className="p-2 font-semibold">
-                          {voucherData?.currency}
+                    {/* {console.log(voucherData.assignedTo)} */}
+                    {user?.isAdmin && !voucherData?.assignedTo && (
+                      <div className="my-4 flex w-[100%] flex-col  border-b-2  items-center pb-2">
+                        <p className="mx-2  font-bold">
+                          Assign to Account Department :
                         </p>
-                        <a
-                          className="group relative inline-block overflow-hidden border border-indigo-600 px-8 py-1 focus:outline-none focus:ring mx-2 "
-                          href="#"
+                        <div
+                          className="border-2 w-[250px] text-center cursor-pointer"
                           onClick={() => {
-                            setVoucherData((prev) => {
-                              return {
-                                ...prev,
-                                voucherDescription: {
-                                  ...voucherData?.voucherDescription,
-                                  dailyAllowance: daAllowanceRef.current.value,
-                                },
-                              };
-                            });
+                            setPaymentDepartMentOpen(!paymentDepartmentOpen);
                           }}
                         >
-                          <span className="absolute inset-x-0 bottom-0 h-[2px] bg-indigo-600 transition-all group-hover:h-full group-active:bg-indigo-500"></span>
-
-                          <span className="relative text-sm font-medium text-indigo-600 transition-colors group-hover:text-white">
-                            Check
-                          </span>
-                        </a>
+                          {selectedSupervisor
+                            ? `${selectedSupervisor?.firstName} ${selectedSupervisor?.lastName}`
+                            : "Select a value..."}
+                        </div>
+                        {paymentDepartmentOpen && paymentSupervisor && (
+                          <div className="h-[150px] w-[250px] border-2 overflow-y-auto">
+                            {paymentSupervisor.map((current) => {
+                              console.log(current);
+                              return (
+                                <div className="font-semibold border-b-2">
+                                  <p
+                                    className="text-ellipsis overflow-hidden whitespace-nowrap px-2 py-1 bg-blue-500  hover:bg-gray-400 cursor-pointer"
+                                    onClick={() => {
+                                      setPaymentDepartMentOpen(false);
+                                      setSelectedSupervisor(current);
+                                    }}
+                                  >
+                                    {current?.firstName} {current?.lastName}
+                                  </p>
+                                </div>
+                              );
+                            })}
+                          </div>
+                        )}
                       </div>
                     )}
+                    {user?.isAdmin &&
+                      voucherData?.assignedTo &&
+                      !reAssignVoucher && (
+                        <div className="my-4 flex w-[100%]  border-b-2  items-center pb-2">
+                          <p className="mx-2  font-semibold">
+                            {" "}
+                            Assigned For Payment Settlement :
+                          </p>
+                          <p className="px-2">shivam singh</p>
+                          <a
+                            className="group relative inline-block overflow-hidden border border-indigo-600 px-8 py-1 focus:outline-none focus:ring mx-2 mt-3 h-[35px] "
+                            href="#"
+                            onClick={() => {}}
+                          >
+                            <span className="absolute inset-x-0 bottom-0 h-[2px] bg-indigo-600 transition-all group-hover:h-full group-active:bg-indigo-500"></span>
+
+                            <span
+                              className="relative text-sm font-medium text-indigo-600 transition-colors group-hover:text-white flex"
+                              onClick={() => {
+                                setReAsignVoucher(true);
+                              }}
+                            >
+                              <MdAssignmentInd className="w-[20px] h-[20px] mx-2" />
+                              Reassign
+                            </span>
+                          </a>
+                        </div>
+                      )}
+                    {user?.isAdmin &&
+                      voucherData?.assignedTo &&
+                      reAssignVoucher && (
+                        <div className="my-4 flex w-[100%] flex-col  border-b-2  items-center pb-2">
+                          <p className="mx-2  font-bold">
+                            Re- Assign to Account Department :
+                          </p>
+                          <div
+                            className="border-2 w-[250px] text-center cursor-pointer"
+                            onClick={() => {
+                              setPaymentDepartMentOpen(!paymentDepartmentOpen);
+                            }}
+                          >
+                            {selectedSupervisor
+                              ? `${selectedSupervisor?.firstName} ${selectedSupervisor?.lastName}`
+                              : "Select a value..."}
+                          </div>
+                          {paymentDepartmentOpen && paymentSupervisor && (
+                            <div className="h-[150px] w-[250px] border-2 overflow-y-auto">
+                              {paymentSupervisor.map((current) => {
+                                console.log(current);
+                                return (
+                                  <div className="font-semibold border-b-2">
+                                    <p
+                                      className="text-ellipsis overflow-hidden whitespace-nowrap px-2 py-1 bg-blue-500  hover:bg-gray-400 cursor-pointer"
+                                      onClick={() => {
+                                        setPaymentDepartMentOpen(false);
+                                        setSelectedSupervisor(current);
+                                      }}
+                                    >
+                                      {current?.firstName} {current?.lastName}
+                                    </p>
+                                  </div>
+                                );
+                              })}
+                            </div>
+                          )}
+                          <p
+                            className="border-2 border-green-400 text-black hover:text-white my-2 p-1 hover:bg-green-500 cursor-pointer rounded-md font-semibold"
+                            onClick={() => {
+                              reAssignVoucherHandler();
+                            }}
+                          >
+                            Assign now
+                          </p>
+                        </div>
+                      )}
+                    {user.isAdmin &&
+                      voucherData?.voucherDescription?.dailyAllowance.length ==
+                        0 && (
+                        <div className="my-4 flex w-[100%]   border-b-2 py-2">
+                          <p className="mx-2  font-bold">DA Allowances :</p>
+                          <input
+                            className="border-2 w-[100px] px-2"
+                            type="number"
+                            ref={daAllowanceRef}
+                          ></input>
+                          <p className="p-2 font-semibold">
+                            {voucherData?.currency}
+                          </p>
+                          <a
+                            className="group relative inline-block overflow-hidden border border-indigo-600 px-8 py-1 focus:outline-none focus:ring mx-2 "
+                            href="#"
+                            onClick={() => {
+                              setVoucherData((prev) => {
+                                return {
+                                  ...prev,
+                                  voucherDescription: {
+                                    ...voucherData?.voucherDescription,
+                                    dailyAllowance:
+                                      daAllowanceRef.current.value,
+                                  },
+                                };
+                              });
+                            }}
+                          >
+                            <span className="absolute inset-x-0 bottom-0 h-[2px] bg-indigo-600 transition-all group-hover:h-full group-active:bg-indigo-500"></span>
+
+                            <span className="relative text-sm font-medium text-indigo-600 transition-colors group-hover:text-white">
+                              Check
+                            </span>
+                          </a>
+                        </div>
+                      )}
 
                     {voucherData.statusType == "Pending" && (
                       <div className="my-2 flex w-[100%] justify-evenly font-bold text-white">
                         {!voucherData?.comment &&
                           voucherData.statusType == "Pending" &&
-                          (user.isAdmin || user.supervisor) && (
+                          (user.isAdmin || user.supervisor) && (voucherData.userId != user.id)&&(
                             <p
                               className="p-2 bg-orange-400 w-fit mx-2 rounded-md hover:bg-orange-600 cursor-pointer"
                               onClick={() => {
@@ -726,27 +848,28 @@ export default function VoucherViewer(props) {
                             </p>
                           )}
 
-                        {(user.isAdmin || user.supervisor) && (
-                          <>
-                            <p
-                              className="p-2 bg-blue-400 w-fit rounded-md hover:bg-blue-600 cursor-pointer"
-                              onClick={() => {
-                                acceptVoucherHandler();
-                              }}
-                            >
-                              Accept
-                            </p>
-                            <p
-                              className="p-2 bg-red-400 w-fit mx-2 rounded-md hover:bg-red-600 cursor-pointer"
-                              onClick={() => {
-                                // setVoucherStatus("Rejected");
-                                rejectVoucherHandler();
-                              }}
-                            >
-                              Reject
-                            </p>
-                          </>
-                        )}
+                        {(user.isAdmin || user.supervisor) &&
+                          (voucherData.userId != user.id)&&(
+                            <>
+                              <p
+                                className="p-2 bg-blue-400 w-fit rounded-md hover:bg-blue-600 cursor-pointer"
+                                onClick={() => {
+                                  acceptVoucherHandler();
+                                }}
+                              >
+                                Accept
+                              </p>
+                              <p
+                                className="p-2 bg-red-400 w-fit mx-2 rounded-md hover:bg-red-600 cursor-pointer"
+                                onClick={() => {
+                                  // setVoucherStatus("Rejected");
+                                  rejectVoucherHandler();
+                                }}
+                              >
+                                Reject
+                              </p>
+                            </>
+                          )}
                       </div>
                     )}
                   </div>

@@ -43,14 +43,14 @@ function AdminUserList(props) {
   };
   return (
     <div className="shadow-md shadow-gray-700 w-[60%]  min-h-[250px] h-[40vh]  bg-white m-2 rounded-lg">
-      <p className=" bg-gradient-to-r bg-[#44dbbb]  py-2 font-bold text-2xl text-center text-white rounded-t-lg h-[47px]">
+      <p className=" bg-gradient-to-r bg-[#2fc7f8]  py-2 font-bold text-2xl text-center text-white rounded-t-lg h-[47px]">
         All users
       </p>
       <div className="w-[100%]">
-        <div className="mx-2 bg-white text-black flex h-[40px] font-bold items-center">
-          <p className="w-[10%] px-1">id</p>
-          <p className="w-[35%] px-1">name</p>
-          <p className="w-[30%] px-1">mobile</p>
+        <div className="mx-2 bg-white text-black flex h-[40px] font-bold items-center border-b-2">
+          <p className="w-[10%] px-1">User Id</p>
+          <p className="w-[35%] px-1">Name</p>
+          <p className="w-[30%] px-1">Mobile</p>
 
           <p className="w-[25%] px-1 text-center"></p>
         </div>

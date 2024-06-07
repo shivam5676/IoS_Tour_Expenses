@@ -52,7 +52,7 @@ function UserExpensesGraph(props) {
   };
   return (
     <div className=" w-[40%]  min-h-[250px] h-[40vh]  m-2 bg-white rounded-lg shadow-md shadow-gray-700 text-center ">
-      <p className=" border-white  py-2 font-bold bg-gradient-to-r from-[#dd2476] to-[#ff7e5f] text-2xl rounded-t-lg">
+      <p className=" border-white  py-2 font-bold bg-[#2fc7f8] font-sans text-2xl rounded-t-lg">
         Expense Graph
       </p>
 

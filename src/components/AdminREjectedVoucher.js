@@ -13,7 +13,7 @@ function AdminREjectedVoucher(props) {
         voucherId={Id}
         open={open}
       ></VoucherViewer>{" "}
-      <p className=" border-white  py-2 font-bold bg-[#44dbbb]  text-2xl rounded-t-lg">
+      <p className=" border-white  py-2 font-bold bg-[#2fc7f8]  text-2xl rounded-t-lg font-sans">
         Rejected Voucher
       </p>
       {props.rejected.length == 0 && (
@@ -27,10 +27,10 @@ function AdminREjectedVoucher(props) {
       {props.rejected.length > 0 && (
         <>
           <div className="w-[100%]">
-            <div className="m-2 bg-white text-black flex  font-bold items-center">
-              <p className="w-[10%] px-1">v.no</p>
-              <p className="w-[27%] px-1">name</p>
-              <p className="w-[25%] px-1">trip</p>
+            <div className="m-2 bg-white text-black flex  font-bold items-center border-b-2">
+              <p className="w-[10%] px-1">V.no</p>
+              <p className="w-[27%] px-1">Name</p>
+              <p className="w-[25%] px-1">Trip</p>
               <p className="w-[23%] px-1">Date</p>
               <p className="w-[15%] px-1 text-center"></p>
             </div>

@@ -124,7 +124,7 @@ function AddExpenseModal(props) {
               leaveFrom="opacity-100 translate-y-0 sm:scale-100"
               leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
             >
-              <Dialog.Panel className="relative transform overflow-hidden rounded-lg text-left shadow-xl transition-all sm:my-8 w-[80%] md:w-[500px] py-4 bg-gradient-to-r from-[#3a5f66] to-[#144786] text-white">
+              <Dialog.Panel className="relative transform overflow-hidden rounded-lg text-left shadow-xl transition-all sm:my-8 w-[80%] md:w-[500px] py-4 bg-[#257894] text-white">
                 <div
                   className="fixed right-4 top-2 flex cursor-pointer font-bold underline"
                   onClick={() => props.onClose()}
@@ -135,11 +135,11 @@ function AddExpenseModal(props) {
                 <div className="text-center pb-4">
                   <div className="text-2xl font-semibold flex items-center">
                     {" "}
-                    <div className="bg-gradient-to-r from-[#26718f] to-yellow-400 flex-1 h-[2px]"></div>
+                    <div className="bg-gradient-to-r from-[#257894] to-white flex-1 h-[2px]"></div>
                     <div className="md:font-bold text-2xl m-3  text-white font-medium">
                       ADD EXPENSE
                     </div>
-                    <div className="bg-gradient-to-r from-yellow-400 to-[#37aa3d] flex-1 h-[2px]"></div>
+                    <div className="bg-gradient-to-r from-white to-[#257894]  flex-1 h-[2px]"></div>
                   </div>
                   <div>
                     Date:
@@ -157,7 +157,7 @@ function AddExpenseModal(props) {
                   <div className="flex flex-col px-2 w-[100%] py-2">
                     <label>Amount</label>
                     <input
-                      className="outline-none border-2 border-white  bg-transparent px-2 text-black"
+                      className="outline-none border-2 border-white  bg-transparent px-2 "
                       ref={amountRef}
                       // type="phone"
                     ></input>
@@ -165,16 +165,16 @@ function AddExpenseModal(props) {
                   <div className="flex flex-col px-2 w-[100%] py-2">
                     <label>Expense Category</label>
                     <select
-                      className="outline-none border-2 border-white text-black font-semibold bg-transparent"
+                      className="outline-none border-2 border-white  font-semibold bg-transparent"
                       //   ref={expenseCategoryRef}
                       onChange={(e) =>
                         (expenseCategoryRef.current = e.target.value)
                       }
                     >
-                      <option value="Travel">Travel</option>
-                      <option value="Food(Da)">Food(Da)</option>
-                      <option value="Accomondation">Accomondation</option>
-                      <option value="Misc">Misc</option>
+                      <option value="Travel" className="bg-blue-400">Travel</option>
+                      <option value="Food(Da)" className="bg-blue-400">Food(Da)</option>
+                      <option value="Accomondation" className="bg-blue-400">Accomondation</option>
+                      <option value="Misc" className="bg-blue-400">Misc</option>
                     </select>
                   </div>
                 </div>
@@ -184,7 +184,7 @@ function AddExpenseModal(props) {
                     <label>Description</label>
                     <textarea
                       rows={3}
-                      className="outline-none border-2 border-white  bg-transparent px-2 text-black"
+                      className="outline-none border-2 border-white  bg-transparent px-2 "
                       ref={descriptionRef}
                     ></textarea>
                   </div>
@@ -193,22 +193,22 @@ function AddExpenseModal(props) {
                   <div className="flex flex-col px-2 w-[100%] py-2">
                     <label>Bill No (if present)</label>
                     <input
-                      className="outline-none border-2 border-white  bg-transparent text-black px-2"
+                      className="outline-none border-2 border-white  bg-transparent  px-2"
                       ref={voucherRef}
                     ></input>
                   </div>
                   <div className="flex flex-col px-2 w-[100%] py-2">
                     <label>Payment Type</label>
                     <select
-                      className="outline-none border-2 text-black font-semibold border-white  bg-transparent"
+                      className="outline-none border-2  font-semibold border-white  bg-transparent"
                       ref={paymentTypeRef}
                       onChange={(e) => {
                         paymentTypeRef.current.value = e.target.value;
                       }}
                     >
-                      <option value={"Credit Card"}>Credit card</option>
-                      <option value={"Cash"}>Cash</option>
-                      <option value={"Online (train/flight)"}>
+                      <option value={"Credit Card"} className="bg-blue-400">Credit card</option>
+                      <option value={"Cash"} className="bg-blue-400">Cash</option>
+                      <option value={"Online (train/flight)"} className="bg-blue-400">
                         Online(train/flight)
                       </option>
                     </select>
@@ -237,7 +237,7 @@ function AddExpenseModal(props) {
                 </div>
                 <div className="w-[100%] flex  justify-center mb-4 mt-6">
                   <p
-                    className="w-[80%] hover:bg-gray-400 bg-white text-black text-center font-semibold py-3 rounded-md cursor-pointer"
+                    className="w-[80%] hover:bg-gray-400 bg-white  text-center font-semibold py-3 rounded-md cursor-pointer text-black"
                     onClick={saveExpenseHandler}
                   >
                     Add Expense

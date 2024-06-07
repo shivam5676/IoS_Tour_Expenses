@@ -6,14 +6,15 @@ function CompletedVouchers(props) {
   const [Id, setId] = useState(null);
   console.log(props?.accepted);
   return (
-    <div className="shadow-md shadow-gray-700 w-[60%]  min-h-[250px] h-[40vh]  bg-white m-2 rounded-lg"><VoucherViewer
-    close={() => {
-      setOpen(!open);
-    }}
-    voucherId={Id}
-    open={open}
-  ></VoucherViewer>{" "}
-      <p className=" py-2 font-bold text-2xl text-center  rounded-t-lg text-white   bg-[#44dbbb]">
+    <div className="shadow-md shadow-gray-700 w-[60%]  min-h-[250px] h-[40vh]  bg-white m-2 rounded-lg">
+      <VoucherViewer
+        close={() => {
+          setOpen(!open);
+        }}
+        voucherId={Id}
+        open={open}
+      ></VoucherViewer>{" "}
+      <p className=" py-2 font-bold text-2xl text-center  rounded-t-lg text-white   bg-[#2fc7f8] font-sans">
         Accepted Vouchers{" "}
       </p>{" "}
       {props.accepted.length == 0 && (
@@ -27,10 +28,10 @@ function CompletedVouchers(props) {
       {props.accepted.length > 0 && (
         <>
           <div className="w-[100%]">
-            <div className="mx-2 bg-white text-black flex h-[40px] font-bold items-center">
-              <p className="w-[13%] px-1">v.no</p>
-              <p className="w-[27%] px-1">name</p>
-              <p className="w-[25%] px-1">trip</p>
+            <div className="mx-2 bg-white text-black flex h-[40px] font-bold items-center border-b-2">
+              <p className="w-[13%] px-1">V.no</p>
+              <p className="w-[27%] px-1">Name</p>
+              <p className="w-[25%] px-1">Trip</p>
               <p className="w-[20%] px-1">Date</p>
               <p className="w-[15%] px-1 text-center"></p>
             </div>
@@ -52,10 +53,13 @@ function CompletedVouchers(props) {
                     {current?.Voucher?.tourDate}{" "}
                   </p>
                   <div className="w-[15%] px-1 overflow-hidden whitespace-nowrap overflow-ellipsis ">
-                    <p className="bg-blue-500 text-white font-bold text-center rounded hover:bg-blue-700 cursor-pointer"  onClick={() => {
+                    <p
+                      className="bg-blue-500 text-white font-bold text-center rounded hover:bg-blue-700 cursor-pointer"
+                      onClick={() => {
                         setOpen(true);
                         setId(current.Voucher.id);
-                      }}>
+                      }}
+                    >
                       {" "}
                       View
                     </p>

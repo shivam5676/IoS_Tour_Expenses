@@ -12,9 +12,9 @@ function UserSidePanel() {
   const userData = JSON.parse(localStorage.getItem("token"));
   // console.log(userData);
   return (
-    <div className="w-[250px] h-[81vh]  min-[980px]:w-[300px]  bg-white text-black rounded-2xl my-0 shadow-md shadow-gray-700 font-['Poppins']">
-      <div className="bg-gradient-to-r from-[#EA8D8D] to-[#553cb1] h-[150px] rounded-md m-4 max-w-[270px] text-white">
-        <div className="flex justify-center">
+    <div className="w-[250px] h-[81vh]  min-[980px]:w-[300px] backdrop-blur-sm bg-white/30  text-white rounded-2xl my-1 min-[1400px]:my-2 shadow-md shadow-gray-700 font-['Poppins']">
+      <div className="bg-[#2fc7f8] h-[150px] rounded-md m-4 max-w-[270px] text-white">
+      <div className="flex justify-center">
           <FaRegUserCircle className="w-[40px] h-[40px] mt-2" />
         </div>
 
@@ -37,39 +37,39 @@ function UserSidePanel() {
       <div className="flex flex-col items-center h-[calc(81vh-180px)] justify-between">
         <div className="mt-4 w-[100%] flex flex-col  items-center">
           <p
-            className="font-bold hover:bg-purple-500 w-[60%] my-1 min-[1400px]:my-2   text-center hover:text-white"
+            className="font-bold hover:bg-[#2fc7f8] w-[60%] my-1 min-[1400px]:my-2   text-center hover:text-white"
             onClick={() => navigate("/home")}
           >
             Dashboard
           </p>
           <p
-            className="font-bold hover:bg-purple-500 w-[60%] my-1 min-[1400px]:my-2   text-center hover:text-white"
+            className="font-bold hover:bg-[#2fc7f8] w-[60%] my-1 min-[1400px]:my-2   text-center hover:text-white"
             onClick={() => navigate("/userVouchers")}
           >
             Vouchers
           </p>
           <p
-            className="font-bold hover:bg-purple-500 w-[60%]  my-1 min-[1400px]:my-2 text-center hover:text-white"
+            className="font-bold hover:bg-[#2fc7f8] w-[60%]  my-1 min-[1400px]:my-2 text-center hover:text-white"
             onClick={() => navigate("/changePassword")}
           >
             change password
           </p>
           {/* <p
-            className="font-bold hover:bg-purple-500 w-[60%] my-1 min-[1400px]:my-2  text-center hover:text-white"
+            className="font-bold hover:bg-[#2fc7f8] w-[60%] my-1 min-[1400px]:my-2  text-center hover:text-white"
             onClick={() => navigate("/adminReport")}
           >
             reports
           </p>
           <p
-            className="font-bold hover:bg-purple-500 w-[60%] my-1 min-[1400px]:my-2  text-center hover:text-white"
+            className="font-bold hover:bg-[#2fc7f8] w-[60%] my-1 min-[1400px]:my-2  text-center hover:text-white"
             onClick={() => navigate("/adminReport")}
           >
             change password
           </p> */}
         </div>
         <div className=" min-w-[100%] max-w-[270px] text-white ">
-          <div className="flex m-4 bg-gradient-to-r from-[#EA8D8D] to-[#553cb1] rounded-md py-2 items-center">
-            <div className="flex ps-2">
+        <div className="flex m-4  bg-[#2fc7f8] rounded-md py-2 items-center">
+        <div className="flex ps-2">
               <img src={iosLogo} className="w-[40px] h-[40px]"></img>
             </div>
             <div className="p-2">

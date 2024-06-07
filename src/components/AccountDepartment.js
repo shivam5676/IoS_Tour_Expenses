@@ -1,43 +1,37 @@
+import React, { useEffect, useState } from "react";
+import VoucherViewer from "./VoucherViewer";
+import pendingGif from "../assests/computer.gif";
 import axios from "axios";
-import React, { useContext, useEffect, useState } from "react";
-// import Context from "../store/Context";
-import VoucherViewer from "../VoucherViewer";
-import pendingGif from "../../assests/computer.gif";
-// import UserPendingVouchers from "./userPendingVouchers";
 
-function UserPendingVouchers(props) {
+function AccountDepartment() {
+  const [PendingVoucherData, setPendingVoucherData] = useState(null);
   const [open, setOpen] = useState(false);
   const [Id, setId] = useState(null);
-  const [PendingVoucherData, setPendingVoucherData] = useState(null);
-  //   const ctx = useContext(Context);
   const user = JSON.parse(localStorage.getItem("token"));
-  const connectionUrl = process.env.REACT_APP_CONNECTION_STRING
-  // const [id,setId]=useState(null)
+  const connectionUrl = process.env.REACT_APP_CONNECTION_STRING;
+
   useEffect(() => {
     async function fetchData() {
       try {
-        const response = await axios.post(
-          `${connectionUrl}:${process.env.REACT_APP_BACKEND_PORT}/user/getPendingvouchers`,
-          {
-            token: user.access_token,
-            domain: user.domain,
-          }
-        );
-        const res = response.data.userList;
+        const response = await axios.post(`${connectionUrl}:${process.env.REACT_APP_BACKEND_PORT}/admin/getPaymentVoucher`, {
+          token: user.access_token,
+          domain: user.domain,
+        });
+        const res = response.data.vouchers;
         console.log(res);
-        setPendingVoucherData(res);
         // if (response?.data?.userList) {
         //   ctx.AllVoucher(response.data.userList);
         // }
+        setPendingVoucherData(res)
       } catch (err) {
         console.log(err);
       }
     }
     fetchData();
   }, []);
-  // console.log(id);
   return (
-    <div className="shadow-md shadow-gray-700 w-[100%]  min-h-[250px] h-[40vh]  bg-white m-2 rounded-lg">
+    <div className="w-[100%] h-[100%] flex justify-center pt-[90px] ">
+      <div className="w-[1200px] h-[400px] bg-white  rounded-t-lg mx-2">
       <VoucherViewer
         close={() => {
           setOpen(!open);
@@ -100,8 +94,9 @@ function UserPendingVouchers(props) {
           })}
         </div>
       </>}
+      </div>
     </div>
   );
 }
 
-export default UserPendingVouchers;
+export default AccountDepartment;

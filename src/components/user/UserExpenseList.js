@@ -45,7 +45,7 @@ function UserExpenseList(props) {
         }}
       ></AddExpenseModal>
       <div className="shadow-md shadow-gray-700 w-[100%] min-h-[250px] h-[40vh]  bg-white m-2 rounded-lg">
-        <div className=" p-2 font-bold text-2xl flex justify-between rounded-t-lg text-white bg-gradient-to-r from-[#dd2476] to-[#ff7e5f]">
+        <div className=" p-2 font-bold text-2xl flex justify-between rounded-t-lg text-white bg-[#2fc7f8] font-sans">
           <p> Expenses List</p>
           <p
             className="rounded-md cursor-pointer text-sm px-4 flex items-center bg-white text-black font-bold hover:bg-gray-300"
@@ -74,7 +74,7 @@ function UserExpenseList(props) {
         {ctx.userCurrentTourExpenseData.length > 0 && (
           <>
             <div className="w-[100%]">
-              <div className="mx-2 bg-white text-black flex h-[40px] font-bold items-center">
+              <div className="mx-2 bg-white text-black flex h-[40px] font-bold items-center border-b-2">
                 <p className="w-[30%] px-1">Description</p>
                 <p className="w-[20%] px-1">Category</p>
                 <p className="w-[25%] px-1">Amount</p>

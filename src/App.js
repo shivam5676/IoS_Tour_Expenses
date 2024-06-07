@@ -10,6 +10,7 @@ import { useContext, useEffect, useState } from "react";
 import Context from "./store/Context";
 
 import UserVoucherPanel from "./components/user/userVoucherPanel";
+import AccountDepartment from "./components/AccountDepartment";
 
 function App() {
   const ctx = useContext(Context);
@@ -43,13 +44,23 @@ function App() {
             <Route path="/adminReport" element={<AdminReportPanel />} />
             <Route path="*" element={<AdminPanel />} />
             <Route path="/user" element={<UserHomePage />} />
-            <Route path="/userVouchers" element={<UserVoucherPanel></UserVoucherPanel>}></Route>
+            <Route
+              path="/userVouchers"
+              element={<UserVoucherPanel></UserVoucherPanel>}
+            ></Route>
+            <Route
+              path="/Accounts"
+              element={<AccountDepartment></AccountDepartment>}
+            ></Route>
           </>
         ) : !isLoggedIn.isAdmin ? (
           <>
             {" "}
             <Route path="*" element={<UserHomePage />} />
-            <Route path="/userVouchers" element={<UserVoucherPanel></UserVoucherPanel>}></Route>
+            <Route
+              path="/userVouchers"
+              element={<UserVoucherPanel></UserVoucherPanel>}
+            ></Route>
           </>
         ) : (
           <Route path="*" element={<Login />} />
