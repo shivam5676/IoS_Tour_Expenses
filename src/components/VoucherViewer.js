@@ -31,6 +31,9 @@ export default function VoucherViewer(props) {
   const user = JSON.parse(localStorage.getItem("token"));
 
   const reAssignVoucherHandler = async () => {
+    console.log(
+      `${selectedSupervisor.firstName} ${selectedSupervisor.lastName}`
+    );
     try {
       const response = await axios.post(
         `${connectionUrl}:${process.env.REACT_APP_BACKEND_PORT}/admin/reAssign`,
@@ -40,6 +43,7 @@ export default function VoucherViewer(props) {
           token: user.access_token,
           domain: user.domain,
           AccountDepartment: selectedSupervisor?.id || undefined,
+          assignedName: `${selectedSupervisor?.firstName} ${selectedSupervisor?.lastName}`,
         }
       );
       // setVoucherStatus("Accepted");
@@ -52,7 +56,7 @@ export default function VoucherViewer(props) {
       });
 
       setVoucherData((prev) => {
-        return { ...prev, statusType: "Accepted" };
+        return { ...prev, statusType: "Accepted",assignedName:`${selectedSupervisor?.firstName} ${selectedSupervisor?.lastName}` };
       });
     } catch (err) {
       console.log(err);
@@ -81,6 +85,7 @@ export default function VoucherViewer(props) {
           domain: user.domain,
           dailyAllowance: daAllowanceRef?.current?.value,
           AccountDepartment: selectedSupervisor?.id || undefined,
+          assignedName: `${selectedSupervisor?.firstName} ${selectedSupervisor?.lastName}`,
         }
       );
       // setVoucherStatus("Accepted");
@@ -92,7 +97,12 @@ export default function VoucherViewer(props) {
       });
 
       setVoucherData((prev) => {
-        return { ...prev, statusType: "Accepted" };
+        return {
+          ...prev,
+          statusType: "Accepted",
+          assignedTo: selectedSupervisor?.id || undefined,
+          assignedName:`${selectedSupervisor?.firstName} ${selectedSupervisor?.lastName}`
+        };
       });
     } catch (err) {
       console.log(err);
@@ -389,7 +399,6 @@ export default function VoucherViewer(props) {
                         IOS/EMP/{voucherData?.userId}
                       </div>
                     </div>
-
                     <div className="flex w-[100%] min-[700px]:flex-row flex-col">
                       <p className="w-[100%] px-2 py-1 font-semibold border-2">
                         Purpose : {voucherData.voucherDescription?.purpose}
@@ -444,7 +453,6 @@ export default function VoucherViewer(props) {
                         ).toFixed(2)}
                       </p>
                     </div>
-
                     <p className="text-center font-bold text-xl py-2">
                       Tour Daily Allowance (DA)
                     </p>
@@ -466,7 +474,6 @@ export default function VoucherViewer(props) {
                         ).toFixed(2)}
                       </div>
                     </div>
-
                     <div className="flex w-[100%] min-[700px]:flex-row flex-col">
                       <p className="w-[100%] px-2 font font-semibold bg-blue-300">
                         Total DA Alloted ({voucherData?.currency}) : {totalDa}
@@ -475,7 +482,6 @@ export default function VoucherViewer(props) {
                     <p className="text-center font-bold text-xl py-2">
                       Tour Expenses
                     </p>
-
                     <div className="flex w-[100%] min-[700px]:flex-row flex-col">
                       <div className="w-[50%] px-2 border-2 max-[700px]:w-[100%] flex py-1">
                         <p className="font-semibold"> FOOD : </p> {food}
@@ -502,7 +508,6 @@ export default function VoucherViewer(props) {
                     <p className="text-center font-bold">
                       Expenses Payment Method
                     </p>
-
                     <div className="flex w-[100%] min-[700px]:flex-row flex-col">
                       <div className="w-[50%] px-2 border-2 max-[700px]:w-[100%] flex py-1">
                         <p className="font-semibold">Credit Card (office) :</p>
@@ -518,7 +523,6 @@ export default function VoucherViewer(props) {
                         {onlinePayment}
                       </p>
                     </div>
-
                     <div className="flex w-[100%] min-[700px]:flex-row flex-col">
                       {settlementAmount > 0 && (
                         <>
@@ -607,6 +611,92 @@ export default function VoucherViewer(props) {
                         );
                       })}
                     {!voucherData.comment &&
+                      voucherData?.statusType == "Pending" &&
+                      (user?.isAdmin || user?.supervisor) && (
+                        <div className="my-2 flex w-[100%]  border-b-2">
+                          <div className="font-semibold my-2 px-2">
+                            Comment :{" "}
+                          </div>
+                          <textarea
+                            rows={3}
+                            className="max-h-[100px] min-h-[50px] border-2 m-2 w-[60%]"
+                            ref={CommentRef}
+                          ></textarea>
+                        </div>
+                      )}
+                    {(user?.isAdmin || user?.supervisor) &&
+                      !editComment &&
+                      voucherData?.comment && (
+                        <div className="my-2 flex w-[100%]  border-b-2">
+                          {" "}
+                          <div className="font-semibold my-2 px-2">
+                            Comment :{" "}
+                          </div>
+                          <div
+                            rows={3}
+                            className="text-[.85rem] m-2 w-[50%] border-yellow-400 border-2"
+                          >
+                            <p className="p-2">{voucherData?.comment}</p>
+                          </div>
+                          {voucherData.userId != user.id && (
+                            <div className="mb-2">
+                              <a
+                                className="group relative inline-block overflow-hidden border border-indigo-600 px-8 py-1 focus:outline-none focus:ring mx-2 mt-3 h-[35px] "
+                                href="#"
+                              >
+                                <span className="absolute inset-x-0 bottom-0 h-[2px] bg-indigo-600 transition-all group-hover:h-full group-active:bg-indigo-500"></span>
+
+                                <span
+                                  className="relative text-sm font-medium text-indigo-600 transition-colors group-hover:text-white flex"
+                                  onClick={() => {
+                                    setEditComment(true);
+                                  }}
+                                >
+                                  <CiEdit className="w-[20px] h-[20px]" />
+                                  edit
+                                </span>
+                              </a>
+                            </div>
+                          )}
+                        </div>
+                      )}
+                    {(user?.isAdmin || user?.supervisor) &&
+                      voucherData.userId != user.id &&
+                      editComment && (
+                        <div className="my-2 flex w-[100%]  border-b-2">
+                          <div className="font-semibold my-2 px-2">
+                            Comment :{" "}
+                          </div>{" "}
+                          <textarea
+                            rows={3}
+                            className="max-h-[100px] min-h-[50px] border-2 m-2 w-[50%]"
+                            ref={CommentRef}
+                          ></textarea>
+                          <div className="flex items-center">
+                            {" "}
+                            <p
+                              className="p-2 bg-orange-400 text-white mx-2 rounded-md hover:bg-orange-600 cursor-pointer  h-fit"
+                              onClick={() => {
+                                // setVoucherStatus("Rejected");
+                                // rejectVoucherHandler();
+                                console.log(CommentRef.current.value);
+                                sendCommentHandler();
+                              }}
+                            >
+                              Re-comment{" "}
+                            </p>
+                          </div>
+                        </div>
+                      )}
+                    {voucherData.userId == user.id && editComment && (
+                      <div className="my-2 flex w-[100%]  border-b-2">
+                        <div className="font-semibold my-2 px-2">
+                          Comment :{" "}
+                        </div>{" "}
+                        <p>{voucherData.comment}</p>
+                      </div>
+                    )}
+                    {/* {!voucherData.comment &&
                     voucherData?.statusType == "Pending" &&
                     (user?.isAdmin || user?.supervisor) ? (
                       <div className="my-2 flex w-[100%]  border-b-2">
@@ -622,6 +712,7 @@ export default function VoucherViewer(props) {
                         <div className="font-semibold my-2 px-2">
                           Comment :{" "}
                         </div>
+
                         {(user?.isAdmin || user?.supervisor) && !editComment ? (
                           <>
                             {" "}
@@ -651,9 +742,10 @@ export default function VoucherViewer(props) {
                             </div>
                           </>
                         ) : (
+                          (user?.isAdmin || user?.supervisor) &&
+                          voucherData.userId != user.id &&
                           editComment && (
                             <>
-                              {" "}
                               <textarea
                                 rows={3}
                                 className="max-h-[100px] min-h-[50px] border-2 m-2 w-[60%]"
@@ -664,8 +756,6 @@ export default function VoucherViewer(props) {
                                 <p
                                   className="p-2 bg-orange-400 text-white mx-2 rounded-md hover:bg-orange-600 cursor-pointer  h-fit"
                                   onClick={() => {
-                                    // setVoucherStatus("Rejected");
-                                    // rejectVoucherHandler();
                                     console.log(CommentRef.current.value);
                                     sendCommentHandler();
                                   }}
@@ -677,9 +767,8 @@ export default function VoucherViewer(props) {
                           )
                         )}
                       </div>
-                    )}
-
-                    {/* {console.log(voucherData.assignedTo)} */}
+                    )} */}
+                    {console.log(voucherData.assignedTo, "===>")}
                     {user?.isAdmin && !voucherData?.assignedTo && (
                       <div className="my-4 flex w-[100%] flex-col  border-b-2  items-center pb-2">
                         <p className="mx-2  font-bold">
@@ -725,7 +814,8 @@ export default function VoucherViewer(props) {
                             {" "}
                             Assigned For Payment Settlement :
                           </p>
-                          <p className="px-2">shivam singh</p>
+                          <p className="px-2">{voucherData?.assignedName}</p>
+                          {console.log(voucherData)}
                           <a
                             className="group relative inline-block overflow-hidden border border-indigo-600 px-8 py-1 focus:outline-none focus:ring mx-2 mt-3 h-[35px] "
                             href="#"
@@ -829,12 +919,12 @@ export default function VoucherViewer(props) {
                           </a>
                         </div>
                       )}
-
                     {voucherData.statusType == "Pending" && (
                       <div className="my-2 flex w-[100%] justify-evenly font-bold text-white">
                         {!voucherData?.comment &&
                           voucherData.statusType == "Pending" &&
-                          (user.isAdmin || user.supervisor) && (voucherData.userId != user.id)&&(
+                          (user.isAdmin || user.supervisor) &&
+                          voucherData.userId != user.id && (
                             <p
                               className="p-2 bg-orange-400 w-fit mx-2 rounded-md hover:bg-orange-600 cursor-pointer"
                               onClick={() => {
@@ -849,7 +939,7 @@ export default function VoucherViewer(props) {
                           )}
 
                         {(user.isAdmin || user.supervisor) &&
-                          (voucherData.userId != user.id)&&(
+                          voucherData.userId != user.id && (
                             <>
                               <p
                                 className="p-2 bg-blue-400 w-fit rounded-md hover:bg-blue-600 cursor-pointer"
