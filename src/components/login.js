@@ -76,6 +76,7 @@ function Login() {
     console.log(
       `${connectionString}:${process.env.REACT_APP_BACKEND_PORT}/queryParams/`
     );
+    try{
     const response = await axios.get(
       `${connectionString}:${process.env.REACT_APP_BACKEND_PORT}/queryParams/`
     );
@@ -84,6 +85,10 @@ function Login() {
     const authorizationUrl = `${process.env.REACT_APP_BITRIX_URL}/oauth/authorize?${queryParams}`;
     // Redirect the user to the Bitrix24 authorization URL
     window.location.href = authorizationUrl;
+    }catch(err){
+      console.log(err);
+    }
+
   }, []);
 
   return (

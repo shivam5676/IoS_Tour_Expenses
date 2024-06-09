@@ -9,9 +9,14 @@ import rejectedIcon from "../assests/images/rejected.png";
 import { toast } from "react-toastify";
 import { CiEdit } from "react-icons/ci";
 import { MdAssignmentInd } from "react-icons/md";
+import DownloadPdfButton from "./DownloadPdfButton";
 
 export default function VoucherViewer(props) {
   console.log(props.voucherId);
+  const [expenseData, setExpenseData] = useState({
+    cashExpense: 0,
+    digitalExpense: 0,
+  });
   const [reAssignVoucher, setReAsignVoucher] = useState(false);
   const [voucherData, setVoucherData] = useState(null);
   const [editComment, setEditComment] = useState(false);
@@ -56,7 +61,11 @@ export default function VoucherViewer(props) {
       });
 
       setVoucherData((prev) => {
-        return { ...prev, statusType: "Accepted",assignedName:`${selectedSupervisor?.firstName} ${selectedSupervisor?.lastName}` };
+        return {
+          ...prev,
+          statusType: "Accepted",
+          assignedName: `${selectedSupervisor?.firstName} ${selectedSupervisor?.lastName}`,
+        };
       });
     } catch (err) {
       console.log(err);
@@ -101,7 +110,7 @@ export default function VoucherViewer(props) {
           ...prev,
           statusType: "Accepted",
           assignedTo: selectedSupervisor?.id || undefined,
-          assignedName:`${selectedSupervisor?.firstName} ${selectedSupervisor?.lastName}`
+          assignedName: `${selectedSupervisor?.firstName} ${selectedSupervisor?.lastName}`,
         };
       });
     } catch (err) {
@@ -185,30 +194,49 @@ export default function VoucherViewer(props) {
   let travel = 0;
   let Misc = 0;
   let accomondation = 0;
-  voucherData &&
-    voucherData.voucherExpenses?.forEach((current) => {
-      if (current.paymentType === "Cash") {
-        CashPayment += +current.Amount;
-      }
-      if (current.paymentType === "Online (train/flight)") {
-        onlinePayment += +current.Amount;
-      }
-      if (current.paymentType === "Credit Card") {
-        creditCard += +current.Amount;
-      }
-      if (current.expenseType === "Food(Da)") {
-        food += +current.Amount;
-      }
-      if (current.expenseType === "Misc") {
-        Misc += +current.Amount;
-      }
-      if (current.expenseType === "Travel") {
-        travel += +current.Amount;
-      }
-      if (current.expenseType === "Accomondation") {
-        accomondation += +current.Amount;
-      }
+  useEffect(() => {
+    CashPayment = 0;
+    onlinePayment = 0;
+    creditCard = 0;
+    food = 0;
+    travel = 0;
+    Misc = 0;
+    accomondation = 0;
+    voucherData &&
+      voucherData.voucherExpenses?.forEach((current) => {
+        if (current.paymentType === "Cash") {
+          CashPayment += +current.Amount;
+        }
+        if (current.paymentType === "Online (train/flight)") {
+          onlinePayment += +current.Amount;
+        }
+        if (current.paymentType === "Credit Card") {
+          creditCard += +current.Amount;
+        }
+        if (current.expenseType === "Food(Da)") {
+          food += +current.Amount;
+        }
+        if (current.expenseType === "Misc") {
+          Misc += +current.Amount;
+        }
+        if (current.expenseType === "Travel") {
+          travel += +current.Amount;
+        }
+        if (current.expenseType === "Accomondation") {
+          accomondation += +current.Amount;
+        }
+      });
+    setExpenseData({
+      cashExpense: CashPayment,
+      digitalExpense: onlinePayment + creditCard,
+      creditCard,
+      accomondation,
+      food,
+      Misc,
+      travel,
     });
+  }, [voucherData]);
+
   const departureTimeArray =
     voucherData?.voucherDescription?.departureTime?.split(":");
   const arrivalTimeArray =
@@ -282,7 +310,7 @@ export default function VoucherViewer(props) {
       voucherData?.voucherDescription?.advanceCash
     );
     settlementAmount = (
-      +CashPayment +
+      +expenseData.cashExpense +
       +totalDa -
       +voucherData?.voucherDescription?.advanceCash
     ).toFixed(2);
@@ -470,7 +498,7 @@ export default function VoucherViewer(props) {
                           DA ({voucherData?.currency}/hr) :{" "}
                         </p>{" "}
                         {(
-                          +voucherData.voucherDescription?.dailyAllowance / 24
+                          +voucherData?.voucherDescription?.dailyAllowance / 24
                         ).toFixed(2)}
                       </div>
                     </div>
@@ -484,25 +512,31 @@ export default function VoucherViewer(props) {
                     </p>
                     <div className="flex w-[100%] min-[700px]:flex-row flex-col">
                       <div className="w-[50%] px-2 border-2 max-[700px]:w-[100%] flex py-1">
-                        <p className="font-semibold"> FOOD : </p> {food}
+                        <p className="font-semibold"> FOOD : </p>{" "}
+                        {expenseData?.food}
                       </div>
                       <div className="w-[50%] px-2 border-2 max-[700px]:w-[100%] flex py-1 ">
-                        <p className="font-semibold"> Travel : </p> {travel}
+                        <p className="font-semibold"> Travel : </p>{" "}
+                        {expenseData?.travel}
                       </div>
                     </div>
                     <div className="flex w-[100%] min-[700px]:flex-row flex-col">
                       <div className="w-[50%] px-2 border-2 max-[700px]:w-[100%] flex py-1">
                         <p className="font-semibold"> Accomondation : </p>{" "}
-                        {accomondation}
+                        {expenseData?.accomondation}
                       </div>
                       <div className="w-[50%] px-2 border-2 max-[700px]:w-[100%] flex py-1 ">
-                        <p className="font-semibold"> Misc : </p> {Misc}
+                        <p className="font-semibold"> Misc : </p>{" "}
+                        {expenseData?.Misc}
                       </div>
                     </div>
                     <div className="flex w-[100%] min-[700px]:flex-row flex-col">
                       <p className="w-[100%] px-2 font font-semibold bg-blue-300">
                         Total Tour Expenses ({voucherData?.currency}) :
-                        {Misc + accomondation + travel + food}
+                        {expenseData?.Misc +
+                          expenseData?.accomondation +
+                          expenseData?.travel +
+                          expenseData?.food}
                       </p>
                     </div>
                     <p className="text-center font-bold">
@@ -511,7 +545,7 @@ export default function VoucherViewer(props) {
                     <div className="flex w-[100%] min-[700px]:flex-row flex-col">
                       <div className="w-[50%] px-2 border-2 max-[700px]:w-[100%] flex py-1">
                         <p className="font-semibold">Credit Card (office) :</p>
-                        {creditCard}
+                        {expenseData?.creditCard}
                       </div>
                       <div className="w-[50%] px-2 border-2 max-[700px]:w-[100%] flex py-1 ">
                         <p className="font-semibold"> Cash : </p> {CashPayment}
@@ -520,7 +554,7 @@ export default function VoucherViewer(props) {
                     <div className="flex w-[100%] min-[700px]:flex-row flex-col font-semibold">
                       <p className="w-[100%] px-2 border-2 max-[700px]:w-[100%]">
                         online (train/bus/flight tickets by office):{" "}
-                        {onlinePayment}
+                        {expenseData?.onlinePayment}
                       </p>
                     </div>
                     <div className="flex w-[100%] min-[700px]:flex-row flex-col">
@@ -769,45 +803,47 @@ export default function VoucherViewer(props) {
                       </div>
                     )} */}
                     {console.log(voucherData.assignedTo, "===>")}
-                    {user?.isAdmin && !voucherData?.assignedTo && (
-                      <div className="my-4 flex w-[100%] flex-col  border-b-2  items-center pb-2">
-                        <p className="mx-2  font-bold">
-                          Assign to Account Department :
-                        </p>
-                        <div
-                          className="border-2 w-[250px] text-center cursor-pointer"
-                          onClick={() => {
-                            setPaymentDepartMentOpen(!paymentDepartmentOpen);
-                          }}
-                        >
-                          {selectedSupervisor
-                            ? `${selectedSupervisor?.firstName} ${selectedSupervisor?.lastName}`
-                            : "Select a value..."}
-                        </div>
-                        {paymentDepartmentOpen && paymentSupervisor && (
-                          <div className="h-[150px] w-[250px] border-2 overflow-y-auto">
-                            {paymentSupervisor.map((current) => {
-                              console.log(current);
-                              return (
-                                <div className="font-semibold border-b-2">
-                                  <p
-                                    className="text-ellipsis overflow-hidden whitespace-nowrap px-2 py-1 bg-blue-500  hover:bg-gray-400 cursor-pointer"
-                                    onClick={() => {
-                                      setPaymentDepartMentOpen(false);
-                                      setSelectedSupervisor(current);
-                                    }}
-                                  >
-                                    {current?.firstName} {current?.lastName}
-                                  </p>
-                                </div>
-                              );
-                            })}
-                          </div>
-                        )}
-                      </div>
-                    )}
                     {user?.isAdmin &&
-                      voucherData?.assignedTo &&
+                      !voucherData?.assignedTo &&
+                      voucherData?.statusType == "Pending" && (
+                        <div className="my-4 flex w-[100%] flex-col  border-b-2  items-center pb-2">
+                          <p className="mx-2  font-bold">
+                            Assign to Account Department :
+                          </p>
+                          <div
+                            className="border-2 w-[250px] text-center cursor-pointer"
+                            onClick={() => {
+                              setPaymentDepartMentOpen(!paymentDepartmentOpen);
+                            }}
+                          >
+                            {selectedSupervisor
+                              ? `${selectedSupervisor?.firstName} ${selectedSupervisor?.lastName}`
+                              : "Select a value..."}
+                          </div>
+                          {paymentDepartmentOpen && paymentSupervisor && (
+                            <div className="h-[150px] w-[250px] border-2 overflow-y-auto">
+                              {paymentSupervisor.map((current) => {
+                                console.log(current);
+                                return (
+                                  <div className="font-semibold border-b-2">
+                                    <p
+                                      className="text-ellipsis overflow-hidden whitespace-nowrap px-2 py-1 bg-blue-500  hover:bg-gray-400 cursor-pointer"
+                                      onClick={() => {
+                                        setPaymentDepartMentOpen(false);
+                                        setSelectedSupervisor(current);
+                                      }}
+                                    >
+                                      {current?.firstName} {current?.lastName}
+                                    </p>
+                                  </div>
+                                );
+                              })}
+                            </div>
+                          )}
+                        </div>
+                      )}
+                    {user?.isAdmin &&
+                      voucherData?.statusType != "Pending" &&
                       !reAssignVoucher && (
                         <div className="my-4 flex w-[100%]  border-b-2  items-center pb-2">
                           <p className="mx-2  font-semibold">
@@ -815,7 +851,6 @@ export default function VoucherViewer(props) {
                             Assigned For Payment Settlement :
                           </p>
                           <p className="px-2">{voucherData?.assignedName}</p>
-                          {console.log(voucherData)}
                           <a
                             className="group relative inline-block overflow-hidden border border-indigo-600 px-8 py-1 focus:outline-none focus:ring mx-2 mt-3 h-[35px] "
                             href="#"
@@ -836,7 +871,7 @@ export default function VoucherViewer(props) {
                         </div>
                       )}
                     {user?.isAdmin &&
-                      voucherData?.assignedTo &&
+                     voucherData?.statusType != "Pending" &&
                       reAssignVoucher && (
                         <div className="my-4 flex w-[100%] flex-col  border-b-2  items-center pb-2">
                           <p className="mx-2  font-bold">
@@ -962,6 +997,28 @@ export default function VoucherViewer(props) {
                           )}
                       </div>
                     )}
+                    {console.log(
+                      console.log(
+                        settlementAmount,
+                        dateDifferenceInHour,
+                        tourDurationHours,
+                        expenseData,
+                        totalDa
+                      ),
+                      "settlement amou"
+                    )}
+                    <DownloadPdfButton
+                      expenseData={expenseData}
+                      data={{
+                        settlementAmount,
+                        dateDifferenceInHour,
+                        tourDurationHours,
+                        expenseData,
+                        totalDa,
+                      }}
+                      voucherData={voucherData}
+                      bills={imageArray}
+                    ></DownloadPdfButton>
                   </div>
                 </Dialog.Panel>
               </Transition.Child>
