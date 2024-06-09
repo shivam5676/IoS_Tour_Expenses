@@ -156,7 +156,7 @@ export default function VoucherViewer(props) {
             domain: user.domain,
           }
         );
-        console.log(response.data.response);
+        console.log(response.data);
         setImageArray(response.data.imagePaths);
         setVoucherData(response.data.response);
         CommentRef.current.value = response.data.response.comment;
@@ -730,79 +730,7 @@ export default function VoucherViewer(props) {
                         <p>{voucherData.comment}</p>
                       </div>
                     )}
-                    {/* {!voucherData.comment &&
-                    voucherData?.statusType == "Pending" &&
-                    (user?.isAdmin || user?.supervisor) ? (
-                      <div className="my-2 flex w-[100%]  border-b-2">
-                        <div className="font-semibold my-2 px-2">Comment</div>
-                        <textarea
-                          rows={3}
-                          className="max-h-[100px] min-h-[50px] border-2 m-2 w-[60%]"
-                          ref={CommentRef}
-                        ></textarea>
-                      </div>
-                    ) : (
-                      <div className="my-2 flex w-[100%]  border-b-2">
-                        <div className="font-semibold my-2 px-2">
-                          Comment :{" "}
-                        </div>
 
-                        {(user?.isAdmin || user?.supervisor) && !editComment ? (
-                          <>
-                            {" "}
-                            <div
-                              rows={3}
-                              className="text-[.85rem] m-2 w-[60%] border-yellow-400 border-2"
-                            >
-                              <p className="p-2">{voucherData?.comment}</p>
-                            </div>
-                            <div className="mb-2">
-                              <a
-                                className="group relative inline-block overflow-hidden border border-indigo-600 px-8 py-1 focus:outline-none focus:ring mx-2 mt-3 h-[35px] "
-                                href="#"
-                              >
-                                <span className="absolute inset-x-0 bottom-0 h-[2px] bg-indigo-600 transition-all group-hover:h-full group-active:bg-indigo-500"></span>
-
-                                <span
-                                  className="relative text-sm font-medium text-indigo-600 transition-colors group-hover:text-white flex"
-                                  onClick={() => {
-                                    setEditComment(true);
-                                  }}
-                                >
-                                  <CiEdit className="w-[20px] h-[20px]" />
-                                  edit
-                                </span>
-                              </a>
-                            </div>
-                          </>
-                        ) : (
-                          (user?.isAdmin || user?.supervisor) &&
-                          voucherData.userId != user.id &&
-                          editComment && (
-                            <>
-                              <textarea
-                                rows={3}
-                                className="max-h-[100px] min-h-[50px] border-2 m-2 w-[60%]"
-                                ref={CommentRef}
-                              ></textarea>
-                              <div className="flex items-center">
-                                {" "}
-                                <p
-                                  className="p-2 bg-orange-400 text-white mx-2 rounded-md hover:bg-orange-600 cursor-pointer  h-fit"
-                                  onClick={() => {
-                                    console.log(CommentRef.current.value);
-                                    sendCommentHandler();
-                                  }}
-                                >
-                                  Re-comment{" "}
-                                </p>
-                              </div>
-                            </>
-                          )
-                        )}
-                      </div>
-                    )} */}
-                    {console.log(voucherData.assignedTo, "===>")}
                     {user?.isAdmin &&
                       !voucherData?.assignedTo &&
                       voucherData?.statusType == "Pending" && (
@@ -871,7 +799,7 @@ export default function VoucherViewer(props) {
                         </div>
                       )}
                     {user?.isAdmin &&
-                     voucherData?.statusType != "Pending" &&
+                      voucherData?.statusType != "Pending" &&
                       reAssignVoucher && (
                         <div className="my-4 flex w-[100%] flex-col  border-b-2  items-center pb-2">
                           <p className="mx-2  font-bold">
@@ -963,9 +891,6 @@ export default function VoucherViewer(props) {
                             <p
                               className="p-2 bg-orange-400 w-fit mx-2 rounded-md hover:bg-orange-600 cursor-pointer"
                               onClick={() => {
-                                // setVoucherStatus("Rejected");
-                                // rejectVoucherHandler();
-                                console.log(CommentRef.current.value);
                                 sendCommentHandler();
                               }}
                             >

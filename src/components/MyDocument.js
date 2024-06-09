@@ -138,8 +138,8 @@ const MyDocument = (props) => (
       >
         <Text>Voucher No :</Text>
         <Text
-          style={{ borderTop: "1px" }}
-        >{`OMR/YEAR/${props?.voucherData?.id}`}</Text>
+          style={{ borderTop: "1px",fontFamily:"Roboto",fontSize:"13" }}
+        >{`OMR/${props?.voucherData?.tourDate.split("/")[2]}/${props?.voucherData?.id}`}</Text>
       </View>
       {/* <View style={{ position: "absolute",right:20,marginTop:"50",border:"2",paddingHorizontal:"15",paddingVertical:"7",flexDirection:"row" }}>
           <Text>3444256</Text>
@@ -182,7 +182,7 @@ const MyDocument = (props) => (
             <Text style={{ borderBottom: "1px", paddingVertical: "10" }}>
               Employee Id
             </Text>
-            <Text style={{ paddingVertical: "10" }}>OMR/ID/567</Text>
+            <Text style={{ paddingVertical: "10" }}>OMR/ID/{props.voucherData.userId}</Text>
           </View>
         </View>
         <View style={styles.tourDuration}>
