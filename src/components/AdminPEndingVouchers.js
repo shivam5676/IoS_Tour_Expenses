@@ -9,7 +9,7 @@ function AdminPEndingVouchers(props) {
 
   // console.log(id);
   return (
-    <div className="shadow-md shadow-gray-700 w-[60%]  min-h-[250px] h-[40vh]  bg-white m-2 rounded-lg">
+    <div className="shadow-md shadow-gray-700 w-[100%]  min-[689px]:w-[60%]  min-h-[250px] h-[40vh]  bg-white min-[689px]:m-2 my-2 rounded-lg">
       <VoucherViewer
         close={() => {
           setOpen(!open);

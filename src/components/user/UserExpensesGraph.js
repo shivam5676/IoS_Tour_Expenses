@@ -5,10 +5,8 @@ import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import { Doughnut } from "react-chartjs-2";
 import Context from "../../store/Context";
 function UserExpensesGraph(props) {
-  console.log(props.tourSelected);
   const ctx = useContext(Context);
   ChartJS.register(ArcElement, Tooltip, Legend);
-  console.log(ctx.userCurrentTourExpenseData);
   let Travel = 0;
   let food = 0;
   let Misc = 0;
@@ -25,7 +23,6 @@ function UserExpensesGraph(props) {
     }
   });
   
-  console.log(Travel, Misc, food, Accomondation);
   const data = {
     labels: ["Misc", "Travel", "Food", "Accomondation"],
     datasets: [
@@ -51,7 +48,7 @@ function UserExpensesGraph(props) {
     ],
   };
   return (
-    <div className=" w-[40%]  min-h-[250px] h-[40vh]  m-2 bg-white rounded-lg shadow-md shadow-gray-700 text-center ">
+    <div className="  w-[100%]  min-[689px]:w-[40%]  min-h-[250px] h-[40vh]  min-[689px]:m-2 my-2 bg-white rounded-lg shadow-md shadow-gray-700 text-center ">
       <p className=" border-white  py-2 font-bold bg-[#2fc7f8] font-sans text-2xl rounded-t-lg">
         Expense Graph
       </p>

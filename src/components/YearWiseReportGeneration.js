@@ -7,7 +7,6 @@ import DownloadYearReportButton from "./DownloadYearReportButton";
 
 function YearWiseReportGeneration(props) {
   const user = JSON.parse(localStorage.getItem("token"));
-  console.log("formattedYear", props.selectedYear);
   const connectionUrl =process.env.REACT_APP_CONNECTION_STRING
   const [reportData, setReportData] = useState(null);
   const [expenseData, setExpenseData] = useState({
@@ -41,14 +40,11 @@ function YearWiseReportGeneration(props) {
             domain: user.domain,
           }
         );
-        console.log(response.data.data);
         response.data.data.forEach((current) => {
           const dateObj = new Date(current.date);
           const MonthIndex = dateObj.getMonth();
           const monthName = monthNameArray[MonthIndex];
-          console.log(monthName);
           if (monthName in expensesObj) {
-            console.log("object exists for", monthName);
             // expensesObj[monthName] += 1;
             if (current.expenseType == "Travel") {
               expensesObj[monthName].travel += +current.Amount;
@@ -103,7 +99,6 @@ function YearWiseReportGeneration(props) {
         setExpenseData((prev) => {
           return { cashExpense: cashExpense, digitalExpense: digitalExpense };
         });
-        console.log(expensesObj, cashExpense, digitalExpense);
         // setReportData(response.data.data);
         // ctx.AllVoucher(response.data.userList);
       } catch (err) {

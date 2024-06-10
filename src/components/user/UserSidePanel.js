@@ -8,11 +8,9 @@ import Context from "../../store/Context";
 function UserSidePanel() {
   const navigate = useNavigate();
   const ctx = useContext(Context);
-  console.log(ctx.loginData);
   const userData = JSON.parse(localStorage.getItem("token"));
-  // console.log(userData);
   return (
-    <div className="w-[250px] h-[81vh]  min-[980px]:w-[300px] backdrop-blur-sm bg-white/30  text-white rounded-2xl my-1 min-[1400px]:my-2 shadow-md shadow-gray-700 font-['Poppins']">
+    <div className="w-[250px] h-[81vh] max-[923px]:hidden   min-[980px]:w-[300px] backdrop-blur-sm bg-white/30  text-white rounded-2xl my-1 min-[1400px]:my-2 shadow-md shadow-gray-700 font-['Poppins']">
       <div className="bg-[#2fc7f8] h-[150px] rounded-md m-4 max-w-[270px] text-white">
       <div className="flex justify-center">
           <FaRegUserCircle className="w-[40px] h-[40px] mt-2" />

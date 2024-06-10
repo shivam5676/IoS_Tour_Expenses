@@ -45,7 +45,6 @@ const YearlyPdf = (props) => (
   <Document>
     <Page size="A4" style={styles.page}>
       {" "}
-      {console.log(props.categoryData, props.expenseData,props.year)}
       <View
         style={{
           width: "100%",

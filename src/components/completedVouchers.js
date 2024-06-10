@@ -4,9 +4,8 @@ import VoucherViewer from "./VoucherViewer";
 function CompletedVouchers(props) {
   const [open, setOpen] = useState(false);
   const [Id, setId] = useState(null);
-  console.log(props?.accepted);
   return (
-    <div className="shadow-md shadow-gray-700 w-[60%]  min-h-[250px] h-[40vh]  bg-white m-2 rounded-lg">
+    <div className="shadow-md shadow-gray-700 w-[100%]  min-[689px]:w-[60%]  min-h-[250px] h-[40vh]  bg-white min-[689px]:m-2 my-2 rounded-lg">
       <VoucherViewer
         close={() => {
           setOpen(!open);
@@ -39,7 +38,7 @@ function CompletedVouchers(props) {
           <div className="w-[100%] h-[calc(40vh-90px)] min-h-[calc(250px-90px)] overflow-y-auto">
             {props.accepted.map((current) => {
               return (
-                <div className="mx-2 bg-white text-black flex py-1 text-[.8rem] font-semibold">
+                <div className="mx-2 bg-white text-black flex py-1 text-[.8rem] font-semibold" key= {current?.Voucher?.id}>
                   <p className="w-[13%] px-1 overflow-hidden whitespace-nowrap overflow-ellipsis">
                     {current?.Voucher?.id}
                   </p>

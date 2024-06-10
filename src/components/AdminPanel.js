@@ -27,7 +27,6 @@ function AdminPanel() {
           domain: user.domain,
         });
         const res = response.data.userList;
-        console.log(res);
         if (response?.data?.userList) {
           ctx.AllVoucher(response.data.userList);
         }
@@ -39,9 +38,7 @@ function AdminPanel() {
   }, []);
   const vouchers = { pending: [], accepted: [], rejected: [] };
   const allData = [...allVoucherData];
-  console.log(allData);
   allData?.forEach((current) => {
-    console.log(current);
     if (current.status === "Pending") {
       vouchers.pending.push(current);
     } else if (current.status === "Accepted") {
@@ -50,32 +47,32 @@ function AdminPanel() {
       vouchers.rejected.push(current);
     }
   });
-  console.log(vouchers);
-  const dataArrayLength = {
-    Accepted: vouchers.accepted?.length,
-    Rejected: vouchers.rejected?.length,
-    Pending: vouchers.pending?.length,
-  };
-  console.log(dataArrayLength, vouchers);
+  // console.log(vouchers);
+  // const dataArrayLength = {
+  //   Accepted: vouchers.accepted?.length,
+  //   Rejected: vouchers.rejected?.length,
+  //   Pending: vouchers.pending?.length,
+  // };
+  // console.log(dataArrayLength, vouchers);
   return (
     <div className="w-[100vw] h-[100vh] text-white font-['Poppins'] pt-[90px] bg-transparent">
       {/* <VoucherViewer openModal={open} closeModal={()=>setOpen(!open)}></VoucherViewer> */}
-      <div className="min-[800px]:mx-4 min-[1000px]:mx-16 mx-4 min-[1200px]:mx-28 min-[1500px] flex">
+      <div className="min-[800px]:mx-4 min-[1000px]:mx-16 min-[1200px]:mx-28 min-[1500px] flex">
         <AdminSidePanel></AdminSidePanel>
         <div
-          className="w-[100%] h-[calc(100vh-90px)] mx-2 overflow-y-auto"
+          className="w-[100%] h-[calc(100vh-90px)] mx-1 overflow-y-auto"
           style={{ scrollbarWidth: "none" }}
         >
-          <div className="flex">
+          <div className="flex flex-col min-[689px]:flex-row">
             <AdminExpenseGraph
-              dataArrayLength={dataArrayLength}
+              // dataArrayLength={dataArrayLength}
             ></AdminExpenseGraph>
 
             <AdminPEndingVouchers
               pending={vouchers.pending}
             ></AdminPEndingVouchers>
           </div>
-          <div className="flex">
+          <div className="flex flex-col min-[689px]:flex-row">
             {" "}
             <CompletedVouchers accepted={vouchers.accepted}></CompletedVouchers>
             <AdminREjectedVoucher

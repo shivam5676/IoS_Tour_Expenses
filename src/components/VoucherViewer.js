@@ -12,7 +12,6 @@ import { MdAssignmentInd } from "react-icons/md";
 import DownloadPdfButton from "./DownloadPdfButton";
 
 export default function VoucherViewer(props) {
-  console.log(props.voucherId);
   const [expenseData, setExpenseData] = useState({
     cashExpense: 0,
     digitalExpense: 0,
@@ -32,13 +31,9 @@ export default function VoucherViewer(props) {
   const cancelButtonRef = useRef(null);
   let CommentRef = useRef("");
   const daAllowanceRef = useRef(0);
-  // console.log(CommentRef.current.value);
   const user = JSON.parse(localStorage.getItem("token"));
 
   const reAssignVoucherHandler = async () => {
-    console.log(
-      `${selectedSupervisor.firstName} ${selectedSupervisor.lastName}`
-    );
     try {
       const response = await axios.post(
         `${connectionUrl}:${process.env.REACT_APP_BACKEND_PORT}/admin/reAssign`,
@@ -54,7 +49,7 @@ export default function VoucherViewer(props) {
       // setVoucherStatus("Accepted");
 
       setReAsignVoucher(false);
-      console.log(voucherData);
+
       ctx.removeVoucherfromAllVoucher({
         id: props?.voucherId,
         status: "Accepted",
@@ -74,12 +69,10 @@ export default function VoucherViewer(props) {
 
   const acceptVoucherHandler = async () => {
     if (user.isAdmin && !selectedSupervisor) {
-      console.log(selectedSupervisor);
       toast.error("Please select Account department supervisor");
       return;
     }
-    console.log(selectedSupervisor);
-    console.log(CommentRef.current);
+
     // return;
     if (!CommentRef.current) {
       CommentRef.current = { value: voucherData.comment };
@@ -99,7 +92,6 @@ export default function VoucherViewer(props) {
       );
       // setVoucherStatus("Accepted");
 
-      console.log(voucherData);
       ctx.removeVoucherfromAllVoucher({
         id: props?.voucherId,
         status: "Accepted",
@@ -133,8 +125,6 @@ export default function VoucherViewer(props) {
         status: "Rejected",
       });
 
-      console.log(voucherData);
-
       setVoucherData((prev) => {
         return { ...prev, statusType: "Rejected" };
       });
@@ -142,11 +132,9 @@ export default function VoucherViewer(props) {
       console.log(err);
     }
   };
-  console.log(imageArray);
   useEffect(() => {
     // setVoucherStatus("Pending");
     async function fetchData() {
-      console.log("object", props.voucherId);
       try {
         const response = await axios.post(
           `${connectionUrl}:${process.env.REACT_APP_BACKEND_PORT}/admin/trackVoucher`,
@@ -156,7 +144,6 @@ export default function VoucherViewer(props) {
             domain: user.domain,
           }
         );
-        console.log(response.data);
         setImageArray(response.data.imagePaths);
         setVoucherData(response.data.response);
         CommentRef.current.value = response.data.response.comment;
@@ -169,7 +156,6 @@ export default function VoucherViewer(props) {
   useEffect(() => {
     // setVoucherStatus("Pending");
     async function fetchData() {
-      console.log("object", props.voucherId);
       try {
         const response = await axios.post(
           `${connectionUrl}:${process.env.REACT_APP_BACKEND_PORT}/admin/getSuperVisor`,
@@ -178,7 +164,6 @@ export default function VoucherViewer(props) {
             domain: user.domain,
           }
         );
-        console.log(response.data.supervisorList);
         setPaymentSupervisor(response.data.supervisorList);
       } catch (err) {
         console.log(err);
@@ -186,7 +171,6 @@ export default function VoucherViewer(props) {
     }
     fetchData();
   }, [props.voucherId]);
-  console.log(paymentSupervisor);
   let CashPayment = 0;
   let onlinePayment = 0;
   let creditCard = 0;
@@ -304,18 +288,12 @@ export default function VoucherViewer(props) {
   //  console.log(tourDurationHours)
   let settlementAmount = 0;
   if (voucherData) {
-    console.log(
-      CashPayment,
-      totalDa,
-      voucherData?.voucherDescription?.advanceCash
-    );
     settlementAmount = (
       +expenseData.cashExpense +
       +totalDa -
       +voucherData?.voucherDescription?.advanceCash
     ).toFixed(2);
   }
-  console.log(settlementAmount);
   const sendCommentHandler = async () => {
     try {
       const response = await axios.post(
@@ -330,7 +308,6 @@ export default function VoucherViewer(props) {
       );
       // setVoucherStatus("Accepted");
 
-      console.log(response);
       setEditComment(false);
       setVoucherData((prev) => {
         return {
@@ -365,7 +342,7 @@ export default function VoucherViewer(props) {
 
         {voucherData && (
           <div className="fixed inset-0 z-10 w-screen overflow-y-auto">
-            <div className="flex min-h-full  justify-center p-4 text-center items-center">
+            <div className="flex min-h-full  justify-center p-4 max-[531px]:pt-[48px] text-center items-center">
               <Transition.Child
                 as={Fragment}
                 enter="ease-out duration-300"
@@ -375,7 +352,7 @@ export default function VoucherViewer(props) {
                 leaveFrom="opacity-100 translate-y-0 sm:scale-100"
                 leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
               >
-                <Dialog.Panel className="relative transform  rounded-lg text-left shadow-xl transition-all sm:my-8 h-[80vh] w-[80%] md:w-[600px] py-4 bg-white text-black">
+                <Dialog.Panel className="relative transform  rounded-lg text-left shadow-xl transition-all sm:my-8 h-[80vh] w-[100%] min-[700px]:w-[700px]  py-4 bg-white text-black">
                   {voucherData.statusType == "Accepted" && (
                     <img
                       className="fixed left-4 w-[90px]  top-0 flex cursor-pointer font-bold underline"
@@ -400,7 +377,7 @@ export default function VoucherViewer(props) {
                     <IoIosCloseCircle className="w-[30px] h-[30px]"></IoIosCloseCircle>
                     close
                   </div>{" "}
-                  <div className="text-2xl flex justify-center w-[100%] border-b-2 font-bold pb-3">
+                  <div className="text-2xl flex flex-col justify-center w-[100%] border-b-2 font-bold pb-3">
                     <p>Tour Voucher</p>
                   </div>
                   {/* <div className="flex w-[100%] min-[700px]:flex-row flex-col"></div> */}
@@ -431,11 +408,20 @@ export default function VoucherViewer(props) {
                       <p className="w-[100%] px-2 py-1 font-semibold border-2">
                         Purpose : {voucherData.voucherDescription?.purpose}
                       </p>
+                      {console.log(props?.voucherData)}
+                    </div>
+                    <div className="flex w-[100%] min-[700px]:flex-row flex-col">
+                      <p className="w-[100%] px-2 py-1 font-semibold border-2">
+                        Voucher Id : 
+                        {`OMR/${voucherData?.tourDate.split("/")[2]}/${
+                          voucherData?.id
+                        }`}
+                      </p>
                     </div>
                     <div className="flex w-[100%] min-[700px]:flex-row flex-col">
                       <p className="w-[100%] px-2 py-1 font-semibold border-2">
                         Advance Cash Recieved :{" "}
-                        {voucherData.voucherDescription?.advanceCash}
+                        {voucherData?.voucherDescription?.advanceCash}
                       </p>
                     </div>
                     <p className="text-center font-bold text-xl py-2">
@@ -590,39 +576,39 @@ export default function VoucherViewer(props) {
                         ))}
                     </div>
                     <div className="w-full h-[300px] border-2 border-gray-300 overflow-x-auto">
-                      <div className="flex w-[600px] border-b-2">
-                        <div className="w-[105px] font-bold px-2">date</div>
-                        <div className="w-[140px] font-bold px-2">
+                      <div className="flex w-[700px] border-b-2">
+                        <div className="w-[120px] font-bold px-2">date</div>
+                        <div className="w-[130px] font-bold px-2">
                           Description
                         </div>
-                        <div className="w-[105px] font-bold px-2">
+                        <div className="w-[125px] font-bold px-2">
                           Exp. Type
                         </div>
-                        <div className="w-[105px] font-bold px-2">
+                        <div className="w-[135px] font-bold px-2">
                           Paym. Type
                         </div>
-                        <div className="w-[100px] font-bold px-2">Amount</div>{" "}
-                        <div className="w-[100px] font-bold px-2">Bill No</div>
+                        <div className="w-[110px] font-bold px-2">Amount</div>{" "}
+                        <div className="w-[110px] font-bold px-2">Bill No</div>
                       </div>
                       {voucherData?.voucherExpenses?.map((current) => {
                         return (
-                          <div className="flex w-[600px] border-b-2">
-                            <div className="w-[105px]  px-2">
+                          <div className="flex w-[700px] border-b-2">
+                            <div className="w-[120px]  px-2">
                               {current?.date}
                             </div>
-                            <div className="w-[140px] px-2">
+                            <div className="w-[130px] px-2">
                               {current?.description}
                             </div>
-                            <div className="w-[105px]  px-2">
+                            <div className="w-[125px]  px-2">
                               {current?.expenseType}
                             </div>
-                            <div className="w-[105px]  px-2">
+                            <div className="w-[135px]  px-2">
                               {current?.paymentType}{" "}
                             </div>
-                            <div className="w-[100px]  px-2">
+                            <div className="w-[110px]  px-2">
                               {current?.Amount}
                             </div>{" "}
-                            <div className="w-[100px]  px-2">
+                            <div className="w-[110px]  px-2">
                               {current?.voucherNo}
                             </div>
                           </div>
@@ -672,7 +658,7 @@ export default function VoucherViewer(props) {
                           >
                             <p className="p-2">{voucherData?.comment}</p>
                           </div>
-                          {voucherData.userId != user.id && (
+                          {voucherData.userId != user?.id && (
                             <div className="mb-2">
                               <a
                                 className="group relative inline-block overflow-hidden border border-indigo-600 px-8 py-1 focus:outline-none focus:ring mx-2 mt-3 h-[35px] "
@@ -713,7 +699,6 @@ export default function VoucherViewer(props) {
                               onClick={() => {
                                 // setVoucherStatus("Rejected");
                                 // rejectVoucherHandler();
-                                console.log(CommentRef.current.value);
                                 sendCommentHandler();
                               }}
                             >
@@ -722,7 +707,7 @@ export default function VoucherViewer(props) {
                           </div>
                         </div>
                       )}
-                    {voucherData.userId == user.id && editComment && (
+                    {voucherData?.userId == user?.id && editComment && (
                       <div className="my-2 flex w-[100%]  border-b-2">
                         <div className="font-semibold my-2 px-2">
                           Comment :{" "}
@@ -751,7 +736,6 @@ export default function VoucherViewer(props) {
                           {paymentDepartmentOpen && paymentSupervisor && (
                             <div className="h-[150px] w-[250px] border-2 overflow-y-auto">
                               {paymentSupervisor.map((current) => {
-                                console.log(current);
                                 return (
                                   <div className="font-semibold border-b-2">
                                     <p
@@ -818,7 +802,6 @@ export default function VoucherViewer(props) {
                           {paymentDepartmentOpen && paymentSupervisor && (
                             <div className="h-[150px] w-[250px] border-2 overflow-y-auto">
                               {paymentSupervisor.map((current) => {
-                                console.log(current);
                                 return (
                                   <div className="font-semibold border-b-2">
                                     <p
@@ -845,7 +828,7 @@ export default function VoucherViewer(props) {
                           </p>
                         </div>
                       )}
-                    {user.isAdmin &&
+                    {user?.isAdmin &&
                       voucherData?.voucherDescription?.dailyAllowance.length ==
                         0 && (
                         <div className="my-4 flex w-[100%]   border-b-2 py-2">
@@ -922,16 +905,7 @@ export default function VoucherViewer(props) {
                           )}
                       </div>
                     )}
-                    {console.log(
-                      console.log(
-                        settlementAmount,
-                        dateDifferenceInHour,
-                        tourDurationHours,
-                        expenseData,
-                        totalDa
-                      ),
-                      "settlement amou"
-                    )}
+
                     <DownloadPdfButton
                       expenseData={expenseData}
                       data={{

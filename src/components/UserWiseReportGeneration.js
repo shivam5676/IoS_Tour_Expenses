@@ -36,7 +36,6 @@ function UserWiseReportGeneration(props) {
   let cashExpense = 0;
   let digitalExpense = 0;
   let expensesObj = {};
-  console.log(props.userId);
   useEffect(() => {
     async function fetchFilterData() {
       try {
@@ -47,7 +46,6 @@ function UserWiseReportGeneration(props) {
             domain: user.domain,
           }
         );
-        console.log(response.data);
         setuserData({
           firstName: response.data[0].user.firstName,
           lastName: response.data[0].user.lastName,
@@ -55,7 +53,6 @@ function UserWiseReportGeneration(props) {
         });
         response.data.forEach((current) => {
           const uniqueKey = `${current.tourLocation}-${current.tourDate}`; // Assuming 'tourId' is a unique identifier for each tour
-          console.log(uniqueKey);
           expensesObj[uniqueKey] = {
             food: 0,
             travel: 0,
@@ -66,7 +63,6 @@ function UserWiseReportGeneration(props) {
             expenseList: [...current.voucherExpenses],
           };
           current.voucherExpenses.forEach((currentExpense) => {
-            console.log(currentExpense.expenseType);
             if (currentExpense.expenseType === "Food(Da)") {
               expensesObj[uniqueKey].food += +currentExpense.Amount;
             }
@@ -98,7 +94,6 @@ function UserWiseReportGeneration(props) {
             }
           });
         });
-        console.log(expensesObj);
         setReportData(expensesObj);
       } catch (err) {
         console.log(err);
@@ -106,7 +101,6 @@ function UserWiseReportGeneration(props) {
     }
     fetchFilterData();
   }, [props.userId]);
-  console.log(userData);
   return (
     <>
       <DownloadUserPdfButton

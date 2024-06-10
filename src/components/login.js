@@ -1,4 +1,10 @@
-import React, { useCallback, useContext, useEffect, useRef } from "react";
+import React, {
+  useCallback,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import iosLogo from "../assests/images/ios logo.png";
 import { AiTwotoneMail } from "react-icons/ai";
 import { RiLockPasswordLine } from "react-icons/ri";
@@ -7,8 +13,11 @@ import axios from "axios";
 import Context from "../store/Context";
 import queryString from "query-string";
 import bitrixlogo from "../assests/images/bitrixLogo.png";
+import { ColorRing } from "react-loader-spinner";
+import { toast } from "react-toastify";
 
 function Login() {
+  const [loginLoader, setLoginLoader] = useState(false);
   const emailRef = useRef();
   const passwordRef = useRef();
   const roleRef = useRef();
@@ -48,6 +57,7 @@ function Login() {
       getAccessToken();
     } else {
       console.log("No authorization code found in the URL.");
+     ;
     }
   }, []);
 
@@ -73,22 +83,24 @@ function Login() {
     }
   };
   const bitrixHandler = useCallback(async () => {
+    setLoginLoader(true);
     console.log(
       `${connectionString}:${process.env.REACT_APP_BACKEND_PORT}/queryParams/`
     );
-    try{
-    const response = await axios.get(
-      `${connectionString}:${process.env.REACT_APP_BACKEND_PORT}/queryParams/`
-    );
-    console.log(response.data.data);
-    const queryParams = response.data.data;
-    const authorizationUrl = `${process.env.REACT_APP_BITRIX_URL}/oauth/authorize?${queryParams}`;
-    // Redirect the user to the Bitrix24 authorization URL
-    window.location.href = authorizationUrl;
-    }catch(err){
+    try {
+      const response = await axios.get(
+        `${connectionString}:${process.env.REACT_APP_BACKEND_PORT}/queryParams/`
+      );
+      console.log(response.data.data);
+      const queryParams = response.data.data;
+      const authorizationUrl = `${process.env.REACT_APP_BITRIX_URL}/oauth/authorize?${queryParams}`;
+      // Redirect the user to the Bitrix24 authorization URL
+      window.location.href = authorizationUrl;
+      setLoginLoader(false);
+    } catch (err) {
       console.log(err);
+      setLoginLoader(false);
     }
-
   }, []);
 
   return (
@@ -155,12 +167,13 @@ function Login() {
         </div>
         <div className="w-[80%] text-yellow-500 font-semibold p-4">
           <p>
-            Introducing a powerful and efficient tour voucher management system.your ultimate solution for
-            seamless tour expense management! Easily add your tour expenses,
-            submit your completed tour for admin review, and let our system
-            handle the rest. Admins can conveniently review, accept, or reject
-            vouchers, with all updates integrated directly into Bitrix task
-            projects. Experience hassle-free tour management like never before!
+            Introducing a powerful and efficient tour voucher management
+            system.your ultimate solution for seamless tour expense management!
+            Easily add your tour expenses, submit your completed tour for admin
+            review, and let our system handle the rest. Admins can conveniently
+            review, accept, or reject vouchers, with all updates integrated
+            directly into Bitrix task projects. Experience hassle-free tour
+            management like never before!
           </p>{" "}
           <p>
             {" "}
@@ -173,8 +186,22 @@ function Login() {
             className="bg-blue-400 p-2 rounded-md font-semibold text-white hover:bg-blue-500 cursor-pointer flex items-center hover:shadow-md hover:shadow-yellow-600"
             onClick={bitrixHandler}
           >
-            Sign in with
-            <img src={bitrixlogo} className="w-[100px] h-[50px] "></img>
+            {!loginLoader ? (
+              <>
+                Sign in with
+                <img src={bitrixlogo} className="w-[100px] h-[50px] "></img>
+              </>
+            ) : (
+              <ColorRing
+                visible={true}
+                height="50"
+                width="80"
+                ariaLabel="color-ring-loading"
+                wrapperStyle={{}}
+                wrapperClass="color-ring-wrapper"
+                colors={["white", "white", "white", "white", "white"]}
+              />
+            )}
           </div>
           {/* <div
             className="bg-blue-400 p-2 rounded-md font-semibold text-white hover:bg-blue-500 cursor-pointer"

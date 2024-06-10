@@ -17,7 +17,6 @@ function AdminReportPanel() {
   const [userId, setUserId] = useState(null);
   const [voucherId, setVoucherId] = useState(null);
   const voucherIdRef = useRef(null);
-  console.log(userIdRef.current);
   // const [chartData, setChartData] = useState({});
   const handleReportTypeChange = (event) => {
     setReportType(event.target.value);
@@ -38,7 +37,6 @@ function AdminReportPanel() {
     }
     setFormattedDate(formatted);
   };
-  console.log(reportType, formattedDate);
   const getDatePickerFormat = (reportType) => {
     if (reportType === "mm/yyyy") {
       return "MM/yyyy";
@@ -59,7 +57,6 @@ function AdminReportPanel() {
     userIdRef.current = userId;
     setUserId(+userIdRef.current);
   };
-  console.log(userId, userIdRef.current);
   return (
     <div className="w-[100vw] h-[100vh]  text-white bg-transparent  py-[90px]">
       <div className="min-[800px]:mx-4 min-[1000px]:mx-16 mx-4 min-[1200px]:mx-28 flex">
@@ -155,8 +152,7 @@ function AdminReportPanel() {
                   <p
                     className="bg-yellow-300 text-black text-[.9rem] px-2 py-1 rounded-md cursor-pointer hover:text-gray-500"
                     onClick={() => {
-                      console.log(voucherIdRef.current.value);
-                      setVoucherId(voucherIdRef.current.value)
+                      setVoucherId(voucherIdRef.current.value);
                     }}
                   >
                     search
@@ -182,7 +178,7 @@ function AdminReportPanel() {
               ></UserWiseReportGeneration>
             )}
             {reportType === "token" && voucherIdRef.current?.value && (
-              <TokenWiseReport voucherId={voucherId }></TokenWiseReport>
+              <TokenWiseReport voucherId={voucherId}></TokenWiseReport>
             )}
           </div>
         </div>

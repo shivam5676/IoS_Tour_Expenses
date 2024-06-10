@@ -39,7 +39,6 @@ function AddtourDescriptionModal(props) {
       domain: user.domain,
     };
 
-    console.log(ctx.currentTourIdData);
     // return
     try {
       const response = await axios.post(
@@ -47,7 +46,6 @@ function AddtourDescriptionModal(props) {
         data
       );
       const res = response.data;
-      console.log(res);
       ctx.removeOnGoingTour(res.details.id);
       props.close();
       toast.success("voucher has been send to admin ...wait for thier action");
@@ -91,7 +89,7 @@ function AddtourDescriptionModal(props) {
               leaveFrom="opacity-100 translate-y-0 sm:scale-100"
               leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
             >
-              <Dialog.Panel className="relative transform overflow-hidden rounded-lg text-left shadow-xl transition-all sm:my-8 w-[80%] md:w-[500px] py-4 bg-[#257894] text-white">
+              <Dialog.Panel className="relative transform overflow-hidden rounded-lg text-left shadow-xl transition-all sm:my-8 w-[80%] md:w-[500px] py-4 bg-[#257894] max-[640px]:mt-[80px] text-white">
                 <div className="text-center pb-2">
                   <div className="text-sm font-semibold flex items-center">
                     {" "}

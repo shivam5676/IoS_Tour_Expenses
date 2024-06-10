@@ -15,22 +15,21 @@ function AdminUserPanel() {
   const cancelButtonRef = useRef(null);
   // const ctx=useContext()
   const ctx = useContext(Context);
-  console.log(showData);
-  // console.log(ctx.adminCurrentUserData&&Object.values(ctx.adminCurrentUserData?.length));
+
   return (
     <>
       <div className="w-[100vw] h-[100vh] text-white bg-transparent font-['Poppins']  pt-[90px]">
         <div className="min-[800px]:mx-4 min-[1000px]:mx-16 mx-4 min-[1200px]:mx-28 flex">
-          <AdminSidePanel></AdminSidePanel>
+         <AdminSidePanel></AdminSidePanel>
           <div
             className="w-[100%]  h-[calc(100vh-90px)] mx-2 overflow-y-scroll "
             style={{ scrollbarWidth: "none" }}
           >
-            <div className="flex">
+            <div className="flex  flex-col min-[689px]:flex-row">
               <AdminUserList showData={() => setShowData(true)}></AdminUserList>
               {showData && <UserProfile></UserProfile>}
             </div>
-            <div className="flex">
+            <div className="flex  flex-col min-[689px]:flex-row">
               {" "}
               {showData && <AdminExpenseGraph></AdminExpenseGraph>}{" "}
               {showData && <UsersAllVouchers></UsersAllVouchers>}{" "}

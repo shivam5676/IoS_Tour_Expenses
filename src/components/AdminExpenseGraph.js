@@ -6,39 +6,36 @@ import { Doughnut } from "react-chartjs-2";
 import Context from "../store/Context";
 import { useLocation } from "react-router-dom";
 function AdminExpenseGraph(props) {
-  console.log(props)
+  
   const ctx = useContext(Context);
-  console.log(ctx.adminCurrentUserData.Vouchers);
   const login = true;
-
   let pending = 0;
   let rejected = 0;
   let accepted = 0;
   let total = 0;
   const location = useLocation();
-  console.log(location.pathname.toUpperCase() == "/ADMINUSER");
   if (location.pathname.toUpperCase() == "/ADMINUSER") {
     ctx.adminCurrentUserData.Vouchers?.forEach((current) => {
-      if ((current.statusType == "Pending")) {
+      if (current.statusType == "Pending") {
         pending++;
-      } else if ((current.statusType == "Accepted")) {
+      } else if (current.statusType == "Accepted") {
         accepted++;
-      } else if ((current.statusType == "Rejected")) {
+      } else if (current.statusType == "Rejected") {
         rejected++;
       }
     });
   } else {
     ctx.allVoucherData?.forEach((current) => {
-      if ((current.statusType =="Pending")) {
+      if (current.status == "Pending") {
         pending++;
-      } else if ((current.statusType == "Accepted")) {
+      } else if (current.status == "Accepted") {
         accepted++;
-      } else if ((current.statusType == "Rejected")) {
+      } else if (current.status == "Rejected") {
         rejected++;
       }
     });
   }
-console.log(accepted,rejected);
+  console.log(accepted, rejected, pending);
   ChartJS.register(ArcElement, Tooltip, Legend);
 
   const data = {
@@ -65,7 +62,7 @@ console.log(accepted,rejected);
   };
 
   return (
-    <div className=" w-[40%] min-h-[250px] h-[40vh] m-2 bg-white rounded-lg shadow-md shadow-gray-700 text-center ">
+    <div className=" w-[100%]  min-[689px]:w-[40%] min-h-[250px] h-[40vh] min-[689px]:m-2 my-2 bg-white rounded-lg shadow-md shadow-gray-700 text-center ">
       <p className=" border-white  py-2 font-bold  bg-[#2fc7f8]  text-2xl rounded-t-lg font-sans">
         Vouchers Graph
       </p>
@@ -104,7 +101,7 @@ console.log(accepted,rejected);
           </span>
           Pending
         </div>
-        <div className="flex justify-center">
+        <div className="flex justify-center px-2">
           {" "}
           <span className="text-center">
             <VscDebugBreakpointLog className="w-[20px] h-[20px] text-red-500" />

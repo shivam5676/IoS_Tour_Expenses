@@ -15,7 +15,6 @@ const styles = StyleSheet.create({
 });
 
 const VoucherDocumentExpenseList = (props) => {
-  console.log(props.expenseList.voucherExpenses);
   return (
     <Page size="A4" style={styles.page}>
       <View style={styles.section}>

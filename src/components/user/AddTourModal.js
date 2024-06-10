@@ -10,7 +10,6 @@ import { toast } from "react-toastify";
 import { IoIosCloseCircle } from "react-icons/io";
 function AddTourModal(props) {
   const connectionUrl = process.env.REACT_APP_CONNECTION_STRING;
-  console.log(props.open);
   // const [open, setOpen] = useState(props.open);
   const [citySelected, setCitySelected] = useState(null);
   const [cityDropDownOpen, setCityDropDownOpen] = useState(false);
@@ -39,7 +38,6 @@ function AddTourModal(props) {
       const res = response.data.voucher;
 
       ctx.onGoingTour(res);
-      // console.log(res);
       toast.success("tour created successfully...");
       props.close();
 
@@ -54,7 +52,6 @@ function AddTourModal(props) {
       console.log(err);
     }
   };
-  console.log(stateSelected);
 
 
 

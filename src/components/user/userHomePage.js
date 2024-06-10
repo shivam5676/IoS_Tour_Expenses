@@ -23,7 +23,6 @@ function UserHomePage() {
         });
 
         const res = response.data;
-        console.log(res.vouchers);
         res.vouchers.forEach((current) => {
           ctx.onGoingTour(current);
         });
@@ -38,16 +37,15 @@ function UserHomePage() {
     };
     fetchTour();
   }, []);
-  console.log(tourSelected);
   return (
     <div className="w-[100vw] h-[100vh] text-white bg-transparent font-['Poppins'] pt-[90px]">
-      <div className="min-[800px]:mx-4 min-[1000px]:mx-16 mx-4 min-[1200px]:mx-28 flex">
+      <div className="min-[800px]:mx-4 min-[1000px]:mx-16 mx-1 min-[1200px]:mx-28 flex">
         <UserSidePanel></UserSidePanel>
         <div
-          className="w-[100%]  h-[calc(100vh-90px)] mx-2 overflow-y-auto"
+          className="w-[100%]  h-[calc(100vh-90px)] md:mx-2 overflow-y-auto"
           style={{ scrollbarWidth: "none" }}
         >
-          <div className="flex">
+          <div className="flex flex-col min-[689px]:flex-row">
             <UsersTour
               selected={() => {
                 setTourSelected(true);
@@ -60,7 +58,7 @@ function UserHomePage() {
             )}
           </div>
           {tourSelected && (
-            <div className="flex">
+            <div className="flex flex-col min-[689px]:flex-row">
               <UserExpenseList
                 removeOnGoingTour={() => setTourSelected(null)}
               ></UserExpenseList>

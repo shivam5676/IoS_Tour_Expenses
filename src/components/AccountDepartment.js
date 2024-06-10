@@ -18,7 +18,6 @@ function AccountDepartment() {
           domain: user.domain,
         });
         const res = response.data.vouchers;
-        console.log(res);
         // if (response?.data?.userList) {
         //   ctx.AllVoucher(response.data.userList);
         // }
@@ -42,7 +41,6 @@ function AccountDepartment() {
       <p className=" py-2 font-bold text-2xl text-center rounded-t-lg text-white bg-[#2fc7f8] font-sans">
         All Vouchers{" "}
       </p>{" "}
-      {console.log(PendingVoucherData?.length)}{" "}
       {!PendingVoucherData && (
         <>
           <div className="w-[100%] h-[calc(40vh-90px)] min-h-[calc(250px-90px)] text-black flex justify-center items-center flex-col">
@@ -63,7 +61,6 @@ function AccountDepartment() {
         </div>
         <div className="w-[100%]  h-[calc(40vh-90px)] min-h-[calc(250px-90px)] overflow-y-auto">
           {PendingVoucherData?.map((current) => {
-            console.log(current);
             return (
               <div className="mx-2 bg-white text-black flex py-1 text-[.8rem] font-semibold">
                 <p className="w-[13%] px-1 overflow-hidden whitespace-nowrap overflow-ellipsis">

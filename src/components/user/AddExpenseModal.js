@@ -35,7 +35,6 @@ function AddExpenseModal(props) {
   const saveExpenseHandler = async () => {
     let base64Image = "";
     if (billImageRef.current.files[0]) {
-      console.log(billImageRef.current.files[0]);
       const file = billImageRef.current.files[0];
       const reader = new FileReader();
       reader.readAsDataURL(file);
@@ -124,7 +123,7 @@ function AddExpenseModal(props) {
               leaveFrom="opacity-100 translate-y-0 sm:scale-100"
               leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
             >
-              <Dialog.Panel className="relative transform overflow-hidden rounded-lg text-left shadow-xl transition-all sm:my-8 w-[80%] md:w-[500px] py-4 bg-[#257894] text-white">
+              <Dialog.Panel className="relative transform overflow-hidden rounded-lg text-left shadow-xl transition-all sm:my-8 w-[80%] md:w-[500px] py-4 bg-[#257894] max-[640px]:mt-[90px] text-white">
                 <div
                   className="fixed right-4 top-2 flex cursor-pointer font-bold underline"
                   onClick={() => props.onClose()}

@@ -9,7 +9,7 @@ function UserProfile() {
   const ctx = useContext(Context);
   console.log(ctx.adminCurrentUserData);
   return (
-    <div className="rounded-lg shadow-md shadow-gray-700  w-[40%] min-h-[250px] h-[40vh]  m-2 bg-white text-black">
+    <div className="rounded-lg shadow-md shadow-gray-700  w-[100%]  min-[689px]:w-[40%]  min-h-[250px] h-[40vh]  min-[689px]:m-2 my-2 bg-white text-black">
       <p className=" rounded-t-lg py-2 font-bold text-2xl   text-center  bg-gradient-to-r bg-[#2fc7f8] text-white ">
         user profile
       </p>{" "}

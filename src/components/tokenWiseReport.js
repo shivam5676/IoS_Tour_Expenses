@@ -16,7 +16,6 @@ function TokenWiseReport(props) {
   useEffect(() => {
     // setVoucherStatus("Pending");
     async function fetchData() {
-      console.log("object");
       try {
         const response = await axios.post(
           `${connectionUrl}:${process.env.REACT_APP_BACKEND_PORT}/admin/trackVoucher`,
@@ -26,7 +25,6 @@ function TokenWiseReport(props) {
             domain: user.domain,
           }
         );
-        console.log(response.data);
         setImageArray(response.data.imagePaths);
         setVoucherData(response.data.response);
       } catch (err) {
@@ -67,7 +65,6 @@ function TokenWiseReport(props) {
           accomondation += +current.Amount;
         }
       });
-    console.log(imageArray);
     // Update state with calculated expenses
     setExpenseData({
       cashExpense: CashPayment,
@@ -146,11 +143,7 @@ function TokenWiseReport(props) {
   //  console.log(tourDurationHours)
   let settlementAmount = 0;
   if (voucherData) {
-    console.log(
-      CashPayment,
-      totalDa,
-      voucherData?.voucherDescription?.advanceCash
-    );
+ 
 
     settlementAmount = (
       +expenseData.cashExpense +
@@ -158,13 +151,7 @@ function TokenWiseReport(props) {
       +voucherData?.voucherDescription?.advanceCash
     ).toFixed(2);
   }
-  console.log(
-    settlementAmount,
-    dateDifferenceInHour,
-    tourDurationHours,
-    expenseData,
-    totalDa
-  );
+
   return (
     <>
       <div className="flex ">

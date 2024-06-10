@@ -14,8 +14,6 @@ function UsersTour(props) {
         `${connectionUrl}:${process.env.REACT_APP_BACKEND_PORT}/user/getTourExpenses?id=${id}`,
         { token: user.access_token, domain: user.domain, voucherId: id }
       );
-      // console.log(response)
-      console.log(response.data.expenses);
       response.data.expenses.forEach((current) => {
         ctx.userCurrentTourExpenses(current);
       });
@@ -25,7 +23,7 @@ function UsersTour(props) {
     }
   };
   return (
-    <div className="shadow-md shadow-gray-700 w-[60%]  min-h-[250px] h-[40vh]   bg-white m-2 rounded-lg">
+    <div className="shadow-md shadow-gray-700 w-[100%]  md:w-[60%]  min-h-[250px] h-[40vh]   bg-white min-[689px]:m-2 my-2 rounded-lg">
       <p className="bg-[#2fc7f8] py-2 font-bold text-2xl text-center text-white rounded-t-lg h-[47px] font-sans">
         OnGoing Tour
       </p>
@@ -52,7 +50,6 @@ function UsersTour(props) {
           <div className="w-[100%] h-[calc(40vh-110px)] min-h-[calc(250px-90px)] overflow-y-auto">
             {/* {console.log(ctx.allUser)} */}
             {ctx.onGoingData?.map((current) => {
-              console.log(current);
               return (
                 <div
                   className={`mx-2 ${

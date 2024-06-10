@@ -28,7 +28,6 @@ export default function SignUpModal(props) {
         domain: user.domain,
       });
       toast.success("user created successsfully");
-      console.log(response);
     } catch (err) {
       console.log(err);
       toast.error(err.response.data.msg);

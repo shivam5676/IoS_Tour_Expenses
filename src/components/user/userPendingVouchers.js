@@ -24,7 +24,6 @@ function UserPendingVouchers(props) {
           }
         );
         const res = response.data.userList;
-        console.log(res);
         setPendingVoucherData(res);
         // if (response?.data?.userList) {
         //   ctx.AllVoucher(response.data.userList);
@@ -35,9 +34,8 @@ function UserPendingVouchers(props) {
     }
     fetchData();
   }, []);
-  // console.log(id);
   return (
-    <div className="shadow-md shadow-gray-700 w-[100%]  min-h-[250px] h-[40vh]  bg-white m-2 rounded-lg">
+    <div className="shadow-md shadow-gray-700 w-[100%] max-w-[800px]  min-h-[250px] h-[40vh]  bg-white m-2 rounded-lg">
       <VoucherViewer
         close={() => {
           setOpen(!open);
