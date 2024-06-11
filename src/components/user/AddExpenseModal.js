@@ -229,7 +229,7 @@ function AddExpenseModal(props) {
                       <img
                         src={imagePreview}
                         alt="Bill Preview"
-                        className="max-w-full h-auto"
+                        className="max-w-[100%]  h-auto"
                       />
                     </div>
                   )}

@@ -257,7 +257,7 @@ function UpdateExpenseModal(props) {
                       <img
                         src={`${connectionUrl}:${process.env.REACT_APP_BACKEND_PORT}/${props.updateData?.imagePath}`}
                         alt="Bill Preview"
-                        className="max-w-full h-auto"
+                        className="max-w-[100%] h-auto"
                       />
                     </div>
                   )}
@@ -266,7 +266,7 @@ function UpdateExpenseModal(props) {
                       <img
                         src={imagePreview}
                         alt="Bill Preview"
-                        className="max-w-full h-auto"
+                        className="max-w-[100%]  h-auto"
                       />
                     </div>
                   )}

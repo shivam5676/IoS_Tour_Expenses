@@ -15,6 +15,7 @@ import queryString from "query-string";
 import bitrixlogo from "../assests/images/bitrixLogo.png";
 import { ColorRing } from "react-loader-spinner";
 import { toast } from "react-toastify";
+import loginImage from "../assests/loginImage2.png";
 
 function Login() {
   const [loginLoader, setLoginLoader] = useState(false);
@@ -57,7 +58,6 @@ function Login() {
       getAccessToken();
     } else {
       console.log("No authorization code found in the URL.");
-     ;
     }
   }, []);
 
@@ -104,68 +104,15 @@ function Login() {
   }, []);
 
   return (
-    <div className="w-[100vw] h-[100vh] bg-transparent flex items-center justify-center">
-      {/* <div className="w-[400px] bg-white pb-8 shadow-emerald-900 shadow-lg rounded-md">
-        <div className="flex justify-center pt-10 flex-col items-center">
-          <img src={iosLogo} className="w-[80px] "></img>
-          <div className="w-[70%] min-[500px]:w-[60%] text-center font-bold text-[1.2rem] p-4">
-            Tour & Travel Expense Tracker System
-          </div>
-
-          <div className="w-[80%] border-2 border-gray-300 flex my-2">
-            <div className="w-[30px] h-[30px] ">
-              <AiTwotoneMail className="w-[100%] h-[100%]"></AiTwotoneMail>
-            </div>
-            <input
-              placeholder="email id or username"
-              className="w-full  px-2 "
-              ref={emailRef}
-            ></input>
-          </div>
-          <div className="w-[80%] border-2 border-gray-300 flex my-2">
-            <div className="w-[30px] h-[30px] ">
-              <RiLockPasswordLine className="w-[100%] h-[100%]"></RiLockPasswordLine>
-            </div>
-            <input
-              placeholder="enter password"
-              className="w-full  px-2 "
-              ref={passwordRef}
-            ></input>
-          </div>
-          <div className="w-[80%]  border-gray-300 flex my-2">
-            <p className="font-bold">User Type :</p>
-            <select className="border-2 px-2 mx-2" ref={roleRef}>
-              <option>Admin</option>
-              <option>Employee</option>
-            </select>
-          </div>
-          <div className="w-[80%]  border-gray-300 flex my-2 justify-between">
-            <div
-              className="bg-blue-400 p-2 rounded-md font-semibold text-white hover:bg-blue-500 cursor-pointer"
-              onClick={bitrixHandler}
-            >
-              Sign in with bitrix
-            </div>
-            <div
-              className="bg-blue-400 p-2 rounded-md font-semibold text-white hover:bg-blue-500 cursor-pointer"
-              onClick={() => {
-                verifyLoginHandler();
-              }}
-            >
-              Sign in
-            </div>
-          </div>
-        </div>
-      </div> */}
-
-      <div className=" flex flex-col w-[70%] backdrop-blur-sm bg-black/30 items-center pb-3">
+    <div className="w-[100vw] h-[100vh] bg-transparent flex justify-center ">
+      {/* <div className=" flex flex-col w-[70%]  items-center pb-3">
         <div className="w-[100%] text-center">
           {" "}
-          <p className="text-3xl text-white font-bold w-[100%] p-4 border-b-2">
-            IOS Voucher Management System (VMS)
+          <p className="text-3xl text-white font-bold w-[100%] p-4 ">
+            IOS <span className="text-blue-700"></span>Voucher Management System (VMS)
           </p>
         </div>
-        <div className="w-[80%] text-yellow-500 font-semibold p-4">
+        <div className="w-[100%] text-yellow-500 font-semibold ">
           <p>
             Introducing a powerful and efficient tour voucher management
             system.your ultimate solution for seamless tour expense management!
@@ -203,14 +150,55 @@ function Login() {
               />
             )}
           </div>
-          {/* <div
+          <div
             className="bg-blue-400 p-2 rounded-md font-semibold text-white hover:bg-blue-500 cursor-pointer"
             onClick={() => {
               verifyLoginHandler();
             }}
           >
             Sign in
-          </div> */}
+          </div>
+        </div>
+      </div> */}
+      <div className="flex w-[90%]  pt-[90px]">
+        <div className="w-[50%] flex flex-col justify-center items-center">
+          <p className="text-3xl font-bold text-white px-2 py-4 w-[100%] text-center">
+            IOS Voucher Management System
+          </p>
+          <div className="flex font-bold text-white">
+            <p>Powerful & LightWeight Tour Voucher Tracker</p>
+          </div>
+          <div className="flex  text-white px-12 py-4">
+            <p>
+              Login now to manage your tour vouchers and expenses digitally.
+            </p>
+          </div>{" "}
+          <div className="w-[80%]  border-gray-300 flex my-2 justify-center ">
+            <div
+              className="bg-blue-400 p-2 rounded-md font-semibold text-white hover:bg-blue-500 cursor-pointer flex items-center hover:shadow-md hover:shadow-yellow-600"
+              onClick={bitrixHandler}
+            >
+              {!loginLoader ? (
+                <>
+                  Sign in with
+                  <img src={bitrixlogo} className="w-[100px] h-[50px] "></img>
+                </>
+              ) : (
+                <ColorRing
+                  visible={true}
+                  height="50"
+                  width="80"
+                  ariaLabel="color-ring-loading"
+                  wrapperStyle={{}}
+                  wrapperClass="color-ring-wrapper"
+                  colors={["white", "white", "white", "white", "white"]}
+                />
+              )}
+            </div>
+          </div>
+        </div>
+        <div className="w-[50%] flex items-center justify-center">
+          <img src={loginImage} className="h-[400px] w-[90%]"></img>
         </div>
       </div>
     </div>

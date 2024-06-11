@@ -68,7 +68,7 @@ function UsersTour(props) {
 
                   <div className="w-[25%] px-1 overflow-hidden whitespace-nowrap overflow-ellipsis ">
                     <p
-                      className="bg-blue-300 text-white font-bold text-center rounded hover:bg-blue-500"
+                      className="bg-blue-300 cursor-pointer text-white font-bold text-center rounded hover:bg-blue-500"
                       onClick={() => {
                         selected != current.id && fetchTourDetails(current.id);
                         selected != current.id && ctx.currentTourId(current.id);

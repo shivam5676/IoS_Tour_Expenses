@@ -39,7 +39,7 @@ function UserExpenseList(props) {
       <UpdateExpenseModal
         open={update}
         onClose={() => {
-          setOpen(!setUpdate);
+          setUpdate(!update)
         }}
         updateData={updateData}
       ></UpdateExpenseModal>
