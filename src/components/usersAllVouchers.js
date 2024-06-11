@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react";
 import Context from "../store/Context";
-import VoucherViewer from './VoucherViewer';
+import VoucherViewer from "./VoucherViewer";
 
 function UsersAllVouchers() {
   const [open, setOpen] = useState(false);
@@ -24,7 +24,7 @@ function UsersAllVouchers() {
         <>
           {" "}
           <div className="w-[100%]">
-            <div className="mx-2 bg-white text-black flex h-[40px] font-bold items-center ">
+            <div className="mx-2 bg-white text-black flex h-[40px] font-bold items-center border-b-2">
               <p className="w-[20%] px-1">V.no</p>
               <p className="w-[20%] px-1">Status</p>
               <p className="w-[25%] px-1">Trip</p>
@@ -34,7 +34,7 @@ function UsersAllVouchers() {
           </div>
           <div className="w-[100%] h-[calc(40vh-90px)] min-h-[calc(250px-90px)] overflow-y-auto">
             {ctx.adminCurrentUserData.Vouchers?.map((current) => {
-              console.log(current)
+              console.log(current);
               return (
                 <div className="mx-2 bg-white text-black flex py-1 text-[.8rem] font-semibold">
                   <p className="w-[20%] px-1 overflow-hidden whitespace-nowrap overflow-ellipsis">
@@ -51,7 +51,7 @@ function UsersAllVouchers() {
                   </p>
                   <div className="w-[15%] px-1 overflow-hidden whitespace-nowrap overflow-ellipsis ">
                     <p
-                      className="bg-blue-300 text-white font-bold text-center rounded hover:bg-blue-500"
+                      className="bg-blue-500 text-white font-bold text-center rounded hover:bg-blue-700 cursor-pointer"
                       onClick={() => {
                         setOpen(true);
                         setId(current.id);

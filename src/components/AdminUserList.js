@@ -14,10 +14,7 @@ function AdminUserList(props) {
           token: user.access_token,
           domain: user.domain,
         });
-        // console.log(response.data.users);
-        // response.data.users.map((current) => {
-        //   ctx.addUserData(current);
-        // });
+     
         ctx.addUserData(response.data.users);
 
       } catch (err) {
@@ -34,7 +31,6 @@ function AdminUserList(props) {
           domain: user.domain,
         }
       );
-      console.log(response.data.user);
       ctx.AdminCurrentUser(response.data.user);
     } catch (err) {
       console.log(err);
@@ -47,11 +43,11 @@ function AdminUserList(props) {
       </p>
       <div className="w-[100%]">
         <div className="mx-2 bg-white text-black flex h-[40px] font-bold items-center border-b-2">
-          <p className="w-[10%] px-1">User Id</p>
-          <p className="w-[35%] px-1">Name</p>
-          <p className="w-[30%] px-1">Mobile</p>
+          <p className="md:w-[15%] w-[25%] px-1">User Id</p>
+          <p className="md:w-[35%] w-[25%] px-1">Name</p>
+          <p className="md:w-[30%] w-[25%] px-1">Mobile</p>
 
-          <p className="w-[25%] px-1 text-center"></p>
+          <p className="w-[25%] md:w-[20%] px-1 text-center"></p>
         </div>
       </div>
       <div className="w-[100%]  h-[calc(40vh-90px)] min-h-[calc(250px-90px)] overflow-y-auto">
@@ -59,19 +55,19 @@ function AdminUserList(props) {
         {ctx.allUser?.map((current) => {
           return (
             <div className="mx-2 bg-white text-black flex py-1 text-[.9rem] font-semibold">
-              <p className="w-[10%] px-1 overflow-hidden whitespace-nowrap overflow-ellipsis">
+              <p className="md:w-[15%] w-[25%]  px-1 overflow-hidden whitespace-nowrap overflow-ellipsis">
                 {current.id}
               </p>
-              <p className="w-[35%] px-1 overflow-hidden whitespace-nowrap overflow-ellipsis">
+              <p className="md:w-[35%] w-[25%] px-1 overflow-hidden whitespace-nowrap overflow-ellipsis">
                 {current.firstName + " " + current.lastName}
               </p>
-              <p className="w-[30%] px-1 overflow-hidden whitespace-nowrap overflow-ellipsis">
+              <p className="md:w-[30%] w-[25%] px-1 overflow-hidden whitespace-nowrap overflow-ellipsis">
                 {current.mobile}
               </p>
 
-              <div className="w-[25%] px-1 overflow-hidden whitespace-nowrap overflow-ellipsis ">
+              <div className="w-[20%] md:w-[20%] px-1 overflow-hidden whitespace-nowrap overflow-ellipsis ">
                 <p
-                  className="bg-blue-300 text-white font-bold text-center rounded hover:bg-blue-500"
+                  className="bg-blue-500 text-white font-bold text-center rounded hover:bg-blue-700 cursor-pointer"
                   onClick={() => {
                     fetchUserDetails(current.id);
                     props.showData()

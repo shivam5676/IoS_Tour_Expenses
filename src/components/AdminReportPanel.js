@@ -71,97 +71,100 @@ function AdminReportPanel() {
             </button>
           </p> */}
           <div className="flex">
-            <div className="flex w-[100%] m-2 bg-gradient-to-r from-[#1e5aba] to-[#0884e9] rounded-md">
-              <p className="p-2 font-bold text-2xl">Report Generation :</p>
-              <div className="flex items-center text-yellow-400 font-bold">
-                <select
-                  className="border-2 border-white bg-transparent px-2 font-bold"
-                  onChange={handleReportTypeChange}
-                >
-                  <option
-                    value="yyyy"
-                    className="bg-gray-500 text-white font-semibold"
+            <div className="flex w-[100%]  flex-col md:flex-row m-2 bg-gradient-to-r from-[#1e5aba] to-[#0884e9] rounded-md">
+              <p className="p-2 font-bold text-2xl text-center">Report Generation :</p>
+              <div className="flex justify-center py-2 max-[400px]:flex-col max-[400px]:items-center">
+                {" "}
+                <div className="flex items-center text-yellow-400 font-bold max-[400px]:py-2">
+                  <select
+                    className="border-2 border-white bg-transparent px-2 font-bold"
+                    onChange={handleReportTypeChange}
                   >
-                    Year wise
-                  </option>
-                  <option
-                    value="user"
-                    className="bg-gray-500 text-white font-semibold"
-                  >
-                    User wise
-                  </option>
-                  <option
-                    value="token"
-                    className="bg-gray-500 text-white font-semibold"
-                  >
-                    Voucher wise
-                  </option>{" "}
-                  <option
-                    value="mm/yyyy"
-                    className="bg-gray-500 text-white font-semibold"
-                  >
-                    Month wise
-                  </option>
-                  <option
-                    value="All"
-                    className="bg-gray-500 text-white font-semibold"
-                  >
-                    All Time
-                  </option>
-                </select>
-              </div>
-              {reportType !== "All" &&
-                reportType !== "user" &&
-                reportType !== "token" && (
-                  <div className="flex items-center text-yellow-400 font-bold">
-                    <DatePicker
-                      selected={startDate}
-                      onChange={handleDateChange}
-                      dateFormat={getDatePickerFormat(reportType)}
-                      showMonthYearPicker={reportType === "mm/yyyy"}
-                      showYearPicker={reportType === "yyyy"}
-                      className="bg-transparent border-white border-2 mx-2 px-2 w-[100px]"
-                    />
+                    <option
+                      value="yyyy"
+                      className="bg-gray-500 text-white font-semibold"
+                    >
+                      Year wise
+                    </option>
+                    <option
+                      value="user"
+                      className="bg-gray-500 text-white font-semibold"
+                    >
+                      User wise
+                    </option>
+                    <option
+                      value="token"
+                      className="bg-gray-500 text-white font-semibold"
+                    >
+                      Voucher wise
+                    </option>{" "}
+                    <option
+                      value="mm/yyyy"
+                      className="bg-gray-500 text-white font-semibold"
+                    >
+                      Month wise
+                    </option>
+                    <option
+                      value="All"
+                      className="bg-gray-500 text-white font-semibold"
+                    >
+                      All Time
+                    </option>
+                  </select>
+                </div>
+                {reportType !== "All" &&
+                  reportType !== "user" &&
+                  reportType !== "token" && (
+                    <div className="flex items-center text-yellow-400 font-bold">
+                      <DatePicker
+                        selected={startDate}
+                        onChange={handleDateChange}
+                        dateFormat={getDatePickerFormat(reportType)}
+                        showMonthYearPicker={reportType === "mm/yyyy"}
+                        showYearPicker={reportType === "yyyy"}
+                        className="bg-transparent border-white border-2 mx-2 px-2 w-[100px]"
+                      />
+                    </div>
+                  )}
+                {reportType == "user" && (
+                  <div className="flex items-center text-yellow-400 font-bold ">
+                    <input
+                      value={userId}
+                      className="bg-transparent border-white border-2 mx-2 w-[100px] px-2 text-white"
+                      placeholder="enter user id here"
+                      onChange={userIdHandler}
+                    ></input>
+                    <p
+                      className="bg-yellow-300 text-black text-[.9rem] px-2 py-1 rounded-md cursor-pointer hover:text-gray-500"
+                      onClick={() => {
+                        searchUserHandler();
+                      }}
+                    >
+                      search
+                    </p>
                   </div>
                 )}
-              {reportType == "user" && (
-                <div className="flex items-center text-yellow-400 font-bold ">
-                  <input
-                    value={userId}
-                    className="bg-transparent border-white border-2 mx-2 w-[100px] px-2 text-white"
-                    placeholder="enter user id here"
-                    onChange={userIdHandler}
-                  ></input>
-                  <p
-                    className="bg-yellow-300 text-black text-[.9rem] px-2 py-1 rounded-md cursor-pointer hover:text-gray-500"
-                    onClick={() => {
-                      searchUserHandler();
-                    }}
-                  >
-                    search
-                  </p>
-                </div>
-              )}
-              {reportType == "token" && (
-                <div className="flex items-center text-yellow-400 font-bold ">
-                  <input
-                    className="bg-transparent border-white border-2 mx-2 w-[100px] px-2 text-white"
-                    placeholder="enter Voucher Token "
-                    ref={voucherIdRef}
-                  ></input>
-                  <p
-                    className="bg-yellow-300 text-black text-[.9rem] px-2 py-1 rounded-md cursor-pointer hover:text-gray-500"
-                    onClick={() => {
-                      setVoucherId(voucherIdRef.current.value);
-                    }}
-                  >
-                    search
-                  </p>
-                </div>
-              )}
+                {reportType == "token" && (
+                  <div className="flex items-center text-yellow-400 font-bold ">
+                    <input
+                      className="bg-transparent border-white border-2 mx-2 w-[100px] px-2 text-white"
+                      placeholder="enter Voucher Token "
+                      ref={voucherIdRef}
+                    ></input>
+                    <p
+                      className="bg-yellow-300 text-black text-[.9rem] px-2 py-1 rounded-md cursor-pointer hover:text-gray-500"
+                      onClick={() => {
+                        setVoucherId(voucherIdRef.current.value);
+                      }}
+                    >
+                      search
+                    </p>
+                  </div>
+                )}
+              </div>
             </div>
           </div>
-          <div className="w-[100%]  mx-2 ">
+          <div className="w-[100%] ">
             {reportType === "yyyy" && formattedDate && (
               <YearWiseReportGeneration
                 selectedYear={formattedDate}

@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { Fragment, useRef, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { ExclamationTriangleIcon } from "@heroicons/react/24/outline";
@@ -7,7 +7,8 @@ import Context from "../../store/Context";
 import { toast } from "react-toastify";
 import { IoIosCloseCircle } from "react-icons/io";
 
-function AddExpenseModal(props) {
+function UpdateExpenseModal(props) {
+  console.log(props.updateData);
   const connectionUrl = process.env.REACT_APP_CONNECTION_STRING;
   //   const [open, setOpen] = useState(true);
   const ctx = useContext(Context);
@@ -22,6 +23,9 @@ function AddExpenseModal(props) {
   const user = JSON.parse(localStorage.getItem("token"));
   const [imagePreview, setImagePreview] = useState(null);
 
+  useEffect(() => {
+    // setImagePreview()
+  }, [props.updateData]);
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -32,7 +36,7 @@ function AddExpenseModal(props) {
       };
     }
   };
-  const saveExpenseHandler = async () => {
+  const updateExpenseHandler = async () => {
     let base64Image = "";
     if (billImageRef.current.files[0]) {
       const file = billImageRef.current.files[0];
@@ -41,6 +45,7 @@ function AddExpenseModal(props) {
       reader.onloadend = async () => {
         base64Image = reader.result;
         const data = {
+          expenseId: props.updateData.id,
           date: dateRef.current.value,
           amount: amountRef.current.value,
           expenseType: expenseCategoryRef.current,
@@ -55,7 +60,7 @@ function AddExpenseModal(props) {
 
         try {
           const response = await axios.post(
-            `${connectionUrl}:${process.env.REACT_APP_BACKEND_PORT}/user/saveExpense`,
+            `${connectionUrl}:${process.env.REACT_APP_BACKEND_PORT}/user/updateExpense`,
             data
           );
           const res = response.data.expenseData;
@@ -67,6 +72,8 @@ function AddExpenseModal(props) {
       };
     } else {
       const data = {
+        expenseId: props.updateData.id,
+
         date: dateRef.current.value,
         amount: amountRef.current.value,
         expenseType: expenseCategoryRef.current,
@@ -81,7 +88,7 @@ function AddExpenseModal(props) {
 
       try {
         const response = await axios.post(
-          `${connectionUrl}:${process.env.REACT_APP_BACKEND_PORT}/user/saveExpense`,
+          `${connectionUrl}:${process.env.REACT_APP_BACKEND_PORT}/user/updateExpense`,
           data
         );
         const res = response.data.expenseData;
@@ -133,10 +140,9 @@ function AddExpenseModal(props) {
                 </div>
                 <div className="text-center pb-4">
                   <div className="text-2xl font-semibold flex items-center">
-                    {" "}
                     <div className="bg-gradient-to-r from-[#257894] to-white flex-1 h-[2px]"></div>
                     <div className="md:font-bold text-2xl m-3  text-white font-medium">
-                      ADD EXPENSE
+                      UPDATE EXPENSE
                     </div>
                     <div className="bg-gradient-to-r from-white to-[#257894]  flex-1 h-[2px]"></div>
                   </div>
@@ -146,6 +152,7 @@ function AddExpenseModal(props) {
                       type="date"
                       className="border-2 bg-transparent mx-3 px-2"
                       ref={dateRef}
+                      defaultValue={props?.updateData?.date}
                     ></input>
                   </div>
                   {/* <p className="pb-2 text-[.9rem]">
@@ -158,6 +165,8 @@ function AddExpenseModal(props) {
                     <input
                       className="outline-none border-2 border-white  bg-transparent px-2 "
                       ref={amountRef}
+                      defaultValue={props?.updateData?.Amount}
+
                       // type="phone"
                     ></input>
                   </div>
@@ -169,11 +178,20 @@ function AddExpenseModal(props) {
                       onChange={(e) =>
                         (expenseCategoryRef.current = e.target.value)
                       }
+                      defaultValue={props.updateData?.expenseType}
                     >
-                      <option value="Travel" className="bg-blue-400">Travel</option>
-                      <option value="Food(Da)" className="bg-blue-400">Food(Da)</option>
-                      <option value="Accomondation" className="bg-blue-400">Accomondation</option>
-                      <option value="Misc" className="bg-blue-400">Misc</option>
+                      <option value="Travel" className="bg-blue-400">
+                        Travel
+                      </option>
+                      <option value="Food(Da)" className="bg-blue-400">
+                        Food(Da)
+                      </option>
+                      <option value="Accomondation" className="bg-blue-400">
+                        Accomondation
+                      </option>
+                      <option value="Misc" className="bg-blue-400">
+                        Misc
+                      </option>
                     </select>
                   </div>
                 </div>
@@ -185,6 +203,7 @@ function AddExpenseModal(props) {
                       rows={3}
                       className="outline-none border-2 border-white  bg-transparent px-2 "
                       ref={descriptionRef}
+                      defaultValue={props.updateData?.description}
                     ></textarea>
                   </div>
                 </div>
@@ -194,6 +213,7 @@ function AddExpenseModal(props) {
                     <input
                       className="outline-none border-2 border-white  bg-transparent  px-2"
                       ref={voucherRef}
+                      defaultValue={props.updateData?.voucherNo}
                     ></input>
                   </div>
                   <div className="flex flex-col px-2 w-[100%] py-2">
@@ -204,10 +224,18 @@ function AddExpenseModal(props) {
                       onChange={(e) => {
                         paymentTypeRef.current.value = e.target.value;
                       }}
+                      defaultValue={props.updateData?.paymentType}
                     >
-                      <option value={"Credit Card"} className="bg-blue-400">Credit card</option>
-                      <option value={"Cash"} className="bg-blue-400">Cash</option>
-                      <option value={"Online (train/flight)"} className="bg-blue-400">
+                      <option value={"Credit Card"} className="bg-blue-400">
+                        Credit card
+                      </option>
+                      <option value={"Cash"} className="bg-blue-400">
+                        Cash
+                      </option>
+                      <option
+                        value={"Online (train/flight)"}
+                        className="bg-blue-400"
+                      >
                         Online(train/flight)
                       </option>
                     </select>
@@ -224,6 +252,15 @@ function AddExpenseModal(props) {
                       onChange={handleImageChange}
                     ></input>
                   </div>
+                  {props.updateData?.imagePath && !imagePreview && (
+                    <div className="mt-4">
+                      <img
+                        src={`${connectionUrl}:${process.env.REACT_APP_BACKEND_PORT}/${props.updateData?.imagePath}`}
+                        alt="Bill Preview"
+                        className="max-w-full h-auto"
+                      />
+                    </div>
+                  )}
                   {imagePreview && (
                     <div className="mt-4">
                       <img
@@ -237,9 +274,9 @@ function AddExpenseModal(props) {
                 <div className="w-[100%] flex  justify-center mb-4 mt-6">
                   <p
                     className="w-[80%] hover:bg-gray-400 bg-white  text-center font-semibold py-3 rounded-md cursor-pointer text-black"
-                    onClick={saveExpenseHandler}
+                    onClick={updateExpenseHandler}
                   >
-                    Add Expense
+                    update Expense
                   </p>
                 </div>
               </Dialog.Panel>
@@ -251,4 +288,4 @@ function AddExpenseModal(props) {
   );
 }
 
-export default AddExpenseModal;
+export default UpdateExpenseModal;

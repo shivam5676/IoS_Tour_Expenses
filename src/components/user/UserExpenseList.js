@@ -7,21 +7,27 @@ import { FaPenSquare } from "react-icons/fa";
 import { RiDeleteBin2Fill } from "react-icons/ri";
 import axios from "axios";
 import { toast } from "react-toastify";
+import UpdateExpenseModal from "./UpdateExpenseModal";
 
 function UserExpenseList(props) {
   const [open, setOpen] = useState(false);
   const [openDescription, setOpenDescription] = useState(false);
+  const [update, setUpdate] = useState(false);
+  const [updateData, setUpdateData] = useState(null);
   const connectionUrl = process.env.REACT_APP_CONNECTION_STRING;
   const user = JSON.parse(localStorage.getItem("token"));
 
   const ctx = useContext(Context);
   const deleteExpenseHAndler = async (id) => {
     try {
-      const response = await axios.post(`${connectionUrl}:${process.env.REACT_APP_BACKEND_PORT}/user/deleteExpense`, {
-        expenseId: id,
-        token: user.access_token,
-        domain: user.domain,
-      });
+      const response = await axios.post(
+        `${connectionUrl}:${process.env.REACT_APP_BACKEND_PORT}/user/deleteExpense`,
+        {
+          expenseId: id,
+          token: user.access_token,
+          domain: user.domain,
+        }
+      );
       ctx.deleteUserCurrentTourExpenseHandler(id);
       toast.success("expense deleted successfully");
     } catch (err) {
@@ -30,6 +36,13 @@ function UserExpenseList(props) {
   };
   return (
     <>
+      <UpdateExpenseModal
+        open={update}
+        onClose={() => {
+          setOpen(!setUpdate);
+        }}
+        updateData={updateData}
+      ></UpdateExpenseModal>
       <AddtourDescriptionModal
         open={openDescription}
         close={() => {
@@ -102,7 +115,14 @@ function UserExpenseList(props) {
                         {" "}
                         View
                       </p> */}
-                      <p className="bg-blue-500 text-white font-bold text-center rounded hover:bg-blue-600 p-1 cursor-pointer">
+                      <p
+                        className="bg-blue-500 text-white font-bold text-center rounded hover:bg-blue-600 p-1 cursor-pointer"
+                        onClick={() => {
+                          // updateExpenseHAndler(current.id)
+                          setUpdate(true);
+                          setUpdateData(current);
+                        }}
+                      >
                         View
                       </p>
                       <div>

@@ -115,8 +115,8 @@ function YearWiseReportGeneration(props) {
         expenseData={expenseData}
         year={props.selectedYear}
       ></DownloadYearReportButton>
-      <div className="flex ">
-        <div className="w-[33%] bg-gradient-to-r  from-[#EA8D8D] to-[#A890FE]  font-extrabold text-xl rounded-md ">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 ">
+        <div className=" bg-gradient-to-r  from-[#EA8D8D] to-[#A890FE]  font-extrabold text-xl rounded-md ">
           <p className="p-4 border-b-2 text-center">Total Expense</p>
           <div className="flex justify-center items-center text-3xl  h-[100px] font-['Poppins']">
             <p>
@@ -129,7 +129,7 @@ function YearWiseReportGeneration(props) {
             </p>
           </div>
         </div>{" "}
-        <div className="w-[31%]   bg-gradient-to-r from-[#EA8D8D] to-[#A890FE]  font-extrabold text-xl rounded-md mx-2">
+        <div className="   bg-gradient-to-r from-[#EA8D8D] to-[#A890FE]  font-extrabold text-xl rounded-md ">
           <p className="p-4 border-b-2 text-center">Cash Mode</p>
           <div className="flex justify-center items-center text-3xl  h-[100px] font-['Poppins']">
             <p>
@@ -137,7 +137,7 @@ function YearWiseReportGeneration(props) {
             </p>{" "}
           </div>
         </div>{" "}
-        <div className="w-[31%]  bg-gradient-to-r from-[#EA8D8D] to-[#A890FE]  font-extrabold text-xl rounded-md ">
+        <div className="  bg-gradient-to-r from-[#EA8D8D] to-[#A890FE]  font-extrabold text-xl rounded-md ">
           <p className="p-4 border-b-2 text-center">Digital mode </p>
           <div className="flex justify-center items-center text-3xl  h-[100px] font-['Poppins']">
             <p>

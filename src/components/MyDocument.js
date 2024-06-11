@@ -116,13 +116,6 @@ const styles = StyleSheet.create({
 // Create Document Component
 const MyDocument = (props) => (
   <Document>
-    {console.log(
-      props.voucherData,
-      "expenseData",
-      props.expenseData,
-      "data",
-      props.data
-    )}
     <Page size="A4" style={styles.page}>
       <View
         style={{
@@ -302,7 +295,8 @@ const MyDocument = (props) => (
                   fontWeight: "500",
                 }}
               >
-                Total DA Calculated(rs) : {props.data?.totalDa}
+                {`Total DA Calculated(${props?.voucherData?.currency}) `}:{" "}
+                {props.data?.totalDa}
               </Text>
             </View>
           </View>
@@ -350,7 +344,7 @@ const MyDocument = (props) => (
                   }}
                 >
                   <Text style={{ width: "55%" }}> Category</Text>
-                  <Text>Amount (Rs)</Text>
+                  <Text>{`Amount (${props?.voucherData?.currency})`}</Text>
                 </View>
                 <View
                   style={{
@@ -406,7 +400,6 @@ const MyDocument = (props) => (
               style={{
                 width: "45%",
                 fontSize: "15px",
-                
               }}
             >
               <View
@@ -420,7 +413,7 @@ const MyDocument = (props) => (
                 }}
               >
                 <Text style={{ width: "50%" }}>Payment Type</Text>
-                <Text>Amount (Rs)</Text>
+                <Text>{`Amount (${props?.voucherData?.currency})`}</Text>
               </View>
               <View
                 style={{
@@ -484,7 +477,7 @@ const MyDocument = (props) => (
           >
             {console.log(props?.expenseData)}
             <Text>
-              Total Expenses (rs) :
+              {`Total Expenses (${props?.voucherData?.currency}) :`}
               {+props.expenseData?.Misc +
                 +props.expenseData?.food +
                 +props.expenseData?.travel +

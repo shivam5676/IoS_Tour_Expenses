@@ -342,7 +342,7 @@ export default function VoucherViewer(props) {
 
         {voucherData && (
           <div className="fixed inset-0 z-10 w-screen overflow-y-auto">
-            <div className="flex min-h-full  justify-center p-4 max-[531px]:pt-[48px] text-center items-center">
+            <div className="flex min-h-full  justify-center p-4 max-[531px]:pt-[48px] pt-[60px] text-center items-center">
               <Transition.Child
                 as={Fragment}
                 enter="ease-out duration-300"
@@ -377,7 +377,7 @@ export default function VoucherViewer(props) {
                     <IoIosCloseCircle className="w-[30px] h-[30px]"></IoIosCloseCircle>
                     close
                   </div>{" "}
-                  <div className="text-2xl flex flex-col justify-center w-[100%] border-b-2 font-bold pb-3">
+                  <div className="text-2xl flex flex-col items-center justify-center w-[100%] border-b-2 font-bold pb-3">
                     <p>Tour Voucher</p>
                   </div>
                   {/* <div className="flex w-[100%] min-[700px]:flex-row flex-col"></div> */}
@@ -412,7 +412,7 @@ export default function VoucherViewer(props) {
                     </div>
                     <div className="flex w-[100%] min-[700px]:flex-row flex-col">
                       <p className="w-[100%] px-2 py-1 font-semibold border-2">
-                        Voucher Id : 
+                        Voucher Id :
                         {`OMR/${voucherData?.tourDate.split("/")[2]}/${
                           voucherData?.id
                         }`}
@@ -715,7 +715,6 @@ export default function VoucherViewer(props) {
                         <p>{voucherData.comment}</p>
                       </div>
                     )}
-
                     {user?.isAdmin &&
                       !voucherData?.assignedTo &&
                       voucherData?.statusType == "Pending" && (
@@ -828,9 +827,10 @@ export default function VoucherViewer(props) {
                           </p>
                         </div>
                       )}
+                    {console.log(voucherData?.statusType)}{" "}
                     {user?.isAdmin &&
-                      voucherData?.voucherDescription?.dailyAllowance.length ==
-                        0 && (
+                      voucherData?.voucherDescription?.dailyAllowance == 0 &&
+                      voucherData?.statusType == "Pending" && (
                         <div className="my-4 flex w-[100%]   border-b-2 py-2">
                           <p className="mx-2  font-bold">DA Allowances :</p>
                           <input
@@ -869,8 +869,8 @@ export default function VoucherViewer(props) {
                       <div className="my-2 flex w-[100%] justify-evenly font-bold text-white">
                         {!voucherData?.comment &&
                           voucherData.statusType == "Pending" &&
-                          (user.isAdmin || user.supervisor) &&
-                          voucherData.userId != user.id && (
+                          (user?.isAdmin || user?.supervisor) &&
+                          voucherData?.userId != user?.id && (
                             <p
                               className="p-2 bg-orange-400 w-fit mx-2 rounded-md hover:bg-orange-600 cursor-pointer"
                               onClick={() => {
@@ -881,7 +881,7 @@ export default function VoucherViewer(props) {
                             </p>
                           )}
 
-                        {(user.isAdmin || user.supervisor) &&
+                        {(user?.isAdmin || user?.supervisor) &&
                           voucherData.userId != user.id && (
                             <>
                               <p
@@ -905,7 +905,6 @@ export default function VoucherViewer(props) {
                           )}
                       </div>
                     )}
-
                     <DownloadPdfButton
                       expenseData={expenseData}
                       data={{

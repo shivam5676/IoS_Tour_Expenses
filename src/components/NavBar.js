@@ -129,12 +129,12 @@ function NavBar() {
               setOpenNavbar(!openNavbar);
             }}
           >
-            <MdMenu className="h-[25px] w-[25px] text-white " ></MdMenu>
+            <MdMenu className="h-[25px] w-[25px] text-white "></MdMenu>
           </div>
         </div>
       </nav>
       {openNavbar && (
-        <div className="min-[924px]:hidden min-[531px]:h-[calc(100vh-74px)] h-[calc(100vh-90px)] w-[100%] min-[500px]:w-[300px] absolute backdrop-blur-sm bg-[#3B4D5D] right-0 min-[531px]:top-[74px] top-[90px] ">
+        <div className="min-[924px]:hidden min-[531px]:h-[calc(100vh-74px)] h-[calc(100vh-90px)] w-[100%] min-[500px]:w-[300px] absolute backdrop-blur-sm bg-[#3B4D5D] right-0 min-[531px]:top-[74px] top-[90px] z-50">
           {(userType?.isAdmin || userType?.supervisor) &&
             path != "/USER" &&
             path != "/USERVOUCHERS" && (
