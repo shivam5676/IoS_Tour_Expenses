@@ -49,8 +49,7 @@ function AddtourDescriptionModal(props) {
       ctx.removeOnGoingTour(res.details.id);
       props.close();
       toast.success("voucher has been send to admin ...wait for thier action");
-      // ctx.userExpenses(res);
-      //   ctx.AllVoucher(response.data.userList);
+      
     } catch (err) {
       console.log(err);
       toast.error(err.response.data.msg);

@@ -34,19 +34,19 @@ function AdminSidePanel() {
       <div className="flex flex-col items-center h-[calc(81vh-185px)] justify-between">
         <div className="mt-4 w-[100%] flex flex-col  items-center">
           <p
-            className="font-bold hover:bg-[#2fc7f8] w-[60%] my-0 min-[1400px]:my-2  text-center hover:text-white"
+            className="font-bold hover:bg-[#2fc7f8] w-[60%] my-0 min-[1400px]:my-2  text-center cursor-pointer hover:text-white"
             onClick={() => navigate("/home")}
           >
             home
           </p>
           <p
-            className="font-bold hover:bg-[#2fc7f8] w-[60%] my-0 min-[1400px]:my-2 text-center hover:text-white"
+            className="font-bold hover:bg-[#2fc7f8] w-[60%] my-0 min-[1400px]:my-2 text-center cursor-pointer hover:text-white"
             onClick={() => navigate("/adminUser")}
           >
             users
           </p>
           <p
-            className="font-bold hover:bg-[#2fc7f8] w-[60%] my-0 min-[1400px]:my-2 text-center hover:text-white"
+            className="font-bold hover:bg-[#2fc7f8] w-[60%] my-0 min-[1400px]:my-2 text-center cursor-pointer hover:text-white"
             onClick={() => navigate("/adminReport")}
           >
             reports

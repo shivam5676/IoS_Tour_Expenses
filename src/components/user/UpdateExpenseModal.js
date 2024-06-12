@@ -64,7 +64,7 @@ function UpdateExpenseModal(props) {
             data
           );
           const res = response.data.expenseData;
-          ctx.userCurrentTourExpenses(res);
+          ctx.updateCurrentTourExpenses(res);
           toast.success("Expense added.");
         } catch (err) {
           toast.error(err.response?.data?.msg);
@@ -92,7 +92,7 @@ function UpdateExpenseModal(props) {
           data
         );
         const res = response.data.expenseData;
-        ctx.userCurrentTourExpenses(res);
+        ctx.updateCurrentTourExpenses(res);
         toast.success("Expense added.");
       } catch (err) {
         toast.error(err.response?.data?.msg);

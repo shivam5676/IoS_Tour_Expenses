@@ -50,10 +50,10 @@ export default function VoucherViewer(props) {
 
       setReAsignVoucher(false);
 
-      ctx.removeVoucherfromAllVoucher({
-        id: props?.voucherId,
-        status: "Accepted",
-      });
+      // ctx.removeVoucherfromAllVoucher({
+      //   id: props?.voucherId,
+      //   status: "Accepted",
+      // });
 
       setVoucherData((prev) => {
         return {

@@ -37,7 +37,7 @@ function AddTourModal(props) {
       );
       const res = response.data.voucher;
 
-      ctx.onGoingTour(res);
+      ctx.addTourInOngoing(res);
       toast.success("tour created successfully...");
       props.close();
 

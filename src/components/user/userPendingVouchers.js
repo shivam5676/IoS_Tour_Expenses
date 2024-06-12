@@ -90,7 +90,7 @@ function UserPendingVouchers(props) {
                       setId(current.id);
                     }}
                   >
-                    View
+                    {current.statusType}
                   </p>
                 </div>
               </div>

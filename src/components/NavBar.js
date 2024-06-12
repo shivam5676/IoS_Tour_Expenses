@@ -123,14 +123,16 @@ function NavBar() {
               </a>
             )}
           </div>
-          <div
-            className="min-[924px]:hidden border-2  cursor-pointer rounded"
-            onClick={() => {
-              setOpenNavbar(!openNavbar);
-            }}
-          >
-            <MdMenu className="h-[25px] w-[25px] text-white "></MdMenu>
-          </div>
+          {userType && (
+            <div
+              className="min-[924px]:hidden border-2  cursor-pointer rounded"
+              onClick={() => {
+                setOpenNavbar(!openNavbar);
+              }}
+            >
+              <MdMenu className="h-[25px] w-[25px] text-white "></MdMenu>
+            </div>
+          )}
         </div>
       </nav>
       {openNavbar && (
@@ -187,18 +189,18 @@ function NavBar() {
                 <span className="text-white">U</span>ser Panel
               </div>
             )}
-          {(userType?.isAdmin || userType?.supervisor) &&
-            (path === "/USER" || path === "/USERVOUCHERS") && (
-              <div
-                onClick={() => {
-                  navigate("/home");
-                  setOpenNavbar(false);
-                }}
-                className="hover:text-yellow-400 font-bold text-xl rounded-md bg-blue-400 hover:bg-blue-600 text-white cursor-pointer m-2 p-2 border-2 w-fit"
-              >
-                <span className="text-white">A</span>dmin Panel
-              </div>
-            )}
+          {!userType?.isAdmin && !userType?.supervisor && (
+            <div
+              onClick={() => {
+                // setOpen(true);
+                setTourModal(true);
+                setOpenNavbar(false);
+              }}
+              className="hover:text-yellow-400 font-bold text-xl text-white cursor-pointer px-4 py-2"
+            >
+              <span className="text-white">A</span>dd Tour
+            </div>
+          )}
           {(userType?.isAdmin || userType?.supervisor) &&
             (path === "/USER" || path === "/USERVOUCHERS") && (
               <div
@@ -210,6 +212,71 @@ function NavBar() {
                 className="hover:text-yellow-400 font-bold text-xl text-white cursor-pointer px-4 py-2"
               >
                 <span className="text-white">A</span>dd Tour
+              </div>
+            )}
+          {(userType?.isAdmin || userType?.supervisor) &&
+            (path == "/USER" || path == "/USERVOUCHERS") && (
+              <>
+                <div>
+                  <div
+                    onClick={() => {
+                      navigate("/user");
+                      setOpenNavbar(false);
+                    }}
+                    className="hover:text-yellow-400 font-bold text-xl text-white cursor-pointer px-4 py-2"
+                  >
+                    <span className="text-white">D</span>ashboard
+                  </div>
+                </div>
+                <div>
+                  <div
+                    onClick={() => {
+                      navigate("/userVouchers");
+                      setOpenNavbar(false);
+                    }}
+                    className="hover:text-yellow-400 font-bold text-xl text-white cursor-pointer px-4 py-2"
+                  >
+                    <span className="text-white">V</span>ouchers
+                  </div>
+                </div>
+              </>
+            )}
+          {!userType?.isAdmin && !userType?.supervisor && (
+            <>
+              <div>
+                <div
+                  onClick={() => {
+                    navigate("/user");
+                    setOpenNavbar(false);
+                  }}
+                  className="hover:text-yellow-400 font-bold text-xl text-white cursor-pointer px-4 py-2"
+                >
+                  <span className="text-white">D</span>ashboard
+                </div>
+              </div>
+              <div>
+                <div
+                  onClick={() => {
+                    navigate("/userVouchers");
+                    setOpenNavbar(false);
+                  }}
+                  className="hover:text-yellow-400 font-bold text-xl text-white cursor-pointer px-4 py-2"
+                >
+                  <span className="text-white">V</span>ouchers
+                </div>
+              </div>
+            </>
+          )}
+          {(userType?.isAdmin || userType?.supervisor) &&
+            (path === "/USER" || path === "/USERVOUCHERS") && (
+              <div
+                onClick={() => {
+                  navigate("/home");
+                  setOpenNavbar(false);
+                }}
+                className="hover:text-yellow-400 font-bold text-xl rounded-md bg-blue-400 hover:bg-blue-600 text-white cursor-pointer m-2 p-2 border-2 w-fit"
+              >
+                <span className="text-white">A</span>dmin Panel
               </div>
             )}
           {userType && !userType?.isAdmin && !userType?.supervisor && (

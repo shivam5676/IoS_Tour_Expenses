@@ -6,6 +6,7 @@ import YearWiseReportGeneration from "./YearWiseReportGeneration";
 import UserWiseReportGeneration from "./UserWiseReportGeneration";
 import TokenWiseReport from "./tokenWiseReport";
 import { format } from "date-fns";
+import AllTimeReportGeneration from "./AllTimeReportGeneration";
 
 function AdminReportPanel() {
   const connectionUrl = process.env.REACT_APP_CONNECTION_STRING;
@@ -57,6 +58,7 @@ function AdminReportPanel() {
     userIdRef.current = userId;
     setUserId(+userIdRef.current);
   };
+  console.log(reportType)
   return (
     <div className="w-[100vw] h-[100vh]  text-white bg-transparent  py-[90px]">
       <div className="min-[800px]:mx-4 min-[1000px]:mx-16 mx-4 min-[1200px]:mx-28 flex">
@@ -65,14 +67,11 @@ function AdminReportPanel() {
           className="w-[100%]  mx-2 h-[calc(100vh-90px)] overflow-y-scroll"
           style={{ scrollbarWidth: "none" }}
         >
-          {/* <p className="absolute bottom-4 right-4">
-            <button className="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded-lg">
-              Download Report
-            </button>
-          </p> */}
           <div className="flex">
             <div className="flex w-[100%]  flex-col md:flex-row m-2 bg-gradient-to-r from-[#1e5aba] to-[#0884e9] rounded-md">
-              <p className="p-2 font-bold text-2xl text-center">Report Generation :</p>
+              <p className="p-2 font-bold text-2xl text-center">
+                Report Generation :
+              </p>
               <div className="flex justify-center py-2 max-[400px]:flex-col max-[400px]:items-center">
                 {" "}
                 <div className="flex items-center text-yellow-400 font-bold max-[400px]:py-2">
@@ -80,6 +79,7 @@ function AdminReportPanel() {
                     className="border-2 border-white bg-transparent px-2 font-bold"
                     onChange={handleReportTypeChange}
                   >
+                    <option value="none">select type</option>
                     <option
                       value="yyyy"
                       className="bg-gray-500 text-white font-semibold"
@@ -98,12 +98,12 @@ function AdminReportPanel() {
                     >
                       Voucher wise
                     </option>{" "}
-                    <option
+                    {/* <option
                       value="mm/yyyy"
                       className="bg-gray-500 text-white font-semibold"
                     >
                       Month wise
-                    </option>
+                    </option> */}
                     <option
                       value="All"
                       className="bg-gray-500 text-white font-semibold"
@@ -112,7 +112,8 @@ function AdminReportPanel() {
                     </option>
                   </select>
                 </div>
-                {reportType !== "All" &&
+                {reportType !== "none" &&
+                  reportType !== "All" &&
                   reportType !== "user" &&
                   reportType !== "token" && (
                     <div className="flex items-center text-yellow-400 font-bold">
@@ -182,6 +183,9 @@ function AdminReportPanel() {
             )}
             {reportType === "token" && voucherIdRef.current?.value && (
               <TokenWiseReport voucherId={voucherId}></TokenWiseReport>
+            )}
+            {reportType === "All"&& (
+              <AllTimeReportGeneration></AllTimeReportGeneration>
             )}
           </div>
         </div>

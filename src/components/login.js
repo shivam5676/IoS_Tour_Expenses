@@ -160,15 +160,17 @@ function Login() {
           </div>
         </div>
       </div> */}
-      <div className="flex w-[90%]  pt-[90px] flex-col sm:flex-row ">
-        <div className="w-[100%] sm:w-[50%] flex flex-col justify-center items-center">
-          <p className="text-3xl font-bold text-white px-2 py-2 w-[100%] text-center">
-            IOS Voucher Management System
+      <div className="flex w-[1400px]  pt-[90px] flex-col sm:flex-row ">
+        <div className="w-[100%] sm:w-[50%] h-[100%] flex flex-col justify-center items-center">
+          <p className="text-2xl md:text-3xl lg:text-4xl font-bold text-white px-2 py-2 w-[100%] text-center  md:py-8">
+            IOS <span className="text-yellow-500">V</span>oucher{" "}
+            <span className="text-yellow-500">M</span>anagement{" "}
+            <span className="text-yellow-500">S</span>ystem
           </p>
-          <div className="flex font-bold text-white text-center">
+          <div className="flex sm:text-[1.2rem] lg:text-xl font-bold text-white text-center px-4  md:py-2">
             <p>Powerful & LightWeight Tour Voucher Tracker</p>
           </div>
-          <div className="flex  text-white px-3 md:px-12 py-4">
+          <div className="flex  text-white px-6 md:px-12 py-4 text-center">
             <p>
               Login now to manage your tour vouchers and expenses digitally.
             </p>

@@ -76,7 +76,6 @@ function UsersTour(props) {
                         props.selected();
                       }}
                     >
-                      {" "}
                       {selected == current.id ? "Selected" : "Select"}
                     </p>
                   </div>

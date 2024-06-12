@@ -8,7 +8,6 @@ const initialState = {
   allUser: [],
   adminCurrentUserData: {},
   allVoucherData: [],
-  userExpenseData: [],
   onGoingData: [],
   userCurrentTourExpensesData: [],
   currentTourIdData: null,
@@ -40,18 +39,20 @@ const reducerFn = (state, action) => {
       allVoucherData: [...action.payload],
     };
   }
-  if (action.type == "addUserExpense") {
+
+  if (action.type == "addOnGoing") {
     return {
       ...state,
-      userExpenseData: [...state.userExpenseData, action.payload],
+      onGoingData: [...action.payload],
     };
   }
-  if (action.type == "addOnGoing") {
+  if (action.type == "addTourInOngoing") {
     return {
       ...state,
       onGoingData: [...state.onGoingData, action.payload],
     };
   }
+
   if (action.type == "addCurrentTourExpense") {
     return {
       ...state,
@@ -108,9 +109,11 @@ const reducerFn = (state, action) => {
     const findVoucherId = allVoucherDataCopy.findIndex(
       (current) => current.Voucher.id == action.payload.id
     );
+    console.log(findVoucherId,action.payload);
     console.log(allVoucherDataCopy[findVoucherId]);
-    allVoucherDataCopy[findVoucherId].Voucher.statusType =  action.payload.status
-    allVoucherDataCopy[findVoucherId].status =  action.payload.status;
+    allVoucherDataCopy[findVoucherId].Voucher.statusType =
+      action.payload.status;
+    allVoucherDataCopy[findVoucherId].status = action.payload.status;
 
     console.log(allVoucherDataCopy[findVoucherId]);
 
@@ -118,8 +121,23 @@ const reducerFn = (state, action) => {
     // return;
     return {
       ...state,
-      allVoucherData:allVoucherDataCopy
+      allVoucherData: allVoucherDataCopy,
     };
+  }
+  if (action.type == "updateCurrentTourExpenses") {
+    console.log(action.payload);
+    const ExpenseList = [...state.userCurrentTourExpensesData];
+    const expenseIndex = ExpenseList.findIndex(
+      (current) => current.id == action.payload.id
+    );
+    if (expenseIndex != -1) {
+      ExpenseList[expenseIndex] = action.payload;
+      return {
+        ...state,
+        userCurrentTourExpensesData: ExpenseList,
+      };
+    }
+    return state;
   }
   if (action.type === "logOut") {
     localStorage.removeItem("token");
@@ -128,7 +146,6 @@ const reducerFn = (state, action) => {
       allUser: [],
       adminCurrentUserData: {},
       allVoucherData: [],
-      userExpenseData: [],
       onGoingData: [],
       userCurrentTourExpensesData: [],
       currentTourIdData: null,
@@ -156,9 +173,7 @@ const ContextProvider = (props) => {
   const allVoucherHandler = (vouchers) => {
     dispatch({ type: "allVoucher", payload: vouchers });
   };
-  const addUserExpenseHandler = (expenseData) => {
-    dispatch({ type: "addUserExpense", payload: expenseData });
-  };
+
   const onGoingTourHandler = (voucherData) => {
     dispatch({ type: "addOnGoing", payload: voucherData });
   };
@@ -185,6 +200,12 @@ const ContextProvider = (props) => {
     console.log(id);
     dispatch({ type: "changeStateFromAllVoucher", payload: id });
   };
+  const addTourInOngoingHandler = (tour) => {
+    dispatch({ type: "addTourInOngoing", payload: tour });
+  };
+  const updateCurrentTourExpensesHandler = (updatedTour) => {
+    dispatch({ type: "updateCurrentTourExpenses", payload: updatedTour });
+  };
   const contextStore = {
     signUpModal: signupModalOpenHandler,
     signUpModalOpen: currentState.signUpModalOpen,
@@ -194,8 +215,7 @@ const ContextProvider = (props) => {
     adminCurrentUserData: currentState.adminCurrentUserData,
     AllVoucher: allVoucherHandler,
     allVoucherData: currentState.allVoucherData,
-    userExpensesData: currentState.userExpenseData,
-    userExpenses: addUserExpenseHandler,
+
     onGoingTour: onGoingTourHandler,
     onGoingData: currentState.onGoingData,
     userCurrentTourExpenses: userCurrentTourExpenseHandler,
@@ -208,6 +228,8 @@ const ContextProvider = (props) => {
     loginData: currentState.loginData,
     logOutHandler: logOutHandler,
     removeVoucherfromAllVoucher: removeVoucherfromAllVoucher,
+    addTourInOngoing: addTourInOngoingHandler,
+    updateCurrentTourExpenses: updateCurrentTourExpensesHandler,
   };
   return (
     <Context.Provider value={contextStore}>{props.children}</Context.Provider>

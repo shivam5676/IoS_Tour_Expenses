@@ -22,10 +22,12 @@ function UserHomePage() {
           domain: user.domain,
         });
 
-        const res = response.data;
-        res.vouchers.forEach((current) => {
-          ctx.onGoingTour(current);
-        });
+        const res = response.data.vouchers;
+        console.log(res)
+        ctx.onGoingTour(res)
+        // res.forEach((current) => {
+        //   ctx.onGoingTour(current);
+        // });
         // const response = await axios.post(`${connectionUrl}/check-token`, {
         //   token:user.access_token,
         //   domain:user.domain

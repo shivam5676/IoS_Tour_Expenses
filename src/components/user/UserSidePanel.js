@@ -36,7 +36,7 @@ function UserSidePanel() {
         <div className="mt-4 w-[100%] flex flex-col  items-center">
           <p
             className="font-bold cursor-pointer hover:bg-[#2fc7f8] w-[60%] my-1 min-[1400px]:my-2   text-center hover:text-white"
-            onClick={() => navigate("/users")}
+            onClick={() => navigate("/user")}
           >
             Dashboard
           </p>
