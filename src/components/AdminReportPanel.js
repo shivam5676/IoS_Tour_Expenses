@@ -12,7 +12,7 @@ function AdminReportPanel() {
   const connectionUrl = process.env.REACT_APP_CONNECTION_STRING;
 
   const [startDate, setStartDate] = useState(new Date());
-  const [reportType, setReportType] = useState("All");
+  const [reportType, setReportType] = useState("none");
   const [formattedDate, setFormattedDate] = useState(null);
   const userIdRef = useRef(null);
   const [userId, setUserId] = useState(null);
@@ -24,7 +24,6 @@ function AdminReportPanel() {
     setFormattedDate(null);
   };
   const handleDateChange = (date) => {
-    console.log("fuction triggered");
     setStartDate(date);
 
     // Format the date based on the report type
@@ -58,7 +57,6 @@ function AdminReportPanel() {
     userIdRef.current = userId;
     setUserId(+userIdRef.current);
   };
-  console.log(reportType)
   return (
     <div className="w-[100vw] h-[100vh]  text-white bg-transparent  py-[90px]">
       <div className="min-[800px]:mx-4 min-[1000px]:mx-16 mx-4 min-[1200px]:mx-28 flex">
@@ -79,7 +77,8 @@ function AdminReportPanel() {
                     className="border-2 border-white bg-transparent px-2 font-bold"
                     onChange={handleReportTypeChange}
                   >
-                    <option value="none">select type</option>
+                    <option value="none"                       className="bg-gray-500 text-white font-semibold"
+                    >select type</option>
                     <option
                       value="yyyy"
                       className="bg-gray-500 text-white font-semibold"
@@ -184,7 +183,7 @@ function AdminReportPanel() {
             {reportType === "token" && voucherIdRef.current?.value && (
               <TokenWiseReport voucherId={voucherId}></TokenWiseReport>
             )}
-            {reportType === "All"&& (
+            {reportType === "All" && (
               <AllTimeReportGeneration></AllTimeReportGeneration>
             )}
           </div>

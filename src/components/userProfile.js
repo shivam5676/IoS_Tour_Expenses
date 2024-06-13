@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { useContext, useEffect } from "react";
 import { FaRegUser, FaRegUserCircle } from "react-icons/fa";
 import Context from "../store/Context";
+import { toast } from "react-toastify";
 
 function UserProfile() {
   const connectionUrl = process.env.REACT_APP_CONNECTION_STRING;
@@ -15,32 +16,33 @@ function UserProfile() {
       const response = await axios.post(
         `${connectionUrl}:${process.env.REACT_APP_BACKEND_PORT}/admin/deleteUser`,
         {
-          userId:id,
+          delId: id,
           token: user.access_token,
           domain: user.domain,
         }
       );
-      console.log(response.data)
+      console.log(response.data);
       // const res = response.data.userList;
       // if (response?.data?.userList) {
       //   ctx.AllVoucher(response.data.userList);
       // }
+      toast.success("user deleted successfully...");
     } catch (err) {
       console.log(err);
     }
   };
   return (
-    <div className="rounded-lg shadow-md shadow-gray-700  w-[100%]  min-[689px]:w-[40%]  min-h-[250px] h-[40vh]  min-[689px]:m-2 my-2 bg-white text-black">
-      <p className=" rounded-t-lg py-2 font-bold text-2xl   text-center  bg-gradient-to-r bg-[#2fc7f8] text-white ">
+    <div className="relative rounded-lg shadow-md shadow-gray-700  w-[100%]  min-[689px]:w-[40%]  min-h-[250px] h-[40vh]  min-[689px]:m-2 my-2 bg-white text-black">
+      <p className="relative rounded-t-lg py-2 font-bold text-2xl   text-center  bg-gradient-to-r bg-[#2fc7f8] text-white ">
         User Profile
       </p>{" "}
       {user?.isAdmin && (
-        <p
-          className="fixed bg-red-500 hover:bg-red-700 text-white px-1 cursor-pointer"
-          onClick={()=>deleteUserHandler(ctx.adminCurrentUserData.id)}
+        <div
+          className="absolute   bg-red-500 hover:bg-red-700 text-white px-1 cursor-pointer z-10"
+          onClick={() => deleteUserHandler(ctx.adminCurrentUserData.id)}
         >
           remove
-        </p>
+        </div>
       )}
       <div className="p-2 pt-4 flex border-b-2">
         <FaRegUser className="w-[80px] h-[80px] mt-2" />
@@ -60,16 +62,20 @@ function UserProfile() {
         </div>{" "}
       </div>
       <div className="px-4 py-2 border-b-2 flex">
-        <p className="font-bold">Email :</p>
+        <p className="font-bold text-nowrap text-[.75rem] lg:text-[.9rem]">
+          Email :
+        </p>
 
-        <p className="text-[.9rem] justify-start px-2">
+        <p className="text-[.75rem] lg:text-[.9rem] justify-start px-2 text-wrap">
           {ctx.adminCurrentUserData?.email}
         </p>
       </div>
       <div className="px-4 py-2 border-b-2 flex">
-        <p className="font-bold">Phone :</p>
+        <p className="font-bold text-nowrap text-[.75rem] lg:text-[.9rem]">
+          Phone :
+        </p>
 
-        <p className="text-[.9rem] justify-start px-2">
+        <p className="text-[.75rem] lg:text-[.9rem] justify-start px-2">
           {ctx.adminCurrentUserData?.mobile}
         </p>
       </div>

@@ -105,8 +105,10 @@ export default function VoucherViewer(props) {
           assignedName: `${selectedSupervisor?.firstName} ${selectedSupervisor?.lastName}`,
         };
       });
+      toast.success({ msg: "voucher accepted successfully" });
     } catch (err) {
       console.log(err);
+      toast.error({ msg: "something went wrong ....." });
     }
   };
   const rejectVoucherHandler = async () => {
@@ -167,6 +169,7 @@ export default function VoucherViewer(props) {
         setPaymentSupervisor(response.data.supervisorList);
       } catch (err) {
         console.log(err);
+        // props.close();
       }
     }
     fetchData();
@@ -880,7 +883,6 @@ export default function VoucherViewer(props) {
                               Comment Only
                             </p>
                           )}
-
                         {(user?.isAdmin || user?.supervisor) &&
                           voucherData.userId != user.id && (
                             <>

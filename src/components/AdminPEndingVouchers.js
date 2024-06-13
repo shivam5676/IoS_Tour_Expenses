@@ -44,7 +44,10 @@ function AdminPEndingVouchers(props) {
             {props.pending.map((current) => {
               console.log(current);
               return (
-                <div className="mx-2 bg-white text-black flex py-1 text-[.8rem] font-semibold">
+                <div
+                  className="mx-2 bg-white text-black flex py-1 text-[.8rem] font-semibold"
+                  key={current?.Voucher?.id}
+                >
                   <p className="w-[13%] px-1 overflow-hidden whitespace-nowrap overflow-ellipsis">
                     {current.Voucher.id}
                   </p>

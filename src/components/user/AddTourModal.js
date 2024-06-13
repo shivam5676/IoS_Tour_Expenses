@@ -206,11 +206,11 @@ function AddTourModal(props) {
                           ref={currencyRef}
                           onChange={handleCurrencyChange}
                         >
-                          <option value="RUPEES" className="border-b-2 bg-blue-400 hover:bg-white font-bold  hover:text-white">Rupees</option>
+                          <option value="INR" className="border-b-2 bg-blue-400 hover:bg-white font-bold  hover:text-white">Rupees</option>
                           <option value="USD" className="border-b-2 bg-blue-400 hover:bg-white font-bold  hover:text-white">US Dollar</option>
                           <option value="SGD" className="border-b-2 bg-blue-400 hover:bg-white font-bold  hover:text-black">Singapore Dollar</option>
                           <option value="JPY" className="border-b-2 bg-blue-400 hover:bg-white font-bold  hover:text-black">Japanese Yen </option>
-                          <option value="EURO" className="border-b-2 bg-blue-400 hover:bg-white font-bold  hover:text-black">Euro </option>
+                          <option value="EUR" className="border-b-2 bg-blue-400 hover:bg-white font-bold  hover:text-black">Euro </option>
 
                         </select>
                       </p>

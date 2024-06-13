@@ -22,7 +22,7 @@ function AdminUserPanel() {
         <div className="min-[800px]:mx-4 min-[1000px]:mx-16 mx-1 min-[1200px]:mx-28 flex">
          <AdminSidePanel></AdminSidePanel>
           <div
-            className="w-[100%]  h-[calc(100vh-90px)] mx-2 overflow-y-scroll "
+            className="w-[100%]  h-[calc(100vh-90px)] lg:mx-2 overflow-y-scroll "
             style={{ scrollbarWidth: "none" }}
           >
             <div className="flex  flex-col min-[689px]:flex-row">
