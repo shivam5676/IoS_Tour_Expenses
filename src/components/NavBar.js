@@ -92,7 +92,7 @@ function NavBar() {
                     // setOpen(true);
                     setTourModal(true);
                   }}
-                  className="text-lg font-bold text-semibold border-2 border-yellow-500 text-yellow-500 dark:text-white  cursor-pointer  px-2 rounded-md"
+                  className="text-lg font-bold text-semibold border-2 border-yellow-500 text-yellow-500 dark:text-white  cursor-pointer  px-2 py-1 rounded-md"
                 >
                   Add Tour
                 </a>
@@ -103,7 +103,7 @@ function NavBar() {
                   // setOpen(true);
                   setTourModal(true);
                 }}
-                className="text-lg font-bold text-semibold border-2 border-yellow-500 text-yellow-500 dark:text-white  cursor-pointer px-2 rounded-md"
+                className="text-lg font-bold text-semibold border-2 border-yellow-500 text-yellow-500 dark:text-white  cursor-pointer px-2  py-1 rounded-md"
               >
                 Add Tour
               </a>
@@ -111,7 +111,7 @@ function NavBar() {
             {userType && (
               <a
                 // href="/login"
-                className="text-lg font-bold text-semibold border-2  text-white dark:text-white  px-2 py-1 cursor-pointer rounded-md"
+                className="text-lg font-bold text-semibold border-2  text-white dark:text-white hover:bg-white hover:text-black  px-2 py-1 cursor-pointer rounded-md"
                 onClick={() => {
                   localStorage.removeItem("token");
                   ctx.logOutHandler();
@@ -286,7 +286,7 @@ function NavBar() {
                 setTourModal(true);
                 setOpenNavbar(false);
               }}
-              className="hover:text-yellow-400 font-bold text-xl text-white cursor-pointer px-4 py-2"
+              className="text-lg font-bold text-semibold border-2 w-fit mx-3 my-2 text-white dark:text-white bg-red-400 hover:bg-red-500 px-4 py-1 cursor-pointer rounded-md"
             >
               <span className="text-white">A</span>dd Tour
             </div>

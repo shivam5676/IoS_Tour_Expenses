@@ -109,9 +109,10 @@ const options = {
 };
 
 const BarChartUser = (props) => {
-  const data =props.reportData || {}
+  const data = props.reportData || {};
 
   // Extract city names and categories
+  console.log(data)
   const cities = Object.keys(data);
   const categories = ["food", "travel", "accomondation", "misc"];
 
@@ -124,7 +125,7 @@ const BarChartUser = (props) => {
   const chartData = {
     labels: cities,
     datasets: categories.map((category, index) => ({
-      label: category.charAt(0).toUpperCase() + category.slice(1),
+      label: category.charAt(0).toUpperCase() + category.slice(1) ,
       data: categoryData[index],
       backgroundColor: `rgba(${index * 50 + 50}, ${index * 100 + 100}, ${
         index * 150 + 150

@@ -60,7 +60,7 @@ function YearWiseReportGeneration(props) {
             }
             if (current.paymentType == "Cash") {
               expensesObj[monthName].cash += +current.Amount;
-              cashExpense += +current.Amount;
+              cashExpense += +current.Amount *+current.Voucher.exchangeRates;
             }
             if (
               current.paymentType == "Online (train/flight)" ||
@@ -68,7 +68,7 @@ function YearWiseReportGeneration(props) {
             ) {
               expensesObj[monthName].digital += +current.Amount;
 
-              digitalExpense += +current.Amount;
+              digitalExpense +=+current.Amount *+current.Voucher.exchangeRates;
             }
           } else {
             expensesObj[monthName] = {
@@ -81,7 +81,8 @@ function YearWiseReportGeneration(props) {
               cash: 0,
             };
             if (current.paymentType == "Cash") {
-              cashExpense += +current.Amount;
+              // console.log("object", +current.Amount *+current.Voucher.exchangeRates)
+              cashExpense += +current.Amount *+current.Voucher.exchangeRates;
               expensesObj[monthName].cash += +current.Amount;
             }
             if (
@@ -90,7 +91,7 @@ function YearWiseReportGeneration(props) {
             ) {
               expensesObj[monthName].digital += +current.Amount;
 
-              digitalExpense += +current.Amount;
+              digitalExpense += +current.Amount *+current.Voucher.exchangeRates;
             }
           }
         });
@@ -122,7 +123,7 @@ function YearWiseReportGeneration(props) {
             <p>
               {" "}
               <CountUp
-                end={expenseData.digitalExpense + expenseData.cashExpense}
+                end={expenseData?.digitalExpense + expenseData?.cashExpense}
                 duration={2.2}
               />{" "}
               Rs
@@ -133,7 +134,7 @@ function YearWiseReportGeneration(props) {
           <p className="p-4 border-b-2 text-center">Cash Mode</p>
           <div className="flex justify-center items-center text-3xl  h-[100px] font-['Poppins']">
             <p>
-              <CountUp end={expenseData.cashExpense} duration={1.5} /> Rs
+              <CountUp end={expenseData?.cashExpense} duration={1.5} /> Rs
             </p>{" "}
           </div>
         </div>{" "}
@@ -141,7 +142,7 @@ function YearWiseReportGeneration(props) {
           <p className="p-4 border-b-2 text-center">Digital mode </p>
           <div className="flex justify-center items-center text-3xl  h-[100px] font-['Poppins']">
             <p>
-              <CountUp end={expenseData.digitalExpense} duration={2} /> Rs
+              <CountUp end={expenseData?.digitalExpense} duration={2} /> Rs
             </p>
           </div>
         </div>

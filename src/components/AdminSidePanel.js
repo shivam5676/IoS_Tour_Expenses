@@ -37,19 +37,25 @@ function AdminSidePanel() {
             className="font-bold hover:bg-[#2fc7f8] w-[60%] my-0 min-[1400px]:my-2  text-center cursor-pointer hover:text-white"
             onClick={() => navigate("/home")}
           >
-            home
+            Home
           </p>
           <p
             className="font-bold hover:bg-[#2fc7f8] w-[60%] my-0 min-[1400px]:my-2 text-center cursor-pointer hover:text-white"
             onClick={() => navigate("/adminUser")}
           >
-            users
+            Users
           </p>
           <p
             className="font-bold hover:bg-[#2fc7f8] w-[60%] my-0 min-[1400px]:my-2 text-center cursor-pointer hover:text-white"
             onClick={() => navigate("/adminReport")}
           >
-            reports
+            Reports
+          </p>
+          <p
+            className="font-bold hover:bg-[#2fc7f8] w-[60%] my-0 min-[1400px]:my-2 text-center cursor-pointer hover:text-white"
+            onClick={() => navigate("/accounts")}
+          >
+            Accounts
           </p>
         </div>
         <div className=" min-w-[100%] max-w-[270px] text-white ">
@@ -63,7 +69,7 @@ function AdminSidePanel() {
             </div>
             <div className="p-2">
               <p className=" text-[.8rem] font-bold border-b-2 ">
-                Tour Expense tracker System
+                Voucher Management System
               </p>
               <p className=" text-[.65rem] font-bold py-1">
                 © copyright 2024 ( IOS pvt ltd )

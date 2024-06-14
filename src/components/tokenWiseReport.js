@@ -12,7 +12,7 @@ function TokenWiseReport(props) {
     cashExpense: 0,
     digitalExpense: 0,
   });
-  const connectionUrl = process.env.REACT_APP_CONNECTION_STRING
+  const connectionUrl = process.env.REACT_APP_CONNECTION_STRING;
   useEffect(() => {
     // setVoucherStatus("Pending");
     async function fetchData() {
@@ -43,6 +43,7 @@ function TokenWiseReport(props) {
   useEffect(() => {
     voucherData &&
       voucherData.voucherExpenses?.forEach((current) => {
+        console.log(voucherData);
         if (current.paymentType === "Cash") {
           CashPayment += +current.Amount;
         }
@@ -143,8 +144,6 @@ function TokenWiseReport(props) {
   //  console.log(tourDurationHours)
   let settlementAmount = 0;
   if (voucherData) {
- 
-
     settlementAmount = (
       +expenseData.cashExpense +
       +totalDa -
@@ -164,7 +163,7 @@ function TokenWiseReport(props) {
               dateDifferenceInHour,
               tourDurationHours,
               expenseData,
-              totalDa
+              totalDa,
             }}
             voucherData={voucherData}
             bills={imageArray}
@@ -176,7 +175,10 @@ function TokenWiseReport(props) {
             <p>
               {" "}
               <CountUp
-                end={expenseData.cashExpense + expenseData.digitalExpense}
+                end={
+                  (expenseData?.cashExpense + expenseData?.digitalExpense) *
+                  voucherData?.exchangeRates
+                }
                 duration={2.2}
               />{" "}
               Rs
@@ -187,7 +189,11 @@ function TokenWiseReport(props) {
           <p className="p-4 border-b-2 text-center">Cash Mode</p>
           <div className="flex justify-center items-center text-3xl  h-[100px] font-['Poppins']">
             <p>
-              <CountUp end={expenseData.cashExpense} duration={1.5} /> Rs
+              <CountUp
+                end={expenseData?.cashExpense * voucherData?.exchangeRates}
+                duration={1.5}
+              />{" "}
+              Rs
             </p>{" "}
           </div>
         </div>{" "}
@@ -195,12 +201,16 @@ function TokenWiseReport(props) {
           <p className="p-4 border-b-2 text-center">Digital mode </p>
           <div className="flex justify-center items-center text-3xl  h-[100px] font-['Poppins']">
             <p>
-              <CountUp end={expenseData.digitalExpense} duration={2} /> Rs
+              <CountUp
+                end={expenseData?.digitalExpense * voucherData?.exchangeRates}
+                duration={2}
+              />{" "}
+              Rs
             </p>
           </div>
         </div>
       </div>
-      <div className="w-[100%]  ">
+      {/* <div className="w-[100%]  ">
         {" "}
         <div className="flex mt-3 items-center  overflow-x-auto overflow-y-hidden  mx-2">
           <div className="bg-gradient-to-r from-black to-white flex-1 h-[2px]"></div>
@@ -209,12 +219,8 @@ function TokenWiseReport(props) {
           </div>
           <div className="bg-gradient-to-r from-white to-black flex-1 h-[2px]"></div>
         </div>
-        {/* <BarChartYear
-      headers={monthNameArray}
-      expenseData={reportData}
-    ></BarChartYear> */}
         <p className="mb-16"></p>
-      </div>
+      </div> */}
     </>
   );
 }

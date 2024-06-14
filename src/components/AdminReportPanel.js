@@ -77,8 +77,12 @@ function AdminReportPanel() {
                     className="border-2 border-white bg-transparent px-2 font-bold"
                     onChange={handleReportTypeChange}
                   >
-                    <option value="none"                       className="bg-gray-500 text-white font-semibold"
-                    >select type</option>
+                    <option
+                      value="none"
+                      className="bg-gray-500 text-white font-semibold"
+                    >
+                      select type
+                    </option>
                     <option
                       value="yyyy"
                       className="bg-gray-500 text-white font-semibold"
@@ -103,12 +107,12 @@ function AdminReportPanel() {
                     >
                       Month wise
                     </option> */}
-                    <option
+                    {/* <option
                       value="All"
                       className="bg-gray-500 text-white font-semibold"
                     >
                       All Time
-                    </option>
+                    </option> */}
                   </select>
                 </div>
                 {reportType !== "none" &&

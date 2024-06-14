@@ -8,7 +8,7 @@ import DownloadUserPdfButton from "./DownloadUserPdfButton";
 function UserWiseReportGeneration(props) {
   const user = JSON.parse(localStorage.getItem("token"));
 
-  const connectionUrl = process.env.REACT_APP_CONNECTION_STRING
+  const connectionUrl = process.env.REACT_APP_CONNECTION_STRING;
   const [reportData, setReportData] = useState(null);
   const [userData, setuserData] = useState({
     firstName: "",
@@ -52,7 +52,7 @@ function UserWiseReportGeneration(props) {
           userId: response.data[0].userId,
         });
         response.data.forEach((current) => {
-          const uniqueKey = `${current.tourLocation}-${current.tourDate}`; // Assuming 'tourId' is a unique identifier for each tour
+          const uniqueKey = `${current.tourLocation}-${current.tourDate}(${current.currency})`; // Assuming 'tourId' is a unique identifier for each tour
           expensesObj[uniqueKey] = {
             food: 0,
             travel: 0,
@@ -61,6 +61,7 @@ function UserWiseReportGeneration(props) {
             cash: 0,
             digitalpayment: 0,
             expenseList: [...current.voucherExpenses],
+            exchangeRates: current.exchangeRates,
           };
           current.voucherExpenses.forEach((currentExpense) => {
             if (currentExpense.expenseType === "Food(Da)") {
@@ -79,7 +80,9 @@ function UserWiseReportGeneration(props) {
               expensesObj[uniqueKey].cash += +currentExpense.Amount;
               setExpenseData((prev) => {
                 return {
-                  cashExpense: prev.cashExpense + +currentExpense.Amount,
+                  cashExpense:
+                    prev.cashExpense +
+                    +currentExpense.Amount * current.exchangeRates,
                   digitalExpense: prev.digitalExpense,
                 };
               });
@@ -88,7 +91,9 @@ function UserWiseReportGeneration(props) {
               setExpenseData((prev) => {
                 return {
                   cashExpense: prev.cashExpense,
-                  digitalExpense: prev.digitalExpense + +currentExpense.Amount,
+                  digitalExpense:
+                    prev.digitalExpense +
+                    +currentExpense.Amount * current.exchangeRates,
                 };
               });
             }
@@ -101,6 +106,7 @@ function UserWiseReportGeneration(props) {
     }
     fetchFilterData();
   }, [props.userId]);
+  console.log(expenseData);
   return (
     <>
       <DownloadUserPdfButton
@@ -148,10 +154,7 @@ function UserWiseReportGeneration(props) {
           </div>
           <div className="bg-gradient-to-r from-white to-black flex-1 h-[2px]"></div>
         </div>
-        {/* <LineChart
-          headers={monthNameArray}
-          expenseData={reportData}
-        ></LineChart> */}
+   
         {reportData && <BarChartUser reportData={reportData}></BarChartUser>}{" "}
         <p className="mb-16"></p>
       </div>

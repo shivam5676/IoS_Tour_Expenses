@@ -12,7 +12,7 @@ function UserSidePanel() {
   return (
     <div className="w-[250px] h-[81vh] max-[923px]:hidden   min-[980px]:w-[300px] backdrop-blur-sm bg-white/30  text-white rounded-2xl my-1 min-[1400px]:my-2 shadow-md shadow-gray-700 font-['Poppins']">
       <div className="bg-[#2fc7f8] h-[150px] rounded-md m-4 max-w-[270px] text-white">
-      <div className="flex justify-center">
+        <div className="flex justify-center">
           <FaRegUserCircle className="w-[40px] h-[40px] mt-2" />
         </div>
 
@@ -52,16 +52,15 @@ function UserSidePanel() {
           >
             change password
           </p> */}
-          
         </div>
         <div className=" min-w-[100%] max-w-[270px] text-white ">
-        <div className="flex m-4  bg-[#2fc7f8] rounded-md py-2 items-center">
-        <div className="flex ps-2">
+          <div className="flex m-4  bg-[#2fc7f8] rounded-md py-2 items-center">
+            <div className="flex ps-2">
               <img src={iosLogo} className="w-[40px] h-[40px]"></img>
             </div>
             <div className="p-2">
               <p className=" text-[.8rem] font-bold border-b-2 ">
-                Tour Expense tracker System
+                Voucher Management System
               </p>
               <p className=" text-[.65rem] font-bold py-1">
                 © copyright 2024 ( IOS pvt ltd )

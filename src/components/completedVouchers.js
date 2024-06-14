@@ -16,7 +16,7 @@ function CompletedVouchers(props) {
       <p className=" py-2 font-bold text-2xl text-center  rounded-t-lg text-white   bg-[#2fc7f8] font-sans">
         Accepted Vouchers{" "}
       </p>{" "}
-      {props.accepted.length == 0 && (
+      {props?.accepted?.length == 0 && (
         <>
           <div className="w-[100%] h-[calc(40vh-90px)] min-h-[calc(250px-90px)] text-black flex justify-center items-center flex-col">
             <img src={acceptedGif} className="h-[80px]" draggable={false}></img>
@@ -46,7 +46,7 @@ function CompletedVouchers(props) {
                     {current.user?.firstName + " " + current.user?.lastName}{" "}
                   </p>
                   <p className="w-[25%] px-1 overflow-hidden whitespace-nowrap overflow-ellipsis">
-                    {current?.Voucher.tourLocation}
+                    {current?.Voucher?.tourLocation}
                   </p>
                   <p className="w-[20%] px-1 overflow-hidden whitespace-nowrap overflow-ellipsis">
                     {current?.Voucher?.tourDate}{" "}
@@ -56,7 +56,7 @@ function CompletedVouchers(props) {
                       className="bg-blue-500 text-white font-bold text-center rounded hover:bg-blue-700 cursor-pointer"
                       onClick={() => {
                         setOpen(true);
-                        setId(current.Voucher.id);
+                        setId(current?.Voucher?.id);
                       }}
                     >
                       {" "}

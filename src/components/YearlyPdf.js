@@ -41,7 +41,7 @@ const styles = StyleSheet.create({
 
 // Create Document Component
 const YearlyPdf = (props) => (
-  // <PDFViewer style={{ width: "600px", height: "800px" }}>
+  <PDFViewer style={{ width: "600px", height: "800px" }}>
   <Document>
     <Page size="A4" style={styles.page}>
       {" "}
@@ -112,11 +112,11 @@ const YearlyPdf = (props) => (
           }}
         >
           <View style={{ width: "50%" }}>
-            <Text>By Cash : {props?.expenseData?.cashExpense}</Text>
+            <Text>By Cash : {props?.expenseData?.cashExpense?.toFixed(2)}</Text>
           </View>
           <View>
             <Text>
-              By Digital Method : {props?.expenseData?.digitalExpense}
+              By Digital Method : {props?.expenseData?.digitalExpense?.toFixed(2)}
             </Text>
           </View>
         </View>
@@ -143,10 +143,10 @@ const YearlyPdf = (props) => (
           }}
         >
           <View style={{ width: "50%" }}>
-            <Text>Food: {props?.categoryData?.food}</Text>
+            <Text>Food: {props?.categoryData?.food?.toFixed(2)}</Text>
           </View>
           <View>
-            <Text>Travel : {props?.categoryData?.travel}</Text>
+            <Text>Travel : {props?.categoryData?.travel?.toFixed(2)}</Text>
           </View>
         </View>
         <View
@@ -160,10 +160,10 @@ const YearlyPdf = (props) => (
           }}
         >
           <View style={{ width: "50%" }}>
-            <Text>Accomondation : {props?.categoryData?.accomondation}</Text>
+            <Text>Accomondation : {props?.categoryData?.accomondation?.toFixed(2)}</Text>
           </View>
           <View>
-            <Text>Misc : {props?.categoryData?.misc}</Text>
+            <Text>Misc : {props?.categoryData?.misc?.toFixed(2)}</Text>
           </View>
         </View>
         <View
@@ -235,7 +235,7 @@ const YearlyPdf = (props) => (
       </View>
     </Page>
   </Document>
-  // </PDFViewer>
+  </PDFViewer>
 );
 
 export default YearlyPdf;

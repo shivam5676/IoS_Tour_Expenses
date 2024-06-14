@@ -33,28 +33,27 @@ function UsersAllVouchers() {
             </div>
           </div>
           <div className="w-[100%] h-[calc(40vh-90px)] min-h-[calc(250px-90px)] overflow-y-auto">
-            {ctx.adminCurrentUserData.Vouchers?.map((current) => {
-              console.log(current);
+            {ctx?.adminCurrentUserData?.Vouchers?.map((current) => {
               return (
                 <div className="mx-2 bg-white text-black flex py-1 text-[.8rem] font-semibold">
                   <p className="w-[20%] px-1 overflow-hidden whitespace-nowrap overflow-ellipsis">
-                    {current.id}
+                    {current?.id}
                   </p>
                   <p className="w-[20%] px-1 overflow-hidden whitespace-nowrap overflow-ellipsis">
-                    {current.statusType}
+                    {current?.statusType}
                   </p>
                   <p className="w-[25%] px-1 overflow-hidden whitespace-nowrap overflow-ellipsis">
-                    {current.tourLocation}
+                    {current?.tourLocation}
                   </p>
                   <p className="w-[20%] px-1 overflow-hidden whitespace-nowrap overflow-ellipsis">
-                    {current.tourDate}
+                    {current?.tourDate}
                   </p>
                   <div className="w-[15%] px-1 overflow-hidden whitespace-nowrap overflow-ellipsis ">
                     <p
                       className="bg-blue-500 text-white font-bold text-center rounded hover:bg-blue-700 cursor-pointer"
                       onClick={() => {
                         setOpen(true);
-                        setId(current.id);
+                        setId(current?.id);
                       }}
                     >
                       {" "}

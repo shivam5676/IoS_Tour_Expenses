@@ -1,5 +1,6 @@
 import axios from "axios";
 import React, { useEffect } from "react";
+import AllTimePdf from "./AllTimePdf";
 
 const AllTimeReportGeneration = () => {
   const user = JSON.parse(localStorage.getItem("token"));
@@ -16,6 +17,26 @@ const AllTimeReportGeneration = () => {
           }
         );
         console.log(response);
+        // response?.data?.allVouchers.map((currentVoucher) => {
+        //   const year = currentVoucher.tourDate.split("/")[2];
+        //   console.log(year);
+        //   const yearlyExpenses={}
+        //   currentVoucher.voucherExpenses.forEach((current) => {
+        //     console.log(current);
+        //     if (current.paymentType == "Cash") {
+        //       expensesObj[monthName].cash += +current.Amount;
+        //       cashExpense += +current.Amount;
+        //     }
+        //     if (
+        //       current.paymentType == "Online (train/flight)" ||
+        //       current.paymentType == "Credit Card"
+        //     ) {
+        //       expensesObj[monthName].digital += +current.Amount;
+
+        //       digitalExpense += +current.Amount;
+        //     }
+        //   });
+        // });
         // response.data.data.forEach((current) => {
         //   const dateObj = new Date(current.date);
         //   const MonthIndex = dateObj.getMonth();
@@ -83,7 +104,7 @@ const AllTimeReportGeneration = () => {
     }
     fetchFilterData();
   }, []);
-  return <div>grgf</div>;
+  return <AllTimePdf></AllTimePdf>;
 };
 
 export default AllTimeReportGeneration;

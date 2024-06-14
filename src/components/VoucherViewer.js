@@ -134,6 +134,28 @@ export default function VoucherViewer(props) {
       console.log(err);
     }
   };
+  const closeVoucherHandler = async () => {
+    try {
+      const response = await axios.post(
+        `${connectionUrl}:${process.env.REACT_APP_BACKEND_PORT}/admin/closevoucher`,
+        {
+          voucherId: props.voucherId,
+          token: user.access_token,
+          domain: user.domain,
+        }
+      );
+      // ctx.removeVoucherfromAllVoucher({
+      //   id: props?.voucherId,
+      //   status: "Rejected",
+      // });
+
+      setVoucherData((prev) => {
+        return { ...prev, statusType: "Closed" };
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  };
   useEffect(() => {
     // setVoucherStatus("Pending");
     async function fetchData() {
@@ -394,7 +416,7 @@ export default function VoucherViewer(props) {
                       </div>
                       <div className="w-[60%] px-2 border-2 max-[700px]:w-[100%] flex py-1 ">
                         <p className="font-semibold ">Designation : </p>{" "}
-                        software Developer{" "}
+                        {voucherData.user?.designation}{" "}
                       </div>
                     </div>
                     <div className="flex w-[100%] min-[700px]:flex-row flex-col">
@@ -869,7 +891,7 @@ export default function VoucherViewer(props) {
                         </div>
                       )}
                     {voucherData.statusType == "Pending" && (
-                      <div className="my-2 flex w-[100%] justify-evenly font-bold text-white">
+                      <div className="my-2 flex w-[100%] justify-evenly font-bold text-white mb-[50px]">
                         {!voucherData?.comment &&
                           voucherData.statusType == "Pending" &&
                           (user?.isAdmin || user?.supervisor) &&
@@ -907,6 +929,20 @@ export default function VoucherViewer(props) {
                           )}
                       </div>
                     )}
+                    {(user?.isAdmin || user?.supervisor) &&
+                      
+                      voucherData.statusType == "Accepted" && (
+                        <div className="w-[100%] flex justify-center">
+                          <p
+                            className="p-2 bg-blue-400 text-white w-fit rounded-md hover:bg-blue-600 cursor-pointer"
+                            onClick={() => {
+                              closeVoucherHandler();
+                            }}
+                          >
+                            Acknowledge
+                          </p>
+                        </div>
+                      )}
                     <DownloadPdfButton
                       expenseData={expenseData}
                       data={{

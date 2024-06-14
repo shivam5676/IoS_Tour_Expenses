@@ -46,17 +46,17 @@ function AdminREjectedVoucher(props) {
                     {current.user?.firstName + " " + current.user?.lastName}
                   </p>
                   <p className="w-[25%] px-1 overflow-hidden whitespace-nowrap overflow-ellipsis">
-                    {current.Voucher.tourLocation}
+                    {current?.Voucher?.tourLocation}
                   </p>
                   <p className="w-[23%] px-1 overflow-hidden whitespace-nowrap overflow-ellipsis">
-                    {current.Voucher.tourDate}
+                    {current?.Voucher?.tourDate}
                   </p>
                   <div className="w-[15%] px-1 overflow-hidden whitespace-nowrap overflow-ellipsis ">
                     <p
                       className="bg-blue-500 text-white font-bold text-center rounded hover:bg-blue-700"
                       onClick={() => {
                         setOpen(true);
-                        setId(current.Voucher.id);
+                        setId(current?.Voucher?.id);
                       }}
                     >
                       {" "}
