@@ -49,7 +49,6 @@ function AddtourDescriptionModal(props) {
       ctx.removeOnGoingTour(res.details.id);
       props.close();
       toast.success("voucher has been send to admin ...wait for thier action");
-      
     } catch (err) {
       console.log(err);
       toast.error(err.response.data.msg);
@@ -88,7 +87,7 @@ function AddtourDescriptionModal(props) {
               leaveFrom="opacity-100 translate-y-0 sm:scale-100"
               leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
             >
-              <Dialog.Panel className="relative transform overflow-hidden rounded-lg text-left shadow-xl transition-all sm:my-8 w-[80%] md:w-[500px] py-4 bg-[#257894] max-[640px]:mt-[80px] text-white">
+              <Dialog.Panel className="relative transform overflow-hidden rounded-lg text-left shadow-xl transition-all sm:my-8 w-[100%] md:w-[500px] py-4 bg-[#257894] text-white">
                 <div className="text-center pb-2">
                   <div className="text-sm font-semibold flex items-center">
                     {" "}
@@ -103,14 +102,17 @@ function AddtourDescriptionModal(props) {
                       we want some more details about this tour before sending
                       your voucher to the administrator.
                     </div>
-                    {/* <div className="bg-gradient-to-r from-white to-[#F33A6A] flex-1 h-[2px]"></div> */}
                   </div>
-
-                  {/* <p className="pb-2 text-[.9rem]">
-                  Enjoy all Features of VTS{" "}
-                </p> */}
                 </div>{" "}
-                <div className="flex flex-col sm:flex-row px-12">
+                <div className="flex flex-col sm:flex-row min-[370px]:px-12">
+                  <div className="flex flex-col px-2 w-[100%] py-2">
+                    <label>Departure date</label>
+                    <input
+                      className="outline-none border-2 border-white  bg-transparent text-white"
+                      type="date"
+                      ref={departureDateRef}
+                    ></input>
+                  </div>{" "}
                   <div className="flex flex-col px-2 w-[100%] py-2">
                     <label>Arrival date</label>
                     <input
@@ -119,17 +121,17 @@ function AddtourDescriptionModal(props) {
                       ref={arrivalDateRef}
                     ></input>
                   </div>
+                </div>
+                <div className="flex flex-col sm:flex-row min-[370px]:px-12">
+                  {" "}
                   <div className="flex flex-col px-2 w-[100%] py-2">
-                    <label>Departure date</label>
+                    <label>Deparure Time</label>
                     <input
                       className="outline-none border-2 border-white  bg-transparent text-white"
-                      type="date"
-                      ref={departureDateRef}
+                      type="time"
+                      ref={departureTimeRef}
                     ></input>
-                  </div>
-                </div>
-                <div className="flex flex-col sm:flex-row px-12">
-                  {" "}
+                  </div>{" "}
                   <div className="flex flex-col px-2 w-[100%] py-2">
                     <label>Arrival Time</label>
                     <input
@@ -138,16 +140,8 @@ function AddtourDescriptionModal(props) {
                       type="time"
                     ></input>
                   </div>
-                  <div className="flex flex-col px-2 w-[100%] py-2">
-                    <label>Deparure Time</label>
-                    <input
-                      className="outline-none border-2 border-white  bg-transparent text-white"
-                      type="time"
-                      ref={departureTimeRef}
-                    ></input>
-                  </div>
                 </div>
-                <div className="flex flex-col sm:flex-row px-12">
+                <div className="flex flex-col sm:flex-row min-[370px]:px-12">
                   {" "}
                   <div className="flex flex-col px-2 w-[100%] py-2">
                     <label>purpose</label>
@@ -158,7 +152,7 @@ function AddtourDescriptionModal(props) {
                     ></textarea>
                   </div>
                 </div>
-                <div className="flex flex-col sm:flex-row px-12">
+                <div className="flex flex-col sm:flex-row min-[370px]:px-12">
                   <div className="flex flex-col px-2 w-[100%] py-2">
                     <label>Transport (Arrival)</label>
                     <select
@@ -200,7 +194,7 @@ function AddtourDescriptionModal(props) {
                     </select>
                   </div>
                 </div>
-                <div className="flex flex-col sm:flex-row px-12">
+                <div className="flex flex-col sm:flex-row min-[370px]:px-12">
                   <div className="flex flex-col px-2 w-[100%] py-2">
                     <label>Advance Cash (if taken)</label>
                     <input

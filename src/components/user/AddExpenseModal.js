@@ -123,7 +123,7 @@ function AddExpenseModal(props) {
               leaveFrom="opacity-100 translate-y-0 sm:scale-100"
               leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
             >
-              <Dialog.Panel className="relative transform overflow-hidden rounded-lg text-left shadow-xl transition-all sm:my-8 w-[80%] md:w-[500px] py-4 bg-[#257894] max-[640px]:mt-[90px] text-white">
+              <Dialog.Panel className="relative transform overflow-hidden rounded-lg text-left shadow-xl transition-all sm:my-8 w-[100%] md:w-[500px] py-4 bg-[#257894] text-white">
                 <div
                   className="fixed right-4 top-2 flex cursor-pointer font-bold underline"
                   onClick={() => props.onClose()}
@@ -135,22 +135,19 @@ function AddExpenseModal(props) {
                   <div className="text-2xl font-semibold flex items-center">
                     {" "}
                     <div className="bg-gradient-to-r from-[#257894] to-white flex-1 h-[2px]"></div>
-                    <div className="md:font-bold text-2xl m-3  text-white font-medium">
+                    <div className="md:font-bold text-2xl pt-2 m-3  text-white font-medium">
                       ADD EXPENSE
                     </div>
                     <div className="bg-gradient-to-r from-white to-[#257894]  flex-1 h-[2px]"></div>
                   </div>
-                  <div>
-                    Date:
+                  <div className="flex flex-col items-center">
+                    <p className="">Date:</p>
                     <input
                       type="date"
-                      className="border-2 bg-transparent mx-3 px-2"
+                      className="border-2 bg-transparent w-[200px] mx-3 px-2"
                       ref={dateRef}
                     ></input>
                   </div>
-                  {/* <p className="pb-2 text-[.9rem]">
-                  Enjoy all Features of VTS{" "}
-                </p> */}
                 </div>{" "}
                 <div className="flex flex-col sm:flex-row px-12">
                   <div className="flex flex-col px-2 w-[100%] py-2">
@@ -170,10 +167,18 @@ function AddExpenseModal(props) {
                         (expenseCategoryRef.current = e.target.value)
                       }
                     >
-                      <option value="Travel" className="bg-blue-400">Travel</option>
-                      <option value="Food(Da)" className="bg-blue-400">Food(Da)</option>
-                      <option value="Accomondation" className="bg-blue-400">Accomondation</option>
-                      <option value="Misc" className="bg-blue-400">Misc</option>
+                      <option value="Travel" className="bg-blue-400">
+                        Travel
+                      </option>
+                      <option value="Food(Da)" className="bg-blue-400">
+                        Food(Da)
+                      </option>
+                      <option value="Accomondation" className="bg-blue-400">
+                        Accomondation
+                      </option>
+                      <option value="Misc" className="bg-blue-400">
+                        Misc
+                      </option>
                     </select>
                   </div>
                 </div>
@@ -205,25 +210,31 @@ function AddExpenseModal(props) {
                         paymentTypeRef.current.value = e.target.value;
                       }}
                     >
-                      <option value={"Credit Card"} className="bg-blue-400">Credit card</option>
-                      <option value={"Cash"} className="bg-blue-400">Cash</option>
-                      <option value={"Online (train/flight)"} className="bg-blue-400">
+                      <option value={"Credit Card"} className="bg-blue-400">
+                        Credit card
+                      </option>
+                      <option value={"Cash"} className="bg-blue-400">
+                        Cash
+                      </option>
+                      <option
+                        value={"Online (train/flight)"}
+                        className="bg-blue-400"
+                      >
                         Online(train/flight)
                       </option>
                     </select>
                   </div>
                 </div>{" "}
-                <div className="text-center py-4">
-                  <div>
-                    Bill Image :
-                    <input
-                      type="file"
-                      className="border-2 bg-transparent mx-3 px-2"
-                      ref={billImageRef}
-                      accept=".jpg,.jpeg,.png"
-                      onChange={handleImageChange}
-                    ></input>
-                  </div>
+                <div className="flex flex-col min-[370px]:px-12 w-[100%] py-2">
+                  <p className="px-2">Bill Image :</p>
+                  <input
+                    type="file"
+                    className="border-2 bg-transparent mx-2 "
+                    ref={billImageRef}
+                    accept=".jpg,.jpeg,.png"
+                    onChange={handleImageChange}
+                  ></input>
+
                   {imagePreview && (
                     <div className="mt-4">
                       <img

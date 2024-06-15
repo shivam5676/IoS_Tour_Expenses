@@ -123,7 +123,7 @@ function UserExpenseList(props) {
                           setUpdateData(current);
                         }}
                       >
-                        View
+                        Edit
                       </p>
                       <div>
                         <RiDeleteBin2Fill

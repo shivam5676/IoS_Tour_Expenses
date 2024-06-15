@@ -53,11 +53,9 @@ function AddTourModal(props) {
     }
   };
 
-
-
   const handleCurrencyChange = () => {
     const selectedCurrency = currencyRef.current.value;
-    console.log('Selected currency:', selectedCurrency);
+    console.log("Selected currency:", selectedCurrency);
     // You can now use the selectedCurrency variable as needed
   };
   return (
@@ -79,7 +77,7 @@ function AddTourModal(props) {
           <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
         </Transition.Child>
 
-        <div className="fixed inset-0 z-10 w-screen overflow-y-auto pt-[80px] md:[60px]">
+        <div className="fixed inset-0 z-10 w-screen overflow-y-auto pt-[80px] md:pt-[60px]">
           <div className="flex min-h-full  justify-center p-4 text-center items-center">
             <Transition.Child
               as={Fragment}
@@ -90,9 +88,9 @@ function AddTourModal(props) {
               leaveFrom="opacity-100 translate-y-0 sm:scale-100"
               leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
             >
-              <Dialog.Panel className="relative transform overflow-hidden rounded-lg text-left shadow-xl transition-all sm:my-8 w-[80%] md:w-[500px] py-4 bg-[#257894] text-white">
+              <Dialog.Panel className="relative transform overflow-hidden rounded-lg text-left shadow-xl transition-all sm:my-8 w-[100%] md:w-[500px] py-4 bg-[#257894] text-white">
                 <div
-                  className="fixed right-4 top-2 flex cursor-pointer font-bold underline"
+                  className="fixed right-4 top-2  flex cursor-pointer font-bold underline"
                   onClick={() => props.close()}
                 >
                   <IoIosCloseCircle className="w-[30px] h-[30px]"></IoIosCloseCircle>
@@ -112,7 +110,7 @@ function AddTourModal(props) {
                   Enjoy all Features of VTS{" "}
                 </p> */}
                 </div>{" "}
-                <div className="flex flex-col sm:flex-row px-12">
+                <div className="flex flex-col sm:flex-row min-[370px]:px-12">
                   <div className="flex flex-col px-2 w-[100%] py-2">
                     <label> State</label>
                     <div
@@ -182,39 +180,61 @@ function AddTourModal(props) {
                     )}
                   </div>
                 </div>
-                <div className="flex  px-12">
-                  <div className="flex  px-2 w-[100%] py-2">
+                <div className="flex  min-[370px]:px-12">
+                  <div className="flex    py-2">
                     <div>
-                      <p>
-                        City :
-                        <input
-                          className="outline-none border-2 border-white  bg-transparent mx-2"
-                          ref={cityRef}
-                        ></input>
+                      <p className="px-2">City :</p>
+                      <input
+                        className="outline-none border-2 border-white mx-2 w-[100%]  bg-transparent "
+                        ref={cityRef}
+                      ></input>
+
+                      <p className="text-sm px-2">
+                        (if Not present in Above list)
                       </p>
-                      <p className="text-sm">(if Not present in Above list)</p>
                     </div>
                   </div>
                 </div>
-                <div className="flex  px-12">
-                  <div className="flex  px-2 w-[100%] py-2 ">
-                    <div>
-                      <p>
-                        Currency :
-                        <select
-                          className="outline-none border-2 border-white bg-transparent mx-2 w-[200px] bg-blue-400 text-white font-bold "
-                          ref={currencyRef}
-                          onChange={handleCurrencyChange}
+                <div className="flex  min-[370px]:px-8">
+                  <div className="flex   w-[100%] py-2 max-[370px]:px-2">
+                    <div className="min-[370px]:px-6">
+                      <p> Currency :</p>
+                      <select
+                        className="outline-none border-2 border-white bg-transparent   bg-blue-400 text-white font-bold "
+                        ref={currencyRef}
+                        onChange={handleCurrencyChange}
+                      >
+                        <option
+                          value="INR"
+                          className="border-b-2 bg-blue-400 hover:bg-white font-bold  hover:text-white"
                         >
-                          <option value="INR" className="border-b-2 bg-blue-400 hover:bg-white font-bold  hover:text-white">Rupees</option>
-                          <option value="USD" className="border-b-2 bg-blue-400 hover:bg-white font-bold  hover:text-white">US Dollar</option>
-                          <option value="SGD" className="border-b-2 bg-blue-400 hover:bg-white font-bold  hover:text-black">Singapore Dollar</option>
-                          <option value="JPY" className="border-b-2 bg-blue-400 hover:bg-white font-bold  hover:text-black">Japanese Yen </option>
-                          <option value="EUR" className="border-b-2 bg-blue-400 hover:bg-white font-bold  hover:text-black">Euro </option>
-
-                        </select>
-                      </p>
-                      <p className="text-sm"> (Rupees ,Euro ,USD , etc ....)</p>
+                          Rupees
+                        </option>
+                        <option
+                          value="USD"
+                          className="border-b-2 bg-blue-400 hover:bg-white font-bold  hover:text-white"
+                        >
+                          US Dollar
+                        </option>
+                        <option
+                          value="SGD"
+                          className="border-b-2 bg-blue-400 hover:bg-white font-bold  hover:text-black"
+                        >
+                          Singapore Dollar
+                        </option>
+                        <option
+                          value="JPY"
+                          className="border-b-2 bg-blue-400 hover:bg-white font-bold  hover:text-black"
+                        >
+                          Japanese Yen{" "}
+                        </option>
+                        <option
+                          value="EUR"
+                          className="border-b-2 bg-blue-400 hover:bg-white font-bold  hover:text-black"
+                        >
+                          Euro{" "}
+                        </option>
+                      </select>
                     </div>
                   </div>
                 </div>
