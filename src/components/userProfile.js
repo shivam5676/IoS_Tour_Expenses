@@ -36,14 +36,14 @@ function UserProfile() {
       <p className="relative rounded-t-lg py-2 font-bold text-2xl   text-center  bg-gradient-to-r bg-[#2fc7f8] text-white ">
         User Profile
       </p>{" "}
-      {user?.isAdmin && (
+      {/* {user?.isAdmin && (
         <div
           className="absolute   bg-red-500 hover:bg-red-700 text-white px-1 cursor-pointer z-10"
           onClick={() => deleteUserHandler(ctx.adminCurrentUserData.id)}
         >
           remove
         </div>
-      )}
+      )} */}
       <div className="p-2 pt-4 flex border-b-2">
         <FaRegUser className="w-[80px] h-[80px] mt-2" />
         <div className="py-2 flex flex-col">
@@ -53,7 +53,7 @@ function UserProfile() {
               ctx.adminCurrentUserData?.lastName}
           </p>
           {ctx.adminCurrentUserData?.designation && (
-            <p> {`(${ctx.adminCurrentUserData?.designation})`}</p>
+            <p className="text-sm"> {`(${ctx.adminCurrentUserData?.designation})`}</p>
           )}
           <div className="flex">
             <p className="font-bold ">UserId :</p>{" "}

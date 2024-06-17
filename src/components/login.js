@@ -35,6 +35,7 @@ function Login() {
     const code = params.get("code");
 
     if (code) {
+      setLoginLoader(true);
       const getAccessToken = async () => {
         try {
           const response = await axios.get(
@@ -44,11 +45,16 @@ function Login() {
           if (response.data.data.access_token) {
             localStorage.setItem("token", JSON.stringify(response.data.data));
             ctx.loginDataHandler(response.data.data);
+            navigate("/");
+            setLoginLoader(false);
             // window.location.href = "http://localhost:3000/home";
-            window.location.href = `${connectionString}:${process.env.REACT_APP_FRONTEND_PORT}/home`;
+            // window.location.href = `${connectionString}:${process.env.REACT_APP_FRONTEND_PORT}/home`;
           } else {
+            setLoginLoader(false);
+            navigate("/");
+
             // window.location.href = "http://localhost:3000";
-            window.location.href = `${connectionString}:${process.env.REACT_APP_FRONTEND_PORT}`;
+            // window.location.href = `${connectionString}:${process.env.REACT_APP_FRONTEND_PORT}`;
           }
         } catch (error) {
           console.error("Error fetching the access token", error);
@@ -61,27 +67,6 @@ function Login() {
     }
   }, []);
 
-  const verifyLoginHandler = async () => {
-    console.log(
-      emailRef.current.value,
-      roleRef.current.value,
-      passwordRef.current.value
-    );
-    try {
-      const response = await axios.post(
-        `${connectionString}:${process.env.REACT_APP_BACKEND_PORT}/login`,
-        {
-          email: emailRef.current.value,
-        }
-      );
-      console.log(response.data);
-      localStorage.setItem("data", JSON.stringify(response.data.data));
-      ctx.loginDataHandler(response.data.data);
-      // navigate("/home");
-    } catch (err) {
-      console.log(err);
-    }
-  };
   const bitrixHandler = useCallback(async () => {
     setLoginLoader(true);
     console.log(
@@ -96,7 +81,7 @@ function Login() {
       const authorizationUrl = `${process.env.REACT_APP_BITRIX_URL}/oauth/authorize?${queryParams}`;
       // Redirect the user to the Bitrix24 authorization URL
       window.location.href = authorizationUrl;
-      setLoginLoader(false);
+      // setLoginLoader(false);
     } catch (err) {
       console.log(err);
       setLoginLoader(false);
@@ -105,61 +90,6 @@ function Login() {
 
   return (
     <div className="w-[100vw] h-[100vh] bg-transparent flex justify-center ">
-      {/* <div className=" flex flex-col w-[70%]  items-center pb-3">
-        <div className="w-[100%] text-center">
-          {" "}
-          <p className="text-3xl text-white font-bold w-[100%] p-4 ">
-            IOS <span className="text-blue-700"></span>Voucher Management System (VMS)
-          </p>
-        </div>
-        <div className="w-[100%] text-yellow-500 font-semibold ">
-          <p>
-            Introducing a powerful and efficient tour voucher management
-            system.your ultimate solution for seamless tour expense management!
-            Easily add your tour expenses, submit your completed tour for admin
-            review, and let our system handle the rest. Admins can conveniently
-            review, accept, or reject vouchers, with all updates integrated
-            directly into Bitrix task projects. Experience hassle-free tour
-            management like never before!
-          </p>{" "}
-          <p>
-            {" "}
-            Log in now to enjoy all the features and streamline your voucher
-            management process.
-          </p>
-        </div>
-        <div className="w-[80%]  border-gray-300 flex my-2 justify-center ">
-          <div
-            className="bg-blue-400 p-2 rounded-md font-semibold text-white hover:bg-blue-500 cursor-pointer flex items-center hover:shadow-md hover:shadow-yellow-600"
-            onClick={bitrixHandler}
-          >
-            {!loginLoader ? (
-              <>
-                Sign in with
-                <img src={bitrixlogo} className="w-[100px] h-[50px] "></img>
-              </>
-            ) : (
-              <ColorRing
-                visible={true}
-                height="50"
-                width="80"
-                ariaLabel="color-ring-loading"
-                wrapperStyle={{}}
-                wrapperClass="color-ring-wrapper"
-                colors={["white", "white", "white", "white", "white"]}
-              />
-            )}
-          </div>
-          <div
-            className="bg-blue-400 p-2 rounded-md font-semibold text-white hover:bg-blue-500 cursor-pointer"
-            onClick={() => {
-              verifyLoginHandler();
-            }}
-          >
-            Sign in
-          </div>
-        </div>
-      </div> */}
       <div className="flex w-[1400px]  pt-[90px] flex-col sm:flex-row ">
         <div className="w-[100%] sm:w-[50%] h-[100%] flex flex-col justify-center items-center">
           <p className="text-2xl md:text-3xl lg:text-4xl font-bold text-white px-2 py-2 w-[100%] text-center  md:py-8">
@@ -178,7 +108,11 @@ function Login() {
           <div className="w-[80%]  border-gray-300 flex my-2 justify-center ">
             <div
               className="bg-blue-400 p-2 rounded-md font-semibold text-white hover:bg-blue-500 cursor-pointer flex items-center hover:shadow-md hover:shadow-yellow-600"
-              onClick={bitrixHandler}
+              onClick={() => {
+                if (!loginLoader) {
+                  bitrixHandler();
+                }
+              }}
             >
               {!loginLoader ? (
                 <>

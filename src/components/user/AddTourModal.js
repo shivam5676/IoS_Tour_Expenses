@@ -8,11 +8,13 @@ import State from "../../assests/State";
 import City from "../../assests/Cities";
 import { toast } from "react-toastify";
 import { IoIosCloseCircle } from "react-icons/io";
+import { InfinitySpin, RotatingLines } from "react-loader-spinner";
 function AddTourModal(props) {
   const connectionUrl = process.env.REACT_APP_CONNECTION_STRING;
   // const [open, setOpen] = useState(props.open);
   const [citySelected, setCitySelected] = useState(null);
   const [cityDropDownOpen, setCityDropDownOpen] = useState(false);
+  const [createLoader, setCreateLoader] = useState(false);
 
   const [stateSelected, setStateSelected] = useState(null);
   const [stateDropDownOpen, setStateDropDownOpen] = useState(false);
@@ -25,6 +27,7 @@ function AddTourModal(props) {
   const user = JSON.parse(localStorage.getItem("token"));
 
   const saveTourHandler = async () => {
+    setCreateLoader(true);
     try {
       const response = await axios.post(
         `${connectionUrl}:${process.env.REACT_APP_BACKEND_PORT}/user/createTour`,
@@ -36,7 +39,7 @@ function AddTourModal(props) {
         }
       );
       const res = response.data.voucher;
-
+      setCreateLoader(false);
       ctx.addTourInOngoing(res);
       toast.success("tour created successfully...");
       props.close();
@@ -44,6 +47,7 @@ function AddTourModal(props) {
       // ctx.userExpenses(res);
       //   ctx.AllVoucher(response.data.userList);
     } catch (err) {
+      setCreateLoader(false);
       if (err.response && err.response.data) {
         toast.error(err.response.data.msg);
       } else {
@@ -239,12 +243,31 @@ function AddTourModal(props) {
                   </div>
                 </div>
                 <div className="w-[100%] flex  justify-center mb-4 mt-6">
-                  <p
-                    className="w-[80%] hover:bg-gray-300 bg-white text-black text-center font-semibold py-3 rounded-md cursor-pointer"
-                    onClick={saveTourHandler}
-                  >
-                    Create Tour
-                  </p>
+                  {!createLoader ? (
+                    <p
+                      className="w-[80%] hover:bg-gray-300 bg-white text-black text-center font-semibold py-3 rounded-md cursor-pointer"
+                      onClick={saveTourHandler}
+                    >
+                      Create Tour
+                    </p>
+                  ) : (
+                    <p
+                      className="w-[80%] hover:bg-gray-300 bg-white text-black flex justify-center font-semibold py-3 rounded-md cursor-pointer"
+                      onClick={saveTourHandler}
+                    >
+                      <RotatingLines
+                        visible={true}
+                        height="24"
+                        width="24"
+                        color="red"
+                        strokeWidth="5"
+                        animationDuration="0.75"
+                        ariaLabel="rotating-lines-loading"
+                        wrapperStyle={{}}
+                        wrapperClass=""
+                      /> Adding...
+                    </p>
+                  )}
                 </div>
               </Dialog.Panel>
             </Transition.Child>

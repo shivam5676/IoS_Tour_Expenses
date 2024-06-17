@@ -15,7 +15,7 @@ function UserVoucherPanel() {
         <div className="min-[800px]:mx-4 min-[1000px]:mx-16 mx-4 min-[1200px]:mx-28 flex">
           <UserSidePanel></UserSidePanel>
           <div
-            className="w-[100%]  h-[calc(100vh-90px)] mx-2 overflow-y-scroll "
+            className="w-[100%]  h-[calc(100vh-90px)]  overflow-y-scroll "
             style={{ scrollbarWidth: "none" }}
           >
             <div className="flex">
