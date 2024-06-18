@@ -6,6 +6,7 @@ import axios from "axios";
 import Context from "../../store/Context";
 import { toast } from "react-toastify";
 import { IoIosCloseCircle } from "react-icons/io";
+import { RotatingLines } from "react-loader-spinner";
 
 function AddExpenseModal(props) {
   const connectionUrl = process.env.REACT_APP_CONNECTION_STRING;
@@ -21,6 +22,7 @@ function AddExpenseModal(props) {
   const dateRef = useRef(null);
   const user = JSON.parse(localStorage.getItem("token"));
   const [imagePreview, setImagePreview] = useState(null);
+  const [saveLoader, setSaveLoader] = useState(false);
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
@@ -33,6 +35,7 @@ function AddExpenseModal(props) {
     }
   };
   const saveExpenseHandler = async () => {
+    setSaveLoader(true);
     let base64Image = "";
     if (billImageRef.current.files[0]) {
       const file = billImageRef.current.files[0];
@@ -61,8 +64,10 @@ function AddExpenseModal(props) {
           const res = response.data.expenseData;
           ctx.userCurrentTourExpenses(res);
           toast.success("Expense added.");
+          setSaveLoader(false);
         } catch (err) {
           toast.error(err.response?.data?.msg);
+          setSaveLoader(false);
         }
       };
     } else {
@@ -87,8 +92,10 @@ function AddExpenseModal(props) {
         const res = response.data.expenseData;
         ctx.userCurrentTourExpenses(res);
         toast.success("Expense added.");
+        setSaveLoader(false);
       } catch (err) {
         toast.error(err.response?.data?.msg);
+        setSaveLoader(false);
       }
     }
   };
@@ -225,7 +232,7 @@ function AddExpenseModal(props) {
                     </select>
                   </div>
                 </div>{" "}
-                <div className="flex flex-col min-[370px]:px-12 w-[100%] py-2">
+                <div className="flex flex-col px-12 w-[100%] py-2">
                   <p className="px-2">Bill Image :</p>
                   <input
                     type="file"
@@ -247,10 +254,24 @@ function AddExpenseModal(props) {
                 </div>
                 <div className="w-[100%] flex  justify-center mb-4 mt-6">
                   <p
-                    className="w-[80%] hover:bg-gray-400 bg-white  text-center font-semibold py-3 rounded-md cursor-pointer text-black"
+                    className="w-[80%]  hover:bg-gray-400 bg-white flex  justify-center font-semibold py-3 rounded-md cursor-pointer text-black"
                     onClick={saveExpenseHandler}
                   >
-                    Add Expense
+                    {!saveLoader ? (
+                      "Add Expense"
+                    ) : (
+                      <RotatingLines
+                        visible={true}
+                        height="24"
+                        width="24"
+                        strokeColor="black"
+                        strokeWidth="5"
+                        animationDuration="0.75"
+                        ariaLabel="rotating-lines-loading"
+                        wrapperStyle={{}}
+                        wrapperClass=""
+                      />
+                    )}
                   </p>
                 </div>
               </Dialog.Panel>

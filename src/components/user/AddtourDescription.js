@@ -6,8 +6,10 @@ import axios from "axios";
 import Context from "../../store/Context";
 import { toast } from "react-toastify";
 import { IoIosCloseCircle } from "react-icons/io";
+import { RotatingLines } from "react-loader-spinner";
 function AddtourDescriptionModal(props) {
   const connectionUrl = process.env.REACT_APP_CONNECTION_STRING;
+  const [saveLoader, setSaveLoader] = useState(false);
 
   const ctx = useContext(Context);
   const user = JSON.parse(localStorage.getItem("token"));
@@ -23,6 +25,7 @@ function AddtourDescriptionModal(props) {
   const arrivalTimeRef = useRef();
   const departureTimeRef = useRef();
   const tourDescriptionHandler = async () => {
+    setSaveLoader(true);
     const data = {
       purpose: purposeRef.current.value,
       arrivalDate: arrivalDateRef.current.value,
@@ -49,9 +52,16 @@ function AddtourDescriptionModal(props) {
       ctx.removeOnGoingTour(res.details.id);
       props.close();
       toast.success("voucher has been send to admin ...wait for thier action");
+      setSaveLoader(false);
     } catch (err) {
       console.log(err);
-      toast.error(err.response.data.msg);
+      setSaveLoader(false);
+      if (err.response && err.response.data.msg) {
+        toast.error(err.response.data.msg);
+      }
+      else{
+        toast.error("something went wrong while saving details....")
+      }
     }
   };
   return (
@@ -214,10 +224,24 @@ function AddtourDescriptionModal(props) {
                 <div className="w-[100%] flex  justify-center mb-4 mt-6">
                   <p
                     className="w-[80%] hover:bg-gray-300
-                     bg-white text-black  text-center font-semibold py-3 rounded-md cursor-pointer"
+                     bg-white text-black flex justify-center font-semibold py-3 rounded-md cursor-pointer"
                     onClick={tourDescriptionHandler}
                   >
-                    Send Voucher
+                    {!saveLoader ? (
+                      "Send Voucher"
+                    ) : (
+                      <RotatingLines
+                        visible={true}
+                        height="24"
+                        width="24"
+                        strokeColor="black"
+                        strokeWidth="5"
+                        animationDuration="0.75"
+                        ariaLabel="rotating-lines-loading"
+                        wrapperStyle={{}}
+                        wrapperClass=""
+                      />
+                    )}
                   </p>
                 </div>
                 {/* <div className="bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4">

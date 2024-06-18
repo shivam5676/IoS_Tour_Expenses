@@ -10,12 +10,17 @@ import { toast } from "react-toastify";
 import { CiEdit } from "react-icons/ci";
 import { MdAssignmentInd } from "react-icons/md";
 import DownloadPdfButton from "./DownloadPdfButton";
+import { useLocation } from "react-router-dom";
 
 export default function VoucherViewer(props) {
   const [expenseData, setExpenseData] = useState({
     cashExpense: 0,
     digitalExpense: 0,
   });
+  const location = useLocation();
+
+  const path = location.pathname.toUpperCase();
+
   const [reAssignVoucher, setReAsignVoucher] = useState(false);
   const [voucherData, setVoucherData] = useState(null);
   const [editComment, setEditComment] = useState(false);
@@ -732,7 +737,7 @@ export default function VoucherViewer(props) {
                           </div>
                         </div>
                       )}
-                    {voucherData?.userId == user?.id && editComment && (
+                    {voucherData?.userId == user?.id && (
                       <div className="my-2 flex w-[100%]  border-b-2">
                         <div className="font-semibold my-2 px-2">
                           Comment :{" "}
@@ -906,7 +911,7 @@ export default function VoucherViewer(props) {
                             </p>
                           )}
                         {(user?.isAdmin || user?.supervisor) &&
-                          voucherData.userId != user.id && (
+                          voucherData.userId != user.id &&user?.id (
                             <>
                               <p
                                 className="p-2 bg-blue-400 w-fit rounded-md hover:bg-blue-600 cursor-pointer"
@@ -929,8 +934,9 @@ export default function VoucherViewer(props) {
                           )}
                       </div>
                     )}
+                    {console.log(voucherData,user?.id,voucherData?.assignedTo==user?.id,path)}{" "}
                     {(user?.isAdmin || user?.supervisor) &&
-                      
+                      path == "/ACCOUNTS" &&voucherData?.assignedTo==user?.id&&
                       voucherData.statusType == "Accepted" && (
                         <div className="w-[100%] flex justify-center">
                           <p
