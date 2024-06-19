@@ -1,6 +1,8 @@
 import { Fragment, useContext, useEffect, useRef, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { ExclamationTriangleIcon } from "@heroicons/react/24/outline";
+import { FaRegEdit } from "react-icons/fa";
+
 import axios from "axios";
 import Context from "../store/Context";
 import { IoIosCloseCircle } from "react-icons/io";
@@ -8,9 +10,10 @@ import acceptedIcon from "../assests/images/accepted.png";
 import rejectedIcon from "../assests/images/rejected.png";
 import { toast } from "react-toastify";
 import { CiEdit } from "react-icons/ci";
-import { MdAssignmentInd } from "react-icons/md";
+import { MdAssignmentInd, MdDelete, MdEdit } from "react-icons/md";
 import DownloadPdfButton from "./DownloadPdfButton";
 import { useLocation } from "react-router-dom";
+import UpdateExpenseModal from "./user/UpdateExpenseModal";
 
 export default function VoucherViewer(props) {
   const [expenseData, setExpenseData] = useState({
@@ -18,6 +21,8 @@ export default function VoucherViewer(props) {
     digitalExpense: 0,
   });
   const location = useLocation();
+  const [update, setUpdate] = useState(false);
+  const [updateData, setUpdateData] = useState(null);
 
   const path = location.pathname.toUpperCase();
 
@@ -352,622 +357,659 @@ export default function VoucherViewer(props) {
     }
   };
   return (
-    <Transition.Root show={props.open} as={Fragment}>
-      <Dialog
-        className="relative z-10"
-        initialFocus={cancelButtonRef}
-        onClose={props.close}
-      >
-        <Transition.Child
-          as={Fragment}
-          enter="ease-out duration-300"
-          enterFrom="opacity-0"
-          enterTo="opacity-100"
-          leave="ease-in duration-200"
-          leaveFrom="opacity-100"
-          leaveTo="opacity-0"
-        >
-          <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
-        </Transition.Child>
+    <>
+      <UpdateExpenseModal
+        open={update}
+        onClose={() => {
+          setUpdate(!update);
+        }}        updateData={updateData}
 
-        {voucherData && (
-          <div className="fixed inset-0 z-10 w-screen overflow-y-auto">
-            <div className="flex min-h-full  justify-center p-4 max-[531px]:pt-[48px] pt-[60px] text-center items-center">
-              <Transition.Child
-                as={Fragment}
-                enter="ease-out duration-300"
-                enterFrom="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
-                enterTo="opacity-100 translate-y-0 sm:scale-100"
-                leave="ease-in duration-200"
-                leaveFrom="opacity-100 translate-y-0 sm:scale-100"
-                leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
-              >
-                <Dialog.Panel className="relative transform  rounded-lg text-left shadow-xl transition-all sm:my-8 h-[80vh] w-[100%] min-[700px]:w-[700px]  py-4 bg-white text-black">
-                  {voucherData.statusType == "Accepted" && (
-                    <img
-                      className="fixed left-4 w-[90px]  top-0 flex cursor-pointer font-bold underline"
-                      src={acceptedIcon}
-                    ></img>
-                  )}
-                  {voucherData.statusType == "Rejected" && (
-                    <img
-                      className="fixed left-4 w-[90px]  top-2 flex cursor-pointer font-bold underline"
-                      src={rejectedIcon}
-                    ></img>
-                  )}
-                  {voucherData.statusType == "Pending" && (
-                    <div className="fixed left-4 w-[90px] border-2 bg-yellow-500 top-2 rounded-md flex  font-bold ">
-                      <p className="text-white p-2">Pending...</p>
+      ></UpdateExpenseModal>
+      <Transition.Root show={props.open} as={Fragment}>
+        <Dialog
+          className="relative z-10"
+          initialFocus={cancelButtonRef}
+          onClose={props.close}
+        >
+          <Transition.Child
+            as={Fragment}
+            enter="ease-out duration-300"
+            enterFrom="opacity-0"
+            enterTo="opacity-100"
+            leave="ease-in duration-200"
+            leaveFrom="opacity-100"
+            leaveTo="opacity-0"
+          >
+            <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
+          </Transition.Child>
+
+          {voucherData && (
+            <div className="fixed inset-0 z-10 w-screen overflow-y-auto">
+              <div className="flex min-h-full  justify-center p-4 max-[531px]:pt-[48px] pt-[60px] text-center items-center">
+                <Transition.Child
+                  as={Fragment}
+                  enter="ease-out duration-300"
+                  enterFrom="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+                  enterTo="opacity-100 translate-y-0 sm:scale-100"
+                  leave="ease-in duration-200"
+                  leaveFrom="opacity-100 translate-y-0 sm:scale-100"
+                  leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+                >
+                  <Dialog.Panel className="relative transform  rounded-lg text-left shadow-xl transition-all sm:my-8 h-[80vh] w-[100%] min-[700px]:w-[700px]  py-4 bg-white text-black">
+                    {voucherData.statusType == "Accepted" && (
+                      <img
+                        className="fixed left-4 w-[90px]  top-0 flex cursor-pointer font-bold underline"
+                        src={acceptedIcon}
+                      ></img>
+                    )}
+                    {voucherData.statusType == "Rejected" && (
+                      <img
+                        className="fixed left-4 w-[90px]  top-2 flex cursor-pointer font-bold underline"
+                        src={rejectedIcon}
+                      ></img>
+                    )}
+                    {voucherData.statusType == "Pending" && (
+                      <div className="fixed left-4 w-[90px] border-2 bg-yellow-500 top-2 rounded-md flex  font-bold ">
+                        <p className="text-white p-2">Pending...</p>
+                      </div>
+                    )}
+                    <div
+                      className="fixed right-4 top-2 flex cursor-pointer font-bold underline"
+                      onClick={() => props.close()}
+                    >
+                      <IoIosCloseCircle className="w-[30px] h-[30px]"></IoIosCloseCircle>
+                      close
+                    </div>{" "}
+                    <div className="text-2xl flex flex-col items-center justify-center w-[100%] border-b-2 font-bold pb-3">
+                      <p>Tour Voucher</p>
                     </div>
-                  )}
-                  <div
-                    className="fixed right-4 top-2 flex cursor-pointer font-bold underline"
-                    onClick={() => props.close()}
-                  >
-                    <IoIosCloseCircle className="w-[30px] h-[30px]"></IoIosCloseCircle>
-                    close
-                  </div>{" "}
-                  <div className="text-2xl flex flex-col items-center justify-center w-[100%] border-b-2 font-bold pb-3">
-                    <p>Tour Voucher</p>
-                  </div>
-                  {/* <div className="flex w-[100%] min-[700px]:flex-row flex-col"></div> */}
-                  <div className="overflow-y-scroll h-[calc(100%-50px)]">
-                    <div className="flex w-[100%] min-[700px]:flex-row flex-col">
-                      <div className="w-[40%] px-2 border-2 max-[700px]:w-[100%] flex py-1">
-                        <p className="font-semibold">Name : </p>{" "}
-                        {voucherData.user?.firstName +
-                          " " +
-                          voucherData.user?.lastName}
+                    {/* <div className="flex w-[100%] min-[700px]:flex-row flex-col"></div> */}
+                    <div className="overflow-y-scroll h-[calc(100%-50px)]">
+                      <div className="flex w-[100%] min-[700px]:flex-row flex-col">
+                        <div className="w-[40%] px-2 border-2 max-[700px]:w-[100%] flex py-1">
+                          <p className="font-semibold">Name : </p>{" "}
+                          {voucherData.user?.firstName +
+                            " " +
+                            voucherData.user?.lastName}
+                        </div>
+                        <div className="w-[60%] px-2 border-2 max-[700px]:w-[100%] flex py-1 ">
+                          <p className="font-semibold ">Designation : </p>{" "}
+                          {voucherData.user?.designation}{" "}
+                        </div>
                       </div>
-                      <div className="w-[60%] px-2 border-2 max-[700px]:w-[100%] flex py-1 ">
-                        <p className="font-semibold ">Designation : </p>{" "}
-                        {voucherData.user?.designation}{" "}
+                      <div className="flex w-[100%] min-[700px]:flex-row flex-col">
+                        <div className="w-[40%] px-2 border-2 max-[700px]:w-[100%] flex py-1">
+                          <p className="font-semibold">Location : </p>{" "}
+                          {voucherData?.tourLocation}
+                        </div>
+                        <div className="w-[60%] px-2 border-2 max-[700px]:w-[100%] flex py-1 ">
+                          <p className="font-semibold ">Employee id : </p>
+                          IOS/EMP/{voucherData?.userId}
+                        </div>
                       </div>
-                    </div>
-                    <div className="flex w-[100%] min-[700px]:flex-row flex-col">
-                      <div className="w-[40%] px-2 border-2 max-[700px]:w-[100%] flex py-1">
-                        <p className="font-semibold">Location : </p>{" "}
-                        {voucherData?.tourLocation}
-                      </div>
-                      <div className="w-[60%] px-2 border-2 max-[700px]:w-[100%] flex py-1 ">
-                        <p className="font-semibold ">Employee id : </p>
-                        IOS/EMP/{voucherData?.userId}
-                      </div>
-                    </div>
-                    <div className="flex w-[100%] min-[700px]:flex-row flex-col">
-                      <p className="w-[100%] px-2 py-1 font-semibold border-2">
-                        Purpose : {voucherData.voucherDescription?.purpose}
-                      </p>
-                      {console.log(props?.voucherData)}
-                    </div>
-                    <div className="flex w-[100%] min-[700px]:flex-row flex-col">
-                      <p className="w-[100%] px-2 py-1 font-semibold border-2">
-                        Voucher Id :
-                        {`OMR/${voucherData?.tourDate.split("/")[2]}/${
-                          voucherData?.id
-                        }`}
-                      </p>
-                    </div>
-                    <div className="flex w-[100%] min-[700px]:flex-row flex-col">
-                      <p className="w-[100%] px-2 py-1 font-semibold border-2">
-                        Advance Cash Recieved :{" "}
-                        {voucherData?.voucherDescription?.advanceCash}
-                      </p>
-                    </div>
-                    <p className="text-center font-bold text-xl py-2">
-                      Tour Duration
-                    </p>
-                    <div className="flex w-[100%] min-[700px]:flex-row flex-col">
-                      <div className="w-[50%] px-2 border-2 max-[700px]:w-[100%] flex py-1">
-                        <p className="font-semibold"> Date from : </p>{" "}
-                        {voucherData.voucherDescription?.departureDate}
-                      </div>
-                      <div className="w-[50%] px-2 border-2 max-[700px]:w-[100%] flex py-1 ">
-                        <p className="font-semibold ">Date to : </p>
-                        {voucherData.voucherDescription?.arrivalDate}
-                      </div>
-                    </div>
-                    <div className="flex w-[100%] min-[700px]:flex-row flex-col">
-                      <div className="w-[50%] px-2 border-2 max-[700px]:w-[100%] flex py-1">
-                        <p className="font-semibold"> Time from : </p>{" "}
-                        {voucherData.voucherDescription?.departureTime}
-                      </div>
-                      <div className="w-[50%] px-2 border-2 max-[700px]:w-[100%] flex py-1 ">
-                        <p className="font-semibold ">Time to : </p>{" "}
-                        {voucherData.voucherDescription?.arrivalTime}
-                      </div>
-                    </div>
-                    <div className="flex w-[100%] min-[700px]:flex-row flex-col">
-                      <div className="w-[50%] px-2 border-2 max-[700px]:w-[100%] flex py-1">
-                        <p className="font-semibold"> Travel Vehicle : </p>{" "}
-                        {voucherData.voucherDescription?.transportDeparture}
-                      </div>
-                      <div className="w-[50%] px-2 border-2 max-[700px]:w-[100%] flex py-1 ">
-                        <p className="font-semibold ">
-                          Travel Vehicle (Return) :{" "}
-                        </p>{" "}
-                        {voucherData.voucherDescription?.transportArrival}
-                      </div>
-                    </div>
-                    <div className="flex w-[100%] min-[700px]:flex-row flex-col">
-                      <p className="w-[100%] px-2 font font-semibold bg-blue-300">
-                        Total Tour Duration (hrs) :
-                        {Math.abs(
-                          tourDurationHours - dateDifferenceInHour
-                        ).toFixed(2)}
-                      </p>
-                    </div>
-                    <p className="text-center font-bold text-xl py-2">
-                      Tour Daily Allowance (DA)
-                    </p>
-                    <div className="flex w-[100%] min-[700px]:flex-row flex-col">
-                      <div className="w-[50%] px-2 border-2 max-[700px]:w-[100%] flex py-1">
-                        <p className="font-semibold">
-                          {" "}
-                          DA ({voucherData?.currency}/day) :{" "}
-                        </p>{" "}
-                        {+voucherData.voucherDescription?.dailyAllowance}
-                      </div>
-                      <div className="w-[50%] px-2 border-2 max-[700px]:w-[100%] flex py-1 ">
-                        <p className="font-semibold">
-                          {" "}
-                          DA ({voucherData?.currency}/hr) :{" "}
-                        </p>{" "}
-                        {(
-                          +voucherData?.voucherDescription?.dailyAllowance / 24
-                        ).toFixed(2)}
-                      </div>
-                    </div>
-                    <div className="flex w-[100%] min-[700px]:flex-row flex-col">
-                      <p className="w-[100%] px-2 font font-semibold bg-blue-300">
-                        Total DA Alloted ({voucherData?.currency}) : {totalDa}
-                      </p>
-                    </div>
-                    <p className="text-center font-bold text-xl py-2">
-                      Tour Expenses
-                    </p>
-                    <div className="flex w-[100%] min-[700px]:flex-row flex-col">
-                      <div className="w-[50%] px-2 border-2 max-[700px]:w-[100%] flex py-1">
-                        <p className="font-semibold"> FOOD : </p>{" "}
-                        {expenseData?.food}
-                      </div>
-                      <div className="w-[50%] px-2 border-2 max-[700px]:w-[100%] flex py-1 ">
-                        <p className="font-semibold"> Travel : </p>{" "}
-                        {expenseData?.travel}
-                      </div>
-                    </div>
-                    <div className="flex w-[100%] min-[700px]:flex-row flex-col">
-                      <div className="w-[50%] px-2 border-2 max-[700px]:w-[100%] flex py-1">
-                        <p className="font-semibold"> Accomondation : </p>{" "}
-                        {expenseData?.accomondation}
-                      </div>
-                      <div className="w-[50%] px-2 border-2 max-[700px]:w-[100%] flex py-1 ">
-                        <p className="font-semibold"> Misc : </p>{" "}
-                        {expenseData?.Misc}
-                      </div>
-                    </div>
-                    <div className="flex w-[100%] min-[700px]:flex-row flex-col">
-                      <p className="w-[100%] px-2 font font-semibold bg-blue-300">
-                        Total Tour Expenses ({voucherData?.currency}) :
-                        {expenseData?.Misc +
-                          expenseData?.accomondation +
-                          expenseData?.travel +
-                          expenseData?.food}
-                      </p>
-                    </div>
-                    <p className="text-center font-bold">
-                      Expenses Payment Method
-                    </p>
-                    <div className="flex w-[100%] min-[700px]:flex-row flex-col">
-                      <div className="w-[50%] px-2 border-2 max-[700px]:w-[100%] flex py-1">
-                        <p className="font-semibold">Credit Card (office) :</p>
-                        {expenseData?.creditCard}
-                      </div>
-                      <div className="w-[50%] px-2 border-2 max-[700px]:w-[100%] flex py-1 ">
-                        <p className="font-semibold"> Cash : </p> {CashPayment}
-                      </div>
-                    </div>
-                    <div className="flex w-[100%] min-[700px]:flex-row flex-col font-semibold">
-                      <p className="w-[100%] px-2 border-2 max-[700px]:w-[100%]">
-                        online (train/bus/flight tickets by office):{" "}
-                        {expenseData?.onlinePayment}
-                      </p>
-                    </div>
-                    <div className="flex w-[100%] min-[700px]:flex-row flex-col">
-                      {settlementAmount > 0 && (
-                        <>
-                          {" "}
-                          <p
-                            className={`w-[100%] px-2 font font-semibold ${"bg-green-400"} text-white p-2`}
-                          >
-                            Amount for settlement : {settlementAmount}
-                            <span> (office will pay to user)</span>
-                          </p>
-                        </>
-                      )}
-                      {settlementAmount <= 0 && (
-                        <p
-                          className={`w-[100%] px-2 font font-semibold ${"bg-red-400"} text-white p-2`}
-                        >
-                          Amount for settlement : {settlementAmount} (
-                          {voucherData?.currency})
-                          <span> (user will deposit in office)</span>
+                      <div className="flex w-[100%] min-[700px]:flex-row flex-col">
+                        <p className="w-[100%] px-2 py-1 font-semibold border-2">
+                          Purpose : {voucherData.voucherDescription?.purpose}
                         </p>
-                      )}
-                      {settlementAmount == 0 ||
-                        (!settlementAmount && (
+                        {console.log(props?.voucherData)}
+                      </div>
+                      <div className="flex w-[100%] min-[700px]:flex-row flex-col">
+                        <p className="w-[100%] px-2 py-1 font-semibold border-2">
+                          Voucher Id :
+                          {`OMR/${voucherData?.tourDate.split("/")[2]}/${
+                            voucherData?.id
+                          }`}
+                        </p>
+                      </div>
+                      <div className="flex w-[100%] min-[700px]:flex-row flex-col">
+                        <p className="w-[100%] px-2 py-1 font-semibold border-2">
+                          Advance Cash Recieved :{" "}
+                          {voucherData?.voucherDescription?.advanceCash}
+                        </p>
+                      </div>
+                      <p className="text-center font-bold text-xl py-2">
+                        Tour Duration
+                      </p>
+                      <div className="flex w-[100%] min-[700px]:flex-row flex-col">
+                        <div className="w-[50%] px-2 border-2 max-[700px]:w-[100%] flex py-1">
+                          <p className="font-semibold"> Date from : </p>{" "}
+                          {voucherData.voucherDescription?.departureDate}
+                        </div>
+                        <div className="w-[50%] px-2 border-2 max-[700px]:w-[100%] flex py-1 ">
+                          <p className="font-semibold ">Date to : </p>
+                          {voucherData.voucherDescription?.arrivalDate}
+                        </div>
+                      </div>
+                      <div className="flex w-[100%] min-[700px]:flex-row flex-col">
+                        <div className="w-[50%] px-2 border-2 max-[700px]:w-[100%] flex py-1">
+                          <p className="font-semibold"> Time from : </p>{" "}
+                          {voucherData.voucherDescription?.departureTime}
+                        </div>
+                        <div className="w-[50%] px-2 border-2 max-[700px]:w-[100%] flex py-1 ">
+                          <p className="font-semibold ">Time to : </p>{" "}
+                          {voucherData.voucherDescription?.arrivalTime}
+                        </div>
+                      </div>
+                      <div className="flex w-[100%] min-[700px]:flex-row flex-col">
+                        <div className="w-[50%] px-2 border-2 max-[700px]:w-[100%] flex py-1">
+                          <p className="font-semibold"> Travel Vehicle : </p>{" "}
+                          {voucherData.voucherDescription?.transportDeparture}
+                        </div>
+                        <div className="w-[50%] px-2 border-2 max-[700px]:w-[100%] flex py-1 ">
+                          <p className="font-semibold ">
+                            Travel Vehicle (Return) :{" "}
+                          </p>{" "}
+                          {voucherData.voucherDescription?.transportArrival}
+                        </div>
+                      </div>
+                      <div className="flex w-[100%] min-[700px]:flex-row flex-col">
+                        <p className="w-[100%] px-2 font font-semibold bg-blue-300">
+                          Total Tour Duration (hrs) :
+                          {Math.abs(
+                            tourDurationHours - dateDifferenceInHour
+                          ).toFixed(2)}
+                        </p>
+                      </div>
+                      <p className="text-center font-bold text-xl py-2">
+                        Tour Daily Allowance (DA)
+                      </p>
+                      <div className="flex w-[100%] min-[700px]:flex-row flex-col">
+                        <div className="w-[50%] px-2 border-2 max-[700px]:w-[100%] flex py-1">
+                          <p className="font-semibold">
+                            {" "}
+                            DA ({voucherData?.currency}/day) :{" "}
+                          </p>{" "}
+                          {+voucherData.voucherDescription?.dailyAllowance}
+                        </div>
+                        <div className="w-[50%] px-2 border-2 max-[700px]:w-[100%] flex py-1 ">
+                          <p className="font-semibold">
+                            {" "}
+                            DA ({voucherData?.currency}/hr) :{" "}
+                          </p>{" "}
+                          {(
+                            +voucherData?.voucherDescription?.dailyAllowance /
+                            24
+                          ).toFixed(2)}
+                        </div>
+                      </div>
+                      <div className="flex w-[100%] min-[700px]:flex-row flex-col">
+                        <p className="w-[100%] px-2 font font-semibold bg-blue-300">
+                          Total DA Alloted ({voucherData?.currency}) : {totalDa}
+                        </p>
+                      </div>
+                      <p className="text-center font-bold text-xl py-2">
+                        Tour Expenses
+                      </p>
+                      <div className="flex w-[100%] min-[700px]:flex-row flex-col">
+                        <div className="w-[50%] px-2 border-2 max-[700px]:w-[100%] flex py-1">
+                          <p className="font-semibold"> FOOD : </p>{" "}
+                          {expenseData?.food}
+                        </div>
+                        <div className="w-[50%] px-2 border-2 max-[700px]:w-[100%] flex py-1 ">
+                          <p className="font-semibold"> Travel : </p>{" "}
+                          {expenseData?.travel}
+                        </div>
+                      </div>
+                      <div className="flex w-[100%] min-[700px]:flex-row flex-col">
+                        <div className="w-[50%] px-2 border-2 max-[700px]:w-[100%] flex py-1">
+                          <p className="font-semibold"> Accomondation : </p>{" "}
+                          {expenseData?.accomondation}
+                        </div>
+                        <div className="w-[50%] px-2 border-2 max-[700px]:w-[100%] flex py-1 ">
+                          <p className="font-semibold"> Misc : </p>{" "}
+                          {expenseData?.Misc}
+                        </div>
+                      </div>
+                      <div className="flex w-[100%] min-[700px]:flex-row flex-col">
+                        <p className="w-[100%] px-2 font font-semibold bg-blue-300">
+                          Total Tour Expenses ({voucherData?.currency}) :
+                          {expenseData?.Misc +
+                            expenseData?.accomondation +
+                            expenseData?.travel +
+                            expenseData?.food}
+                        </p>
+                      </div>
+                      <p className="text-center font-bold">
+                        Expenses Payment Method
+                      </p>
+                      <div className="flex w-[100%] min-[700px]:flex-row flex-col">
+                        <div className="w-[50%] px-2 border-2 max-[700px]:w-[100%] flex py-1">
+                          <p className="font-semibold">
+                            Credit Card (office) :
+                          </p>
+                          {expenseData?.creditCard}
+                        </div>
+                        <div className="w-[50%] px-2 border-2 max-[700px]:w-[100%] flex py-1 ">
+                          <p className="font-semibold"> Cash : </p>{" "}
+                          {CashPayment}
+                        </div>
+                      </div>
+                      <div className="flex w-[100%] min-[700px]:flex-row flex-col font-semibold">
+                        <p className="w-[100%] px-2 border-2 max-[700px]:w-[100%]">
+                          online (train/bus/flight tickets by office):{" "}
+                          {expenseData?.onlinePayment}
+                        </p>
+                      </div>
+                      <div className="flex w-[100%] min-[700px]:flex-row flex-col">
+                        {settlementAmount > 0 && (
+                          <>
+                            {" "}
+                            <p
+                              className={`w-[100%] px-2 font font-semibold ${"bg-green-400"} text-white p-2`}
+                            >
+                              Amount for settlement : {settlementAmount}
+                              <span> (office will pay to user)</span>
+                            </p>
+                          </>
+                        )}
+                        {settlementAmount <= 0 && (
                           <p
-                            className={`w-[100%] px-2 font font-semibold ${"bg-yellow-400"} text-white p-2`}
+                            className={`w-[100%] px-2 font font-semibold ${"bg-red-400"} text-white p-2`}
                           >
                             Amount for settlement : {settlementAmount} (
                             {voucherData?.currency})
-                            <span> (user will recieve from office )</span>{" "}
+                            <span> (user will deposit in office)</span>
                           </p>
-                        ))}
-                    </div>
-                    <div className="w-full h-[300px] border-2 border-gray-300 overflow-x-auto">
-                      <div className="flex w-[700px] border-b-2">
-                        <div className="w-[120px] font-bold px-2">date</div>
-                        <div className="w-[130px] font-bold px-2">
-                          Description
-                        </div>
-                        <div className="w-[125px] font-bold px-2">
-                          Exp. Type
-                        </div>
-                        <div className="w-[135px] font-bold px-2">
-                          Paym. Type
-                        </div>
-                        <div className="w-[110px] font-bold px-2">Amount</div>{" "}
-                        <div className="w-[110px] font-bold px-2">Bill No</div>
+                        )}
+                        {settlementAmount == 0 ||
+                          (!settlementAmount && (
+                            <p
+                              className={`w-[100%] px-2 font font-semibold ${"bg-yellow-400"} text-white p-2`}
+                            >
+                              Amount for settlement : {settlementAmount} (
+                              {voucherData?.currency})
+                              <span> (user will recieve from office )</span>{" "}
+                            </p>
+                          ))}
                       </div>
-                      {voucherData?.voucherExpenses?.map((current) => {
-                        return (
-                          <div className="flex w-[700px] border-b-2">
-                            <div className="w-[120px]  px-2">
-                              {current?.date}
-                            </div>
-                            <div className="w-[130px] px-2">
-                              {current?.description}
-                            </div>
-                            <div className="w-[125px]  px-2">
-                              {current?.expenseType}
-                            </div>
-                            <div className="w-[135px]  px-2">
-                              {current?.paymentType}{" "}
-                            </div>
-                            <div className="w-[110px]  px-2">
-                              {current?.Amount}
-                            </div>{" "}
-                            <div className="w-[110px]  px-2">
-                              {current?.voucherNo}
-                            </div>
+                      <div className="w-full h-[300px] border-2 border-gray-300 overflow-x-auto">
+                        <div className="flex w-[810px] border-b-2">
+                          <div className="w-[120px] font-bold px-2">date</div>
+                          <div className="w-[130px] font-bold px-2">
+                            Description
                           </div>
-                        );
-                      })}
-                    </div>
-                    <div className="font-bold w-[100%] text-center border-b-2 py-3">
-                      Bills Images
-                    </div>
-                    {imageArray &&
-                      imageArray.map((current, index) => {
-                        return (
-                          <div className="text-center font-semibold bg-red-400 text-white">
-                            <p>Bill Image-{index + 1}</p>
-                            <img
-                              src={`${current}`}
-                              className="border-b-2 border-black"
-                            ></img>
+                          <div className="w-[125px] font-bold px-2">
+                            Exp. Type
                           </div>
-                        );
-                      })}
-                    {!voucherData.comment &&
-                      voucherData?.statusType == "Pending" &&
-                      (user?.isAdmin || user?.supervisor) && (
-                        <div className="my-2 flex w-[100%]  border-b-2">
-                          <div className="font-semibold my-2 px-2">
-                            Comment :{" "}
+                          <div className="w-[135px] font-bold px-2">
+                            Paym. Type
                           </div>
-                          <textarea
-                            rows={3}
-                            className="max-h-[100px] min-h-[50px] border-2 m-2 w-[60%]"
-                            ref={CommentRef}
-                          ></textarea>
+                          <div className="w-[110px] font-bold px-2">Amount</div>{" "}
+                          <div className="w-[110px] font-bold px-2">
+                            Bill No
+                          </div>
+                          <div className="w-[110px] font-bold px-2"></div>
                         </div>
-                      )}
-                    {(user?.isAdmin || user?.supervisor) &&
-                      !editComment &&
-                      voucherData?.comment && (
-                        <div className="my-2 flex w-[100%]  border-b-2">
-                          {" "}
-                          <div className="font-semibold my-2 px-2">
-                            Comment :{" "}
-                          </div>
-                          <div
-                            rows={3}
-                            className="text-[.85rem] m-2 w-[50%] border-yellow-400 border-2"
-                          >
-                            <p className="p-2">{voucherData?.comment}</p>
-                          </div>
-                          {voucherData.userId != user?.id && (
-                            <div className="mb-2">
-                              <a
-                                className="group relative inline-block overflow-hidden border border-indigo-600 px-8 py-1 focus:outline-none focus:ring mx-2 mt-3 h-[35px] "
-                                href="#"
-                              >
-                                <span className="absolute inset-x-0 bottom-0 h-[2px] bg-indigo-600 transition-all group-hover:h-full group-active:bg-indigo-500"></span>
-
-                                <span
-                                  className="relative text-sm font-medium text-indigo-600 transition-colors group-hover:text-white flex"
+                        {voucherData?.voucherExpenses?.map((current) => {
+                          return (
+                            <div className="flex w-[810px]  border-b-2">
+                              <div className="w-[120px]  px-2">
+                                {current?.date}
+                              </div>
+                              <div className="w-[130px] px-2">
+                                {current?.description}
+                              </div>
+                              <div className="w-[125px]  px-2">
+                                {current?.expenseType}
+                              </div>
+                              <div className="w-[135px]  px-2">
+                                {current?.paymentType}{" "}
+                              </div>
+                              <div className="w-[110px]  px-2">
+                                {current?.Amount}
+                              </div>{" "}
+                              <div className="w-[110px]  px-2">
+                                {current?.voucherNo}
+                              </div>
+                              <div className="flex">
+                                <FaRegEdit
+                                  className="w-[25px] h-[25px] text-green-500 hover:text-green-700 cursor-pointer"
                                   onClick={() => {
-                                    setEditComment(true);
+                                    setUpdate(true);
+                                    setUpdateData(current);
                                   }}
-                                >
-                                  <CiEdit className="w-[20px] h-[20px]" />
-                                  edit
-                                </span>
-                              </a>
+                                ></FaRegEdit>
+                                <MdDelete className="w-[25px] h-[25px] text-red-500 hover:text-red-700  cursor-pointer"></MdDelete>
+                              </div>
                             </div>
-                          )}
-                        </div>
-                      )}
-                    {(user?.isAdmin || user?.supervisor) &&
-                      voucherData.userId != user.id &&
-                      editComment && (
+                          );
+                        })}
+                      </div>
+                      <div className="font-bold w-[100%] text-center border-b-2 py-3">
+                        Bills Images
+                      </div>
+                      {imageArray &&
+                        imageArray.map((current, index) => {
+                          return (
+                            <div className="text-center font-semibold bg-red-400 text-white">
+                              <p>Bill Image-{index + 1}</p>
+                              <img
+                                src={`${current}`}
+                                className="border-b-2 border-black"
+                              ></img>
+                            </div>
+                          );
+                        })}
+                      {!voucherData.comment &&
+                        voucherData?.statusType == "Pending" &&
+                        (user?.isAdmin || user?.supervisor) && (
+                          <div className="my-2 flex w-[100%]  border-b-2">
+                            <div className="font-semibold my-2 px-2">
+                              Comment :{" "}
+                            </div>
+                            <textarea
+                              rows={3}
+                              className="max-h-[100px] min-h-[50px] border-2 m-2 w-[60%]"
+                              ref={CommentRef}
+                            ></textarea>
+                          </div>
+                        )}
+                      {(user?.isAdmin || user?.supervisor) &&
+                        !editComment &&
+                        voucherData?.comment && (
+                          <div className="my-2 flex w-[100%]  border-b-2">
+                            {" "}
+                            <div className="font-semibold my-2 px-2">
+                              Comment :{" "}
+                            </div>
+                            <div
+                              rows={3}
+                              className="text-[.85rem] m-2 w-[50%] border-yellow-400 border-2"
+                            >
+                              <p className="p-2">{voucherData?.comment}</p>
+                            </div>
+                            {voucherData.userId != user?.id && (
+                              <div className="mb-2">
+                                <a
+                                  className="group relative inline-block overflow-hidden border border-indigo-600 px-8 py-1 focus:outline-none focus:ring mx-2 mt-3 h-[35px] "
+                                  href="#"
+                                >
+                                  <span className="absolute inset-x-0 bottom-0 h-[2px] bg-indigo-600 transition-all group-hover:h-full group-active:bg-indigo-500"></span>
+
+                                  <span
+                                    className="relative text-sm font-medium text-indigo-600 transition-colors group-hover:text-white flex"
+                                    onClick={() => {
+                                      setEditComment(true);
+                                    }}
+                                  >
+                                    <CiEdit className="w-[20px] h-[20px]" />
+                                    edit
+                                  </span>
+                                </a>
+                              </div>
+                            )}
+                          </div>
+                        )}
+                      {(user?.isAdmin || user?.supervisor) &&
+                        voucherData.userId != user.id &&
+                        editComment && (
+                          <div className="my-2 flex w-[100%]  border-b-2">
+                            <div className="font-semibold my-2 px-2">
+                              Comment :{" "}
+                            </div>{" "}
+                            <textarea
+                              rows={3}
+                              className="max-h-[100px] min-h-[50px] border-2 m-2 w-[50%]"
+                              ref={CommentRef}
+                            ></textarea>
+                            <div className="flex items-center">
+                              {" "}
+                              <p
+                                className="p-2 bg-orange-400 text-white mx-2 rounded-md hover:bg-orange-600 cursor-pointer  h-fit"
+                                onClick={() => {
+                                  // setVoucherStatus("Rejected");
+                                  // rejectVoucherHandler();
+                                  sendCommentHandler();
+                                }}
+                              >
+                                Re-comment{" "}
+                              </p>
+                            </div>
+                          </div>
+                        )}
+                      {voucherData?.userId == user?.id && (
                         <div className="my-2 flex w-[100%]  border-b-2">
                           <div className="font-semibold my-2 px-2">
                             Comment :{" "}
                           </div>{" "}
-                          <textarea
-                            rows={3}
-                            className="max-h-[100px] min-h-[50px] border-2 m-2 w-[50%]"
-                            ref={CommentRef}
-                          ></textarea>
-                          <div className="flex items-center">
-                            {" "}
-                            <p
-                              className="p-2 bg-orange-400 text-white mx-2 rounded-md hover:bg-orange-600 cursor-pointer  h-fit"
-                              onClick={() => {
-                                // setVoucherStatus("Rejected");
-                                // rejectVoucherHandler();
-                                sendCommentHandler();
-                              }}
-                            >
-                              Re-comment{" "}
+                          <p>{voucherData.comment}</p>
+                        </div>
+                      )}
+                      {user?.isAdmin &&
+                        !voucherData?.assignedTo &&
+                        voucherData?.statusType == "Pending" && (
+                          <div className="my-4 flex w-[100%] flex-col  border-b-2  items-center pb-2">
+                            <p className="mx-2  font-bold">
+                              Assign to Account Department :
                             </p>
-                          </div>
-                        </div>
-                      )}
-                    {voucherData?.userId == user?.id && (
-                      <div className="my-2 flex w-[100%]  border-b-2">
-                        <div className="font-semibold my-2 px-2">
-                          Comment :{" "}
-                        </div>{" "}
-                        <p>{voucherData.comment}</p>
-                      </div>
-                    )}
-                    {user?.isAdmin &&
-                      !voucherData?.assignedTo &&
-                      voucherData?.statusType == "Pending" && (
-                        <div className="my-4 flex w-[100%] flex-col  border-b-2  items-center pb-2">
-                          <p className="mx-2  font-bold">
-                            Assign to Account Department :
-                          </p>
-                          <div
-                            className="border-2 w-[250px] text-center cursor-pointer"
-                            onClick={() => {
-                              setPaymentDepartMentOpen(!paymentDepartmentOpen);
-                            }}
-                          >
-                            {selectedSupervisor
-                              ? `${selectedSupervisor?.firstName} ${selectedSupervisor?.lastName}`
-                              : "Select a value..."}
-                          </div>
-                          {paymentDepartmentOpen && paymentSupervisor && (
-                            <div className="h-[150px] w-[250px] border-2 overflow-y-auto">
-                              {paymentSupervisor.map((current) => {
-                                return (
-                                  <div className="font-semibold border-b-2">
-                                    <p
-                                      className="text-ellipsis overflow-hidden whitespace-nowrap px-2 py-1 bg-blue-500  hover:bg-gray-400 cursor-pointer"
-                                      onClick={() => {
-                                        setPaymentDepartMentOpen(false);
-                                        setSelectedSupervisor(current);
-                                      }}
-                                    >
-                                      {current?.firstName} {current?.lastName}
-                                    </p>
-                                  </div>
-                                );
-                              })}
-                            </div>
-                          )}
-                        </div>
-                      )}
-                    {user?.isAdmin &&
-                      voucherData?.statusType != "Pending" &&
-                      !reAssignVoucher && (
-                        <div className="my-4 flex w-[100%]  border-b-2  items-center pb-2">
-                          <p className="mx-2  font-semibold">
-                            {" "}
-                            Assigned For Payment Settlement :
-                          </p>
-                          <p className="px-2">{voucherData?.assignedName}</p>
-                          <a
-                            className="group relative inline-block overflow-hidden border border-indigo-600 px-8 py-1 focus:outline-none focus:ring mx-2 mt-3 h-[35px] "
-                            href="#"
-                            onClick={() => {}}
-                          >
-                            <span className="absolute inset-x-0 bottom-0 h-[2px] bg-indigo-600 transition-all group-hover:h-full group-active:bg-indigo-500"></span>
-
-                            <span
-                              className="relative text-sm font-medium text-indigo-600 transition-colors group-hover:text-white flex"
+                            <div
+                              className="border-2 w-[250px] text-center cursor-pointer"
                               onClick={() => {
-                                setReAsignVoucher(true);
+                                setPaymentDepartMentOpen(
+                                  !paymentDepartmentOpen
+                                );
                               }}
                             >
-                              <MdAssignmentInd className="w-[20px] h-[20px] mx-2" />
-                              Reassign
-                            </span>
-                          </a>
-                        </div>
-                      )}
-                    {user?.isAdmin &&
-                      voucherData?.statusType != "Pending" &&
-                      reAssignVoucher && (
-                        <div className="my-4 flex w-[100%] flex-col  border-b-2  items-center pb-2">
-                          <p className="mx-2  font-bold">
-                            Re- Assign to Account Department :
-                          </p>
-                          <div
-                            className="border-2 w-[250px] text-center cursor-pointer"
-                            onClick={() => {
-                              setPaymentDepartMentOpen(!paymentDepartmentOpen);
-                            }}
-                          >
-                            {selectedSupervisor
-                              ? `${selectedSupervisor?.firstName} ${selectedSupervisor?.lastName}`
-                              : "Select a value..."}
-                          </div>
-                          {paymentDepartmentOpen && paymentSupervisor && (
-                            <div className="h-[150px] w-[250px] border-2 overflow-y-auto">
-                              {paymentSupervisor.map((current) => {
-                                return (
-                                  <div className="font-semibold border-b-2">
-                                    <p
-                                      className="text-ellipsis overflow-hidden whitespace-nowrap px-2 py-1 bg-blue-500  hover:bg-gray-400 cursor-pointer"
-                                      onClick={() => {
-                                        setPaymentDepartMentOpen(false);
-                                        setSelectedSupervisor(current);
-                                      }}
-                                    >
-                                      {current?.firstName} {current?.lastName}
-                                    </p>
-                                  </div>
-                                );
-                              })}
+                              {selectedSupervisor
+                                ? `${selectedSupervisor?.firstName} ${selectedSupervisor?.lastName}`
+                                : "Select a value..."}
                             </div>
-                          )}
-                          <p
-                            className="border-2 border-green-400 text-black hover:text-white my-2 p-1 hover:bg-green-500 cursor-pointer rounded-md font-semibold"
-                            onClick={() => {
-                              reAssignVoucherHandler();
-                            }}
-                          >
-                            Assign now
-                          </p>
-                        </div>
-                      )}
-                    {console.log(voucherData?.statusType)}{" "}
-                    {user?.isAdmin &&
-                      voucherData?.voucherDescription?.dailyAllowance == 0 &&
-                      voucherData?.statusType == "Pending" && (
-                        <div className="my-4 flex w-[100%]   border-b-2 py-2">
-                          <p className="mx-2  font-bold">DA Allowances :</p>
-                          <input
-                            className="border-2 w-[100px] px-2"
-                            type="number"
-                            ref={daAllowanceRef}
-                          ></input>
-                          <p className="p-2 font-semibold">
-                            {voucherData?.currency}
-                          </p>
-                          <a
-                            className="group relative inline-block overflow-hidden border border-indigo-600 px-8 py-1 focus:outline-none focus:ring mx-2 "
-                            href="#"
-                            onClick={() => {
-                              setVoucherData((prev) => {
-                                return {
-                                  ...prev,
-                                  voucherDescription: {
-                                    ...voucherData?.voucherDescription,
-                                    dailyAllowance:
-                                      daAllowanceRef.current.value,
-                                  },
-                                };
-                              });
-                            }}
-                          >
-                            <span className="absolute inset-x-0 bottom-0 h-[2px] bg-indigo-600 transition-all group-hover:h-full group-active:bg-indigo-500"></span>
-
-                            <span className="relative text-sm font-medium text-indigo-600 transition-colors group-hover:text-white">
-                              Check
-                            </span>
-                          </a>
-                        </div>
-                      )}
-                    {voucherData.statusType == "Pending" && (
-                      <div className="my-2 flex w-[100%] justify-evenly font-bold text-white mb-[50px]">
-                        {!voucherData?.comment &&
-                          voucherData.statusType == "Pending" &&
-                          (user?.isAdmin || user?.supervisor) &&
-                          voucherData?.userId != user?.id && (
-                            <p
-                              className="p-2 bg-orange-400 w-fit mx-2 rounded-md hover:bg-orange-600 cursor-pointer"
-                              onClick={() => {
-                                sendCommentHandler();
-                              }}
-                            >
-                              Comment Only
+                            {paymentDepartmentOpen && paymentSupervisor && (
+                              <div className="h-[150px] w-[250px] border-2 overflow-y-auto">
+                                {paymentSupervisor.map((current) => {
+                                  return (
+                                    <div className="font-semibold border-b-2">
+                                      <p
+                                        className="text-ellipsis overflow-hidden whitespace-nowrap px-2 py-1 bg-blue-500  hover:bg-gray-400 cursor-pointer"
+                                        onClick={() => {
+                                          setPaymentDepartMentOpen(false);
+                                          setSelectedSupervisor(current);
+                                        }}
+                                      >
+                                        {current?.firstName} {current?.lastName}
+                                      </p>
+                                    </div>
+                                  );
+                                })}
+                              </div>
+                            )}
+                          </div>
+                        )}
+                      {user?.isAdmin &&
+                        voucherData?.statusType != "Pending" &&
+                        !reAssignVoucher && (
+                          <div className="my-4 flex w-[100%]  border-b-2  items-center pb-2">
+                            <p className="mx-2  font-semibold">
+                              {" "}
+                              Assigned For Payment Settlement :
                             </p>
-                          )}
-                        {(user?.isAdmin || user?.supervisor) &&
-                          voucherData.userId != user.id &&user?.id (
-                            <>
-                              <p
-                                className="p-2 bg-blue-400 w-fit rounded-md hover:bg-blue-600 cursor-pointer"
+                            <p className="px-2">{voucherData?.assignedName}</p>
+                            <a
+                              className="group relative inline-block overflow-hidden border border-indigo-600 px-8 py-1 focus:outline-none focus:ring mx-2 mt-3 h-[35px] "
+                              href="#"
+                              onClick={() => {}}
+                            >
+                              <span className="absolute inset-x-0 bottom-0 h-[2px] bg-indigo-600 transition-all group-hover:h-full group-active:bg-indigo-500"></span>
+
+                              <span
+                                className="relative text-sm font-medium text-indigo-600 transition-colors group-hover:text-white flex"
                                 onClick={() => {
-                                  acceptVoucherHandler();
+                                  setReAsignVoucher(true);
                                 }}
                               >
-                                Accept
-                              </p>
+                                <MdAssignmentInd className="w-[20px] h-[20px] mx-2" />
+                                Reassign
+                              </span>
+                            </a>
+                          </div>
+                        )}
+                      {user?.isAdmin &&
+                        voucherData?.statusType != "Pending" &&
+                        reAssignVoucher && (
+                          <div className="my-4 flex w-[100%] flex-col  border-b-2  items-center pb-2">
+                            <p className="mx-2  font-bold">
+                              Re- Assign to Account Department :
+                            </p>
+                            <div
+                              className="border-2 w-[250px] text-center cursor-pointer"
+                              onClick={() => {
+                                setPaymentDepartMentOpen(
+                                  !paymentDepartmentOpen
+                                );
+                              }}
+                            >
+                              {selectedSupervisor
+                                ? `${selectedSupervisor?.firstName} ${selectedSupervisor?.lastName}`
+                                : "Select a value..."}
+                            </div>
+                            {paymentDepartmentOpen && paymentSupervisor && (
+                              <div className="h-[150px] w-[250px] border-2 overflow-y-auto">
+                                {paymentSupervisor.map((current) => {
+                                  return (
+                                    <div className="font-semibold border-b-2">
+                                      <p
+                                        className="text-ellipsis overflow-hidden whitespace-nowrap px-2 py-1 bg-blue-500  hover:bg-gray-400 cursor-pointer"
+                                        onClick={() => {
+                                          setPaymentDepartMentOpen(false);
+                                          setSelectedSupervisor(current);
+                                        }}
+                                      >
+                                        {current?.firstName} {current?.lastName}
+                                      </p>
+                                    </div>
+                                  );
+                                })}
+                              </div>
+                            )}
+                            <p
+                              className="border-2 border-green-400 text-black hover:text-white my-2 p-1 hover:bg-green-500 cursor-pointer rounded-md font-semibold"
+                              onClick={() => {
+                                reAssignVoucherHandler();
+                              }}
+                            >
+                              Assign now
+                            </p>
+                          </div>
+                        )}
+                      {console.log(voucherData?.statusType)}{" "}
+                      {user?.isAdmin &&
+                        voucherData?.voucherDescription?.dailyAllowance == 0 &&
+                        voucherData?.statusType == "Pending" && (
+                          <div className="my-4 flex w-[100%]   border-b-2 py-2">
+                            <p className="mx-2  font-bold">DA Allowances :</p>
+                            <input
+                              className="border-2 w-[100px] px-2"
+                              type="number"
+                              ref={daAllowanceRef}
+                            ></input>
+                            <p className="p-2 font-semibold">
+                              {voucherData?.currency}
+                            </p>
+                            <a
+                              className="group relative inline-block overflow-hidden border border-indigo-600 px-8 py-1 focus:outline-none focus:ring mx-2 "
+                              href="#"
+                              onClick={() => {
+                                setVoucherData((prev) => {
+                                  return {
+                                    ...prev,
+                                    voucherDescription: {
+                                      ...voucherData?.voucherDescription,
+                                      dailyAllowance:
+                                        daAllowanceRef.current.value,
+                                    },
+                                  };
+                                });
+                              }}
+                            >
+                              <span className="absolute inset-x-0 bottom-0 h-[2px] bg-indigo-600 transition-all group-hover:h-full group-active:bg-indigo-500"></span>
+
+                              <span className="relative text-sm font-medium text-indigo-600 transition-colors group-hover:text-white">
+                                Check
+                              </span>
+                            </a>
+                          </div>
+                        )}
+                      {voucherData.statusType == "Pending" && (
+                        <div className="my-2 flex w-[100%] justify-evenly font-bold text-white mb-[50px]">
+                          {!voucherData?.comment &&
+                            voucherData.statusType == "Pending" &&
+                            (user?.isAdmin || user?.supervisor) &&
+                            voucherData?.userId != user?.id && (
                               <p
-                                className="p-2 bg-red-400 w-fit mx-2 rounded-md hover:bg-red-600 cursor-pointer"
+                                className="p-2 bg-orange-400 w-fit mx-2 rounded-md hover:bg-orange-600 cursor-pointer"
                                 onClick={() => {
-                                  // setVoucherStatus("Rejected");
-                                  rejectVoucherHandler();
+                                  sendCommentHandler();
                                 }}
                               >
-                                Reject
+                                Comment Only
                               </p>
-                            </>
-                          )}
-                      </div>
-                    )}
-                    {console.log(voucherData,user?.id,voucherData?.assignedTo==user?.id,path)}{" "}
-                    {(user?.isAdmin || user?.supervisor) &&
-                      path == "/ACCOUNTS" &&voucherData?.assignedTo==user?.id&&
-                      voucherData.statusType == "Accepted" && (
-                        <div className="w-[100%] flex justify-center">
-                          <p
-                            className="p-2 bg-blue-400 text-white w-fit rounded-md hover:bg-blue-600 cursor-pointer"
-                            onClick={() => {
-                              closeVoucherHandler();
-                            }}
-                          >
-                            Acknowledge
-                          </p>
+                            )}
+                          {(user?.isAdmin || user?.supervisor) &&
+                            voucherData.userId != user.id &&
+                            user?.id(
+                              <>
+                                <p
+                                  className="p-2 bg-blue-400 w-fit rounded-md hover:bg-blue-600 cursor-pointer"
+                                  onClick={() => {
+                                    acceptVoucherHandler();
+                                  }}
+                                >
+                                  Accept
+                                </p>
+                                <p
+                                  className="p-2 bg-red-400 w-fit mx-2 rounded-md hover:bg-red-600 cursor-pointer"
+                                  onClick={() => {
+                                    // setVoucherStatus("Rejected");
+                                    rejectVoucherHandler();
+                                  }}
+                                >
+                                  Reject
+                                </p>
+                              </>
+                            )}
                         </div>
                       )}
-                    <DownloadPdfButton
-                      expenseData={expenseData}
-                      data={{
-                        settlementAmount,
-                        dateDifferenceInHour,
-                        tourDurationHours,
-                        expenseData,
-                        totalDa,
-                      }}
-                      voucherData={voucherData}
-                      bills={imageArray}
-                    ></DownloadPdfButton>
-                  </div>
-                </Dialog.Panel>
-              </Transition.Child>
+                      {console.log(
+                        voucherData,
+                        user?.id,
+                        voucherData?.assignedTo == user?.id,
+                        path
+                      )}{" "}
+                      {(user?.isAdmin || user?.supervisor) &&
+                        path == "/ACCOUNTS" &&
+                        voucherData?.assignedTo == user?.id &&
+                        voucherData.statusType == "Accepted" && (
+                          <div className="w-[100%] flex justify-center">
+                            <p
+                              className="p-2 bg-blue-400 text-white w-fit rounded-md hover:bg-blue-600 cursor-pointer"
+                              onClick={() => {
+                                closeVoucherHandler();
+                              }}
+                            >
+                              Acknowledge
+                            </p>
+                          </div>
+                        )}
+                      <DownloadPdfButton
+                        expenseData={expenseData}
+                        data={{
+                          settlementAmount,
+                          dateDifferenceInHour,
+                          tourDurationHours,
+                          expenseData,
+                          totalDa,
+                        }}
+                        voucherData={voucherData}
+                        bills={imageArray}
+                      ></DownloadPdfButton>
+                    </div>
+                  </Dialog.Panel>
+                </Transition.Child>
+              </div>
             </div>
-          </div>
-        )}
-      </Dialog>
-    </Transition.Root>
+          )}
+        </Dialog>
+      </Transition.Root>
+    </>
   );
 }

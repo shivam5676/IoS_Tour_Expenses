@@ -36,6 +36,7 @@ function UpdateExpenseModal(props) {
       };
     }
   };
+  console.log(props)
   const updateExpenseHandler = async () => {
     let base64Image = "";
     if (billImageRef.current.files[0]) {
