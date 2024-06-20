@@ -83,6 +83,7 @@ const reducerFn = (state, action) => {
     return {
       ...state,
       onGoingData: arrayAfterRemove,
+      currentTourIdData:null
     };
   }
   if (action.type === "saveLoginDetails") {

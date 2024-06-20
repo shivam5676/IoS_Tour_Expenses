@@ -10,20 +10,20 @@ const Context = createContext({
   adminCurrentUserData: {},
   AllVoucher: () => {},
   allVoucherData: [],
-  
+
   onGoingTour: () => {},
   onGoingData: [],
+  removeOnGoingTour: () => {},
   userCurrentTourExpenses: () => {},
   userCurrentTourExpenseData: [],
   deleteUserCurrentTourExpenseHandler: () => {},
   removeVoucherfromAllVoucher: () => {},
   currentTourId: () => {},
   currentTourIdData: "",
-  removeOnGoingTour: () => {},
   loginDataHandler: () => {},
   loginData: "",
   logOutHandler: () => {},
-  addTourInOngoing: ()=>{},
-  updateCurrentTourExpenses:()=>{}
+  addTourInOngoing: () => {},
+  updateCurrentTourExpenses: () => {},
 });
 export default Context;

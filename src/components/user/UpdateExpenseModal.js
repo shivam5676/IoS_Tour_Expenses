@@ -8,7 +8,7 @@ import { toast } from "react-toastify";
 import { IoIosCloseCircle } from "react-icons/io";
 
 function UpdateExpenseModal(props) {
-  console.log(props.updateData);
+  console.log(props.voucherId);
   const connectionUrl = process.env.REACT_APP_CONNECTION_STRING;
   //   const [open, setOpen] = useState(true);
   const ctx = useContext(Context);
@@ -36,8 +36,10 @@ function UpdateExpenseModal(props) {
       };
     }
   };
-  console.log(props)
+  console.log(props);
   const updateExpenseHandler = async () => {
+    console.log(props.updateData?.expenseType);
+    console.log(expenseCategoryRef.current);
     let base64Image = "";
     if (billImageRef.current.files[0]) {
       const file = billImageRef.current.files[0];
@@ -65,6 +67,7 @@ function UpdateExpenseModal(props) {
             data
           );
           const res = response.data.expenseData;
+          console.log(res);
           ctx.updateCurrentTourExpenses(res);
           toast.success("Expense added.");
         } catch (err) {
@@ -94,7 +97,7 @@ function UpdateExpenseModal(props) {
         );
         const res = response.data.expenseData;
         ctx.updateCurrentTourExpenses(res);
-        toast.success("Expense added.");
+        toast.success("Expense added....");
       } catch (err) {
         toast.error(err.response?.data?.msg);
       }
@@ -240,15 +243,15 @@ function UpdateExpenseModal(props) {
                   </div>
                 </div>{" "}
                 <div className="flex flex-col min-[370px]:px-12 w-[100%] py-2">
-                <p className="px-2">Bill Image :</p>
-                    <input
-                      type="file"
-                      className="border-2 bg-transparent mx-2"
-                      ref={billImageRef}
-                      accept=".jpg,.jpeg,.png"
-                      onChange={handleImageChange}
-                    ></input>
-                 
+                  <p className="px-2">Bill Image :</p>
+                  <input
+                    type="file"
+                    className="border-2 bg-transparent mx-2"
+                    ref={billImageRef}
+                    accept=".jpg,.jpeg,.png"
+                    onChange={handleImageChange}
+                  ></input>
+
                   {props.updateData?.imagePath && !imagePreview && (
                     <div className="mt-4">
                       <img

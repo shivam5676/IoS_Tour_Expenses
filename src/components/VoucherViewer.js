@@ -23,7 +23,7 @@ export default function VoucherViewer(props) {
   const location = useLocation();
   const [update, setUpdate] = useState(false);
   const [updateData, setUpdateData] = useState(null);
-
+  const [voucherId, setVoucherId] = useState(null);
   const path = location.pathname.toUpperCase();
 
   const [reAssignVoucher, setReAsignVoucher] = useState(false);
@@ -42,7 +42,22 @@ export default function VoucherViewer(props) {
   let CommentRef = useRef("");
   const daAllowanceRef = useRef(0);
   const user = JSON.parse(localStorage.getItem("token"));
-
+  const deleteExpenseHAndler = async (id) => {
+    try {
+      const response = await axios.post(
+        `${connectionUrl}:${process.env.REACT_APP_BACKEND_PORT}/user/deleteExpense`,
+        {
+          expenseId: id,
+          token: user.access_token,
+          domain: user.domain,
+        }
+      );
+      ctx.deleteUserCurrentTourExpenseHandler(id);
+      toast.success("expense deleted successfully");
+    } catch (err) {
+      console.log(err);
+    }
+  };
   const reAssignVoucherHandler = async () => {
     try {
       const response = await axios.post(
@@ -88,6 +103,7 @@ export default function VoucherViewer(props) {
       CommentRef.current = { value: voucherData.comment };
     }
     try {
+      console.log(props?.voucherId)
       const response = await axios.post(
         `${connectionUrl}:${process.env.REACT_APP_BACKEND_PORT}/admin/acceptVoucher`,
         {
@@ -206,7 +222,7 @@ export default function VoucherViewer(props) {
     }
     fetchData();
   }, [props.voucherId]);
-  let CashPayment = 0;
+  let cashExpense = 0;
   let onlinePayment = 0;
   let creditCard = 0;
   let food = 0;
@@ -214,7 +230,7 @@ export default function VoucherViewer(props) {
   let Misc = 0;
   let accomondation = 0;
   useEffect(() => {
-    CashPayment = 0;
+    cashExpense = 0;
     onlinePayment = 0;
     creditCard = 0;
     food = 0;
@@ -224,7 +240,7 @@ export default function VoucherViewer(props) {
     voucherData &&
       voucherData.voucherExpenses?.forEach((current) => {
         if (current.paymentType === "Cash") {
-          CashPayment += +current.Amount;
+          cashExpense += +current.Amount;
         }
         if (current.paymentType === "Online (train/flight)") {
           onlinePayment += +current.Amount;
@@ -246,7 +262,7 @@ export default function VoucherViewer(props) {
         }
       });
     setExpenseData({
-      cashExpense: CashPayment,
+      cashExpense: cashExpense,
       digitalExpense: onlinePayment + creditCard,
       creditCard,
       accomondation,
@@ -311,16 +327,6 @@ export default function VoucherViewer(props) {
     24
   ).toFixed(2);
 
-  // Parse the departure and arrival dates and times
-  //  const departureDateTime = new Date(`${voucherData.voucherDescription.departureDate}T${voucherData.voucherDescription.departureTime}`);
-  //  const arrivalDateTime = new Date(`${voucherData.voucherDescription.arrivalDate}T${voucherData.voucherDescription.arrivalTime}`);
-
-  //  // Calculate the difference in milliseconds
-  //  const differenceInMs = arrivalDateTime - departureDateTime;
-
-  //  // Convert the difference from milliseconds to hours
-  //  const tourDurationInHours = differenceInMs / (1000 * 60 * 60)
-  //  console.log(tourDurationHours)
   let settlementAmount = 0;
   if (voucherData) {
     settlementAmount = (
@@ -356,14 +362,16 @@ export default function VoucherViewer(props) {
       console.log(err);
     }
   };
+  console.log(voucherData?.id);
   return (
     <>
       <UpdateExpenseModal
         open={update}
         onClose={() => {
           setUpdate(!update);
-        }}        updateData={updateData}
-
+        }}
+        updateData={updateData}
+        voucherId={voucherId}
       ></UpdateExpenseModal>
       <Transition.Root show={props.open} as={Fragment}>
         <Dialog
@@ -419,7 +427,7 @@ export default function VoucherViewer(props) {
                     >
                       <IoIosCloseCircle className="w-[30px] h-[30px]"></IoIosCloseCircle>
                       close
-                    </div>{" "}
+                    </div>
                     <div className="text-2xl flex flex-col items-center justify-center w-[100%] border-b-2 font-bold pb-3">
                       <p>Tour Voucher</p>
                     </div>
@@ -427,19 +435,19 @@ export default function VoucherViewer(props) {
                     <div className="overflow-y-scroll h-[calc(100%-50px)]">
                       <div className="flex w-[100%] min-[700px]:flex-row flex-col">
                         <div className="w-[40%] px-2 border-2 max-[700px]:w-[100%] flex py-1">
-                          <p className="font-semibold">Name : </p>{" "}
+                          <p className="font-semibold">Name : </p>
                           {voucherData.user?.firstName +
                             " " +
                             voucherData.user?.lastName}
                         </div>
                         <div className="w-[60%] px-2 border-2 max-[700px]:w-[100%] flex py-1 ">
-                          <p className="font-semibold ">Designation : </p>{" "}
-                          {voucherData.user?.designation}{" "}
+                          <p className="font-semibold ">Designation : </p>
+                          {voucherData.user?.designation}
                         </div>
                       </div>
                       <div className="flex w-[100%] min-[700px]:flex-row flex-col">
                         <div className="w-[40%] px-2 border-2 max-[700px]:w-[100%] flex py-1">
-                          <p className="font-semibold">Location : </p>{" "}
+                          <p className="font-semibold">Location : </p>
                           {voucherData?.tourLocation}
                         </div>
                         <div className="w-[60%] px-2 border-2 max-[700px]:w-[100%] flex py-1 ">
@@ -451,7 +459,6 @@ export default function VoucherViewer(props) {
                         <p className="w-[100%] px-2 py-1 font-semibold border-2">
                           Purpose : {voucherData.voucherDescription?.purpose}
                         </p>
-                        {console.log(props?.voucherData)}
                       </div>
                       <div className="flex w-[100%] min-[700px]:flex-row flex-col">
                         <p className="w-[100%] px-2 py-1 font-semibold border-2">
@@ -463,7 +470,7 @@ export default function VoucherViewer(props) {
                       </div>
                       <div className="flex w-[100%] min-[700px]:flex-row flex-col">
                         <p className="w-[100%] px-2 py-1 font-semibold border-2">
-                          Advance Cash Recieved :{" "}
+                          Advance Cash Recieved :
                           {voucherData?.voucherDescription?.advanceCash}
                         </p>
                       </div>
@@ -472,7 +479,7 @@ export default function VoucherViewer(props) {
                       </p>
                       <div className="flex w-[100%] min-[700px]:flex-row flex-col">
                         <div className="w-[50%] px-2 border-2 max-[700px]:w-[100%] flex py-1">
-                          <p className="font-semibold"> Date from : </p>{" "}
+                          <p className="font-semibold"> Date from : </p>
                           {voucherData.voucherDescription?.departureDate}
                         </div>
                         <div className="w-[50%] px-2 border-2 max-[700px]:w-[100%] flex py-1 ">
@@ -482,23 +489,23 @@ export default function VoucherViewer(props) {
                       </div>
                       <div className="flex w-[100%] min-[700px]:flex-row flex-col">
                         <div className="w-[50%] px-2 border-2 max-[700px]:w-[100%] flex py-1">
-                          <p className="font-semibold"> Time from : </p>{" "}
+                          <p className="font-semibold"> Time from : </p>
                           {voucherData.voucherDescription?.departureTime}
                         </div>
                         <div className="w-[50%] px-2 border-2 max-[700px]:w-[100%] flex py-1 ">
-                          <p className="font-semibold ">Time to : </p>{" "}
+                          <p className="font-semibold ">Time to : </p>
                           {voucherData.voucherDescription?.arrivalTime}
                         </div>
                       </div>
                       <div className="flex w-[100%] min-[700px]:flex-row flex-col">
                         <div className="w-[50%] px-2 border-2 max-[700px]:w-[100%] flex py-1">
-                          <p className="font-semibold"> Travel Vehicle : </p>{" "}
+                          <p className="font-semibold"> Travel Vehicle : </p>
                           {voucherData.voucherDescription?.transportDeparture}
                         </div>
                         <div className="w-[50%] px-2 border-2 max-[700px]:w-[100%] flex py-1 ">
                           <p className="font-semibold ">
-                            Travel Vehicle (Return) :{" "}
-                          </p>{" "}
+                            Travel Vehicle (Return) :
+                          </p>
                           {voucherData.voucherDescription?.transportArrival}
                         </div>
                       </div>
@@ -516,16 +523,14 @@ export default function VoucherViewer(props) {
                       <div className="flex w-[100%] min-[700px]:flex-row flex-col">
                         <div className="w-[50%] px-2 border-2 max-[700px]:w-[100%] flex py-1">
                           <p className="font-semibold">
-                            {" "}
-                            DA ({voucherData?.currency}/day) :{" "}
-                          </p>{" "}
+                            DA ({voucherData?.currency}/day) :
+                          </p>
                           {+voucherData.voucherDescription?.dailyAllowance}
                         </div>
                         <div className="w-[50%] px-2 border-2 max-[700px]:w-[100%] flex py-1 ">
                           <p className="font-semibold">
-                            {" "}
-                            DA ({voucherData?.currency}/hr) :{" "}
-                          </p>{" "}
+                            DA ({voucherData?.currency}/hr) :
+                          </p>
                           {(
                             +voucherData?.voucherDescription?.dailyAllowance /
                             24
@@ -542,21 +547,21 @@ export default function VoucherViewer(props) {
                       </p>
                       <div className="flex w-[100%] min-[700px]:flex-row flex-col">
                         <div className="w-[50%] px-2 border-2 max-[700px]:w-[100%] flex py-1">
-                          <p className="font-semibold"> FOOD : </p>{" "}
+                          <p className="font-semibold"> FOOD : </p>
                           {expenseData?.food}
                         </div>
                         <div className="w-[50%] px-2 border-2 max-[700px]:w-[100%] flex py-1 ">
-                          <p className="font-semibold"> Travel : </p>{" "}
+                          <p className="font-semibold"> Travel : </p>
                           {expenseData?.travel}
                         </div>
                       </div>
                       <div className="flex w-[100%] min-[700px]:flex-row flex-col">
                         <div className="w-[50%] px-2 border-2 max-[700px]:w-[100%] flex py-1">
-                          <p className="font-semibold"> Accomondation : </p>{" "}
+                          <p className="font-semibold"> Accomondation : </p>
                           {expenseData?.accomondation}
                         </div>
                         <div className="w-[50%] px-2 border-2 max-[700px]:w-[100%] flex py-1 ">
-                          <p className="font-semibold"> Misc : </p>{" "}
+                          <p className="font-semibold"> Misc : </p>
                           {expenseData?.Misc}
                         </div>
                       </div>
@@ -580,20 +585,19 @@ export default function VoucherViewer(props) {
                           {expenseData?.creditCard}
                         </div>
                         <div className="w-[50%] px-2 border-2 max-[700px]:w-[100%] flex py-1 ">
-                          <p className="font-semibold"> Cash : </p>{" "}
-                          {CashPayment}
+                          <p className="font-semibold"> Cash : </p>
+                          {expenseData?.cashExpense}
                         </div>
                       </div>
                       <div className="flex w-[100%] min-[700px]:flex-row flex-col font-semibold">
                         <p className="w-[100%] px-2 border-2 max-[700px]:w-[100%]">
-                          online (train/bus/flight tickets by office):{" "}
-                          {expenseData?.onlinePayment}
+                          online (train/bus/flight tickets by office):
+                          {expenseData?.digitalExpense}
                         </p>
                       </div>
                       <div className="flex w-[100%] min-[700px]:flex-row flex-col">
                         {settlementAmount > 0 && (
                           <>
-                            {" "}
                             <p
                               className={`w-[100%] px-2 font font-semibold ${"bg-green-400"} text-white p-2`}
                             >
@@ -618,7 +622,7 @@ export default function VoucherViewer(props) {
                             >
                               Amount for settlement : {settlementAmount} (
                               {voucherData?.currency})
-                              <span> (user will recieve from office )</span>{" "}
+                              <span> (user will recieve from office )</span>
                             </p>
                           ))}
                       </div>
@@ -634,7 +638,7 @@ export default function VoucherViewer(props) {
                           <div className="w-[135px] font-bold px-2">
                             Paym. Type
                           </div>
-                          <div className="w-[110px] font-bold px-2">Amount</div>{" "}
+                          <div className="w-[110px] font-bold px-2">Amount</div>
                           <div className="w-[110px] font-bold px-2">
                             Bill No
                           </div>
@@ -653,11 +657,11 @@ export default function VoucherViewer(props) {
                                 {current?.expenseType}
                               </div>
                               <div className="w-[135px]  px-2">
-                                {current?.paymentType}{" "}
+                                {current?.paymentType}
                               </div>
                               <div className="w-[110px]  px-2">
                                 {current?.Amount}
-                              </div>{" "}
+                              </div>
                               <div className="w-[110px]  px-2">
                                 {current?.voucherNo}
                               </div>
@@ -667,9 +671,15 @@ export default function VoucherViewer(props) {
                                   onClick={() => {
                                     setUpdate(true);
                                     setUpdateData(current);
+                                    setVoucherId(voucherData?.id);
                                   }}
                                 ></FaRegEdit>
-                                <MdDelete className="w-[25px] h-[25px] text-red-500 hover:text-red-700  cursor-pointer"></MdDelete>
+                                <MdDelete
+                                  className="w-[25px] h-[25px] text-red-500 hover:text-red-700  cursor-pointer"
+                                  onClick={() =>
+                                    deleteExpenseHAndler(current?.id)
+                                  }
+                                ></MdDelete>
                               </div>
                             </div>
                           );
@@ -695,7 +705,7 @@ export default function VoucherViewer(props) {
                         (user?.isAdmin || user?.supervisor) && (
                           <div className="my-2 flex w-[100%]  border-b-2">
                             <div className="font-semibold my-2 px-2">
-                              Comment :{" "}
+                              Comment :
                             </div>
                             <textarea
                               rows={3}
@@ -708,9 +718,8 @@ export default function VoucherViewer(props) {
                         !editComment &&
                         voucherData?.comment && (
                           <div className="my-2 flex w-[100%]  border-b-2">
-                            {" "}
                             <div className="font-semibold my-2 px-2">
-                              Comment :{" "}
+                              Comment :
                             </div>
                             <div
                               rows={3}
@@ -741,19 +750,18 @@ export default function VoucherViewer(props) {
                           </div>
                         )}
                       {(user?.isAdmin || user?.supervisor) &&
-                        voucherData.userId != user.id &&
+                        voucherData?.userId != user?.id &&
                         editComment && (
                           <div className="my-2 flex w-[100%]  border-b-2">
                             <div className="font-semibold my-2 px-2">
-                              Comment :{" "}
-                            </div>{" "}
+                              Comment :
+                            </div>
                             <textarea
                               rows={3}
                               className="max-h-[100px] min-h-[50px] border-2 m-2 w-[50%]"
                               ref={CommentRef}
                             ></textarea>
                             <div className="flex items-center">
-                              {" "}
                               <p
                                 className="p-2 bg-orange-400 text-white mx-2 rounded-md hover:bg-orange-600 cursor-pointer  h-fit"
                                 onClick={() => {
@@ -762,7 +770,7 @@ export default function VoucherViewer(props) {
                                   sendCommentHandler();
                                 }}
                               >
-                                Re-comment{" "}
+                                Re-comment
                               </p>
                             </div>
                           </div>
@@ -770,9 +778,9 @@ export default function VoucherViewer(props) {
                       {voucherData?.userId == user?.id && (
                         <div className="my-2 flex w-[100%]  border-b-2">
                           <div className="font-semibold my-2 px-2">
-                            Comment :{" "}
-                          </div>{" "}
-                          <p>{voucherData.comment}</p>
+                            Comment :
+                          </div>
+                          <p>{voucherData?.comment}</p>
                         </div>
                       )}
                       {user?.isAdmin &&
@@ -820,7 +828,6 @@ export default function VoucherViewer(props) {
                         !reAssignVoucher && (
                           <div className="my-4 flex w-[100%]  border-b-2  items-center pb-2">
                             <p className="mx-2  font-semibold">
-                              {" "}
                               Assigned For Payment Settlement :
                             </p>
                             <p className="px-2">{voucherData?.assignedName}</p>
@@ -891,7 +898,6 @@ export default function VoucherViewer(props) {
                             </p>
                           </div>
                         )}
-                      {console.log(voucherData?.statusType)}{" "}
                       {user?.isAdmin &&
                         voucherData?.voucherDescription?.dailyAllowance == 0 &&
                         voucherData?.statusType == "Pending" && (
@@ -929,10 +935,10 @@ export default function VoucherViewer(props) {
                             </a>
                           </div>
                         )}
-                      {voucherData.statusType == "Pending" && (
+                      {voucherData?.statusType == "Pending" && (
                         <div className="my-2 flex w-[100%] justify-evenly font-bold text-white mb-[50px]">
                           {!voucherData?.comment &&
-                            voucherData.statusType == "Pending" &&
+                            voucherData?.statusType == "Pending" &&
                             (user?.isAdmin || user?.supervisor) &&
                             voucherData?.userId != user?.id && (
                               <p
@@ -945,8 +951,8 @@ export default function VoucherViewer(props) {
                               </p>
                             )}
                           {(user?.isAdmin || user?.supervisor) &&
-                            voucherData.userId != user.id &&
-                            user?.id(
+                            voucherData?.userId != user?.id &&
+                            user?.id && (
                               <>
                                 <p
                                   className="p-2 bg-blue-400 w-fit rounded-md hover:bg-blue-600 cursor-pointer"
@@ -969,16 +975,11 @@ export default function VoucherViewer(props) {
                             )}
                         </div>
                       )}
-                      {console.log(
-                        voucherData,
-                        user?.id,
-                        voucherData?.assignedTo == user?.id,
-                        path
-                      )}{" "}
+                      {/* {console.log(voucherData)} */}
                       {(user?.isAdmin || user?.supervisor) &&
                         path == "/ACCOUNTS" &&
                         voucherData?.assignedTo == user?.id &&
-                        voucherData.statusType == "Accepted" && (
+                        voucherData?.statusType == "Accepted" && (
                           <div className="w-[100%] flex justify-center">
                             <p
                               className="p-2 bg-blue-400 text-white w-fit rounded-md hover:bg-blue-600 cursor-pointer"

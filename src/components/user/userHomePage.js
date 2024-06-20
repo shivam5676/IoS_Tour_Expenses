@@ -52,6 +52,9 @@ function UserHomePage() {
               selected={() => {
                 setTourSelected(true);
               }}
+              deSelect={()=>{
+                setTourSelected(false)
+              }}
             ></UsersTour>
             {tourSelected && (
               <UserExpensesGraph

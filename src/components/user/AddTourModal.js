@@ -32,7 +32,7 @@ function AddTourModal(props) {
     if (e.target.value == "") {
       setCityList(City[stateSelected]);
     } else {
-      const findCity = City[stateSelected].filter((current) => {
+      const findCity = City[stateSelected]?.filter((current) => {
         console.log(current);
         return current.toLowerCase().includes(e.target.value.toLowerCase());
       });
@@ -41,8 +41,7 @@ function AddTourModal(props) {
     }
   };
   const filterStateHandler = (e) => {
-    // if()
-    // State.filter();
+
     if (e.target.value == "") {
       setStateList(State);
     } else {
