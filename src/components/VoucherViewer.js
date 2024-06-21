@@ -14,12 +14,14 @@ import { MdAssignmentInd, MdDelete, MdEdit } from "react-icons/md";
 import DownloadPdfButton from "./DownloadPdfButton";
 import { useLocation } from "react-router-dom";
 import UpdateExpenseModal from "./user/UpdateExpenseModal";
+import UpdateTourDescription from "./user/UpdateTourDescription";
 
 export default function VoucherViewer(props) {
   const [expenseData, setExpenseData] = useState({
     cashExpense: 0,
     digitalExpense: 0,
   });
+  const [openDescription, setOpenDescription] = useState(false);
   const location = useLocation();
   const [update, setUpdate] = useState(false);
   const [updateData, setUpdateData] = useState(null);
@@ -103,7 +105,7 @@ export default function VoucherViewer(props) {
       CommentRef.current = { value: voucherData.comment };
     }
     try {
-      console.log(props?.voucherId)
+      console.log(props?.voucherId);
       const response = await axios.post(
         `${connectionUrl}:${process.env.REACT_APP_BACKEND_PORT}/admin/acceptVoucher`,
         {
@@ -194,6 +196,7 @@ export default function VoucherViewer(props) {
             domain: user.domain,
           }
         );
+        console.log(response);
         setImageArray(response.data.imagePaths);
         setVoucherData(response.data.response);
         CommentRef.current.value = response.data.response.comment;
@@ -373,6 +376,13 @@ export default function VoucherViewer(props) {
         updateData={updateData}
         voucherId={voucherId}
       ></UpdateExpenseModal>
+      <UpdateTourDescription
+        open={openDescription}
+        close={() => {
+          setOpenDescription(false);
+        }}
+        description={voucherData?.voucherDescription}
+      ></UpdateTourDescription>
       <Transition.Root show={props.open} as={Fragment}>
         <Dialog
           className="relative z-10"
@@ -429,7 +439,11 @@ export default function VoucherViewer(props) {
                       close
                     </div>
                     <div className="text-2xl flex flex-col items-center justify-center w-[100%] border-b-2 font-bold pb-3">
-                      <p>Tour Voucher</p>
+                      <p>Tour Voucher</p>{" "}
+                      <FaRegEdit
+                        className="text-blue-500 m-1 cursor-pointer w-[25px] h-[25px]"
+                        onClick={() => setOpenDescription(true)}
+                      ></FaRegEdit>
                     </div>
                     {/* <div className="flex w-[100%] min-[700px]:flex-row flex-col"></div> */}
                     <div className="overflow-y-scroll h-[calc(100%-50px)]">
@@ -474,8 +488,11 @@ export default function VoucherViewer(props) {
                           {voucherData?.voucherDescription?.advanceCash}
                         </p>
                       </div>
-                      <p className="text-center font-bold text-xl py-2">
-                        Tour Duration
+                      <p className="justify-center font-bold text-xl py-2 flex">
+                        Tour Duration{" "}
+                        <span>
+                          <FaRegEdit className="text-blue-500 m-1 cursor-pointer w-[25px] h-[25px]"></FaRegEdit>
+                        </span>
                       </p>
                       <div className="flex w-[100%] min-[700px]:flex-row flex-col">
                         <div className="w-[50%] px-2 border-2 max-[700px]:w-[100%] flex py-1">
@@ -665,22 +682,27 @@ export default function VoucherViewer(props) {
                               <div className="w-[110px]  px-2">
                                 {current?.voucherNo}
                               </div>
-                              <div className="flex">
-                                <FaRegEdit
-                                  className="w-[25px] h-[25px] text-green-500 hover:text-green-700 cursor-pointer"
-                                  onClick={() => {
-                                    setUpdate(true);
-                                    setUpdateData(current);
-                                    setVoucherId(voucherData?.id);
-                                  }}
-                                ></FaRegEdit>
-                                <MdDelete
-                                  className="w-[25px] h-[25px] text-red-500 hover:text-red-700  cursor-pointer"
-                                  onClick={() =>
-                                    deleteExpenseHAndler(current?.id)
-                                  }
-                                ></MdDelete>
-                              </div>
+                              {console.log(voucherData?.userId, user?.id)}
+                              {voucherData?.userId == user?.id &&
+                                voucherData?.statusType != "Accepted" &&
+                                voucherData?.statusType != "Closed" && (
+                                  <div className="flex">
+                                    <FaRegEdit
+                                      className="w-[25px] h-[25px] text-green-500 hover:text-green-700 cursor-pointer"
+                                      onClick={() => {
+                                        setUpdate(true);
+                                        setUpdateData(current);
+                                        setVoucherId(voucherData?.id);
+                                      }}
+                                    ></FaRegEdit>
+                                    <MdDelete
+                                      className="w-[25px] h-[25px] text-red-500 hover:text-red-700  cursor-pointer"
+                                      onClick={() =>
+                                        deleteExpenseHAndler(current?.id)
+                                      }
+                                    ></MdDelete>
+                                  </div>
+                                )}
                             </div>
                           );
                         })}
@@ -834,7 +856,9 @@ export default function VoucherViewer(props) {
                             <a
                               className="group relative inline-block overflow-hidden border border-indigo-600 px-8 py-1 focus:outline-none focus:ring mx-2 mt-3 h-[35px] "
                               href="#"
-                              onClick={() => {}}
+                              onClick={() => {
+                                setReAsignVoucher(true);
+                              }}
                             >
                               <span className="absolute inset-x-0 bottom-0 h-[2px] bg-indigo-600 transition-all group-hover:h-full group-active:bg-indigo-500"></span>
 

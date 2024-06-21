@@ -1,13 +1,13 @@
-import React, { useContext } from "react";
-import { Fragment, useRef, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
-import { ExclamationTriangleIcon } from "@heroicons/react/24/outline";
-import axios from "axios";
+import React, { Fragment, useContext, useRef, useState } from "react";
 import Context from "../../store/Context";
+import axios from "axios";
 import { toast } from "react-toastify";
 import { IoIosCloseCircle } from "react-icons/io";
 import { RotatingLines } from "react-loader-spinner";
-function AddtourDescriptionModal(props) {
+
+const UpdateTourDescription = (props) => {
+  console.log(props);
   const connectionUrl = process.env.REACT_APP_CONNECTION_STRING;
   const [saveLoader, setSaveLoader] = useState(false);
 
@@ -40,18 +40,20 @@ function AddtourDescriptionModal(props) {
       voucherId: ctx.currentTourIdData,
       token: user.access_token,
       domain: user.domain,
+      descriptionId: props?.description?.id,
     };
-
+    console.log(data);
+    // return;
     // return
     try {
       const response = await axios.post(
-        `${connectionUrl}:${process.env.REACT_APP_BACKEND_PORT}/user/addDetails`,
+        `${connectionUrl}:${process.env.REACT_APP_BACKEND_PORT}/user/updateDetails`,
         data
       );
-      const res = response.data;
-      ctx.removeOnGoingTour(res.details.id);
+      //   const res = response.data;
+      //   ctx.removeOnGoingTour(res.details.id);
       props.close();
-      toast.success("voucher has been send to admin ...wait for thier action");
+      toast.success("voucher description changed please refresh the page ");
       setSaveLoader(false);
     } catch (err) {
       console.log(err);
@@ -119,6 +121,7 @@ function AddtourDescriptionModal(props) {
                       className="outline-none border-2 border-gray-400  bg-transparent text-gray-500"
                       type="date"
                       ref={departureDateRef}
+                      defaultValue={props?.description?.departureDate}
                     ></input>
                   </div>{" "}
                   <div className="flex flex-col px-2 w-[100%] py-2">
@@ -127,6 +130,7 @@ function AddtourDescriptionModal(props) {
                       className="outline-none border-2 border-gray-400  bg-transparent text-gray-500"
                       type="date"
                       ref={arrivalDateRef}
+                      defaultValue={props?.description?.arrivalDate}
                     ></input>
                   </div>
                 </div>
@@ -138,6 +142,7 @@ function AddtourDescriptionModal(props) {
                       className="outline-none border-2 border-gray-400  bg-transparent text-gray-500"
                       type="time"
                       ref={departureTimeRef}
+                      defaultValue={props?.description?.departureTime}
                     ></input>
                   </div>{" "}
                   <div className="flex flex-col px-2 w-[100%] py-2">
@@ -146,6 +151,7 @@ function AddtourDescriptionModal(props) {
                       className="outline-none border-2 border-gray-400  bg-transparent text-gray-500"
                       ref={arrivalTimeRef}
                       type="time"
+                      defaultValue={props?.description?.arrivalTime}
                     ></input>
                   </div>
                 </div>
@@ -157,6 +163,7 @@ function AddtourDescriptionModal(props) {
                       rows={1}
                       className="outline-none border-2 border-gray-400  bg-transparent text-gray-500 px-2"
                       ref={purposeRef}
+                      defaultValue={props?.description?.purpose}
                     ></textarea>
                   </div>
                 </div>
@@ -165,10 +172,9 @@ function AddtourDescriptionModal(props) {
                     <label>Transport (Arrival)</label>
                     <select
                       className="outline-none border-2  font-semibold border-gray-400  bg-transparent"
-                      ref={transportDepartureRef}
-                      onChange={(e) => {
-                        // paymentTypeRef.current.value = e.target.value;
-                      }}
+                      ref={transportArrivalRef}
+                      onChange={(e) => {}}
+                      defaultValue={props?.description?.transportDeparture}
                     >
                       <option value={"Flight"} className="bg-blue-400">
                         Flight
@@ -185,10 +191,12 @@ function AddtourDescriptionModal(props) {
                     <label>Transport (Departure)</label>
                     <select
                       className="outline-none border-2  font-semibold border-gray-400  bg-transparent bg-blue-500"
-                      ref={transportArrivalRef}
+                      ref={transportDepartureRef}
                       onChange={(e) => {
                         // paymentTypeRef.current.value = e.target.value;
                       }}
+                      //   defaultChecked={props?.description?.transportArrival}
+                      defaultValue={props?.description?.transportArrival}
                     >
                       <option value={"Flight"} className="bg-blue-400">
                         Flight
@@ -208,17 +216,18 @@ function AddtourDescriptionModal(props) {
                     <input
                       className="outline-none border-2 border-gray-400  bg-transparent text-gray-500 px-2"
                       ref={advanceCashRef}
+                      defaultValue={props?.description?.advanceCash}
                     ></input>
                   </div>
                 </div>
                 <div className="w-[100%] flex  justify-center mb-4 mt-6">
                   <p
                     className="w-[80%] hover:bg-blue-700
-                     bg-blue-600 text-white flex justify-center font-semibold py-3 rounded-md cursor-pointer"
+                       bg-blue-600 text-white flex justify-center font-semibold py-3 rounded-md cursor-pointer"
                     onClick={tourDescriptionHandler}
                   >
                     {!saveLoader ? (
-                      "Send Voucher"
+                      "Update Details"
                     ) : (
                       <RotatingLines
                         visible={true}
@@ -234,41 +243,6 @@ function AddtourDescriptionModal(props) {
                     )}
                   </p>
                 </div>
-                {/* <div className="bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
-                <div className="sm:flex sm:items-start">
-                  <div className="mx-auto flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-red-100 sm:mx-0 sm:h-10 sm:w-10">
-                    <ExclamationTriangleIcon className="h-6 w-6 text-red-600" aria-hidden="true" />
-                  </div>
-                  <div className="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">
-                    <Dialog.Title as="h3" className="text-base font-semibold leading-6 text-gray-900">
-                      Deactivate account
-                    </Dialog.Title>
-                    <div className="mt-2">
-                      <p className="text-sm text-gray-500">
-                        Are you sure you want to deactivate your account? All of your data will be permanently
-                        removed. This action cannot be undone.
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div> */}
-                {/* <div className="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
-                <button
-                  type="button"
-                  className="inline-flex w-full justify-center rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-gray-500 shadow-sm hover:bg-red-500 sm:ml-3 sm:w-auto"
-                  onClick={() => setOpen(false)}
-                >
-                  Deactivate
-                </button>
-                <button
-                  type="button"
-                  className="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto"
-                  onClick={() => setOpen(false)}
-                  ref={cancelButtonRef}
-                >
-                  Cancel
-                </button>
-              </div> */}
               </Dialog.Panel>
             </Transition.Child>
           </div>
@@ -276,6 +250,6 @@ function AddtourDescriptionModal(props) {
       </Dialog>
     </Transition.Root>
   );
-}
+};
 
-export default AddtourDescriptionModal;
+export default UpdateTourDescription;

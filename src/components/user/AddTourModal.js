@@ -41,7 +41,6 @@ function AddTourModal(props) {
     }
   };
   const filterStateHandler = (e) => {
-
     if (e.target.value == "") {
       setStateList(State);
     } else {
@@ -117,28 +116,28 @@ function AddTourModal(props) {
               leaveFrom="opacity-100 translate-y-0 sm:scale-100"
               leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
             >
-              <Dialog.Panel className="relative transform overflow-hidden rounded-lg text-left shadow-xl transition-all sm:my-8 w-[100%] md:w-[500px] py-4 bg-[#257894] text-white">
+              <Dialog.Panel className="relative transform overflow-hidden rounded-lg text-left shadow-xl transition-all sm:my-8 w-[100%] md:w-[500px] py-4  bg-white">
                 <div
-                  className="fixed right-4 top-2 flex cursor-pointer font-bold underline"
+                  className="fixed right-4 top-2 flex cursor-pointer font-bold underline text-blue-600"
                   onClick={() => props.close()}
                 >
                   <IoIosCloseCircle className="w-[30px] h-[30px]" />
-                  close
+                   
                 </div>
                 <div className="text-center pb-4">
                   <div className="text-2xl font-semibold flex items-center">
-                    <div className="bg-gradient-to-r from-[#257894] to-white flex-1 h-[2px]" />
-                    <div className="md:font-bold text-2xl m-3 text-white font-medium">
+                    <div className="bg-gradient-to-r from-white to-blue-600 flex-1 h-[2px]" />
+                    <div className="md:font-bold text-2xl m-3 text-blue-600 font-medium">
                       ADD TOUR
                     </div>
-                    <div className="bg-gradient-to-r from-white to-[#257894] flex-1 h-[2px]" />
+                    <div className="bg-gradient-to-r from-blue-600 to-white flex-1 h-[2px]" />
                   </div>
                 </div>
                 <div className="flex flex-col sm:flex-row min-[370px]:px-12">
-                  <div className="flex flex-col px-2 w-[100%] py-2 relative">
-                    <label>State</label>
+                  <div className="flex flex-col px-2 w-[100%] py-2 relative font-semibold">
+                    <label className=" py-1">State</label>
                     <div
-                      className="outline-none border-2 border-white bg-transparent cursor-pointer"
+                      className="outline-none border-2 border-blue-500 bg-transparent cursor-pointer"
                       onClick={() => setStateDropDownOpen(!stateDropDownOpen)}
                     >
                       {!stateSelected ? (
@@ -150,11 +149,11 @@ function AddTourModal(props) {
                       )}
                     </div>
                     {stateDropDownOpen && (
-                      <div className="absolute top-full left-0 right-0 mt-1 outline-none border-2 border-white bg-white h-[100px] overflow-y-auto overflow-x-hidden z-20">
-                        <div className="fixed text-black border-gray-500 border-[2px]">
+                      <div className="absolute top-full left-0 right-0 mt-1 outline-none border-2 border-blue-500 bg-white h-[100px] overflow-y-auto overflow-x-hidden z-20">
+                        <div className="fixed text-black ">
                           <input
                             placeholder="Enter Your State Name"
-                            className="px-1"
+                            className="border-b-2 outline-0"
                             onChange={filterStateHandler}
                           ></input>
                         </div>
@@ -162,7 +161,7 @@ function AddTourModal(props) {
                           {stateList.map((current) => (
                             <div
                               key={current}
-                              className="text-black border-2 border-b hover:bg-blue-400 hover:text-white"
+                              className="text-black border-2 border-b bg-blue-400 hover:bg-blue-700 hover:text-white"
                               onClick={() => {
                                 setStateSelected(current);
                                 setCityList(City[current]);
@@ -177,10 +176,10 @@ function AddTourModal(props) {
                       </div>
                     )}
                   </div>
-                  <div className="flex flex-col px-2 w-[100%] py-2 relative">
-                    <label>City</label>
+                  <div className="flex flex-col px-2 w-[100%] py-2 relative  font-semibold">
+                    <label className="font-semibold py-1">City</label>
                     <div
-                      className="outline-none border-2 border-white bg-transparent cursor-pointer"
+                      className="outline-none border-2 border-blue-500 bg-transparent cursor-pointer"
                       onClick={() => setCityDropDownOpen(!cityDropDownOpen)}
                     >
                       {!citySelected ? (
@@ -192,11 +191,11 @@ function AddTourModal(props) {
                       )}
                     </div>
                     {cityDropDownOpen && (
-                      <div className="absolute top-full left-0 right-0 mt-1 outline-none border-2 border-white bg-white h-[100px] overflow-y-auto overflow-x-hidden z-20">
+                      <div className="absolute top-full left-0 right-0 mt-1 outline-none border-2 border-blue-500 bg-white h-[100px] overflow-y-auto overflow-x-hidden z-20">
                         <div className="fixed text-black border-gray-500 border-[2px]">
                           <input
                             placeholder="Enter Your City Name"
-                            className="px-1 w-[100%]"
+                            className=" w-[100%]"
                             onChange={filterCityHandler}
                           ></input>
                         </div>
@@ -205,7 +204,7 @@ function AddTourModal(props) {
                           {cityList?.map((current) => (
                             <div
                               key={current}
-                              className="text-black border-2 border-b hover:bg-blue-400 hover:text-white"
+                              className="text-black border-2 border-b bg-blue-400 hover:bg-blue-700 hover:text-white"
                               onClick={() => {
                                 setCitySelected(current);
                                 setCityDropDownOpen(false);
@@ -219,56 +218,54 @@ function AddTourModal(props) {
                     )}
                   </div>
                 </div>
-                <div className="flex min-[370px]:px-12">
-                  <div className="flex py-2">
+                <div className="flex flex-col  sm:flex-row min-[370px]:px-12 ">
+                  <div className="flex flex-col w-[100%] px-2 py-2 font-semibold  ">
                     <div>
-                      <p className="px-2">City:</p>
+                      <p className=" py-1">Other City:</p>
                       <input
-                        className="outline-none border-2 border-white mx-2 w-[100%] bg-transparent"
-                        ref={cityRef}
+                        className="outline-none border-2 border-blue-500 h-[30px] w-[100%] ps-2 bg-transparent"
+                        ref={cityRef} placeholder="Enter City Manually"
                       />
                       <p className="text-sm px-2">
                         (if Not present in Above list)
                       </p>
                     </div>
                   </div>
-                </div>
-                <div className="flex min-[370px]:px-8">
-                  <div className="flex w-[100%] py-2 max-[370px]:px-2">
-                    <div className="min-[370px]:px-6">
-                      <p>Currency:</p>
+                  <div className="flex flex-col  px-2 w-[100%] py-2  font-semibold ">
+                    <div className=" text-black">
+                      <p className="font-semibold py-1">Currency:</p>
                       <select
-                        className="outline-none border-2 border-white bg-transparent bg-blue-400 text-white font-bold"
+                        className="outline-none border-2 border-blue-500 bg-transparent font-semibold bg-blue-400 text-blue-600 font-bold h-[30px] w-[100%]"
                         ref={currencyRef}
                         onChange={handleCurrencyChange}
                       >
                         <option
                           value="INR"
-                          className="border-b-2 bg-blue-400 hover:bg-white font-bold hover:text-white"
+                          className="border-b-2 bg-blue-400 hover:bg-white font-bold text-white hover:text-white"
                         >
                           Rupees
                         </option>
                         <option
                           value="USD"
-                          className="border-b-2 bg-blue-400 hover:bg-white font-bold hover:text-white"
+                          className="border-b-2 bg-blue-400 hover:bg-white font-bold text-white hover:text-white"
                         >
                           US Dollar
                         </option>
                         <option
                           value="SGD"
-                          className="border-b-2 bg-blue-400 hover:bg-white font-bold hover:text-black"
+                          className="border-b-2 bg-blue-400 hover:bg-white font-bold text-white hover:text-black"
                         >
                           Singapore Dollar
                         </option>
                         <option
                           value="JPY"
-                          className="border-b-2 bg-blue-400 hover:bg-white font-bold hover:text-black"
+                          className="border-b-2 bg-blue-400 hover:bg-white font-bold text-white hover:text-black"
                         >
                           Japanese Yen
                         </option>
                         <option
                           value="EUR"
-                          className="border-b-2 bg-blue-400 hover:bg-white font-bold hover:text-black"
+                          className="border-b-2 bg-blue-400 hover:bg-white font-bold text-white hover:text-black"
                         >
                           Euro
                         </option>
@@ -276,21 +273,64 @@ function AddTourModal(props) {
                     </div>
                   </div>
                 </div>
+                {/* <div className="flex min-[370px]:px-8">
+                  <div className="flex w-[100%] py-2 max-[370px]:px-2">
+                    <div className="min-[370px]:px-6 text-black">
+                      <p className="font-semibold py-1">Currency:</p>
+                      <select
+                        className="outline-none border-2 border-blue-500 bg-transparent bg-blue-400 text-black font-bold"
+                        ref={currencyRef}
+                        onChange={handleCurrencyChange}
+                      >
+                        <option
+                          value="INR"
+                          className="border-b-2 bg-blue-400 hover:bg-white font-bold text-white hover:text-white"
+                        >
+                          Rupees
+                        </option>
+                        <option
+                          value="USD"
+                          className="border-b-2 bg-blue-400 hover:bg-white font-bold text-white hover:text-white"
+                        >
+                          US Dollar
+                        </option>
+                        <option
+                          value="SGD"
+                          className="border-b-2 bg-blue-400 hover:bg-white font-bold text-white hover:text-black"
+                        >
+                          Singapore Dollar
+                        </option>
+                        <option
+                          value="JPY"
+                          className="border-b-2 bg-blue-400 hover:bg-white font-bold text-white hover:text-black"
+                        >
+                          Japanese Yen
+                        </option>
+                        <option
+                          value="EUR"
+                          className="border-b-2 bg-blue-400 hover:bg-white font-bold text-white hover:text-black"
+                        >
+                          Euro
+                        </option>
+                      </select>
+                    </div>
+                  </div>
+                </div> */}
                 <div className="w-[100%] flex justify-center mb-4 mt-6">
                   {!createLoader ? (
                     <p
-                      className="w-[80%] hover:bg-gray-300 bg-white text-black text-center font-semibold py-3 rounded-md cursor-pointer"
+                      className="w-[80%]  bg-blue-600 hover:bg-blue-700  text-white text-center font-semibold py-3 rounded-md cursor-pointer"
                       onClick={saveTourHandler}
                     >
                       Create Tour
                     </p>
                   ) : (
-                    <p className="w-[80%] hover:bg-gray-300 bg-white text-black flex justify-center font-semibold py-3 rounded-md cursor-pointer">
+                    <p className="w-[80%] bg-blue-600 hover:bg-blue-700   text-white flex justify-center font-semibold py-3 rounded-md cursor-pointer">
                       <RotatingLines
                         visible={true}
                         height="24"
                         width="24"
-                        color="red"
+                        strokeColor="white"
                         strokeWidth="5"
                         animationDuration="0.75"
                         ariaLabel="rotating-lines-loading"

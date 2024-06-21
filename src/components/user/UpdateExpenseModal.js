@@ -6,11 +6,14 @@ import axios from "axios";
 import Context from "../../store/Context";
 import { toast } from "react-toastify";
 import { IoIosCloseCircle } from "react-icons/io";
+import { RotatingLines } from "react-loader-spinner";
 
 function UpdateExpenseModal(props) {
   console.log(props.voucherId);
   const connectionUrl = process.env.REACT_APP_CONNECTION_STRING;
   //   const [open, setOpen] = useState(true);
+  const [createLoader, setCreateLoader] = useState(false);
+
   const ctx = useContext(Context);
   const cancelButtonRef = useRef(null);
   const amountRef = useRef();
@@ -38,6 +41,7 @@ function UpdateExpenseModal(props) {
   };
   console.log(props);
   const updateExpenseHandler = async () => {
+    setCreateLoader(true)
     console.log(props.updateData?.expenseType);
     console.log(expenseCategoryRef.current);
     let base64Image = "";
@@ -70,8 +74,10 @@ function UpdateExpenseModal(props) {
           console.log(res);
           ctx.updateCurrentTourExpenses(res);
           toast.success("Expense added.");
+          setCreateLoader(false)
         } catch (err) {
           toast.error(err.response?.data?.msg);
+          setCreateLoader(false)
         }
       };
     } else {
@@ -97,9 +103,11 @@ function UpdateExpenseModal(props) {
         );
         const res = response.data.expenseData;
         ctx.updateCurrentTourExpenses(res);
+        setCreateLoader(false)
         toast.success("Expense added....");
       } catch (err) {
         toast.error(err.response?.data?.msg);
+        setCreateLoader(false)
       }
     }
   };
@@ -134,21 +142,20 @@ function UpdateExpenseModal(props) {
               leaveFrom="opacity-100 translate-y-0 sm:scale-100"
               leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
             >
-              <Dialog.Panel className="relative transform overflow-hidden rounded-lg text-left shadow-xl transition-all sm:my-8 w-[100%] md:w-[500px] py-4 bg-[#257894] text-white">
+              <Dialog.Panel className="relative transform overflow-hidden rounded-lg text-left shadow-xl transition-all sm:my-8 w-[100%] md:w-[500px] py-4 bg-white font-semibold text-black">
                 <div
                   className="fixed right-4 top-2 flex cursor-pointer font-bold underline "
                   onClick={() => props.onClose()}
                 >
-                  <IoIosCloseCircle className="w-[30px] h-[30px]"></IoIosCloseCircle>
-                  close
+                  <IoIosCloseCircle className="w-[30px] h-[30px] text-blue-600"></IoIosCloseCircle>
                 </div>
                 <div className="text-center pt-2 pb-4">
                   <div className="text-2xl font-semibold flex items-center">
-                    <div className="bg-gradient-to-r from-[#257894] to-white flex-1 h-[2px]"></div>
-                    <div className="md:font-bold text-2xl m-3  text-white font-medium">
+                    <div className="bg-gradient-to-r from-white to-blue-600 flex-1 h-[2px]"></div>
+                    <div className="md:font-bold text-2xl m-3  text-blue-600 font-medium">
                       UPDATE EXPENSE
                     </div>
-                    <div className="bg-gradient-to-r from-white to-[#257894]  flex-1 h-[2px]"></div>
+                    <div className="bg-gradient-to-r from-blue-600 to-white  flex-1 h-[2px]"></div>
                   </div>
                   <div className="flex flex-col items-center">
                     <p className="">Date:</p>
@@ -164,7 +171,7 @@ function UpdateExpenseModal(props) {
                   <div className="flex flex-col px-2 w-[100%] py-2">
                     <label>Amount</label>
                     <input
-                      className="outline-none border-2 border-white  bg-transparent px-2 "
+                      className="outline-none border-2 border-gray-400  bg-transparent px-2 "
                       ref={amountRef}
                       defaultValue={props?.updateData?.Amount}
 
@@ -174,7 +181,7 @@ function UpdateExpenseModal(props) {
                   <div className="flex flex-col px-2 w-[100%] py-2">
                     <label>Expense Category</label>
                     <select
-                      className="outline-none border-2 border-white  font-semibold bg-transparent"
+                      className="outline-none border-2 border-gray-400  font-semibold bg-transparent"
                       //   ref={expenseCategoryRef}
                       onChange={(e) =>
                         (expenseCategoryRef.current = e.target.value)
@@ -202,7 +209,7 @@ function UpdateExpenseModal(props) {
                     <label>Description</label>
                     <textarea
                       rows={3}
-                      className="outline-none border-2 border-white  bg-transparent px-2 "
+                      className="outline-none border-2 border-gray-400  bg-transparent px-2 "
                       ref={descriptionRef}
                       defaultValue={props.updateData?.description}
                     ></textarea>
@@ -212,7 +219,7 @@ function UpdateExpenseModal(props) {
                   <div className="flex flex-col px-2 w-[100%] py-2">
                     <label>Bill No (if present)</label>
                     <input
-                      className="outline-none border-2 border-white  bg-transparent  px-2"
+                      className="outline-none border-2 border-gray-400  bg-transparent  px-2"
                       ref={voucherRef}
                       defaultValue={props.updateData?.voucherNo}
                     ></input>
@@ -220,7 +227,7 @@ function UpdateExpenseModal(props) {
                   <div className="flex flex-col px-2 w-[100%] py-2">
                     <label>Payment Type</label>
                     <select
-                      className="outline-none border-2  font-semibold border-white  bg-transparent"
+                      className="outline-none border-2  font-semibold border-gray-400  bg-transparent"
                       ref={paymentTypeRef}
                       onChange={(e) => {
                         paymentTypeRef.current.value = e.target.value;
@@ -272,12 +279,30 @@ function UpdateExpenseModal(props) {
                   )}
                 </div>
                 <div className="w-[100%] flex  justify-center mb-4 mt-6">
-                  <p
-                    className="w-[80%] hover:bg-gray-400 bg-white  text-center font-semibold py-3 rounded-md cursor-pointer text-black"
-                    onClick={updateExpenseHandler}
-                  >
-                    update Expense
-                  </p>
+                  {!createLoader ? (
+                    <p
+                      className="w-[80%] hover:bg-blue-700 bg-blue-600  text-center font-semibold py-3 rounded-md cursor-pointer text-white"
+                      onClick={updateExpenseHandler}
+                    >
+                      Update Expense
+                    </p>
+                  ) : (
+                    <p
+                      className="w-[80%] hover:bg-blue-700 bg-blue-600 flex justify-center font-semibold py-3 rounded-md cursor-pointer text-white"
+                      onClick={updateExpenseHandler}
+                    >
+                      <RotatingLines
+                        visible={true}
+                        height="24"
+                        width="24"
+                        strokeColor="white"
+                        strokeWidth="5"
+                        animationDuration="0.75"
+                        ariaLabel="rotating-lines-loading"
+                      />{" "}
+                      Updating...
+                    </p>
+                  )}
                 </div>
               </Dialog.Panel>
             </Transition.Child>
