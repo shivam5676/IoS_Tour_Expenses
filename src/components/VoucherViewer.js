@@ -713,7 +713,7 @@ export default function VoucherViewer(props) {
                       {imageArray &&
                         imageArray.map((current, index) => {
                           return (
-                            <div className="text-center font-semibold bg-red-400 text-white">
+                            <div className="text-center font-semibold  text-white">
                               <p>Bill Image-{index + 1}</p>
                               <img
                                 src={`${current}`}
