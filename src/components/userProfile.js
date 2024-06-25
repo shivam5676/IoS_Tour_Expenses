@@ -87,7 +87,15 @@ function UserProfile() {
       <div className=" overflow-y-scroll h-[calc(40vh-50px)] min-h-[200px] ">
         {" "}
         <div className="p-2 pt-4 flex border-b-2">
-          <FaRegUser className="w-[80px] h-[80px] mt-2" />
+          {ctx.adminCurrentUserData?.profilePic ? (
+            <img
+              src={ctx.adminCurrentUserData?.profilePic}
+              alt="profile"
+              className="w-[80px] h-[80px] m-2 border-2"
+            ></img>
+          ) : (
+            <FaRegUser className="w-[80px] h-[80px] m-2 border-2 border-black p-2"></FaRegUser>
+          )}
           <div className="py-2 flex flex-col">
             <p>
               {ctx.adminCurrentUserData?.firstName +

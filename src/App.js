@@ -11,16 +11,53 @@ import Context from "./store/Context";
 
 import UserVoucherPanel from "./components/user/userVoucherPanel";
 import AccountDepartment from "./components/AccountDepartment";
+import TokenValidator from "./components/tokenValidator";
+import axios from "axios";
 
 function App() {
+  const [open, setOpen] = useState(false);
+
+  const connectionUrl = process.env.REACT_APP_CONNECTION_STRING;
+
   const ctx = useContext(Context);
   const [isLoggedIn, setIsLoggedIn] = useState(
     JSON.parse(localStorage.getItem("token"))
   );
   console.log(isLoggedIn);
   useEffect(() => {
+    const tokenValidationChecker = async () => {
+      if (isLoggedIn) {
+        try {
+          const response = await axios.post(
+            `${connectionUrl}:${process.env.REACT_APP_BACKEND_PORT}/user/sessionVerify`,
+            {
+              token: isLoggedIn.access_token,
+              domain: isLoggedIn.domain,
+              refreshToken: isLoggedIn.refresh_token,
+            }
+          );
+          console.log(response);
+        } catch (err) {
+          setOpen(true);
+          console.log(err);
+        }
+      }
+    };
+
+    // Run the checker immediately upon component mount
+    tokenValidationChecker();
+
+    const intervalId = setInterval(() => {
+      tokenValidationChecker();
+    }, 120000); // 120000 ms = 2 minutes
+
+    // Cleanup interval on component unmount
+    return () => clearInterval(intervalId);
+  }, [isLoggedIn, connectionUrl]);
+  useEffect(() => {
     setIsLoggedIn(JSON.parse(localStorage.getItem("token")));
   }, [ctx.loginData]);
+  const tokenIsValid = true;
   // const isLoggedIn = ctx.loginData
   console.log(ctx.loginData);
   return (
@@ -35,6 +72,12 @@ function App() {
       }}
     >
       <NavBar></NavBar>
+      {isLoggedIn && (
+        <TokenValidator
+          close={() => setOpen(false)}
+          open={open}
+        ></TokenValidator>
+      )}
       <Routes>
         {!isLoggedIn ? (
           <Route path="*" element={<Login />} />

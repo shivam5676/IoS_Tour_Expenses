@@ -11,13 +11,26 @@ function AdminSidePanel() {
   return (
     <div className="w-[250px] h-[81vh] max-[923px]:hidden  min-[980px]:w-[300px] backdrop-blur-sm bg-white/30  text-white rounded-2xl my-1 min-[1400px]:my-2 shadow-md shadow-gray-700 font-['Poppins']">
       <div className="bg-[#2fc7f8] h-[150px] rounded-md m-4 max-w-[270px] text-white">
-        <div className="flex justify-center">
-          <FaRegUserCircle className="w-[40px] h-[40px] mt-2" />
+        <div className="flex ">
+          {console.log(userData?.profilePic)}{" "}
+          {!userData?.profilePic ? (
+            <FaRegUserCircle className="w-[60px] h-[80px] m-2" />
+          ) : (
+            <img
+              src={userData?.profilePic}
+              alt="profile"
+              className="w-[80px] h-[80px] m-2 border-2"
+            ></img>
+          )}
+          <div className=" flex justify-center flex-col">
+            {" "}
+            <p className=" px-2 font-bold  font-['Poppins']">
+              {userData?.firstName + " " + userData?.lastName}
+            </p>
+            {userData?.designation&&<p className="text-[.75rem]">{`( ${userData?.designation} ) `}</p>}{" "}
+          </div>
         </div>
 
-        <p className=" p-2 font-bold text-center font-['Poppins']">
-          {userData?.firstName + " " + userData?.lastName}
-        </p>
         <div className="flex border-b-2">
           <MdEmail className="w-[25px] h-[25px] mx-2" />
           <p className="px-2 w-[100%] overflow-hidden whitespace-nowrap overflow-ellipsis text-[.9rem]">

@@ -402,8 +402,8 @@ export default function VoucherViewer(props) {
           </Transition.Child>
 
           {voucherData && (
-            <div className="fixed inset-0 z-10 w-screen overflow-y-auto">
-              <div className="flex min-h-full  justify-center p-4 max-[531px]:pt-[48px] pt-[60px] text-center items-center">
+            <div className="fixed inset-0 z-10 w-screen overflow-y-auto pt-[90px] md:pt-[70px]">
+              <div className="flex min-h-full  justify-center   text-center items-center">
                 <Transition.Child
                   as={Fragment}
                   enter="ease-out duration-300"
@@ -1015,6 +1015,7 @@ export default function VoucherViewer(props) {
                             </p>
                           </div>
                         )}
+                        <div className="mt-[100px]"> </div>
                       <DownloadPdfButton
                         expenseData={expenseData}
                         data={{

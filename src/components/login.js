@@ -17,7 +17,7 @@ import { ColorRing } from "react-loader-spinner";
 import { toast } from "react-toastify";
 import loginImage from "../assests/loginImage2.png";
 
-function Login() {
+const Login = React.memo(() => {
   const [loginLoader, setLoginLoader] = useState(false);
   const emailRef = useRef();
   const passwordRef = useRef();
@@ -139,6 +139,6 @@ function Login() {
       </div>
     </div>
   );
-}
+});
 
 export default Login;
