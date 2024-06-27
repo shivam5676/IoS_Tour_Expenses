@@ -11,8 +11,8 @@ import Context from "./store/Context";
 
 import UserVoucherPanel from "./components/user/userVoucherPanel";
 import AccountDepartment from "./components/AccountDepartment";
-import TokenValidator from "./components/tokenValidator";
 import axios from "axios";
+import TokenValidator from "./components/TokenValidator";
 
 function App() {
   const [open, setOpen] = useState(false);
@@ -23,17 +23,18 @@ function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(
     JSON.parse(localStorage.getItem("token"))
   );
-  console.log(isLoggedIn);
+  console.log(JSON.parse(localStorage.getItem("token")));
   useEffect(() => {
     const tokenValidationChecker = async () => {
       if (isLoggedIn) {
+        const token=JSON.parse(localStorage.getItem("token"))
         try {
           const response = await axios.post(
             `${connectionUrl}:${process.env.REACT_APP_BACKEND_PORT}/user/sessionVerify`,
             {
-              token: isLoggedIn.access_token,
-              domain: isLoggedIn.domain,
-              refreshToken: isLoggedIn.refresh_token,
+              token: token.access_token,
+              domain: token.domain,
+              refreshToken: token.refresh_token,
             }
           );
           console.log(response);
