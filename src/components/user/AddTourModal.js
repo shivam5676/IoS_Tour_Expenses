@@ -1,14 +1,12 @@
-import React, { useContext } from "react";
-import { Fragment, useRef, useState } from "react";
+import React, { useContext, useState, useRef, Fragment } from "react";
 import { Dialog, Transition } from "@headlessui/react";
-import { ExclamationTriangleIcon } from "@heroicons/react/24/outline";
 import axios from "axios";
 import Context from "../../store/Context";
 import State from "../../assests/State";
 import City from "../../assests/Cities";
 import { toast } from "react-toastify";
 import { IoIosCloseCircle } from "react-icons/io";
-import { InfinitySpin, RotatingLines } from "react-loader-spinner";
+import { RotatingLines } from "react-loader-spinner";
 
 function AddTourModal(props) {
   const connectionUrl = process.env.REACT_APP_CONNECTION_STRING;
@@ -20,6 +18,8 @@ function AddTourModal(props) {
 
   const [stateSelected, setStateSelected] = useState(null);
   const [stateDropDownOpen, setStateDropDownOpen] = useState(false);
+  const [stateSearch, setStateSearch] = useState("");
+
   const currencyRef = useRef("");
   const cityRef = useRef("");
 
@@ -27,30 +27,32 @@ function AddTourModal(props) {
 
   const cancelButtonRef = useRef(null);
   const user = JSON.parse(localStorage.getItem("token"));
+
   const filterCityHandler = (e) => {
-    console.log(e.target.value);
-    if (e.target.value == "") {
+    const searchValue = e.target.value;
+    if (searchValue === "") {
       setCityList(City[stateSelected]);
     } else {
-      const findCity = City[stateSelected]?.filter((current) => {
-        console.log(current);
-        return current.toLowerCase().includes(e.target.value.toLowerCase());
-      });
-      console.log(findCity);
+      const findCity = City[stateSelected]?.filter((current) =>
+        current.toLowerCase().includes(searchValue.toLowerCase())
+      );
       setCityList(findCity);
     }
   };
+
   const filterStateHandler = (e) => {
-    if (e.target.value == "") {
+    const searchValue = e.target.value;
+    setStateSearch(searchValue);
+    if (searchValue === "") {
       setStateList(State);
+      setStateDropDownOpen(false); // Close dropdown if input is empty
     } else {
       const findByCharacters = State.filter((current) =>
-        current.toLowerCase().includes(e.target.value.toLowerCase())
+        current.toLowerCase().includes(searchValue.toLowerCase())
       );
-      // console.log(findByCharacters);
       setStateList(findByCharacters);
+      setStateDropDownOpen(true); // Open dropdown if input is not empty
     }
-    console.log(e.target.value);
   };
 
   const saveTourHandler = async () => {
@@ -122,7 +124,6 @@ function AddTourModal(props) {
                   onClick={() => props.close()}
                 >
                   <IoIosCloseCircle className="w-[30px] h-[30px]" />
-                   
                 </div>
                 <div className="text-center pb-4">
                   <div className="text-2xl font-semibold flex items-center">
@@ -136,47 +137,66 @@ function AddTourModal(props) {
                 <div className="flex flex-col sm:flex-row min-[370px]:px-12">
                   <div className="flex flex-col px-2 w-[100%] py-2 relative font-semibold">
                     <label className=" py-1">State</label>
-                    <div
-                      className="outline-none border-2 border-blue-500 bg-transparent cursor-pointer"
-                      onClick={() => setStateDropDownOpen(!stateDropDownOpen)}
-                    >
-                      {!stateSelected ? (
-                        <p className="h-[30px] px-2">Select State here..</p>
-                      ) : (
-                        <p className="overflow-hidden w-[100%] flex flex-nowrap h-[30px] px-2">
-                          {stateSelected}
-                        </p>
+                    <div className="outline-none border-2 border-blue-500 bg-white">
+                      <div className="flex">
+                        {" "}
+                        <input
+                          className="w-full px-2 py-1"
+                          placeholder="Enter Your State Name"
+                          value={stateSelected || stateSearch}
+                          onChange={filterStateHandler}
+                          onFocus={() => {
+                            if (stateSearch !== "") setStateDropDownOpen(true);
+                          }}
+                        />
+                        {stateSelected !== null && (
+                          <button
+                            className="h-full m-1 flex items-center text-gray-500 hover:text-gray-700"
+                            onClick={() => setStateSelected(null)}
+                          >
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              className="h-5 w-5"
+                              viewBox="0 0 20 20"
+                              fill="currentColor"
+                            >
+                              <path
+                                fillRule="evenodd"
+                                d="M10 0C4.486 0 0 4.486 0 10s4.486 10 10 10 10-4.486 10-10S15.514 0 10 0zm3.707 12.293a1 1 0 01-1.414 1.414L10 11.414l-2.293 2.293a1 1 0 01-1.414-1.414L8.586 10 6.293 7.707a1 1 0 111.414-1.414L10 8.586l2.293-2.293a1 1 0 111.414 1.414L11.414 10l2.293 2.293z"
+                                clipRule="evenodd"
+                              />
+                            </svg>
+                          </button>
+                        )}
+                      </div>
+
+                      {stateDropDownOpen && (
+                        <div className="absolute top-full left-0 right-0 mt-1 border-2 border-blue-500 bg-white h-[150px] overflow-y-auto overflow-x-hidden z-20">
+                          {stateList.length > 0 ? (
+                            stateList.map((current) => (
+                              <div
+                                key={current}
+                                className="text-black px-2 py-1 border-b bg-blue-400 hover:bg-blue-700 hover:text-white cursor-pointer"
+                                onClick={() => {
+                                  setStateSelected(current);
+                                  setCityList(City[current]);
+                                  setStateDropDownOpen(false);
+                                  setStateSearch("");
+                                }}
+                              >
+                                {current}
+                              </div>
+                            ))
+                          ) : (
+                            <div className="text-black px-2 py-1 border-b bg-red-400 hover:bg-red-500 cursor-pointer">
+                              No state found
+                            </div>
+                          )}
+                        </div>
                       )}
                     </div>
-                    {stateDropDownOpen && (
-                      <div className="absolute top-full left-0 right-0 mt-1 outline-none border-2 border-blue-500 bg-white h-[100px] overflow-y-auto overflow-x-hidden z-20">
-                        <div className="fixed text-black ">
-                          <input
-                            placeholder="Enter Your State Name"
-                            className="border-b-2 outline-0"
-                            onChange={filterStateHandler}
-                          ></input>
-                        </div>
-                        <div className="mt-[30px]">
-                          {stateList.map((current) => (
-                            <div
-                              key={current}
-                              className="text-black border-2 border-b bg-blue-400 hover:bg-blue-700 hover:text-white"
-                              onClick={() => {
-                                setStateSelected(current);
-                                setCityList(City[current]);
-                                // console.log(City[current])
-                                setStateDropDownOpen(false);
-                              }}
-                            >
-                              {current}
-                            </div>
-                          ))}
-                        </div>
-                      </div>
-                    )}
                   </div>
-                  <div className="flex flex-col px-2 w-[100%] py-2 relative  font-semibold">
+                  <div className="flex flex-col px-2 w-[100%] py-2 relative font-semibold">
                     <label className="font-semibold py-1">City</label>
                     <div
                       className="outline-none border-2 border-blue-500 bg-transparent cursor-pointer"
@@ -191,153 +211,78 @@ function AddTourModal(props) {
                       )}
                     </div>
                     {cityDropDownOpen && (
-                      <div className="absolute top-full left-0 right-0 mt-1 outline-none border-2 border-blue-500 bg-white h-[100px] overflow-y-auto overflow-x-hidden z-20">
-                        <div className="fixed text-black border-gray-500 border-[2px]">
-                          <input
-                            placeholder="Enter Your City Name"
-                            className=" w-[100%]"
-                            onChange={filterCityHandler}
-                          ></input>
-                        </div>
-                        <div className="mt-[30px]">
-                          {" "}
-                          {cityList?.map((current) => (
-                            <div
-                              key={current}
-                              className="text-black border-2 border-b bg-blue-400 hover:bg-blue-700 hover:text-white"
-                              onClick={() => {
-                                setCitySelected(current);
-                                setCityDropDownOpen(false);
-                              }}
-                            >
-                              {current}
+                      <div className="absolute top-full left-0 right-0 mt-1 outline-none border-2 border-blue-500 bg-white h-[150px] overflow-y-auto overflow-x-hidden z-20">
+                        <input
+                          placeholder="Enter Your City Name"
+                          className="w-full px-2 py-1 border-b-2 outline-0"
+                          onChange={filterCityHandler}
+                        />
+                        <div className="mt-2">
+                          {cityList?.length > 0 ? (
+                            cityList.map((current) => (
+                              <div
+                                key={current}
+                                className="text-black px-2 py-1 border-b bg-blue-400 hover:bg-blue-700 hover:text-white cursor-pointer"
+                                onClick={() => {
+                                  setCitySelected(current);
+                                  setCityDropDownOpen(false);
+                                }}
+                              >
+                                {current}
+                              </div>
+                            ))
+                          ) : (
+                            <div className="text-black px-2 py-1 border-b bg-red-400 hover:bg-red-500 cursor-pointer">
+                              No city found
                             </div>
-                          ))}
+                          )}
                         </div>
                       </div>
                     )}
                   </div>
                 </div>
-                <div className="flex flex-col  sm:flex-row min-[370px]:px-12 ">
-                  <div className="flex flex-col w-[100%] px-2 py-2 font-semibold  ">
+                <div className="flex flex-col sm:flex-row min-[370px]:px-12 py-2 font-semibold">
+                  <div className="flex flex-col px-2 w-[100%] py-2 font-semibold">
                     <div>
                       <p className=" py-1">Other City:</p>
                       <input
-                        className="outline-none border-2 border-blue-500 h-[30px] w-[100%] ps-2 bg-transparent"
-                        ref={cityRef} placeholder="Enter City Manually"
+                        ref={cityRef}
+                        className="w-full px-2 py-1 outline-none border-2 border-blue-500 bg-white"
+                        placeholder="Enter City Name"
                       />
-                      <p className="text-sm px-2">
-                        (if Not present in Above list)
-                      </p>
                     </div>
                   </div>
-                  <div className="flex flex-col  px-2 w-[100%] py-2  font-semibold ">
-                    <div className=" text-black">
-                      <p className="font-semibold py-1">Currency:</p>
-                      <select
-                        className="outline-none border-2 border-blue-500 bg-transparent font-semibold bg-blue-400 text-blue-600 font-bold h-[30px] w-[100%]"
+                  <div className="flex flex-col px-2 w-[100%] py-2 font-semibold">
+                    <div>
+                      <p className=" py-1">Currency:</p>
+                      <input
                         ref={currencyRef}
+                        className="w-full px-2 py-1 outline-none border-2 border-blue-500 bg-white"
+                        placeholder="Enter Currency"
                         onChange={handleCurrencyChange}
-                      >
-                        <option
-                          value="INR"
-                          className="border-b-2 bg-blue-400 hover:bg-white font-bold text-white hover:text-white"
-                        >
-                          Rupees
-                        </option>
-                        <option
-                          value="USD"
-                          className="border-b-2 bg-blue-400 hover:bg-white font-bold text-white hover:text-white"
-                        >
-                          US Dollar
-                        </option>
-                        <option
-                          value="SGD"
-                          className="border-b-2 bg-blue-400 hover:bg-white font-bold text-white hover:text-black"
-                        >
-                          Singapore Dollar
-                        </option>
-                        <option
-                          value="JPY"
-                          className="border-b-2 bg-blue-400 hover:bg-white font-bold text-white hover:text-black"
-                        >
-                          Japanese Yen
-                        </option>
-                        <option
-                          value="EUR"
-                          className="border-b-2 bg-blue-400 hover:bg-white font-bold text-white hover:text-black"
-                        >
-                          Euro
-                        </option>
-                      </select>
+                      />
                     </div>
                   </div>
                 </div>
-                {/* <div className="flex min-[370px]:px-8">
-                  <div className="flex w-[100%] py-2 max-[370px]:px-2">
-                    <div className="min-[370px]:px-6 text-black">
-                      <p className="font-semibold py-1">Currency:</p>
-                      <select
-                        className="outline-none border-2 border-blue-500 bg-transparent bg-blue-400 text-black font-bold"
-                        ref={currencyRef}
-                        onChange={handleCurrencyChange}
-                      >
-                        <option
-                          value="INR"
-                          className="border-b-2 bg-blue-400 hover:bg-white font-bold text-white hover:text-white"
-                        >
-                          Rupees
-                        </option>
-                        <option
-                          value="USD"
-                          className="border-b-2 bg-blue-400 hover:bg-white font-bold text-white hover:text-white"
-                        >
-                          US Dollar
-                        </option>
-                        <option
-                          value="SGD"
-                          className="border-b-2 bg-blue-400 hover:bg-white font-bold text-white hover:text-black"
-                        >
-                          Singapore Dollar
-                        </option>
-                        <option
-                          value="JPY"
-                          className="border-b-2 bg-blue-400 hover:bg-white font-bold text-white hover:text-black"
-                        >
-                          Japanese Yen
-                        </option>
-                        <option
-                          value="EUR"
-                          className="border-b-2 bg-blue-400 hover:bg-white font-bold text-white hover:text-black"
-                        >
-                          Euro
-                        </option>
-                      </select>
-                    </div>
-                  </div>
-                </div> */}
-                <div className="w-[100%] flex justify-center mb-4 mt-6">
-                  {!createLoader ? (
-                    <p
-                      className="w-[80%]  bg-blue-600 hover:bg-blue-700  text-white text-center font-semibold py-3 rounded-md cursor-pointer"
-                      onClick={saveTourHandler}
-                    >
-                      Create Tour
-                    </p>
-                  ) : (
-                    <p className="w-[80%] bg-blue-600 hover:bg-blue-700   text-white flex justify-center font-semibold py-3 rounded-md cursor-pointer">
+                <div className="flex justify-end m-4">
+                  <button
+                    type="button"
+                    className="inline-flex justify-center rounded-md border border-transparent bg-blue-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+                    onClick={saveTourHandler}
+                    disabled={createLoader}
+                  >
+                    {createLoader ? (
                       <RotatingLines
-                        visible={true}
-                        height="24"
-                        width="24"
                         strokeColor="white"
                         strokeWidth="5"
                         animationDuration="0.75"
-                        ariaLabel="rotating-lines-loading"
-                      />{" "}
-                      Adding...
-                    </p>
-                  )}
+                        width="20"
+                        visible={true}
+                      />
+                    ) : (
+                      "Save Tour"
+                    )}
+                  </button>
                 </div>
               </Dialog.Panel>
             </Transition.Child>
