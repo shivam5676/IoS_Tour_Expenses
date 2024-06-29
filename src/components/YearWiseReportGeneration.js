@@ -6,8 +6,9 @@ import BarChartYear from "./barChartYearWise";
 import DownloadYearReportButton from "./DownloadYearReportButton";
 
 function YearWiseReportGeneration(props) {
+  console.log(props, ".....kldljd");
   const user = JSON.parse(localStorage.getItem("token"));
-  const connectionUrl =process.env.REACT_APP_CONNECTION_STRING
+  const connectionUrl = process.env.REACT_APP_CONNECTION_STRING;
   const [reportData, setReportData] = useState(null);
   const [expenseData, setExpenseData] = useState({
     cashExpense: 0,
@@ -41,6 +42,7 @@ function YearWiseReportGeneration(props) {
           }
         );
         response.data.data.forEach((current) => {
+          console.log(current);
           const dateObj = new Date(current.date);
           const MonthIndex = dateObj.getMonth();
           const monthName = monthNameArray[MonthIndex];
@@ -60,7 +62,7 @@ function YearWiseReportGeneration(props) {
             }
             if (current.paymentType == "Cash") {
               expensesObj[monthName].cash += +current.Amount;
-              cashExpense += +current.Amount *+current.Voucher.exchangeRates;
+              cashExpense += +current.Amount * +current.Voucher.exchangeRates;
             }
             if (
               current.paymentType == "Online (train/flight)" ||
@@ -68,7 +70,8 @@ function YearWiseReportGeneration(props) {
             ) {
               expensesObj[monthName].digital += +current.Amount;
 
-              digitalExpense +=+current.Amount *+current.Voucher.exchangeRates;
+              digitalExpense +=
+                +current.Amount * +current.Voucher.exchangeRates;
             }
           } else {
             expensesObj[monthName] = {
@@ -82,7 +85,8 @@ function YearWiseReportGeneration(props) {
             };
             if (current.paymentType == "Cash") {
               // console.log("object", +current.Amount *+current.Voucher.exchangeRates)
-              cashExpense += +current.Amount *+current.Voucher.exchangeRates;
+              console.log(current.Voucher)
+              cashExpense += +current.Amount * +current.Voucher.exchangeRates;
               expensesObj[monthName].cash += +current.Amount;
             }
             if (
@@ -91,12 +95,18 @@ function YearWiseReportGeneration(props) {
             ) {
               expensesObj[monthName].digital += +current.Amount;
 
-              digitalExpense += +current.Amount *+current.Voucher.exchangeRates;
+              digitalExpense +=
+                +current.Amount * +current.Voucher.exchangeRates;
             }
           }
         });
 
         setReportData(expensesObj);
+        console.log({
+          cashExpense: cashExpense,
+          digitalExpense: digitalExpense,
+          expensesObj,
+        });
         setExpenseData((prev) => {
           return { cashExpense: cashExpense, digitalExpense: digitalExpense };
         });
@@ -109,6 +119,7 @@ function YearWiseReportGeneration(props) {
     fetchFilterData();
   }, [props.selectedYear]);
   // let jan=[];
+  console.log(reportData, expenseData);
   return (
     <>
       <DownloadYearReportButton

@@ -11,7 +11,7 @@ import { RotatingLines } from "react-loader-spinner";
 function AddTourModal(props) {
   const connectionUrl = process.env.REACT_APP_CONNECTION_STRING;
   const [stateList, setStateList] = useState(State);
-  const [cityList, setCityList] = useState(null);
+  const [cityList, setCityList] = useState([]);
   const [citySelected, setCitySelected] = useState(null);
   const [cityDropDownOpen, setCityDropDownOpen] = useState(false);
   const [createLoader, setCreateLoader] = useState(false);
@@ -19,6 +19,7 @@ function AddTourModal(props) {
   const [stateSelected, setStateSelected] = useState(null);
   const [stateDropDownOpen, setStateDropDownOpen] = useState(false);
   const [stateSearch, setStateSearch] = useState("");
+  const [citySearch, setCitySearch] = useState("");
 
   const currencyRef = useRef("");
   const cityRef = useRef("");
@@ -30,13 +31,16 @@ function AddTourModal(props) {
 
   const filterCityHandler = (e) => {
     const searchValue = e.target.value;
+    setCitySearch(searchValue);
     if (searchValue === "") {
       setCityList(City[stateSelected]);
+      setCityDropDownOpen(false);
     } else {
       const findCity = City[stateSelected]?.filter((current) =>
         current.toLowerCase().includes(searchValue.toLowerCase())
       );
       setCityList(findCity);
+      setCityDropDownOpen(true);
     }
   };
 
@@ -45,13 +49,13 @@ function AddTourModal(props) {
     setStateSearch(searchValue);
     if (searchValue === "") {
       setStateList(State);
-      setStateDropDownOpen(false); // Close dropdown if input is empty
+      setStateDropDownOpen(false);
     } else {
       const findByCharacters = State.filter((current) =>
         current.toLowerCase().includes(searchValue.toLowerCase())
       );
       setStateList(findByCharacters);
-      setStateDropDownOpen(true); // Open dropdown if input is not empty
+      setStateDropDownOpen(true);
     }
   };
 
@@ -139,22 +143,28 @@ function AddTourModal(props) {
                     <label className=" py-1">State</label>
                     <div className="outline-none border-2 border-blue-500 bg-white">
                       <div className="flex">
-                        {" "}
                         <input
-                          className="w-full px-2 py-1"
+                          className="w-full px-2 py-1 outline-none"
                           placeholder="Enter Your State Name"
-                          value={stateSelected || stateSearch}
+                          value={stateSearch}
                           onChange={filterStateHandler}
                           onFocus={() => {
                             if (stateSearch !== "") setStateDropDownOpen(true);
+                          }}
+                          onClick={() => {
+                            setCityDropDownOpen(false);
                           }}
                         />
                         {stateSelected !== null && (
                           <button
                             className="h-full m-1 flex items-center text-gray-500 hover:text-gray-700"
-                            onClick={() => setStateSelected(null)}
+                            onClick={() => {
+                              setStateSelected(null);
+                              setStateSearch("");
+                            }}
                           >
-                            <svg
+                            <IoIosCloseCircle className="m-1 w-5 h-5"></IoIosCloseCircle>
+                            {/* <svg
                               xmlns="http://www.w3.org/2000/svg"
                               className="h-5 w-5"
                               viewBox="0 0 20 20"
@@ -162,17 +172,17 @@ function AddTourModal(props) {
                             >
                               <path
                                 fillRule="evenodd"
-                                d="M10 0C4.486 0 0 4.486 0 10s4.486 10 10 10 10-4.486 10-10S15.514 0 10 0zm3.707 12.293a1 1 0 01-1.414 1.414L10 11.414l-2.293 2.293a1 1 0 01-1.414-1.414L8.586 10 6.293 7.707a1 1 0 111.414-1.414L10 8.586l2.293-2.293a1 1 0 111.414 1.414L11.414 10l2.293 2.293z"
+                                d="M10 0C4.486 0 0 4.486 0 10s4.486 10 10 10 10-4.486 10-10S15.514 0 10 0zm3.707 12.293a1 1 0 01-1.414 1.414L10 11.414l-2.293 2.293a1 1 0 01-1.414-1.414L8.586 10 6.293 7.707a1 1 0 111.414-1.414L10 8.586l2.293-2.293a1 1 111.414 1.414L11.414 10l2.293 2.293z"
                                 clipRule="evenodd"
                               />
-                            </svg>
+                            </svg> */}
                           </button>
                         )}
                       </div>
 
                       {stateDropDownOpen && (
                         <div className="absolute top-full left-0 right-0 mt-1 border-2 border-blue-500 bg-white h-[150px] overflow-y-auto overflow-x-hidden z-20">
-                          {stateList.length > 0 ? (
+                          {stateList?.length > 0 ? (
                             stateList.map((current) => (
                               <div
                                 key={current}
@@ -181,14 +191,20 @@ function AddTourModal(props) {
                                   setStateSelected(current);
                                   setCityList(City[current]);
                                   setStateDropDownOpen(false);
-                                  setStateSearch("");
+                                  setStateSearch(current);
                                 }}
                               >
                                 {current}
                               </div>
                             ))
                           ) : (
-                            <div className="text-black px-2 py-1 border-b bg-red-400 hover:bg-red-500 cursor-pointer">
+                            <div
+                              className="text-black px-2 py-1 border-b bg-red-400 hover:bg-red-500 cursor-pointer"
+                              onClick={() => {
+                                setStateDropDownOpen(false);
+                                setStateSearch("");
+                              }}
+                            >
                               No state found
                             </div>
                           )}
@@ -197,27 +213,34 @@ function AddTourModal(props) {
                     </div>
                   </div>
                   <div className="flex flex-col px-2 w-[100%] py-2 relative font-semibold">
-                    <label className="font-semibold py-1">City</label>
-                    <div
-                      className="outline-none border-2 border-blue-500 bg-transparent cursor-pointer"
-                      onClick={() => setCityDropDownOpen(!cityDropDownOpen)}
-                    >
-                      {!citySelected ? (
-                        <p className="h-[30px] px-2">Select City here..</p>
-                      ) : (
-                        <p className="overflow-hidden w-[100%] flex flex-nowrap h-[30px] px-2">
-                          {citySelected}
-                        </p>
-                      )}
-                    </div>
-                    {cityDropDownOpen && (
-                      <div className="absolute top-full left-0 right-0 mt-1 outline-none border-2 border-blue-500 bg-white h-[150px] overflow-y-auto overflow-x-hidden z-20">
+                    <label className=" py-1">City</label>
+                    <div className="outline-none border-2 border-blue-500 bg-white">
+                      <div className="flex">
                         <input
+                          className="w-full px-2 py-1 outline-none"
                           placeholder="Enter Your City Name"
-                          className="w-full px-2 py-1 border-b-2 outline-0"
+                          value={citySearch}
                           onChange={filterCityHandler}
+                          onFocus={() => {
+                            if (citySearch !== "") setCityDropDownOpen(true);
+                          }}
+                          onClick={() => setStateDropDownOpen(false)}
                         />
-                        <div className="mt-2">
+                        {citySelected !== null && (
+                          <button
+                            className="h-full m-1 flex items-center text-gray-500 hover:text-gray-700"
+                            onClick={() => {
+                              setCitySelected(null);
+                              setCitySearch("");
+                            }}
+                          >
+                            <IoIosCloseCircle className="m-1 w-5 h-5"></IoIosCloseCircle>
+                          </button>
+                        )}
+                      </div>
+
+                      {cityDropDownOpen && (
+                        <div className="absolute top-full left-0 right-0 mt-1 border-2 border-blue-500 bg-white h-[150px] overflow-y-auto overflow-x-hidden z-20">
                           {cityList?.length > 0 ? (
                             cityList.map((current) => (
                               <div
@@ -226,42 +249,51 @@ function AddTourModal(props) {
                                 onClick={() => {
                                   setCitySelected(current);
                                   setCityDropDownOpen(false);
+                                  setStateDropDownOpen(false);
+                                  setCitySearch(current);
                                 }}
                               >
                                 {current}
                               </div>
                             ))
                           ) : (
-                            <div className="text-black px-2 py-1 border-b bg-red-400 hover:bg-red-500 cursor-pointer">
+                            <div
+                              className="text-black px-2 py-1 border-b bg-red-400 hover:bg-red-500 cursor-pointer"
+                              onClick={() => {
+                                setCityDropDownOpen(false);
+                                setCitySearch("");
+                              }}
+                            >
                               No city found
                             </div>
                           )}
                         </div>
-                      </div>
-                    )}
+                      )}
+                    </div>
                   </div>
                 </div>
                 <div className="flex flex-col sm:flex-row min-[370px]:px-12 py-2 font-semibold">
-                  <div className="flex flex-col px-2 w-[100%] py-2 font-semibold">
-                    <div>
-                      <p className=" py-1">Other City:</p>
-                      <input
-                        ref={cityRef}
-                        className="w-full px-2 py-1 outline-none border-2 border-blue-500 bg-white"
-                        placeholder="Enter City Name"
-                      />
-                    </div>
+                  <div className="flex flex-col px-2 w-[100%] py-2 relative font-semibold">
+                    <label className=" py-1">Other City</label>
+                    <input
+                      ref={cityRef}
+                      className="w-full px-2 py-1 outline-none border-2 border-blue-500 bg-white"
+                      placeholder="Enter City Name"
+                    />
                   </div>
-                  <div className="flex flex-col px-2 w-[100%] py-2 font-semibold">
-                    <div>
-                      <p className=" py-1">Currency:</p>
-                      <input
-                        ref={currencyRef}
-                        className="w-full px-2 py-1 outline-none border-2 border-blue-500 bg-white"
-                        placeholder="Enter Currency"
-                        onChange={handleCurrencyChange}
-                      />
-                    </div>
+                  <div className="flex flex-col px-2 w-[100%] py-2 relative font-semibold">
+                    <label className=" py-1">Currency</label>
+                    <select
+                      className="outline-none border-2 border-blue-500 bg-white w-full px-2 py-1"
+                      ref={currencyRef}
+                      onChange={handleCurrencyChange}
+                    >
+                      <option value="INR">Rupees</option>
+                      <option value="USD">US Dollar</option>
+                      <option value="SGD">Singapore Dollar</option>
+                      <option value="JPY">Japanese Yen</option>
+                      <option value="EURO">Euro</option>
+                    </select>
                   </div>
                 </div>
                 <div className="flex justify-end m-4">

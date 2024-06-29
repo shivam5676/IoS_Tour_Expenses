@@ -66,6 +66,7 @@ function App() {
       style={{
         width: "100vw",
         height: "100vh",
+        backgroundColor:"#e7e3d8",
         backgroundImage: `url(${bgImage})`,
         backgroundRepeat: "no-repeat",
         backgroundPosition: "center",

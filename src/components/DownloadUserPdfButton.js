@@ -55,7 +55,7 @@ function DownloadUserPdfButton(props) {
           // </button>
           <p className="absolute bottom-4 right-4">
             <button
-              onClick={() => FileSaver.saveAs(blob, "voucher.pdf")}
+              onClick={() => FileSaver.saveAs(blob, `IOS User-[${props?.userData?.userId}] Tours Report.pdf`)}
               className="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded-lg"
             >
               Download Report

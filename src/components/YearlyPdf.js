@@ -41,7 +41,7 @@ const styles = StyleSheet.create({
 
 // Create Document Component
 const YearlyPdf = (props) => (
-  <PDFViewer style={{ width: "600px", height: "800px" }}>
+  // <PDFViewer style={{ width: "600px", height: "800px" }}>
   <Document>
     <Page size="A4" style={styles.page}>
       {" "}
@@ -235,7 +235,7 @@ const YearlyPdf = (props) => (
       </View>
     </Page>
   </Document>
-  </PDFViewer>
+  // </PDFViewer>
 );
 
 export default YearlyPdf;

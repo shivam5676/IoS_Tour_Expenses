@@ -41,7 +41,7 @@ const styles = StyleSheet.create({
 
 // Create Document Component
 const AllTimePdf = () => (
-  <PDFViewer style={{ width: "600px", height: "800px" }}>
+  // <PDFViewer style={{ width: "600px", height: "800px" }}>
     <Document>
       <Page size="A4" style={styles.page}>
         <View
@@ -286,7 +286,7 @@ const AllTimePdf = () => (
         </View>
       </Page>
     </Document>
-  </PDFViewer>
+  // </PDFViewer>
 );
 
 export default AllTimePdf;

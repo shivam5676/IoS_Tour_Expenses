@@ -69,19 +69,13 @@ const Login = React.memo(() => {
 
   const bitrixHandler = useCallback(async () => {
     setLoginLoader(true);
-    console.log(
-      `${connectionString}:${process.env.REACT_APP_BACKEND_PORT}/queryParams/`
-    );
     try {
       const response = await axios.get(
         `${connectionString}:${process.env.REACT_APP_BACKEND_PORT}/queryParams/`
       );
-      console.log(response.data.data);
       const queryParams = response.data.data;
       const authorizationUrl = `${process.env.REACT_APP_BITRIX_URL}/oauth/authorize?${queryParams}`;
-      // Redirect the user to the Bitrix24 authorization URL
-      window.location.href = authorizationUrl;
-      // setLoginLoader(false);
+      window.location.href = authorizationUrl; // Redirect the user to Bitrix24 for OAuth login
     } catch (err) {
       console.log(err);
       setLoginLoader(false);
