@@ -16,6 +16,7 @@ import bitrixlogo from "../assests/images/bitrixLogo.png";
 import { ColorRing } from "react-loader-spinner";
 import { toast } from "react-toastify";
 import loginImage from "../assests/loginImage2.png";
+import bgImage from "../assests/images/bg5.jpg"
 
 const Login = React.memo(() => {
   const [loginLoader, setLoginLoader] = useState(false);
@@ -83,7 +84,15 @@ const Login = React.memo(() => {
   }, []);
 
   return (
-    <div className="w-[100vw] h-[100vh] bg-transparent flex justify-center ">
+    <div className="w-[100vw] h-[100vh] bg-transparent flex justify-center " style={{
+      width: "100vw",
+      height: "100vh",
+      // backgroundColor:"#f0f4f8",
+      backgroundImage: `url(${bgImage})`,
+      backgroundRepeat: "no-repeat",
+      backgroundPosition: "center",
+      backgroundSize: "cover",
+    }}>
       <div className="flex w-[1400px]  pt-[90px] flex-col sm:flex-row ">
         <div className="w-[100%] sm:w-[50%] h-[100%] flex flex-col justify-center items-center">
           <p className="text-2xl md:text-3xl lg:text-4xl font-bold text-white px-2 py-2 w-[100%] text-center  md:py-8">
@@ -101,7 +110,7 @@ const Login = React.memo(() => {
           </div>{" "}
           <div className="w-[80%]  border-gray-300 flex my-2 justify-center ">
             <div
-              className="bg-blue-400 p-2 rounded-md font-semibold text-white hover:bg-blue-500 cursor-pointer flex items-center hover:shadow-md hover:shadow-yellow-600"
+              className="bg-blue-500 p-2 rounded-md font-semibold text-white hover:bg-blue-700 cursor-pointer flex items-center hover:shadow-md hover:shadow-yellow-600"
               onClick={() => {
                 if (!loginLoader) {
                   bitrixHandler();

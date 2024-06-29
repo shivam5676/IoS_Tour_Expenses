@@ -36,7 +36,7 @@ function NavBar() {
           setOpen(false);
         }}
       ></SignUpModal>
-      <nav className=" border-gray-200 z-50  fixed w-[100vw]  border-b-2  backdrop-blur-sm bg-white/20">
+      <nav className=" border-gray-200 z-50  fixed w-[100vw]  border-b-2  backdrop-blur-lg bg-[#2c3e50]">
         <div className="flex flex-wrap justify-between items-center w-[100vw] min-[531px]:px-16 px-4 py-3">
           <a
             href=""
@@ -47,7 +47,7 @@ function NavBar() {
               className="min-[531px]:h-12 h-8 min-[700px]:w-24 w-20 max-[531px]:mx-2"
               alt="Flowbite Logo"
             />
-            <p className="self-center text-2xl min-[700px]:text-3xl font-semibolds whitespace-nowrap text-yellow-500  dark:text-white font-bold ">
+            <p className="self-center text-2xl min-[700px]:text-3xl font-semibolds whitespace-nowrap   text-white font-bold font-[DancingScript]">
               V<span className="text-white">oucher </span>T
               <span className="text-white">racker</span>
             </p>

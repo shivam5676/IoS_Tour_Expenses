@@ -5,7 +5,7 @@ import AdminUserPanel from "./components/AdminUserPanel";
 import AdminReportPanel from "./components/AdminReportPanel";
 import UserHomePage from "./components/user/userHomePage";
 import NavBar from "./components/NavBar";
-import bgImage from "../src/assests/images/bg5.jpg";
+import bgImage from "../src/assests/images/bg6.jpg";
 import { useContext, useEffect, useState } from "react";
 import Context from "./store/Context";
 
@@ -63,11 +63,12 @@ function App() {
   console.log(ctx.loginData);
   return (
     <div
+    className="bg-gradient-to-br from-blue-100 to-blue-200"
       style={{
         width: "100vw",
         height: "100vh",
-        backgroundColor:"#e7e3d8",
-        backgroundImage: `url(${bgImage})`,
+        // backgroundColor:"#f0f4f8",
+        // backgroundImage: `url(${bgImage})`,
         backgroundRepeat: "no-repeat",
         backgroundPosition: "center",
         backgroundSize: "cover",

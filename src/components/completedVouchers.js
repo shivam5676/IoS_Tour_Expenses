@@ -5,7 +5,7 @@ function CompletedVouchers(props) {
   const [open, setOpen] = useState(false);
   const [Id, setId] = useState(null);
   return (
-    <div className="shadow-md shadow-gray-700 w-[100%]  min-[689px]:w-[60%]  min-h-[250px] h-[40vh]  bg-white min-[689px]:m-2 my-2 rounded-lg">
+    <div className="shadow-md shadow-gray-700 w-[100%]  min-[689px]:w-[60%]  min-h-[250px] h-[40vh]  bg-[white] min-[689px]:m-2 my-2 rounded-lg">
       <VoucherViewer
         close={() => {
           setOpen(!open);
@@ -13,7 +13,7 @@ function CompletedVouchers(props) {
         voucherId={Id}
         open={open}
       ></VoucherViewer>{" "}
-      <p className=" py-2 font-bold text-2xl text-center  rounded-t-lg text-white   bg-[#2fc7f8] font-sans">
+      <p className=" py-2 font-bold text-2xl text-center  rounded-t-lg text-white   bg-[#2980b9] font-sans">
         Accepted Vouchers{" "}
       </p>{" "}
       {props?.accepted?.length == 0 && (
@@ -27,7 +27,7 @@ function CompletedVouchers(props) {
       {props.accepted.length > 0 && (
         <>
           <div className="w-[100%]">
-            <div className="mx-2 bg-white text-black flex h-[40px] font-bold items-center border-b-2">
+            <div className="mx-2 bg-[white] text-black flex h-[40px] font-bold items-center border-b-2">
               <p className="w-[13%] px-1">V.no</p>
               <p className="w-[27%] px-1">Name</p>
               <p className="w-[25%] px-1">Trip</p>
@@ -38,7 +38,7 @@ function CompletedVouchers(props) {
           <div className="w-[100%] h-[calc(40vh-90px)] min-h-[calc(250px-90px)] overflow-y-auto">
             {props.accepted.map((current) => {
               return (
-                <div className="mx-2 bg-white text-black flex py-1 text-[.8rem] font-semibold" key= {current?.Voucher?.id}>
+                <div className="mx-2 bg-[white] text-black flex py-1 text-[.8rem] font-semibold" key= {current?.Voucher?.id}>
                   <p className="w-[13%] px-1 overflow-hidden whitespace-nowrap overflow-ellipsis">
                     {current?.Voucher?.id}
                   </p>

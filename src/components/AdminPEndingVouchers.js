@@ -9,7 +9,7 @@ function AdminPEndingVouchers(props) {
 
   // console.log(id);
   return (
-    <div className="shadow-md shadow-gray-700 w-[100%]  min-[689px]:w-[60%]  min-h-[250px] h-[40vh]  bg-white min-[689px]:m-2 my-2 rounded-lg">
+    <div className="shadow-md shadow-gray-700 w-[100%]  min-[689px]:w-[60%]  min-h-[250px] h-[40vh]  bg-[white] min-[689px]:m-2 my-2 rounded-lg">
       <VoucherViewer
         close={() => {
           setOpen(!open);
@@ -17,7 +17,7 @@ function AdminPEndingVouchers(props) {
         voucherId={Id}
         open={open}
       ></VoucherViewer>{" "}
-      <p className=" py-2 font-bold text-2xl text-center rounded-t-lg text-white  bg-[#2fc7f8] font-sans ">
+      <p className=" py-2 font-bold text-2xl text-center rounded-t-lg text-white  bg-[#2980b9] font-sans ">
         Pending Vouchers{" "}
       </p>
       {props.pending.length == 0 && (

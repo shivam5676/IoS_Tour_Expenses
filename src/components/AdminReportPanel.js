@@ -66,7 +66,7 @@ function AdminReportPanel() {
           style={{ scrollbarWidth: "none" }}
         >
           <div className="flex">
-            <div className="flex w-[100%]  flex-col md:flex-row m-2 bg-[#39b0d8] rounded-md">
+            <div className="flex w-[100%]  flex-col md:flex-row m-2 bg-[#2980b9] rounded-md">
               <p className="p-2 font-bold text-2xl text-center">
                 Report Generation :
               </p>

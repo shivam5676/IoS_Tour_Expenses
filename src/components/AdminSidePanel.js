@@ -9,8 +9,8 @@ function AdminSidePanel() {
   const userData = JSON.parse(localStorage.getItem("token"));
 
   return (
-    <div className="w-[250px] h-[81vh] max-[923px]:hidden  min-[980px]:w-[300px] backdrop-blur-sm bg-white/30  text-white rounded-2xl my-1 min-[1400px]:my-2 shadow-md shadow-gray-700 font-['Poppins']">
-      <div className="bg-[#2fc7f8] h-[150px] rounded-md m-4 max-w-[270px] text-white">
+    <div className="w-[250px] h-[81vh] max-[923px]:hidden  min-[980px]:w-[300px] backdrop-blur-sm bg-[#2c3e50]  text-white rounded-2xl my-1 min-[1400px]:my-2 shadow-md shadow-gray-700 font-['Poppins']">
+      <div className="bg-[#2980b9] h-[150px] rounded-md m-4 max-w-[270px] text-white">
         <div className="flex ">
           {console.log(userData?.profilePic)}{" "}
           {!userData?.profilePic ? (
@@ -44,35 +44,35 @@ function AdminSidePanel() {
           </p>
         </div>
       </div>
-      <div className="flex flex-col items-center h-[calc(81vh-185px)] justify-between">
+      <div className="flex flex-col items-center h-[calc(81vh-185px)] justify-between text-[#fff]">
         <div className="mt-4 w-[100%] flex flex-col  items-center">
           <p
-            className="font-bold hover:bg-[#2fc7f8] w-[60%] my-0 min-[1400px]:my-2  text-center cursor-pointer hover:text-white"
+            className="font-bold hover:bg-[#3498db] w-[60%] my-0 min-[1400px]:my-2  text-center cursor-pointer hover:text-white"
             onClick={() => navigate("/home")}
           >
             Home
           </p>
           <p
-            className="font-bold hover:bg-[#2fc7f8] w-[60%] my-0 min-[1400px]:my-2 text-center cursor-pointer hover:text-white"
+            className="font-bold hover:bg-[#3498db] w-[60%] my-0 min-[1400px]:my-2 text-center cursor-pointer hover:text-white"
             onClick={() => navigate("/adminUser")}
           >
             Users
           </p>
           <p
-            className="font-bold hover:bg-[#2fc7f8] w-[60%] my-0 min-[1400px]:my-2 text-center cursor-pointer hover:text-white"
+            className="font-bold hover:bg-[#3498db] w-[60%] my-0 min-[1400px]:my-2 text-center cursor-pointer hover:text-white"
             onClick={() => navigate("/adminReport")}
           >
             Reports
           </p>
           <p
-            className="font-bold hover:bg-[#2fc7f8] w-[60%] my-0 min-[1400px]:my-2 text-center cursor-pointer hover:text-white"
+            className="font-bold hover:bg-[#3498db] w-[60%] my-0 min-[1400px]:my-2 text-center cursor-pointer hover:text-white"
             onClick={() => navigate("/accounts")}
           >
             Accounts
           </p>
         </div>
         <div className=" min-w-[100%] max-w-[270px] text-white ">
-          <div className="flex m-4  bg-[#2fc7f8] rounded-md py-2 items-center">
+          <div className="flex m-4  bg-[#2980b9] rounded-md py-2 items-center">
             <div className="flex ps-2">
               <img
                 src={iosLogo}

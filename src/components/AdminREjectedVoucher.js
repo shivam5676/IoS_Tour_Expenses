@@ -5,7 +5,7 @@ function AdminREjectedVoucher(props) {
   const [open, setOpen] = useState(false);
   const [Id, setId] = useState(null);
   return (
-    <div className="w-[100%]  min-[689px]:w-[40%] min-h-[250px] h-[40vh] min-[689px]:m-2 my-2 bg-white rounded-lg shadow-md shadow-gray-700 text-center ">
+    <div className="w-[100%]  min-[689px]:w-[40%] min-h-[250px] h-[40vh] min-[689px]:m-2 my-2 bg-[white] rounded-lg shadow-md shadow-gray-700 text-center ">
        <VoucherViewer
         close={() => {
           setOpen(!open);
@@ -13,7 +13,7 @@ function AdminREjectedVoucher(props) {
         voucherId={Id}
         open={open}
       ></VoucherViewer>{" "}
-      <p className=" border-white  py-2 font-bold bg-[#2fc7f8]  text-2xl rounded-t-lg font-sans">
+      <p className=" border-white  py-2 font-bold bg-[#2980b9]  text-2xl rounded-t-lg font-sans">
         Rejected Voucher
       </p>
       {props.rejected.length == 0 && (
