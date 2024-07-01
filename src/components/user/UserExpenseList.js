@@ -57,7 +57,7 @@ function UserExpenseList(props) {
         }}
       ></AddExpenseModal>
       <div className="shadow-md shadow-gray-700 w-[100%] min-h-[250px] h-[40vh]  bg-white min-[689px]:m-2 my-2 rounded-lg">
-        <div className=" p-2 font-bold text-2xl flex justify-between rounded-t-lg text-white bg-[#2fc7f8] font-sans">
+        <div className=" p-2 font-bold text-2xl flex justify-between rounded-t-lg text-white bg-[#2980b9] font-sans">
           <p> Expenses List</p>
           <p
             className="rounded-md cursor-pointer text-sm px-4 flex items-center bg-white text-black font-bold hover:bg-gray-300"

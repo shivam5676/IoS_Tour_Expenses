@@ -43,7 +43,7 @@ function UserPendingVouchers(props) {
         voucherId={Id}
         open={open}
       ></VoucherViewer>
-      <p className=" py-2 font-bold text-2xl text-center rounded-t-lg text-white bg-[#2fc7f8] font-sans">
+      <p className=" py-2 font-bold text-2xl text-center rounded-t-lg text-white bg-[#2980b9] font-sans">
         All Vouchers{" "}
       </p>{" "}
       {console.log(PendingVoucherData?.length)}{" "}

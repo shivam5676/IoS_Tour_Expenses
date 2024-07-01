@@ -4,7 +4,9 @@ import Context from "../store/Context";
 import SignUpModal from "./SignUpModal";
 import { useLocation, useNavigate } from "react-router-dom";
 import AddTourModal from "./user/AddTourModal";
-import { MdMenu } from "react-icons/md";
+import { MdEmail, MdMenu } from "react-icons/md";
+import { FaRegUserCircle } from "react-icons/fa";
+import { IoMdCall } from "react-icons/io";
 function NavBar() {
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
@@ -14,6 +16,7 @@ function NavBar() {
     JSON.parse(localStorage.getItem("token"))
   );
   const ctx = useContext(Context);
+  const userData = JSON.parse(localStorage.getItem("token"));
 
   useEffect(() => {
     setUserType(JSON.parse(localStorage.getItem("token")));
@@ -137,175 +140,255 @@ function NavBar() {
       </nav>
       {openNavbar && (
         <div className="min-[924px]:hidden min-[531px]:h-[calc(100vh-74px)] h-[calc(100vh-90px)] w-[100%] min-[500px]:w-[300px] absolute backdrop-blur-sm bg-[#3B4D5D] right-0 min-[531px]:top-[74px] top-[90px] z-50">
-          {(userType?.isAdmin || userType?.supervisor) &&
-            path != "/USER" &&
-            path != "/USERVOUCHERS" && (
-              <>
-                <div>
-                  <div
-                    onClick={() => {
-                      navigate("/home");
-                      setOpenNavbar(false);
-                    }}
-                    className="hover:text-yellow-400 font-bold text-xl text-white cursor-pointer px-4 py-2"
-                  >
-                    <span className="text-white">H</span>ome
+          <div className="flex flex-col min-[531px]:h-[calc(100vh-74px)] h-[calc(100vh-90px)] ">
+            <>
+              <div className="bg-[#c7a433] h-[fit]  w-[100%] text-white">
+                <div className="flex ">
+                  {console.log(userData?.profilePic)}{" "}
+                  {!userData?.profilePic ? (
+                    <FaRegUserCircle className="w-[60px] h-[60px] m-2" />
+                  ) : (
+                    <img
+                      src={userData?.profilePic}
+                      alt="profile"
+                      className="w-[60px] h-[60px] m-2 border-2"
+                    ></img>
+                  )}
+                  <div className=" flex justify-center flex-col">
+                    {" "}
+                    <p className=" px-2 font-bold  font-['Poppins']">
+                      {userData?.firstName + " " + userData?.lastName}
+                    </p>
+                    {userData?.designation && (
+                      <p className="text-[.75rem]">{`( ${userData?.designation} ) `}</p>
+                    )}{" "}
                   </div>
                 </div>
-                <div>
-                  <div
-                    onClick={() => {
-                      navigate("/adminUser");
-                      setOpenNavbar(false);
-                    }}
-                    className="hover:text-yellow-400 font-bold text-xl text-white cursor-pointer px-4 py-2"
-                  >
-                    <span className="text-white">U</span>sers
-                  </div>
+
+                <div className="flex border-b-2">
+                  <MdEmail className="w-[25px] h-[25px] mx-2" />
+                  <p className="px-2 w-[100%] overflow-hidden whitespace-nowrap overflow-ellipsis text-[.9rem]">
+                    {userData?.email}{" "}
+                  </p>
                 </div>
-                <div>
-                  <div
-                    onClick={() => {
-                      navigate("/adminReport");
-                      setOpenNavbar(false);
-                    }}
-                    className="hover:text-yellow-400 font-bold text-xl text-white cursor-pointer px-4 py-2"
-                  >
-                    <span className="text-white">R</span>eports
-                  </div>
+                <div className="flex">
+                  <IoMdCall className="w-[25px] h-[25px] mx-2" />
+                  <p className="px-2 w-[100%] overflow-hidden whitespace-nowrap overflow-ellipsis">
+                    {userData?.mobile}
+                  </p>
                 </div>
-              </>
-            )}
-          {(userType?.isAdmin || userType?.supervisor) &&
-            path != "/USER" &&
-            path != "/USERVOUCHERS" && (
-              <div
-                onClick={() => {
-                  navigate("/user");
-                  setOpenNavbar(false);
-                }}
-                className="hover:text-yellow-400 font-bold text-xl rounded-md bg-blue-400 hover:bg-blue-600 text-white cursor-pointer m-2 p-2 border-2 w-fit"
-              >
-                <span className="text-white">U</span>ser Panel
               </div>
-            )}
-          {!userType?.isAdmin && !userType?.supervisor && (
-            <div
-              onClick={() => {
-                // setOpen(true);
-                setTourModal(true);
-                setOpenNavbar(false);
-              }}
-              className="hover:text-yellow-400 font-bold text-xl text-white cursor-pointer px-4 py-2"
-            >
-              <span className="text-white">A</span>dd Tour
-            </div>
-          )}
-          {(userType?.isAdmin || userType?.supervisor) &&
-            (path === "/USER" || path === "/USERVOUCHERS") && (
-              <div
-                onClick={() => {
-                  // setOpen(true);
-                  setTourModal(true);
-                  setOpenNavbar(false);
-                }}
-                className="hover:text-yellow-400 font-bold text-xl text-white cursor-pointer px-4 py-2"
-              >
-                <span className="text-white">A</span>dd Tour
-              </div>
-            )}
-          {(userType?.isAdmin || userType?.supervisor) &&
-            (path == "/USER" || path == "/USERVOUCHERS") && (
-              <>
-                <div>
+            </>
+            <div>
+              {(userType?.isAdmin || userType?.supervisor) &&
+                path != "/USER" &&
+                path != "/USERVOUCHERS" && (
+                  <>
+                    <div>
+                      <div
+                        onClick={() => {
+                          navigate("/home");
+                          setOpenNavbar(false);
+                        }}
+                        className="hover:text-yellow-400 font-bold text-lg text-white cursor-pointer px-4 py-1"
+                      >
+                        <span className="text-white">H</span>ome
+                      </div>
+                    </div>
+                    <div>
+                      <div
+                        onClick={() => {
+                          navigate("/adminUser");
+                          setOpenNavbar(false);
+                        }}
+                        className="hover:text-yellow-400 font-bold text-lg text-white cursor-pointer px-4 py-1"
+                      >
+                        <span className="text-white">U</span>sers
+                      </div>
+                    </div>
+                    <div>
+                      <div
+                        onClick={() => {
+                          navigate("/adminReport");
+                          setOpenNavbar(false);
+                        }}
+                        className="hover:text-yellow-400 font-bold text-lg text-white cursor-pointer px-4 py-1"
+                      >
+                        <span className="text-white">R</span>eports
+                      </div>
+                    </div>
+                  </>
+                )}
+              {(userType?.isAdmin || userType?.supervisor) &&
+                path != "/USER" &&
+                path != "/USERVOUCHERS" && (
                   <div
                     onClick={() => {
                       navigate("/user");
                       setOpenNavbar(false);
                     }}
-                    className="hover:text-yellow-400 font-bold text-xl text-white cursor-pointer px-4 py-2"
+                    className="hover:text-yellow-400 font-bold text-lg rounded-md bg-blue-400 hover:bg-blue-600 text-white cursor-pointer m-2 p-2 border-2 w-fit"
                   >
-                    <span className="text-white">D</span>ashboard
+                    <span className="text-white">U</span>ser Panel
                   </div>
+                )}
+              {!userType?.isAdmin && !userType?.supervisor && (
+                <div
+                  onClick={() => {
+                    // setOpen(true);
+                    setTourModal(true);
+                    setOpenNavbar(false);
+                  }}
+                  className="hover:text-yellow-400 font-bold text-lg text-white cursor-pointer px-4 py-1"
+                >
+                  <span className="text-white">A</span>dd Tour
                 </div>
-                <div>
+              )}
+              {(userType?.isAdmin || userType?.supervisor) &&
+                (path === "/USER" || path === "/USERVOUCHERS") && (
                   <div
                     onClick={() => {
-                      navigate("/userVouchers");
+                      // setOpen(true);
+                      setTourModal(true);
                       setOpenNavbar(false);
                     }}
-                    className="hover:text-yellow-400 font-bold text-xl text-white cursor-pointer px-4 py-2"
+                    className="hover:text-yellow-400 font-bold text-lg text-white cursor-pointer px-4 py-1"
                   >
-                    <span className="text-white">V</span>ouchers
+                    <span className="text-white">A</span>dd Tour
+                  </div>
+                )}
+              {(userType?.isAdmin || userType?.supervisor) &&
+                (path == "/USER" || path == "/USERVOUCHERS") && (
+                  <>
+                    <div>
+                      <div
+                        onClick={() => {
+                          navigate("/user");
+                          setOpenNavbar(false);
+                        }}
+                        className="hover:text-yellow-400 font-bold text-lg text-white cursor-pointer px-4 py-1"
+                      >
+                        <span className="text-white">D</span>ashboard
+                      </div>
+                    </div>
+                    <div>
+                      <div
+                        onClick={() => {
+                          navigate("/userVouchers");
+                          setOpenNavbar(false);
+                        }}
+                        className="hover:text-yellow-400 font-bold text-lg text-white cursor-pointer px-4 py-1"
+                      >
+                        <span className="text-white">V</span>ouchers
+                      </div>
+                    </div>
+                  </>
+                )}
+              {!userType?.isAdmin && !userType?.supervisor && (
+                <>
+                  <div>
+                    <div
+                      onClick={() => {
+                        navigate("/user");
+                        setOpenNavbar(false);
+                      }}
+                      className="hover:text-yellow-400 font-bold text-lg text-white cursor-pointer px-4 py-1"
+                    >
+                      <span className="text-white">D</span>ashboard
+                    </div>
+                  </div>
+                  <div>
+                    <div
+                      onClick={() => {
+                        navigate("/userVouchers");
+                        setOpenNavbar(false);
+                      }}
+                      className="hover:text-yellow-400 font-bold text-lg text-white cursor-pointer px-4 py-1"
+                    >
+                      <span className="text-white">V</span>ouchers
+                    </div>
+                  </div>
+                </>
+              )}
+              {(userType?.isAdmin || userType?.supervisor) &&
+                (path === "/USER" || path === "/USERVOUCHERS") && (
+                  <div
+                    onClick={() => {
+                      navigate("/home");
+                      setOpenNavbar(false);
+                    }}
+                    className="hover:text-yellow-400 font-bold text-lg rounded-md bg-blue-400 hover:bg-blue-600 text-white cursor-pointer m-2 p-2 border-2 w-fit"
+                  >
+                    <span className="text-white">A</span>dmin Panel
+                  </div>
+                )}
+              {userType && !userType?.isAdmin && !userType?.supervisor && (
+                <div
+                  onClick={() => {
+                    // setOpen(true);
+                    setTourModal(true);
+                    setOpenNavbar(false);
+                  }}
+                  className="text-lg font-bold text-semibold border-2 w-fit mx-3 my-2 text-white dark:text-white bg-red-400 hover:bg-red-500 px-4 py-1 cursor-pointer rounded-md"
+                >
+                  <span className="text-white">A</span>dd Tour
+                </div>
+              )}
+              {userType && (
+                <div
+                  // href="/login"
+                  className="text-lg font-bold text-semibold border-2 w-fit mx-3 text-white dark:text-white bg-red-400 hover:bg-red-500 px-4 py-1 cursor-pointer rounded-md"
+                  onClick={() => {
+                    localStorage.removeItem("token");
+                    ctx.logOutHandler();
+                    setOpenNavbar(false);
+                    window.location.href = "/login";
+                    // navigate("/home");
+                  }}
+                >
+                  LogOut
+                </div>
+              )}
+            </div>
+            {/* <>
+              <div className="bg-[#2980b9] h-[150px] rounded-md  w-[100%] text-white">
+                <div className="flex ">
+                  {console.log(userData?.profilePic)}{" "}
+                  {!userData?.profilePic ? (
+                    <FaRegUserCircle className="w-[60px] h-[80px] m-2" />
+                  ) : (
+                    <img
+                      src={userData?.profilePic}
+                      alt="profile"
+                      className="w-[80px] h-[80px] m-2 border-2"
+                    ></img>
+                  )}
+                  <div className=" flex justify-center flex-col">
+                    {" "}
+                    <p className=" px-2 font-bold  font-['Poppins']">
+                      {userData?.firstName + " " + userData?.lastName}
+                    </p>
+                    {userData?.designation && (
+                      <p className="text-[.75rem]">{`( ${userData?.designation} ) `}</p>
+                    )}{" "}
                   </div>
                 </div>
-              </>
-            )}
-          {!userType?.isAdmin && !userType?.supervisor && (
-            <>
-              <div>
-                <div
-                  onClick={() => {
-                    navigate("/user");
-                    setOpenNavbar(false);
-                  }}
-                  className="hover:text-yellow-400 font-bold text-xl text-white cursor-pointer px-4 py-2"
-                >
-                  <span className="text-white">D</span>ashboard
+
+                <div className="flex border-b-2">
+                  <MdEmail className="w-[25px] h-[25px] mx-2" />
+                  <p className="px-2 w-[100%] overflow-hidden whitespace-nowrap overflow-ellipsis text-[.9rem]">
+                    {userData?.email}{" "}
+                  </p>
+                </div>
+                <div className="flex">
+                  <IoMdCall className="w-[25px] h-[25px] mx-2" />
+                  <p className="px-2 w-[100%] overflow-hidden whitespace-nowrap overflow-ellipsis">
+                    {userData?.mobile}
+                  </p>
                 </div>
               </div>
-              <div>
-                <div
-                  onClick={() => {
-                    navigate("/userVouchers");
-                    setOpenNavbar(false);
-                  }}
-                  className="hover:text-yellow-400 font-bold text-xl text-white cursor-pointer px-4 py-2"
-                >
-                  <span className="text-white">V</span>ouchers
-                </div>
-              </div>
-            </>
-          )}
-          {(userType?.isAdmin || userType?.supervisor) &&
-            (path === "/USER" || path === "/USERVOUCHERS") && (
-              <div
-                onClick={() => {
-                  navigate("/home");
-                  setOpenNavbar(false);
-                }}
-                className="hover:text-yellow-400 font-bold text-xl rounded-md bg-blue-400 hover:bg-blue-600 text-white cursor-pointer m-2 p-2 border-2 w-fit"
-              >
-                <span className="text-white">A</span>dmin Panel
-              </div>
-            )}
-          {userType && !userType?.isAdmin && !userType?.supervisor && (
-            <div
-              onClick={() => {
-                // setOpen(true);
-                setTourModal(true);
-                setOpenNavbar(false);
-              }}
-              className="text-lg font-bold text-semibold border-2 w-fit mx-3 my-2 text-white dark:text-white bg-red-400 hover:bg-red-500 px-4 py-1 cursor-pointer rounded-md"
-            >
-              <span className="text-white">A</span>dd Tour
-            </div>
-          )}
-          {userType && (
-            <div
-              // href="/login"
-              className="text-lg font-bold text-semibold border-2 w-fit mx-3 text-white dark:text-white bg-red-400 hover:bg-red-500 px-4 py-1 cursor-pointer rounded-md"
-              onClick={() => {
-                localStorage.removeItem("token");
-                ctx.logOutHandler();
-                setOpenNavbar(false);
-                window.location.href = "/login";
-                // navigate("/home");
-              }}
-            >
-              LogOut
-            </div>
-          )}
+            </> */}
+          </div>
         </div>
       )}
     </>
