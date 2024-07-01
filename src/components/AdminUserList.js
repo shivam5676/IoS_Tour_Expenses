@@ -73,7 +73,7 @@ function AdminUserList(props) {
                     props.showData()
                   }}
                 >
-                  {" "}
+                  
                   Select
                 </p>
               </div>

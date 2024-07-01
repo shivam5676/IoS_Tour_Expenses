@@ -47,7 +47,9 @@ function UserProfile() {
       //   ctx.AllVoucher(response.data.userList);
       // }
       toast.success("user assigned as Admin ...");
-    } catch (err) {
+    } catch (err) {if(err.response&&err.response.data.msg){
+      toast.error(err.response.data.msg)
+    }
       console.log(err);
     }
   };
@@ -68,6 +70,9 @@ function UserProfile() {
       // }
       toast.success("admin access removed ...");
     } catch (err) {
+    if(err.response&&err.response.data.msg){
+      toast.error(err.response.data.msg)
+    }
       console.log(err);
     }
   };

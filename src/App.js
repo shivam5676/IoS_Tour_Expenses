@@ -5,7 +5,7 @@ import AdminUserPanel from "./components/AdminUserPanel";
 import AdminReportPanel from "./components/AdminReportPanel";
 import UserHomePage from "./components/user/userHomePage";
 import NavBar from "./components/NavBar";
-import bgImage from "../src/assests/images/bg6.jpg";
+import bgImage from "../src/assests/images/bg7.jpg";
 import { useContext, useEffect, useState } from "react";
 import Context from "./store/Context";
 

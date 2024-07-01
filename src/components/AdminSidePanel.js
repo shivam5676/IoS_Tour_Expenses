@@ -72,19 +72,15 @@ function AdminSidePanel() {
           </p>
         </div>
         <div className=" min-w-[100%] max-w-[270px] text-white ">
-          <div className="flex m-4  bg-[#2980b9] rounded-md py-2 items-center">
-            <div className="flex ps-2">
-              <img
-                src={iosLogo}
-                className="w-[40px] h-[40px]"
-                draggable={false}
-              ></img>
-            </div>
+          <div className="flex m-4  bg-[#2980b9] rounded-md py-2 items-center justify-center">
+            {/* <div className="flex ps-2">
+              <img src={iosLogo} className="w-[40px] h-[40px]"></img>
+            </div> */}
             <div className="p-2">
               <p className=" text-[.8rem] font-bold border-b-2 ">
                 Voucher Management System
               </p>
-              <p className=" text-[.65rem] font-bold py-1">
+              <p className=" text-[.65rem] font-bold py-1 text-center">
                 © copyright 2024 ( IOS pvt ltd )
               </p>
             </div>

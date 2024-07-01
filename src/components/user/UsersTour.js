@@ -39,7 +39,7 @@ function UsersTour(props) {
   };
   return (
     <div className="shadow-md shadow-gray-700 w-[100%]  md:w-[60%]  min-h-[250px] h-[40vh]   bg-white min-[689px]:m-2 my-2 rounded-lg">
-      <p className="bg-[#2fc7f8] py-2 font-bold text-2xl text-center text-white rounded-t-lg h-[47px] font-sans">
+      <p className="bg-[#2980b9] py-2 font-bold text-2xl text-center text-white rounded-t-lg h-[47px] font-sans">
         OnGoing Tour
       </p>
       {ctx.onGoingData.length == 0 && (
