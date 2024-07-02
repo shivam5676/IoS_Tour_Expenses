@@ -1,23 +1,99 @@
-import logo from './logo.svg';
-import './App.css';
+import Header from "./components/header";
+import MainContent from "./components/mainContent";
+import Sidebar from "./components/sideBar";
+// import { Route, Routes } from "react-router-dom";
+// import AdminPanel from "./components/AdminPanel";
+// import Login from "./components/login";
+// import AdminUserPanel from "./components/AdminUserPanel";
+// import AdminReportPanel from "./components/AdminReportPanel";
+// import UserHomePage from "./components/user/userHomePage";
+// import NavBar from "./components/NavBar";
+// import bgImage from "../src/assests/images/bg7.jpg";
+import { useContext, useEffect, useState } from "react";
+import Context from "./store/Context";
+
+// import UserVoucherPanel from "./components/user/userVoucherPanel";
+// import AccountDepartment from "./components/AccountDepartment";
+import axios from "axios";
+import TokenValidator from "./components/TokenValidator";
+import Main from "./components/mainCard";
+import { Route, Routes } from "react-router-dom";
+
+import AdminHome from "./pages/adminHome";
+import AdminUserPanel from "./pages/adminUser";
+import UserHome from "./pages/userHome";
 
 function App() {
+  const [open, setOpen] = useState(false);
+
+  const connectionUrl = process.env.REACT_APP_CONNECTION_STRING;
+
+  const ctx = useContext(Context);
+  const [isLoggedIn, setIsLoggedIn] = useState(
+    JSON.parse(localStorage.getItem("token"))
+  );
+  console.log(JSON.parse(localStorage.getItem("token")));
+  useEffect(() => {
+    const tokenValidationChecker = async () => {
+      if (isLoggedIn) {
+        const token = JSON.parse(localStorage.getItem("token"));
+        try {
+          const response = await axios.post(
+            `${connectionUrl}:${process.env.REACT_APP_BACKEND_PORT}/user/sessionVerify`,
+            {
+              token: token.access_token,
+              domain: token.domain,
+              refreshToken: token.refresh_token,
+            }
+          );
+          console.log(response);
+        } catch (err) {
+          setOpen(true);
+          console.log(err);
+        }
+      }
+    };
+
+    // Run the checker immediately upon component mount
+    tokenValidationChecker();
+
+    const intervalId = setInterval(() => {
+      tokenValidationChecker();
+    }, 300000); // 120000 ms = 2 minutes
+
+    // Cleanup interval on component unmount
+    return () => clearInterval(intervalId);
+  }, [isLoggedIn, connectionUrl]);
+  useEffect(() => {
+    setIsLoggedIn(JSON.parse(localStorage.getItem("token")));
+  }, [ctx.loginData]);
+  const tokenIsValid = true;
+  // const isLoggedIn = ctx.loginData
+  console.log(ctx.loginData);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="">
+      {isLoggedIn && (
+        <TokenValidator
+          close={() => setOpen(false)}
+          open={open}
+        ></TokenValidator>
+      )}
+      <div className="bg-[#002147] font-sans leading-normal tracking-normal mt-12">
+        <Header />
+        <div className="flex flex-col md:flex-row">
+          <Sidebar></Sidebar>
+          <Routes>
+          <Route path="/" element={<UserHome></UserHome>}></Route>
+
+            <Route path="/adminVouchers" element={<AdminHome></AdminHome>}></Route>
+            <Route path="/adminUserPanel" element={<AdminUserPanel></AdminUserPanel>}></Route>
+
+          </Routes>
+          {/* <Main></Main> */}
+        </div>
+      </div>
+      {/* <Header></Header> */}
     </div>
   );
 }
