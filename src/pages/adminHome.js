@@ -46,15 +46,16 @@ const AdminHome = () => {
     }
   });
   return (
-    <section className="main-content flex-1 bg-gray-100 mt-12 md:mt-2 pb-24 md:pb-5">
+    <section className="main-content flex-1 bg-gray-100 pt-5 md:pt-3 md:mt-2 pb-24 md:pb-5">
       <div className="flex flex-col min-[689px]:flex-row">
-        <AdminExpenseGraph ></AdminExpenseGraph>
-        <AdminPEndingVouchers               pending={vouchers.pending}
-        ></AdminPEndingVouchers>
+        <AdminExpenseGraph></AdminExpenseGraph>
+        <AdminPEndingVouchers pending={vouchers.pending}></AdminPEndingVouchers>
       </div>
       <div className="flex flex-col min-[689px]:flex-row">
         <CompletedVouchers accepted={vouchers.accepted}></CompletedVouchers>
-        <AdminREjectedVoucher  rejected={vouchers.rejected}></AdminREjectedVoucher>
+        <AdminREjectedVoucher
+          rejected={vouchers.rejected}
+        ></AdminREjectedVoucher>
       </div>
     </section>
   );

@@ -22,6 +22,10 @@ import { Route, Routes } from "react-router-dom";
 import AdminHome from "./pages/adminHome";
 import AdminUserPanel from "./pages/adminUser";
 import UserHome from "./pages/userHome";
+import AdminReportPanel from "./pages/adminReports";
+import YourVoucher from "./pages/userVoucher";
+import AccountsDepartment from "./pages/accountsDepartment";
+import Login from "./components/login";
 
 function App() {
   const [open, setOpen] = useState(false);
@@ -79,20 +83,49 @@ function App() {
           open={open}
         ></TokenValidator>
       )}
-      <div className="bg-[#002147] font-sans leading-normal tracking-normal mt-12">
-        <Header />
-        <div className="flex flex-col md:flex-row">
-          <Sidebar></Sidebar>
-          <Routes>
-          <Route path="/" element={<UserHome></UserHome>}></Route>
-
-            <Route path="/adminVouchers" element={<AdminHome></AdminHome>}></Route>
-            <Route path="/adminUserPanel" element={<AdminUserPanel></AdminUserPanel>}></Route>
-
-          </Routes>
-          {/* <Main></Main> */}
+      {!isLoggedIn && 
+        <div className="bg-[#002147] font-sans leading-normal tracking-normal ">
+          <Header />
+      
+            <Routes>
+              <Route path="*" element={<Login />}></Route>
+            </Routes>
+         
         </div>
-      </div>
+      }
+      {isLoggedIn && (
+        <div className="bg-[#002147] font-sans leading-normal tracking-normal mt-12">
+          <Header />
+          <div className="flex flex-col md:flex-row">
+            <Sidebar></Sidebar>
+            <Routes>
+              <Route path="*" element={<UserHome></UserHome>}></Route>
+
+              <Route
+                path="/adminVouchers"
+                element={<AdminHome></AdminHome>}
+              ></Route>
+              <Route
+                path="/adminUserPanel"
+                element={<AdminUserPanel></AdminUserPanel>}
+              ></Route>
+              <Route
+                path="/adminReport"
+                element={<AdminReportPanel></AdminReportPanel>}
+              ></Route>
+              <Route
+                path="/YourVoucher"
+                element={<YourVoucher></YourVoucher>}
+              ></Route>
+              <Route
+                path="/Accounts"
+                element={<AccountsDepartment></AccountsDepartment>}
+              ></Route>
+            </Routes>
+            {/* <Main></Main> */}
+          </div>
+        </div>
+      )}
       {/* <Header></Header> */}
     </div>
   );

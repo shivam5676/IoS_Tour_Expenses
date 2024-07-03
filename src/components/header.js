@@ -1,13 +1,26 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import iosLogo from "../assests/images/ios logo2.png";
 import ModeToggler from "./toggleButton";
 import { FaPowerOff, FaRegUserCircle } from "react-icons/fa";
-import { MdEmail } from "react-icons/md";
+import { MdEmail, MdMenu } from "react-icons/md";
 import { IoIosLogOut, IoMdCall } from "react-icons/io";
+import AddTourModal from "./user/AddTourModal";
+import { useLocation, useNavigate } from "react-router-dom";
+import Context from "../store/Context";
 
 const Header = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const userData = JSON.parse(localStorage.getItem("token"));
+  const [openTourModal, setTourModal] = useState(false);
+  const navigate = useNavigate();
+  const ctx = useContext(Context);
+  const location = useLocation();
+  const path = location.pathname.toUpperCase();
+
+  const [userType, setUserType] = useState(
+    JSON.parse(localStorage.getItem("token"))
+  );
+  const [openNavbar, setOpenNavbar] = useState(false);
 
   const toggleDropdown = () => {
     setDropdownOpen(!dropdownOpen);
@@ -29,125 +42,381 @@ const Header = () => {
   };
 
   return (
-    <nav className="bg-[#002147] pt-2 md:pt-1 pb-1 px-1 mt-0 h-auto fixed w-full z-20 top-0">
-      <div className="flex flex-wrap items-center justify-between">
-        <div className="flex flex-shrink  justify-center md:justify-start text-white font-[Montserrat]">
-          <a href="#" aria-label="Home">
-            <p className="flex items-center mx-6">
-              <img
-                src={iosLogo}
-                className="min-[531px]:h-10 h-8 min-[700px]:w-24 w-20 max-[531px]:mx-2"
-              ></img>
-              <span className="text-4xl font-bold pl-2">Tour Voucher</span>
-            </p>
-          </a>
-        </div>
+    <>
+      {" "}
+      <AddTourModal
+        open={openTourModal}
+        close={() => {
+          setTourModal(false);
+        }}
+      ></AddTourModal>
+      <nav className="bg-[#002147] pt-2 md:pt-1 pb-1 px-1 mt-0 h-16 fixed w-full z-20 top-0">
+        <div className="flex flex-wrap items-center h-[100%] justify-between">
+          <div className="flex flex-shrink h-[100%]  justify-center items-center md:justify-start text-white font-[cursive]">
+            <a href="/" aria-label="Home">
+              <p className="flex items-center mx-1 min-[426px]:mx-6">
+                <img
+                  src={iosLogo}
+                  className="w-14 h-8 min-[386px]:h-10 min-[386px]:w-16   sm:h-12 sm:w-24 mx-1"
+                ></img>
+                <span className="md:text-4xl sm:text-3xl min-[386px]:text-3xl text-2xl font-bold pl-2 mx-1 min-[426px]:mx-3">
+                  Tour Voucher
+                </span>
+              </p>
+            </a>
+          </div>
 
-        {/* <div className="flex flex-1 md:w-1/3 justify-center md:justify-start text-white px-2">
-          <span className="relative w-full">
-            <input
-              aria-label="search"
-              type="search"
-              id="search"
-              placeholder="Search"
-              className="w-full bg-gray-900 text-white transition border border-transparent focus:outline-none focus:border-gray-400 rounded py-3 px-2 pl-10 appearance-none leading-normal"
-            />
+          <div className="flex  pt-2 sm:content-center w-fit mx-auto md:mx-0 justify-end max-md:invisible">
+            <ul className="list-reset flex justify-end flex-1 md:flex-none items-center">
+              <li className="mr-4 ">
+                <button
+                  className="shadow-[0_0_0_3px_white_inset] px-6 py-2 bg-transparent border border-black dark:border-white dark:text-white text-white rounded-lg font-bold transform hover:-translate-y-1 transition duration-400  hover:bg-white hover:text-black"
+                  onClick={() => {
+                    // setOpen(true);
+                    setTourModal(true);
+                  }}
+                >
+                  Add Tour
+                </button>
+              </li>
+              <li className="flex-1  md:flex-none md:mr-3">
+                <div className="relative inline-block">
+                  <button
+                    onClick={toggleDropdown}
+                    className="drop-button text-black py-2 px-2 flex items-center bg-white rounded-full hover:bg-gray-200 font-semibold"
+                  >
+                    <span className="pr-2">
+                      <i className="em em-robot_face"></i>
+                    </span>
+                    Hi, {userData?.firstName}
+                    <svg
+                      className="h-3 fill-current inline ml-2"
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 20 20"
+                    >
+                      <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
+                    </svg>
+                  </button>
+                  <div
+                    id="myDropdown"
+                    className={`dropdownlist absolute bg-gray-800 text-white right-0 mt-3 p-3 overflow-auto z-30 ${
+                      dropdownOpen ? "" : "invisible"
+                    }`}
+                  >
+                    <div className="flex flex-col">
+                      <div className="bg-[#33a9c7] w-full text-white">
+                        <div className="flex">
+                          {!userData?.profilePic ? (
+                            <FaRegUserCircle className="w-[60px] h-[60px] m-2" />
+                          ) : (
+                            <img
+                              src={userData?.profilePic}
+                              alt="profile"
+                              className="w-[60px] h-[60px] m-2 border-2"
+                            />
+                          )}
+                          <div className="flex justify-center flex-col">
+                            <p className="px-2 font-bold font-['Poppins']">
+                              {userData?.firstName + " " + userData?.lastName}
+                            </p>
+                            {userData?.designation && (
+                              <p className="text-[.75rem]">{`( ${userData?.designation} )`}</p>
+                            )}
+                          </div>
+                        </div>
+                        <div className="flex border-b-2">
+                          <MdEmail className="w-[25px] h-[25px] mx-2" />
+                          <p className="px-2 w-full overflow-hidden whitespace-nowrap overflow-ellipsis text-[.9rem]">
+                            {userData?.email}
+                          </p>
+                        </div>
+                        <div className="flex">
+                          <IoMdCall className="w-[25px] h-[25px] mx-2" />
+                          <p className="px-2 w-full overflow-hidden whitespace-nowrap overflow-ellipsis">
+                            {userData?.mobile}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                    <a
+                      href="#"
+                      className="flex  p-2 hover:bg-gray-800 text-white text-lg no-underline hover:no-underline items-center font-semibold hover:text-red-400"
+                    >
+                      <FaPowerOff className="w-6 h-6 mt-2 mx-2" />
+                      Log Out
+                    </a>
+                  </div>
+                </div>
+              </li>
+            </ul>
+          </div>
+
+          {userType && (
             <div
-              className="absolute search-icon"
-              style={{ top: "1rem", left: ".8rem" }}
+              className="md:invisible border-2 border-[#40a4ce]  cursor-pointer rounded absolute right-0 mx-2 min-[330px]:mx-6"
+              onClick={() => {
+                setOpenNavbar(!openNavbar);
+              }}
             >
-              <svg
-                className="fill-current pointer-events-none text-white w-4 h-4"
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 20 20"
-              >
-                <path d="M12.9 14.32a8 8 0 1 1 1.41-1.41l5.35 5.33-1.42 1.42-5.33-5.34zM8 14A6 6 0 1 0 8 2a6 6 0 0 0 0 12z"></path>
-              </svg>
+              <MdMenu className="h-[25px] w-[25px] text-[#40a4ce] "></MdMenu>
             </div>
-          </span>
-        </div> */}
-
-<div className="flex w-full pt-2 sm:content-center sm:w-1/2 mx-auto md:mx-0 justify-end ">
-  <ul className="list-reset flex justify-end flex-1 md:flex-none items-center">
-    <li className="mr-4">
-      <button className="shadow-[0_0_0_3px_white_inset] px-6 py-2 bg-transparent border border-black dark:border-white dark:text-white text-white rounded-lg font-bold transform hover:-translate-y-1 transition duration-400  hover:bg-white hover:text-black">
-        Add Tour
-      </button>
-    </li>
-    <li className="flex-1 md:flex-none md:mr-3">
-      <div className="relative inline-block">
-        <button
-          onClick={toggleDropdown}
-          className="drop-button text-white py-2 px-2 flex items-center"
-        >
-          <span className="pr-2">
-            <i className="em em-robot_face"></i>
-          </span>
-          Hi, {userData?.firstName}
-          <svg
-            className="h-3 fill-current inline ml-2"
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 20 20"
-          >
-            <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
-          </svg>
-        </button>
-        <div
-          id="myDropdown"
-          className={`dropdownlist absolute bg-gray-800 text-white right-0 mt-3 p-3 overflow-auto z-30 ${
-            dropdownOpen ? "" : "invisible"
-          }`}
-        >
-          <div className="flex flex-col">
-            <div className="bg-[#33a9c7] w-full text-white">
-              <div className="flex">
-                {!userData?.profilePic ? (
-                  <FaRegUserCircle className="w-[60px] h-[60px] m-2" />
-                ) : (
-                  <img
-                    src={userData?.profilePic}
-                    alt="profile"
-                    className="w-[60px] h-[60px] m-2 border-2"
-                  />
-                )}
-                <div className="flex justify-center flex-col">
-                  <p className="px-2 font-bold font-['Poppins']">
-                    {userData?.firstName + " " + userData?.lastName}
-                  </p>
-                  {userData?.designation && (
-                    <p className="text-[.75rem]">{`( ${userData?.designation} )`}</p>
+          )}
+        </div>
+      </nav>
+      {openNavbar && (
+        <div className="min-[924px]:hidden min-[531px]:h-[calc(100vh-74px)] h-[calc(100vh-90px)] w-[100%] min-[500px]:w-[300px] absolute backdrop-blur-sm bg-[#3B4D5D] right-0  mt-[15px] z-50">
+          <div className="flex flex-col  ">
+            <>
+              <div className="bg-[#c7a433] h-[fit]  w-[100%] text-white">
+                <div className="flex ">
+                  {console.log(userData?.profilePic)}{" "}
+                  {!userData?.profilePic ? (
+                    <FaRegUserCircle className="w-[60px] h-[60px] m-2" />
+                  ) : (
+                    <img
+                      src={userData?.profilePic}
+                      alt="profile"
+                      className="w-[60px] h-[60px] m-2 border-2"
+                    ></img>
                   )}
+                  <div className=" flex justify-center flex-col">
+                    {" "}
+                    <p className=" px-2 font-bold  font-['Poppins']">
+                      {userData?.firstName + " " + userData?.lastName}
+                    </p>
+                    {userData?.designation && (
+                      <p className="text-[.75rem]">{`( ${userData?.designation} ) `}</p>
+                    )}{" "}
+                  </div>
+                </div>
+
+                <div className="flex border-b-2">
+                  <MdEmail className="w-[25px] h-[25px] mx-2" />
+                  <p className="px-2 w-[100%] overflow-hidden whitespace-nowrap overflow-ellipsis text-[.9rem]">
+                    {userData?.email}{" "}
+                  </p>
+                </div>
+                <div className="flex">
+                  <IoMdCall className="w-[25px] h-[25px] mx-2" />
+                  <p className="px-2 w-[100%] overflow-hidden whitespace-nowrap overflow-ellipsis">
+                    {userData?.mobile}
+                  </p>
                 </div>
               </div>
-              <div className="flex border-b-2">
-                <MdEmail className="w-[25px] h-[25px] mx-2" />
-                <p className="px-2 w-full overflow-hidden whitespace-nowrap overflow-ellipsis text-[.9rem]">
-                  {userData?.email}
-                </p>
-              </div>
-              <div className="flex">
-                <IoMdCall className="w-[25px] h-[25px] mx-2" />
-                <p className="px-2 w-full overflow-hidden whitespace-nowrap overflow-ellipsis">
-                  {userData?.mobile}
-                </p>
-              </div>
+            </>
+            <div>
+              {(userType?.isAdmin || userType?.supervisor) &&
+                path != "/USER" &&
+                path != "/USERVOUCHERS" && (
+                  <>
+                    <div>
+                      <div
+                        onClick={() => {
+                          navigate("/home");
+                          setOpenNavbar(false);
+                        }}
+                        className="hover:text-yellow-400 font-bold text-lg text-white cursor-pointer px-4 py-1"
+                      >
+                        <span className="text-white">H</span>ome
+                      </div>
+                    </div>
+                    <div>
+                      <div
+                        onClick={() => {
+                          navigate("/adminUser");
+                          setOpenNavbar(false);
+                        }}
+                        className="hover:text-yellow-400 font-bold text-lg text-white cursor-pointer px-4 py-1"
+                      >
+                        <span className="text-white">U</span>sers
+                      </div>
+                    </div>
+                    <div>
+                      <div
+                        onClick={() => {
+                          navigate("/adminReport");
+                          setOpenNavbar(false);
+                        }}
+                        className="hover:text-yellow-400 font-bold text-lg text-white cursor-pointer px-4 py-1"
+                      >
+                        <span className="text-white">R</span>eports
+                      </div>
+                    </div>
+                  </>
+                )}
+              {(userType?.isAdmin || userType?.supervisor) &&
+                path != "/USER" &&
+                path != "/USERVOUCHERS" && (
+                  <div
+                    onClick={() => {
+                      navigate("/user");
+                      setOpenNavbar(false);
+                    }}
+                    className="hover:text-yellow-400 font-bold text-lg rounded-md bg-blue-400 hover:bg-blue-600 text-white cursor-pointer m-2 p-2 border-2 w-fit"
+                  >
+                    <span className="text-white">U</span>ser Panel
+                  </div>
+                )}
+              {!userType?.isAdmin && !userType?.supervisor && (
+                <div
+                  onClick={() => {
+                    // setOpen(true);
+                    setTourModal(true);
+                    setOpenNavbar(false);
+                  }}
+                  className="hover:text-yellow-400 font-bold text-lg text-white cursor-pointer px-4 py-1"
+                >
+                  <span className="text-white">A</span>dd Tour
+                </div>
+              )}
+              {(userType?.isAdmin || userType?.supervisor) &&
+                (path === "/USER" || path === "/USERVOUCHERS") && (
+                  <div
+                    onClick={() => {
+                      // setOpen(true);
+                      setTourModal(true);
+                      setOpenNavbar(false);
+                    }}
+                    className="hover:text-yellow-400 font-bold text-lg text-white cursor-pointer px-4 py-1"
+                  >
+                    <span className="text-white">A</span>dd Tour
+                  </div>
+                )}
+              {(userType?.isAdmin || userType?.supervisor) &&
+                (path == "/USER" || path == "/USERVOUCHERS") && (
+                  <>
+                    <div>
+                      <div
+                        onClick={() => {
+                          navigate("/user");
+                          setOpenNavbar(false);
+                        }}
+                        className="hover:text-yellow-400 font-bold text-lg text-white cursor-pointer px-4 py-1"
+                      >
+                        <span className="text-white">D</span>ashboard
+                      </div>
+                    </div>
+                    <div>
+                      <div
+                        onClick={() => {
+                          navigate("/userVouchers");
+                          setOpenNavbar(false);
+                        }}
+                        className="hover:text-yellow-400 font-bold text-lg text-white cursor-pointer px-4 py-1"
+                      >
+                        <span className="text-white">V</span>ouchers
+                      </div>
+                    </div>
+                  </>
+                )}
+              {!userType?.isAdmin && !userType?.supervisor && (
+                <>
+                  <div>
+                    <div
+                      onClick={() => {
+                        navigate("/user");
+                        setOpenNavbar(false);
+                      }}
+                      className="hover:text-yellow-400 font-bold text-lg text-white cursor-pointer px-4 py-1"
+                    >
+                      <span className="text-white">D</span>ashboard
+                    </div>
+                  </div>
+                  <div>
+                    <div
+                      onClick={() => {
+                        navigate("/userVouchers");
+                        setOpenNavbar(false);
+                      }}
+                      className="hover:text-yellow-400 font-bold text-lg text-white cursor-pointer px-4 py-1"
+                    >
+                      <span className="text-white">V</span>ouchers
+                    </div>
+                  </div>
+                </>
+              )}
+              {(userType?.isAdmin || userType?.supervisor) &&
+                (path === "/USER" || path === "/USERVOUCHERS") && (
+                  <div
+                    onClick={() => {
+                      navigate("/home");
+                      setOpenNavbar(false);
+                    }}
+                    className="hover:text-yellow-400 font-bold text-lg rounded-md bg-blue-400 hover:bg-blue-600 text-white cursor-pointer m-2 p-2 border-2 w-fit"
+                  >
+                    <span className="text-white">A</span>dmin Panel
+                  </div>
+                )}
+              {userType && !userType?.isAdmin && !userType?.supervisor && (
+                <div
+                  onClick={() => {
+                    // setOpen(true);
+                    setTourModal(true);
+                    setOpenNavbar(false);
+                  }}
+                  className="text-lg font-bold text-semibold border-2 w-fit mx-3 my-2 text-white dark:text-white bg-red-400 hover:bg-red-500 px-4 py-1 cursor-pointer rounded-md"
+                >
+                  <span className="text-white">A</span>dd Tour
+                </div>
+              )}
+              {userType && (
+                <div
+                  // href="/login"
+                  className="text-lg font-bold text-semibold border-2 w-fit mx-3 text-white dark:text-white bg-red-400 hover:bg-red-500 px-4 py-1 cursor-pointer rounded-md"
+                  onClick={() => {
+                    localStorage.removeItem("token");
+                    ctx.logOutHandler();
+                    setOpenNavbar(false);
+                    window.location.href = "/login";
+                    // navigate("/home");
+                  }}
+                >
+                  LogOut
+                </div>
+              )}
             </div>
-          </div>
-          <a
-            href="#"
-            className="flex p-2 hover:bg-gray-800 text-white text-lg no-underline hover:no-underline items-center font-semibold hover:text-red-400"
-          >
-            <FaPowerOff className="w-8 h-8 mt-2 mx-2" />
-            Log Out
-          </a>
-        </div>
-      </div>
-    </li>
-  </ul>
-</div>
+            {/* <>
+              <div className="bg-[#2980b9] h-[150px] rounded-md  w-[100%] text-white">
+                <div className="flex ">
+                  {console.log(userData?.profilePic)}{" "}
+                  {!userData?.profilePic ? (
+                    <FaRegUserCircle className="w-[60px] h-[80px] m-2" />
+                  ) : (
+                    <img
+                      src={userData?.profilePic}
+                      alt="profile"
+                      className="w-[80px] h-[80px] m-2 border-2"
+                    ></img>
+                  )}
+                  <div className=" flex justify-center flex-col">
+                    {" "}
+                    <p className=" px-2 font-bold  font-['Poppins']">
+                      {userData?.firstName + " " + userData?.lastName}
+                    </p>
+                    {userData?.designation && (
+                      <p className="text-[.75rem]">{`( ${userData?.designation} ) `}</p>
+                    )}{" "}
+                  </div>
+                </div>
 
-      </div>
-    </nav>
+                <div className="flex border-b-2">
+                  <MdEmail className="w-[25px] h-[25px] mx-2" />
+                  <p className="px-2 w-[100%] overflow-hidden whitespace-nowrap overflow-ellipsis text-[.9rem]">
+                    {userData?.email}{" "}
+                  </p>
+                </div>
+                <div className="flex">
+                  <IoMdCall className="w-[25px] h-[25px] mx-2" />
+                  <p className="px-2 w-[100%] overflow-hidden whitespace-nowrap overflow-ellipsis">
+                    {userData?.mobile}
+                  </p>
+                </div>
+              </div>
+            </> */}
+          </div>
+        </div>
+      )}
+    </>
   );
 };
 export default Header;
