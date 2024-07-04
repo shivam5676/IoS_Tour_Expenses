@@ -1,12 +1,15 @@
 import { useContext, useState } from "react";
 import iosLogo from "../assests/images/ios logo2.png";
 import ModeToggler from "./toggleButton";
-import { FaPowerOff, FaRegUserCircle } from "react-icons/fa";
+import { FaPowerOff, FaRegUserCircle, FaUsers } from "react-icons/fa";
 import { MdEmail, MdMenu } from "react-icons/md";
 import { IoIosLogOut, IoMdCall } from "react-icons/io";
 import AddTourModal from "./user/AddTourModal";
-import { useLocation, useNavigate } from "react-router-dom";
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import Context from "../store/Context";
+import { GrLogout } from "react-icons/gr";
+import { TbReportSearch } from "react-icons/tb";
+import { IoBarChart } from "react-icons/io5";
 
 const Header = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -50,7 +53,9 @@ const Header = () => {
           setTourModal(false);
         }}
       ></AddTourModal>
-      <nav className="bg-[#002147] pt-2 md:pt-1 pb-1 px-1 mt-0 h-16 fixed w-full z-20 top-0">
+      <nav
+        className={`NAVBARCOLOR pt-2 md:pt-1 pb-1 px-1 mt-0 h-16 fixed w-full z-20 top-0`}
+      >
         <div className="flex flex-wrap items-center h-[100%] justify-between">
           <div className="flex flex-shrink h-[100%]  justify-center items-center md:justify-start text-white font-[cursive]">
             <a href="/" aria-label="Home">
@@ -59,14 +64,14 @@ const Header = () => {
                   src={iosLogo}
                   className="w-14 h-8 min-[386px]:h-10 min-[386px]:w-16   sm:h-12 sm:w-24 mx-1"
                 ></img>
-                <span className="md:text-4xl sm:text-3xl min-[386px]:text-3xl text-2xl font-bold pl-2 mx-1 min-[426px]:mx-3">
-                  Tour Voucher
+                <span className=" sm:text-3xl min-[386px]:text-2xl text-xl font-bold pl-2 mx-1 min-[426px]:mx-3">
+                  VOUCHER TRACKER
                 </span>
               </p>
             </a>
           </div>
 
-          <div className="flex  pt-2 sm:content-center w-fit mx-auto md:mx-0 justify-end max-md:invisible">
+          {userType&&<div className="flex  pt-2 sm:content-center w-fit mx-auto md:mx-0 justify-end max-md:invisible">
             <ul className="list-reset flex justify-end flex-1 md:flex-none items-center">
               <li className="mr-4 ">
                 <button
@@ -149,9 +154,9 @@ const Header = () => {
                 </div>
               </li>
             </ul>
-          </div>
+          </div>}
 
-          {userType && (
+          {(userType?.isAdmin || userType?.supervisor)  && (
             <div
               className="md:invisible border-2 border-[#40a4ce]  cursor-pointer rounded absolute right-0 mx-2 min-[330px]:mx-6"
               onClick={() => {
@@ -205,7 +210,50 @@ const Header = () => {
               </div>
             </>
             <div>
-              {(userType?.isAdmin || userType?.supervisor) &&
+              <ul className="list-reset flex flex-col md:pt-3 py-3 px-1 md:px-2 text-center md:text-left ">
+                {" "}
+                {userType?.isAdmin &&<li className="mr-3 flex-1 ">
+                  <NavLink
+                    to="/adminUserPanel"
+                    className=" flex items-center py-1 md:py-3 pl-1 align-middle text-white no-underline hover:text-white hover:border-b-2  hover:border-white font-semibold"
+                  >
+                    <FaUsers className="fa fa-envelope pr-0 md:pr-3 h-8 w-10" />
+                    {/* <i "></i> */}
+                    <span className="pb-1 md:pb-0 text-md  text-whiteflex pt-3 px-3 md:flex items-center pt-1">
+                      Users
+                    </span>
+                  </NavLink>
+                </li>}
+                {userType?.isAdmin && (
+                  <li className="mr-3 flex-1 ">
+                    <NavLink
+                      to="/adminReport"
+                      className="flex  font-semibold items-center py-1 md:py-3 pl-1 align-middle text-white no-underline hover:text-white hover:border-b-2 hover:border-white"
+                    >
+                      <IoBarChart className="fa fa-wallet pr-0 md:pr-3  h-8 w-10" />
+                      {/* <TbReportSearch />{" "} */}
+                      <span className="pb-1 mx-3 md:pb-0 text-md md:text-base text-white md:text-white block md:flex items-center pt-1">
+                        Reports
+                      </span>
+                    </NavLink>
+                  </li>
+                )}
+                {(userType?.isAdmin || userType?.supervisor) && (
+                  <li className="mr-3 flex-1 ">
+                    <NavLink
+                      to="/Accounts"
+                      className="flex  font-semibold items-centerpy-1 py-1 md:py-3 pl-0 md:pl-1 align-middle text-white no-underline hover:text-white hover:border-b-2  hover:border-white"
+                    >
+                      <TbReportSearch className="fa fa-wallet pr-0 md:pr-3  h-8 w-10" />
+                      {/* <i ></i> */}
+                      <span className="pb-1 md:pb-0 mx-3 text-md md:text-base text-whiteblock md:flex items-center pt-1">
+                        Accounts Mode
+                      </span>
+                    </NavLink>
+                  </li>
+                )}
+              </ul>
+              {/* {(userType?.isAdmin || userType?.supervisor) &&
                 path != "/USER" &&
                 path != "/USERVOUCHERS" && (
                   <>
@@ -281,8 +329,8 @@ const Header = () => {
                   >
                     <span className="text-white">A</span>dd Tour
                   </div>
-                )}
-              {(userType?.isAdmin || userType?.supervisor) &&
+                )} */}
+              {/* {(userType?.isAdmin || userType?.supervisor) &&
                 (path == "/USER" || path == "/USERVOUCHERS") && (
                   <>
                     <div>
@@ -308,8 +356,8 @@ const Header = () => {
                       </div>
                     </div>
                   </>
-                )}
-              {!userType?.isAdmin && !userType?.supervisor && (
+                )} */}
+              {/* {!userType?.isAdmin && !userType?.supervisor && (
                 <>
                   <div>
                     <div
@@ -334,8 +382,8 @@ const Header = () => {
                     </div>
                   </div>
                 </>
-              )}
-              {(userType?.isAdmin || userType?.supervisor) &&
+              )} */}
+              {/* {(userType?.isAdmin || userType?.supervisor) &&
                 (path === "/USER" || path === "/USERVOUCHERS") && (
                   <div
                     onClick={() => {
@@ -346,8 +394,8 @@ const Header = () => {
                   >
                     <span className="text-white">A</span>dmin Panel
                   </div>
-                )}
-              {userType && !userType?.isAdmin && !userType?.supervisor && (
+                )} */}
+              {/* {userType && !userType?.isAdmin && !userType?.supervisor && (
                 <div
                   onClick={() => {
                     // setOpen(true);
@@ -358,7 +406,7 @@ const Header = () => {
                 >
                   <span className="text-white">A</span>dd Tour
                 </div>
-              )}
+              )} */}
               {userType && (
                 <div
                   // href="/login"

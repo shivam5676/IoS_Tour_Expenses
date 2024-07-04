@@ -13,7 +13,7 @@ function AdminREjectedVoucher(props) {
         voucherId={Id}
         open={open}
       ></VoucherViewer>{" "}
-      <p className=" border-white  py-2 font-bold bg-[#2980b9] text-white  text-2xl rounded-t-lg font-sans">
+      <p className={` border-white  py-2 font-bold CARDHEADERCOLOR text-white  text-2xl rounded-t-lg font-sans`}>
         Rejected Voucher
       </p>
       {props?.rejected?.length == 0 && (

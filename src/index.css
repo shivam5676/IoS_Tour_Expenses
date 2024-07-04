@@ -14,7 +14,23 @@ body {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
-}@import url('https://fonts.googleapis.com/css2?family=Style+Script&display=swap');
+}
+.BGCOLOR {
+  background-color: #002147 /*#2980b9*/
+}
+.NAVBARCOLOR {
+  background-color: #002147 /*#2980b9*/
+}
+.SIDEBARCOLOR {
+  background-color: #002147 /*#2980b9*/
+}
+.CARDHEADERCOLOR {
+  background-color: #2980b9
+}
+
+
+
+@import url('https://fonts.googleapis.com/css2?family=Style+Script&display=swap');
 @import url("https://fonts.googleapis.com/css2?family=Poppins&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400..700&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Montserrat:wght@400;700&family=Roboto:wght@400;700&display=swap");

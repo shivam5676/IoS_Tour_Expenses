@@ -41,7 +41,7 @@ function AdminUserList(props) {
   };
   return (
     <div className="shadow-md shadow-gray-700 w-[100%]  min-[689px]:w-[60%]  min-h-[250px] h-[40vh]  bg-white md:m-2 rounded-lg">
-      <p className=" bg-[#2980b9]  py-2 font-bold text-2xl text-center text-white rounded-t-lg h-[47px]">
+      <p className={` CARDHEADERCOLOR  py-2 font-bold text-2xl text-center text-white rounded-t-lg h-[47px]`}>
         All users
       </p>
       <div className="w-[100%]">

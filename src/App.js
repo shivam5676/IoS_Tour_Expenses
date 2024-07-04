@@ -1,6 +1,7 @@
 import Header from "./components/header";
 import MainContent from "./components/mainContent";
 import Sidebar from "./components/sideBar";
+// import "./index.css"
 // import { Route, Routes } from "react-router-dom";
 // import AdminPanel from "./components/AdminPanel";
 // import Login from "./components/login";
@@ -36,6 +37,7 @@ function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(
     JSON.parse(localStorage.getItem("token"))
   );
+
   console.log(JSON.parse(localStorage.getItem("token")));
   useEffect(() => {
     const tokenValidationChecker = async () => {
@@ -83,44 +85,53 @@ function App() {
           open={open}
         ></TokenValidator>
       )}
-      {!isLoggedIn && 
-        <div className="bg-[#002147] font-sans leading-normal tracking-normal ">
+      {!isLoggedIn && (
+        <div className="BGCOLOR font-sans leading-normal tracking-normal ">
           <Header />
-      
-            <Routes>
-              <Route path="*" element={<Login />}></Route>
-            </Routes>
-         
+
+          <Routes>
+            <Route path="*" element={<Login />}></Route>
+          </Routes>
         </div>
-      }
+      )}
       {isLoggedIn && (
-        <div className="bg-[#002147] font-sans leading-normal tracking-normal mt-12">
+        <div className={`BGCOLOR font-sans leading-normal tracking-normal`}>
           <Header />
-          <div className="flex flex-col md:flex-row">
+          <div className="flex flex-col md:flex-row mt-12">
             <Sidebar></Sidebar>
             <Routes>
               <Route path="*" element={<UserHome></UserHome>}></Route>
 
-              <Route
-                path="/adminVouchers"
-                element={<AdminHome></AdminHome>}
-              ></Route>
-              <Route
-                path="/adminUserPanel"
-                element={<AdminUserPanel></AdminUserPanel>}
-              ></Route>
-              <Route
-                path="/adminReport"
-                element={<AdminReportPanel></AdminReportPanel>}
-              ></Route>
+              {(isLoggedIn?.isAdmin ||
+                isLoggedIn?.supervisor) && (
+                  <Route
+                    path="/adminVouchers"
+                    element={<AdminHome></AdminHome>}
+                  ></Route>
+                )}
+              {isLoggedIn?.isAdmin && (
+                <Route
+                  path="/adminUserPanel"
+                  element={<AdminUserPanel></AdminUserPanel>}
+                ></Route>
+              )}
+              {isLoggedIn?.isAdmin && (
+                <Route
+                  path="/adminReport"
+                  element={<AdminReportPanel></AdminReportPanel>}
+                ></Route>
+              )}
               <Route
                 path="/YourVoucher"
                 element={<YourVoucher></YourVoucher>}
               ></Route>
-              <Route
-                path="/Accounts"
-                element={<AccountsDepartment></AccountsDepartment>}
-              ></Route>
+              {(isLoggedIn?.isAdmin ||
+                isLoggedIn?.supervisor) && (
+                  <Route
+                    path="/Accounts"
+                    element={<AccountsDepartment></AccountsDepartment>}
+                  ></Route>
+                )}
             </Routes>
             {/* <Main></Main> */}
           </div>
