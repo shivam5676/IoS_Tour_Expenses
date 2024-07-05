@@ -23,7 +23,6 @@ const Login = React.memo(() => {
   const emailRef = useRef();
   const passwordRef = useRef();
   const roleRef = useRef();
-  
   const navigate = useNavigate();
   const ctx = useContext(Context);
   const user = JSON.parse(localStorage.getItem("token"));

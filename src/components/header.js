@@ -2,7 +2,7 @@ import { useContext, useState } from "react";
 import iosLogo from "../assests/images/ios logo2.png";
 import ModeToggler from "./toggleButton";
 import { FaPowerOff, FaRegUserCircle, FaUsers } from "react-icons/fa";
-import { MdEmail, MdMenu } from "react-icons/md";
+import { MdEmail, MdMenu, MdSupervisedUserCircle } from "react-icons/md";
 import { IoIosLogOut, IoMdCall } from "react-icons/io";
 import AddTourModal from "./user/AddTourModal";
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
@@ -143,18 +143,34 @@ const Header = () => {
                         </div>
                       </div>
                     </div>
-                    <a
-                      href="#"
-                      className="flex  p-2 hover:bg-gray-800 text-white text-lg no-underline hover:no-underline items-center font-semibold hover:text-red-400"
+                    <div
+                      onClick={() => {
+                        localStorage.removeItem("token");
+                        ctx.logOutHandler();
+                        setOpenNavbar(false);
+                        // window.location.href = "/login";
+                        // navigate("/home");
+                      }}
+                      className="flex cursor-pointer  p-2 hover:bg-gray-800 text-white text-lg no-underline hover:no-underline items-center font-semibold hover:text-red-400"
                     >
                       <FaPowerOff className="w-6 h-6 mt-2 mx-2" />
                       Log Out
-                    </a>
+                    </div>
                   </div>
                 </div>
               </li>
             </ul>
           </div>}
+          {(!userType?.isAdmin && !userType?.supervisor)  && (
+            <div
+              className="md:invisible border-2 border-[#40a4ce]  cursor-pointer rounded-[25%] absolute right-0 mx-2 min-[330px]:mx-6"
+              onClick={() => {
+                setOpenNavbar(!openNavbar);
+              }}
+            >
+              <MdSupervisedUserCircle className="h-[25px] w-[25px] text-[#40a4ce] "/>
+            </div>
+          )}
 
           {(userType?.isAdmin || userType?.supervisor)  && (
             <div
@@ -415,7 +431,7 @@ const Header = () => {
                     localStorage.removeItem("token");
                     ctx.logOutHandler();
                     setOpenNavbar(false);
-                    window.location.href = "/login";
+                    // window.location.href = "/login";
                     // navigate("/home");
                   }}
                 >

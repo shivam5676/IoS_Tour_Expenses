@@ -6,9 +6,11 @@ import { FaCarTunnel } from "react-icons/fa6";
 import { GrLogout } from "react-icons/gr";
 import { NavLink } from "react-router-dom";
 import { MdAddCircle } from "react-icons/md";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import AddTourModal from "./user/AddTourModal";
+import Context from "../store/Context";
 const Sidebar = () => {
+  const ctx=useContext(Context)
   const [openTourModal, setTourModal] = useState(false);
   const user = JSON.parse(localStorage.getItem("token"));
   return (
@@ -65,21 +67,20 @@ const Sidebar = () => {
                 </span>
               </NavLink>
             </li>
-            {(user?.isAdmin ||
-              user?.supervisor )&& (
-                <li className="mr-3 flex-1 max-md:hidden">
-                  <NavLink
-                    to="/adminVouchers"
-                    className="flex py-1 md:py-3 pl-1 items-center text-white no-underline hover:text-white  border-b-2 border-transparent hover:border-b-2  hover:border-white"
-                  >
-                    <BsCash className="fas fa-tasks pr-0 md:pr-3 h-8 w-10" />
-                    {/* <FaHome className="fas fa-tasks pr-0 md:pr-3 h-8 w-10"></FaHome> */}
-                    <span className="pb-1 md:pb-0 text-xs md:text-base text-gray-400 md:text-gray-200 block md:inline-block">
-                      Voucher Manager
-                    </span>
-                  </NavLink>
-                </li>
-              )}
+            {(user?.isAdmin || user?.supervisor) && (
+              <li className="mr-3 flex-1 max-md:hidden">
+                <NavLink
+                  to="/adminVouchers"
+                  className="flex py-1 md:py-3 pl-1 items-center text-white no-underline hover:text-white  border-b-2 border-transparent hover:border-b-2  hover:border-white"
+                >
+                  <BsCash className="fas fa-tasks pr-0 md:pr-3 h-8 w-10" />
+                  {/* <FaHome className="fas fa-tasks pr-0 md:pr-3 h-8 w-10"></FaHome> */}
+                  <span className="pb-1 md:pb-0 text-xs md:text-base text-gray-400 md:text-gray-200 block md:inline-block">
+                    Voucher Manager
+                  </span>
+                </NavLink>
+              </li>
+            )}
             {user?.isAdmin && (
               <li className="mr-3 flex-1 max-md:hidden">
                 <NavLink
@@ -108,25 +109,28 @@ const Sidebar = () => {
                 </NavLink>
               </li>
             )}
-            {(user?.isAdmin ||
-              user?.supervisor) && (
-                <li className="mr-3 flex-1 max-md:hidden">
-                  <NavLink
-                    to="/Accounts"
-                    className="flex items-centerpy-1 md:py-3 pl-0 md:pl-1 align-middle text-white no-underline hover:text-white  border-b-2 border-transparent hover:border-b-2  hover:border-white"
-                  >
-                    <TbReportSearch className="fa fa-wallet pr-0 md:pr-3  h-8 w-10" />
-                    {/* <i ></i> */}
-                    <span className="pb-1 md:pb-0 text-xs md:text-base text-gray-400 md:text-gray-200 block md:flex items-center">
-                      Accounts Mode
-                    </span>
-                  </NavLink>
-                </li>
-              )}
+            {(user?.isAdmin || user?.supervisor) && (
+              <li className="mr-3 flex-1 max-md:hidden">
+                <NavLink
+                  to="/Accounts"
+                  className="flex items-centerpy-1 md:py-3 pl-0 md:pl-1 align-middle text-white no-underline hover:text-white  border-b-2 border-transparent hover:border-b-2  hover:border-white"
+                >
+                  <TbReportSearch className="fa fa-wallet pr-0 md:pr-3  h-8 w-10" />
+                  {/* <i ></i> */}
+                  <span className="pb-1 md:pb-0 text-xs md:text-base text-gray-400 md:text-gray-200 block md:flex items-center">
+                    Accounts Mode
+                  </span>
+                </NavLink>
+              </li>
+            )}
             <li className="mr-3 flex-1 max-md:hidden">
               <div
-               
-                className="flex items-center py-1 md:py-3 pl-1 align-middle text-white no-underline hover:text-white border-b-2 border-transparent hover:border-b-2  hover:border-white"
+                onClick={() => {
+                  localStorage.removeItem("token");
+                  ctx.logOutHandler();
+                  // setOpenNavbar(false);
+                }}
+                className="cursor-pointer flex items-center py-1 md:py-3 pl-1 align-middle text-white no-underline hover:text-white border-b-2 border-transparent hover:border-b-2  hover:border-white"
               >
                 <GrLogout className="fa fa-wallet pr-0 md:pr-3  h-8 w-10" />
                 {/* <TbReportSearch />{" "} */}
