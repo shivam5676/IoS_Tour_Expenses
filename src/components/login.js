@@ -14,51 +14,27 @@ const Login = React.memo(() => {
   const connectionString = process.env.REACT_APP_CONNECTION_STRING;
 
   useEffect(() => {
-    const url = new URL(window.location.href);
-    const params = url.searchParams;
-    const code = params.get("code");
-
-    if (code) {
-      setLoginLoader(true);
-      const getAccessToken = async () => {
-        try {
-          const response = await axios.get(
-            `${connectionString}:${process.env.REACT_APP_BACKEND_PORT}/callback/${code}`
-          );
-          if (response.data.data.access_token) {
-            localStorage.setItem("token", JSON.stringify(response.data.data));
-            ctx.loginDataHandler(response.data.data);
-            navigate("/");
-          } else {
-            navigate("/");
-          }
-        } catch (error) {
-          console.error("Error fetching the access token", error);
-        } finally {
-          setLoginLoader(false);
-        }
-      };
-
-      getAccessToken();
-    }
-
     const handleMessage = (event) => {
-      if (event.origin === process.env.REACT_APP_BITRIX_URL) {
-        console.log("Message received from authorization window:", event.data);
-        // Handle the received message (e.g., extract authorization code, handle errors, etc.)
-        const { code } = event.data;
-        if (code) {
-          navigate(`?code=${code}`);
-        }
+      console.log('Message received from popup:', event); // Log the received message
+
+      if (event.origin !== 'http://localhost:2000') {  // Replace with your frontend origin
+        return;
+      }
+
+      if (event.data.code) {
+        console.log('Authorization code received:', event.data.code);
+        navigate(`?code=${event.data.code}`);
+      } else if (event.data.error) {
+        console.error('Authorization failed:', event.data.error);
       }
     };
-
-    window.addEventListener("message", handleMessage);
-
+  
+    window.addEventListener('message', handleMessage);
+  
     return () => {
-      window.removeEventListener("message", handleMessage);
+      window.removeEventListener('message', handleMessage);
     };
-  }, [navigate, ctx, connectionString]);
+  }, [navigate]);
 
   const bitrixHandler = useCallback(async () => {
     setLoginLoader(true);
@@ -67,26 +43,26 @@ const Login = React.memo(() => {
         `${connectionString}:${process.env.REACT_APP_BACKEND_PORT}/queryParams/`
       );
       const queryParams = response.data.data;
+      console.log('Query parameters for authorization:', queryParams); // Log the query parameters
       const authorizationUrl = `${process.env.REACT_APP_BITRIX_URL}/oauth/authorize?${queryParams}`;
       const width = 500;
       const height = 600;
       const left = window.screen.width / 2 - width / 2;
       const top = window.screen.height / 2 - height / 2;
-
+  
       const authWindow = window.open(
-        authorizationUrl,
+        `${connectionString}:${process.env.REACT_APP_BACKEND_PORT}/popup?${queryParams}`,
         "BitrixAuth",
         `width=${width},height=${height},top=${top},left=${left}`
       );
-      console.log("Authorization window opened:", authWindow);
-
+  
       const authCheckInterval = setInterval(() => {
         if (authWindow.closed) {
           clearInterval(authCheckInterval);
-          window.location.reload(); // Reload the parent window to check for the authorization code
+          window.location.reload();
         }
       }, 1000);
-
+  
       setLoginLoader(false);
     } catch (err) {
       console.log(err);
