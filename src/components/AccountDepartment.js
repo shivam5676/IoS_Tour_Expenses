@@ -30,7 +30,7 @@ function AccountDepartment() {
   }, []);
   return (
     <div className="w-[100%] h-[100%] flex  p-[10px] ">
-      <div className="w-[100%] max-w-[1200px] h-[400px] bg-white  rounded-t-lg mx-2 shadow-md shadow-gray-700">
+      <div className="w-[100%] max-w-[1200px] h-[400px] bg-white  rounded-t-lg  shadow-md shadow-gray-700  mx-2 min-[1000px]:mx-12">
       <VoucherViewer
         close={() => {
           setOpen(!open);

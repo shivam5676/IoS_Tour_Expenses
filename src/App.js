@@ -27,6 +27,7 @@ import AdminReportPanel from "./pages/adminReports";
 import YourVoucher from "./pages/userVoucher";
 import AccountsDepartment from "./pages/accountsDepartment";
 import Login from "./components/login";
+import AuthHandler from "./components/AuthHandler";
 
 function App() {
   const [open, setOpen] = useState(false);
@@ -90,7 +91,8 @@ function App() {
           <Header />
 
           <Routes>
-            <Route path="*" element={<Login />}></Route>
+            <Route path="*" element={<Login />}></Route>{" "}
+            <Route path="/auth.html" element={<AuthHandler />} />
           </Routes>
         </div>
       )}
@@ -99,16 +101,16 @@ function App() {
           <Header />
           <div className="flex flex-col md:flex-row mt-12">
             <Sidebar></Sidebar>
+            
             <Routes>
               <Route path="*" element={<UserHome></UserHome>}></Route>
 
-              {(isLoggedIn?.isAdmin ||
-                isLoggedIn?.supervisor) && (
-                  <Route
-                    path="/adminVouchers"
-                    element={<AdminHome></AdminHome>}
-                  ></Route>
-                )}
+              {(isLoggedIn?.isAdmin || isLoggedIn?.supervisor) && (
+                <Route
+                  path="/adminVouchers"
+                  element={<AdminHome></AdminHome>}
+                ></Route>
+              )}
               {isLoggedIn?.isAdmin && (
                 <Route
                   path="/adminUserPanel"
@@ -125,13 +127,12 @@ function App() {
                 path="/YourVoucher"
                 element={<YourVoucher></YourVoucher>}
               ></Route>
-              {(isLoggedIn?.isAdmin ||
-                isLoggedIn?.supervisor) && (
-                  <Route
-                    path="/Accounts"
-                    element={<AccountsDepartment></AccountsDepartment>}
-                  ></Route>
-                )}
+              {(isLoggedIn?.isAdmin || isLoggedIn?.supervisor) && (
+                <Route
+                  path="/Accounts"
+                  element={<AccountsDepartment></AccountsDepartment>}
+                ></Route>
+              )}
             </Routes>
             {/* <Main></Main> */}
           </div>

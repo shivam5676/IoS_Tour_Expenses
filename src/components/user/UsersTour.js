@@ -39,7 +39,7 @@ function UsersTour(props) {
   };
   return (
     <div className=" w-[100%]  md:w-[60%]  min-h-[250px] h-[40vh] my-2   bg-white">
-      <div className="mx-2 shadow-md shadow-gray-700 h-[100%]  rounded-lg">
+      <div className="sm:mx-2 shadow-md shadow-gray-700 h-[100%]  rounded-lg">
         {" "}
         <p
           className={`CARDHEADERCOLOR py-2 font-bold text-2xl text-center text-white rounded-t-lg h-[47px]  font-sans`}

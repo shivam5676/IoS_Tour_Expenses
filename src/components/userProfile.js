@@ -47,9 +47,10 @@ function UserProfile() {
       //   ctx.AllVoucher(response.data.userList);
       // }
       toast.success("user assigned as Admin ...");
-    } catch (err) {if(err.response&&err.response.data.msg){
-      toast.error(err.response.data.msg)
-    }
+    } catch (err) {
+      if (err.response && err.response.data.msg) {
+        toast.error(err.response.data.msg);
+      }
       console.log(err);
     }
   };
@@ -70,14 +71,14 @@ function UserProfile() {
       // }
       toast.success("admin access removed ...");
     } catch (err) {
-    if(err.response&&err.response.data.msg){
-      toast.error(err.response.data.msg)
-    }
+      if (err.response && err.response.data.msg) {
+        toast.error(err.response.data.msg);
+      }
       console.log(err);
     }
   };
   return (
-    <div className="relative rounded-lg shadow-md shadow-gray-700  w-[100%]  min-[689px]:w-[40%]  min-h-[250px] h-[40vh]  min-[689px]:m-2 my-2 bg-white text-black">
+    <div className="relative rounded-lg shadow-md shadow-gray-700  w-[100%]  min-[689px]:w-[40%]  min-h-[250px] h-[40vh]  min-[689px]:m-2 my-2  bg-white text-black">
       <p className="relative rounded-t-lg py-2 font-bold text-2xl   text-center   bg-[#2980b9] text-white">
         User Profile
       </p>{" "}
@@ -142,7 +143,6 @@ function UserProfile() {
             Permissions :
           </p>
           <div>
-           
             {ctx?.adminCurrentUserData?.supervisor &&
               !ctx?.adminCurrentUserData?.isAdmin && (
                 <p className="border-[2px] text-[.75rem] lg:text-[.9rem] font-semibold border-blue-600 px-2 rounded-md flex items-center mx-1">

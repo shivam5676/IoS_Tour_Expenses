@@ -57,21 +57,24 @@ function UserExpenseList(props) {
         }}
       ></AddExpenseModal>
       <div className="shadow-md shadow-gray-700 w-[100%] min-h-[250px] h-[40vh]  bg-white min-[689px]:m-2 my-2 rounded-lg">
-        <div className={` p-2 font-bold text-2xl flex justify-between rounded-t-lg text-white CARDHEADERCOLOR font-sans`}>
+        <div className={` p-2 font-bold text-lg min-[400px]:text-2xl flex justify-between rounded-t-lg text-white CARDHEADERCOLOR font-sans items-center`}>
           <p> Expenses List</p>
           <p
-            className="rounded-md cursor-pointer text-sm px-4 flex items-center bg-white text-black font-bold hover:bg-gray-300"
+            className="rounded-md cursor-pointer text-sm px-4 py-2 flex items-center bg-white text-black font-bold hover:bg-gray-300"
             onClick={() => setOpenDescription(true)}
           >
             submit
           </p>
           <p
-            className="border-2 text-sm pe-4 flex items-center cursor-pointer"
+            className="border-2 text-sm pe-4  items-center cursor-pointer min-[400px]:flex hidden"
             onClick={() => setOpen(!open)}
           >
-            <FaPenSquare className="w-[25px] h-[25px] mx-2 " />
-            Add
+            <FaPenSquare className="min-[400px]:w-[25px] min-[400px]:h-[25px] h-[20px] w-[20px]  min-[400px]:mx-2 hidden min-[400px]:flex" />
+          
+
+           <p className=" hidden min-[400px]:flex"> Add</p>
           </p>
+          <IoMdAddCircleOutline className="max-[400px]:flex hidden h-[30px] w-[30px]  min-[400px]:mx-2" onClick={() => setOpen(!open)}/>
         </div>{" "}
         {ctx.userCurrentTourExpenseData.length == 0 && (
           <>

@@ -35,8 +35,8 @@ function UserPendingVouchers(props) {
     fetchData();
   }, []);
   return (
-    <div className=" w-[100%] max-w-[1200px]  min-h-[250px] h-[40vh]  bg-white my-2">
-      <div className="mx-2 shadow-md shadow-gray-700 h-[100%]  rounded-lg">
+    <div className=" w-[100%] max-w-[1200px]  min-h-[250px] h-[40vh]  bg-white my-2 ">
+      <div className="mx-2 shadow-md shadow-gray-700 h-[100%]  rounded-lg  mx-2 min-[1000px]:mx-12">
         <VoucherViewer
           close={() => {
             setOpen(!open);

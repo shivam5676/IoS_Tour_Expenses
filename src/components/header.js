@@ -57,7 +57,7 @@ const Header = () => {
         className={`NAVBARCOLOR pt-2 md:pt-1 pb-1 px-1 mt-0 h-16 fixed w-full z-20 top-0`}
       >
         <div className="flex flex-wrap items-center h-[100%] justify-between">
-          <div className="flex flex-shrink h-[100%]  justify-center items-center md:justify-start text-white font-[cursive]">
+          <div className="flex flex-shrink h-[100%]  justify-center items-center md:justify-start text-white font-[poppins] md:font-[cursive]">
             <a href="/" aria-label="Home">
               <p className="flex items-center mx-1 min-[426px]:mx-6">
                 <img
@@ -149,7 +149,7 @@ const Header = () => {
                         ctx.logOutHandler();
                         setOpenNavbar(false);
                         // window.location.href = "/login";
-                        // navigate("/home");
+                        navigate("/home");
                       }}
                       className="flex cursor-pointer  p-2 hover:bg-gray-800 text-white text-lg no-underline hover:no-underline items-center font-semibold hover:text-red-400"
                     >
@@ -161,14 +161,14 @@ const Header = () => {
               </li>
             </ul>
           </div>}
-          {(!userType?.isAdmin && !userType?.supervisor)  && (
+          {(userType&&!userType?.isAdmin && !userType?.supervisor)  && (
             <div
-              className="md:invisible border-2 border-[#40a4ce]  cursor-pointer rounded-[25%] absolute right-0 mx-2 min-[330px]:mx-6"
+              className="md:invisible border-2 border-[#d5d235]  cursor-pointer rounded-[25%] absolute right-0 mx-2 min-[330px]:mx-6"
               onClick={() => {
                 setOpenNavbar(!openNavbar);
               }}
             >
-              <MdSupervisedUserCircle className="h-[25px] w-[25px] text-[#40a4ce] "/>
+              <MdSupervisedUserCircle className="h-[30px] w-[30px] text-[#d5d235] "/>
             </div>
           )}
 
@@ -185,12 +185,12 @@ const Header = () => {
         </div>
       </nav>
       {openNavbar && (
-        <div className="min-[924px]:hidden min-[531px]:h-[calc(100vh-74px)] h-[calc(100vh-90px)] w-[100%] min-[500px]:w-[300px] absolute backdrop-blur-sm bg-[#3B4D5D] right-0  mt-[15px] z-50">
+        <div className="min-[924px]:hidden  h-[calc(100vh-64px)] w-[100%] min-[500px]:w-[300px] absolute backdrop-blur-sm bg-[#3B4D5D] right-0  mt-[15px] z-50 animate-slideIn">
           <div className="flex flex-col  ">
             <>
-              <div className="bg-[#c7a433] h-[fit]  w-[100%] text-white">
+              <div className="bg-[#40a4ce] h-[fit]  w-[100%] text-white">
                 <div className="flex ">
-                  {console.log(userData?.profilePic)}{" "}
+                
                   {!userData?.profilePic ? (
                     <FaRegUserCircle className="w-[60px] h-[60px] m-2" />
                   ) : (
@@ -432,7 +432,7 @@ const Header = () => {
                     ctx.logOutHandler();
                     setOpenNavbar(false);
                     // window.location.href = "/login";
-                    // navigate("/home");
+                    navigate("/home");
                   }}
                 >
                   LogOut

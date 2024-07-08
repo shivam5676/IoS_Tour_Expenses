@@ -15,12 +15,12 @@ const AdminUserPanel = () => {
   const ctx = useContext(Context);
 
   return (
-    <section className="main-content flex-1 bg-gray-100 pt-5 md:pt-3 md:mt-2 pb-24 md:pb-5">
-      <div className="flex  flex-col min-[689px]:flex-row">
+    <section className="main-content flex-1 bg-white pt-5 md:pt-3 md:mt-2 pb-24 md:pb-5 ">
+      <div className="flex  flex-col min-[689px]:flex-row  mx-2 min-[1000px]:mx-12">
         <AdminUserList showData={() => setShowData(true)}></AdminUserList>
         {showData && <UserProfile></UserProfile>}
       </div>
-      <div className="flex  flex-col min-[689px]:flex-row">
+      <div className="flex  flex-col min-[689px]:flex-row  mx-2 min-[1000px]:mx-12">
         {" "}
         {showData && <AdminExpenseGraph></AdminExpenseGraph>}{" "}
         {showData && <UsersAllVouchers></UsersAllVouchers>}{" "}

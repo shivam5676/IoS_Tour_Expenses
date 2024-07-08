@@ -13,28 +13,31 @@ const Login = React.memo(() => {
   const ctx = useContext(Context);
   const connectionString = process.env.REACT_APP_CONNECTION_STRING;
 
-  useEffect(() => {
-    const handleMessage = (event) => {
-      console.log('Message received from popup:', event); // Log the received message
+  const getAccessToken = async (code) => {
+    setLoginLoader(true)
+    try {
+      const response = await axios.get(
+        `${connectionString}:${process.env.REACT_APP_BACKEND_PORT}/callback/${code}`
+      );
+      console.log(response);
+      if (response.data.data.access_token) {
+        localStorage.setItem("token", JSON.stringify(response.data.data));
+        ctx.loginDataHandler(response.data.data);
+        navigate("/");
+        setLoginLoader(false);
+        // window.location.href = "http://localhost:3000/home";
+        // window.location.href = `${connectionString}:${process.env.REACT_APP_FRONTEND_PORT}/home`;
+      } else {
+        setLoginLoader(false);
+        navigate("/");
 
-      if (event.origin !== 'http://localhost:2000') {  // Replace with your frontend origin
-        return;
+        // window.location.href = "http://localhost:3000";
+        // window.location.href = `${connectionString}:${process.env.REACT_APP_FRONTEND_PORT}`;
       }
-
-      if (event.data.code) {
-        console.log('Authorization code received:', event.data.code);
-        navigate(`?code=${event.data.code}`);
-      } else if (event.data.error) {
-        console.error('Authorization failed:', event.data.error);
-      }
-    };
-  
-    window.addEventListener('message', handleMessage);
-  
-    return () => {
-      window.removeEventListener('message', handleMessage);
-    };
-  }, [navigate]);
+    } catch (error) {
+      console.error("Error fetching the access token", error);
+    }
+  };
 
   const bitrixHandler = useCallback(async () => {
     setLoginLoader(true);
@@ -51,15 +54,28 @@ const Login = React.memo(() => {
       const top = window.screen.height / 2 - height / 2;
   
       const authWindow = window.open(
-        `${connectionString}:${process.env.REACT_APP_BACKEND_PORT}/popup?${queryParams}`,
+        authorizationUrl,
         "BitrixAuth",
         `width=${width},height=${height},top=${top},left=${left}`
       );
   
-      const authCheckInterval = setInterval(() => {
-        if (authWindow.closed) {
-          clearInterval(authCheckInterval);
-          window.location.reload();
+      const pollTimer = window.setInterval(() => {
+        try {
+          if (authWindow.closed) {
+            window.clearInterval(pollTimer);
+          } else {
+            const searchParams = new URL(authWindow.location).searchParams;
+            const authCode = searchParams.get("code");
+            if (authCode) {
+              console.log('Authorization Code:', authCode);
+              getAccessToken(authCode)
+              authWindow.close();
+              // Redirect to your main application route and pass the authorization code
+              // navigate(`/auth?code=${authCode}`);
+            }
+          }
+        } catch (e) {
+          // Ignore DOMException: Blocked a frame with origin from accessing a cross-origin frame.
         }
       }, 1000);
   
@@ -68,7 +84,12 @@ const Login = React.memo(() => {
       console.log(err);
       setLoginLoader(false);
     }
-  }, [connectionString]);
+  }, [connectionString, navigate]);
+  
+  
+  
+  
+  
 
   return (
     <div
@@ -84,15 +105,15 @@ const Login = React.memo(() => {
     >
       <div className="flex w-[1400px] pt-[90px] flex-col sm:flex-row">
         <div className="w-[100%] sm:w-[50%] h-[100%] flex flex-col justify-center items-center">
-          <p className="text-2xl md:text-3xl lg:text-4xl font-bold text-white px-2 py-2 w-[100%] text-center md:py-8">
+          <p className="text-2xl md:text-3xl lg:text-4xl font-bold text-white px-2 py-3 w-[100%] text-center">
             IOS <span className="text-white">V</span>oucher{" "}
             <span className="text-white">M</span>anagement{" "}
             <span className="text-white">S</span>ystem
           </p>
-          <div className="flex sm:text-[1.2rem] lg:text-xl font-bold text-white text-center px-4 md:py-2">
+          <div className="flex sm:text-[1.2rem] lg:text-xl font-bold text-white text-center px-4 py-3 md:py-3">
             <p>Powerful & LightWeight Tour Voucher Tracker</p>
           </div>
-          <div className="flex text-white px-6 md:px-12 py-4 text-center">
+          <div className="flex text-white px-6 md:px-12 py-2 text-center">
             <p>
               Login now to manage your tour vouchers and expenses digitally.
             </p>
