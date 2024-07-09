@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import CountUp from "react-countup";
 import BarChartYear from "./barChartYearWise";
 import DownloadYearReportButton from "./DownloadYearReportButton";
+import { toast } from "react-toastify";
 
 function YearWiseReportGeneration(props) {
   console.log(props, ".....kldljd");
@@ -41,6 +42,11 @@ function YearWiseReportGeneration(props) {
             domain: user.domain,
           }
         );
+        console.log(response,".,wkldjwkdyuwtfdy3tgyrduytws")
+        if(response.data.data.length==0){
+          toast.error("no expense found for given year ")
+          return
+        }
         response.data.data.forEach((current) => {
           console.log(current);
           const dateObj = new Date(current.date);
@@ -119,7 +125,7 @@ function YearWiseReportGeneration(props) {
     fetchFilterData();
   }, [props.selectedYear]);
   // let jan=[];
-  console.log(reportData, expenseData);
+  // console.log(reportData, expenseData);
   return (
     <>
       <DownloadYearReportButton

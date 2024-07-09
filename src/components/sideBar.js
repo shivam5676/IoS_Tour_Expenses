@@ -24,7 +24,7 @@ const Sidebar = () => {
       ></AddTourModal>
       <nav
         aria-label="alternative nav"
-        className={`SIDEBARCOLOR shadow-xl h-20 fixed bottom-0 md:mt-12 md:relative md:h-[calc(100vh-98px)] z-10  w-full md:w-56 content-center font-[Poppins] `}
+        className={`SIDEBARCOLOR shadow-xl h-20 fixed bottom-0  md:relative md:h-[calc(100vh-50px)] z-10  w-full md:w-56 content-center font-[Poppins] `}
       >
         <div className="md:mt-16 md:w-56  md:fixed md:left-0 md:top-0 content-center md:content-start text-left justify-between">
           <ul className="list-reset flex flex-row  md:flex-col md:pt-3 md:py-3 px-1 md:px-2 text-center max-md:items-center md:text-left">
@@ -34,7 +34,7 @@ const Sidebar = () => {
                 className="flex  flex-col md:flex-row py-1 md:py-3 pl-1 items-center text-white no-underline hover:text-white   border-b-2 border-transparent hover:border-b-2  hover:border-white"
               >
                 <FaHome className="fas fa-tasks pr-0 md:pr-3 h-6 w-8 md:h-8 md:w-10"></FaHome>
-                <span className="pb-1 md:pb-0 text-sm md:text-base md:text-white-400 max-md:flex md:text-[1rem] md:text-gray-200 block md:inline-block max-md:p-1 max-md:font-bold">
+                <span className="pb-1 md:pb-0 text-sm md:text-base md:text-white-400 max-md:flex md:text-[1rem] md:text-white block md:inline-block max-md:p-1 max-md:font-bold">
                   Home
                 </span>
               </NavLink>
@@ -51,7 +51,7 @@ const Sidebar = () => {
                 <MdAddCircle className="fas fa-tasks pr-0 md:pr-3 h-8 w-10" />
                 {/* <BsCash /> */}
                 {/* <FaHome className="fas fa-tasks pr-0 md:pr-3 h-8 w-10"></FaHome> */}
-                <span className="pb-1 md:pb-0 text-sm md:text-base md:text-white-400 max-md:flex md:text-[1rem] md:text-gray-200 block md:inline-block max-md:p-1 max-md:font-bold">
+                <span className="pb-1 md:pb-0 text-sm md:text-base md:text-white-400 max-md:flex md:text-[1rem] md:text-white block md:inline-block max-md:p-1 max-md:font-bold">
                   Add Tour
                 </span>
               </div>
@@ -63,7 +63,7 @@ const Sidebar = () => {
               >
                 <FaCarTunnel className="fas fa-tasks pr-0 md:pr-3 h-8 w-10" />
                 {/* <FaHome ></FaHome> */}
-                <span className="pb-1 md:pb-0 text-sm md:text-base md:text-white-400 max-md:flex md:text-[1rem] md:text-gray-200 block md:inline-block max-md:p-1 max-md:font-bold">
+                <span className="pb-1 md:pb-0 text-sm md:text-base md:text-white-400 max-md:flex md:text-[1rem] md:text-white block md:inline-block max-md:p-1 max-md:font-bold">
                   Your Tours
                 </span>
               </NavLink>
@@ -76,7 +76,7 @@ const Sidebar = () => {
                 >
                   <BsCash className="fas fa-tasks pr-0 md:pr-3 h-8 w-10" />
                   {/* <FaHome className="fas fa-tasks pr-0 md:pr-3 h-8 w-10"></FaHome> */}
-                  <span className="pb-1 md:pb-0 text-xs md:text-base text-gray-400 md:text-gray-200 block md:inline-block">
+                  <span className="pb-1 md:pb-0 text-xs md:text-base text-gray-400 md:text-white block md:inline-block">
                     Voucher Manager
                   </span>
                 </NavLink>
@@ -90,7 +90,7 @@ const Sidebar = () => {
                 >
                   <FaUsers className="fa fa-envelope pr-0 md:pr-3 h-8 w-10" />
                   {/* <i "></i> */}
-                  <span className="pb-1 md:pb-0 text-xs md:text-base text-gray-400 md:text-gray-200 block md:inline-block">
+                  <span className="pb-1 md:pb-0 text-xs md:text-base text-gray-400 md:text-white block md:inline-block">
                     Users
                   </span>
                 </NavLink>
@@ -118,7 +118,7 @@ const Sidebar = () => {
                 >
                   <TbReportSearch className="fa fa-wallet pr-0 md:pr-3  h-8 w-10" />
                   {/* <i ></i> */}
-                  <span className="pb-1 md:pb-0 text-xs md:text-base text-gray-400 md:text-gray-200 block md:flex items-center">
+                  <span className="pb-1 md:pb-0 text-xs md:text-base text-gray-400 md:text-white block md:flex items-center">
                     Accounts Mode
                   </span>
                 </NavLink>
@@ -129,7 +129,8 @@ const Sidebar = () => {
                 onClick={() => {
                   localStorage.removeItem("token");
                   ctx.logOutHandler();
-                  navigate("/");
+                  window.location.href = "/login";
+                  // navigate("/");
                   // setOpenNavbar(false);
                 }}
                 className="cursor-pointer flex items-center py-1 md:py-3 pl-1 align-middle text-white no-underline hover:text-white border-b-2 border-transparent hover:border-b-2  hover:border-white"

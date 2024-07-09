@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import CountUp from "react-countup";
 import DownloadPdfButton from "./DownloadPdfButton";
+import { toast } from "react-toastify";
 
 function TokenWiseReport(props) {
   const user = JSON.parse(localStorage.getItem("token"));
@@ -25,6 +26,11 @@ function TokenWiseReport(props) {
             domain: user.domain,
           }
         );
+        console.log(response,"kwdhjshjdfgsjdghh")
+      if(response.data.response.length==0){
+        toast.error("no data found for this voucher")
+        return
+      }
         setImageArray(response.data.imagePaths);
         setVoucherData(response.data.response);
       } catch (err) {

@@ -39,7 +39,7 @@ function UserExpenseList(props) {
       <UpdateExpenseModal
         open={update}
         onClose={() => {
-          setUpdate(!update)
+          setUpdate(!update);
         }}
         updateData={updateData}
       ></UpdateExpenseModal>
@@ -57,7 +57,9 @@ function UserExpenseList(props) {
         }}
       ></AddExpenseModal>
       <div className="shadow-md shadow-gray-700 w-[100%] min-h-[250px] h-[40vh]  bg-white min-[689px]:m-2 my-2 rounded-lg">
-        <div className={` p-2 font-bold text-lg min-[400px]:text-2xl flex justify-between rounded-t-lg text-white CARDHEADERCOLOR font-sans items-center`}>
+        <div
+          className={` p-2 font-bold text-lg min-[400px]:text-2xl flex justify-between rounded-t-lg text-white CARDHEADERCOLOR font-sans items-center`}
+        >
           <p> Expenses List</p>
           <p
             className="rounded-md cursor-pointer text-sm px-4 py-2 flex items-center bg-white text-black font-bold hover:bg-gray-300"
@@ -70,11 +72,13 @@ function UserExpenseList(props) {
             onClick={() => setOpen(!open)}
           >
             <FaPenSquare className="min-[400px]:w-[25px] min-[400px]:h-[25px] h-[20px] w-[20px]  min-[400px]:mx-2 hidden min-[400px]:flex" />
-          
 
-           <p className=" hidden min-[400px]:flex"> Add</p>
+            <p className=" hidden min-[400px]:flex"> Add</p>
           </p>
-          <IoMdAddCircleOutline className="max-[400px]:flex hidden h-[30px] w-[30px]  min-[400px]:mx-2" onClick={() => setOpen(!open)}/>
+          <IoMdAddCircleOutline
+            className="max-[400px]:flex hidden h-[30px] w-[30px]  min-[400px]:mx-2"
+            onClick={() => setOpen(!open)}
+          />
         </div>{" "}
         {ctx.userCurrentTourExpenseData.length == 0 && (
           <>
@@ -97,45 +101,43 @@ function UserExpenseList(props) {
                 <p className=" px-1 text-center"></p>
               </div>
             </div>
-            <div className="w-[100%]  h-[calc(40vh-110px)] overflow-y-auto">
-              {ctx.userCurrentTourExpenseData.map((current) => {
+            <div className="w-full h-[calc(40vh-95px)] overflow-y-auto bg-gray-100 rounded-lg shadow-md">
+              {ctx.userCurrentTourExpenseData.map((current, index) => {
                 return (
-                  <div className="mx-2 bg-white text-black flex py-1 text-[.8rem] font-semibold">
+                  <div
+                    key={current.id}
+                    className={`mx-2 my-1 py-1 px-2 flex items-center rounded-lg shadow-sm transition-all duration-200 ease-in-out ${
+                      index % 2 === 0 ? "bg-white" : "bg-gray-200"
+                    }`}
+                  >
                     <p className="w-[30%] px-1 overflow-hidden whitespace-nowrap overflow-ellipsis">
                       {current.description}
                     </p>
                     <p className="min-[450px]:w-[20%] hidden px-1 overflow-hidden whitespace-nowrap overflow-ellipsis">
-                      {current.expenseType}{" "}
+                      {current.expenseType}
                     </p>
                     <p className="w-[25%] px-1 overflow-hidden whitespace-nowrap overflow-ellipsis">
                       {current.Amount}
                     </p>
                     <p className="w-[20%] px-1 overflow-hidden whitespace-nowrap overflow-ellipsis">
-                      {current.date}{" "}
+                      {current.date}
                     </p>
-                    <div className=" px-1 overflow-hidden whitespace-nowrap overflow-ellipsis flex ">
-                      {/* <p className="bg-blue-300 text-white font-bold text-center rounded hover:bg-blue-500">
-                        {" "}
-                        View
-                      </p> */}
+                    <div className="flex items-center px-1 overflow-hidden whitespace-nowrap overflow-ellipsis">
                       <p
-                        className="bg-blue-500 text-white font-bold text-center rounded hover:bg-blue-600 p-1 cursor-pointer"
+                        className="bg-blue-500 text-white font-bold text-center rounded hover:bg-blue-600 p-1 cursor-pointer transition-all duration-200 ease-in-out"
                         onClick={() => {
-                          // updateExpenseHAndler(current.id)
                           setUpdate(true);
                           setUpdateData(current);
                         }}
                       >
                         Edit
                       </p>
-                      <div>
-                        <RiDeleteBin2Fill
-                          className="w-[25px] h-[25px] mx-2 text-red-500 hover:text-red-700 cursor-pointer"
-                          onClick={() => {
-                            deleteExpenseHAndler(current.id);
-                          }}
-                        ></RiDeleteBin2Fill>
-                      </div>
+                      <RiDeleteBin2Fill
+                        className="w-[25px] h-[25px] mx-2 text-red-500 hover:text-red-700 cursor-pointer transition-all duration-200 ease-in-out"
+                        onClick={() => {
+                          deleteExpenseHAndler(current.id);
+                        }}
+                      />
                     </div>
                   </div>
                 );

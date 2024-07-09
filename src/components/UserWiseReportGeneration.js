@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import CountUp from "react-countup";
 import BarChartUser from "./BarChartUser";
 import DownloadUserPdfButton from "./DownloadUserPdfButton";
+import { toast } from "react-toastify";
 // import LineChart from "./barChartYearWise";
 
 function UserWiseReportGeneration(props) {
@@ -17,7 +18,7 @@ function UserWiseReportGeneration(props) {
   });
   const [expenseData, setExpenseData] = useState({
     cashExpense: 0,
-    digitalExpense: 0
+    digitalExpense: 0,
   });
   const monthNameArray = [
     "Jan",
@@ -46,6 +47,10 @@ function UserWiseReportGeneration(props) {
             domain: user.domain,
           }
         );
+        console.log(response.data, "dedfdfedfcfefef");
+        if (response.data.length == 0) {
+          toast.error("no expense found for this user ");
+        }
         setuserData({
           firstName: response.data[0].user.firstName,
           lastName: response.data[0].user.lastName,
@@ -148,13 +153,12 @@ function UserWiseReportGeneration(props) {
       <div className="w-[100%]  ">
         {" "}
         <div className="flex mt-3 items-center  overflow-x-auto overflow-y-hidden  mx-2">
-          <div className="bg-gradient-to-r from-black to-white flex-1 h-[2px]"></div>
-          <div className="md:font-bold text-2xl m-3 text-white font-medium">
+          <div className="bg-gradient-to-r from-white to-black flex-1 h-[2px]"></div>
+          <div className="md:font-bold text-2xl m-3 text-blue-400 font-medium">
             Tour Wise Expenses
           </div>
-          <div className="bg-gradient-to-r from-white to-black flex-1 h-[2px]"></div>
+          <div className="bg-gradient-to-r from-black to-white flex-1 h-[2px]"></div>
         </div>
-   
         {reportData && <BarChartUser reportData={reportData}></BarChartUser>}{" "}
         <p className="mb-16"></p>
       </div>

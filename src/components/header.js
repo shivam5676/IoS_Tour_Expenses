@@ -54,15 +54,15 @@ const Header = () => {
         }}
       ></AddTourModal>
       <nav
-        className={`NAVBARCOLOR pt-2 md:pt-1 pb-1 px-1 mt-0 h-16 fixed w-full z-20 top-0`}
+        className={`NAVBARCOLOR pt-2 md:pt-1 pb-1 px-1 mt-0 h-16 fixed w-full z-20 top-0 blur-80`}
       >
         <div className="flex flex-wrap items-center h-[100%] justify-between">
-          <div className="flex flex-shrink h-[100%]  justify-center items-center md:justify-start text-white font-[poppins] md:font-[cursive]">
+          <div className="flex flex-shrink h-[100%]  justify-center items-center md:justify-start text-white font-[poppins] md:font-[cursive] ">
             <a href="/" aria-label="Home">
               <p className="flex items-center mx-1 min-[426px]:mx-6">
                 <img
                   src={iosLogo}
-                  className="w-14 h-8 min-[386px]:h-10 min-[386px]:w-16   sm:h-12 sm:w-24 mx-1"
+                  className="w-14 h-8 min-[386px]:h-10 min-[386px]:w-16   sm:h-12 sm:w-24 mx-1  m-4"
                 ></img>
                 <span className=" sm:text-3xl min-[386px]:text-2xl text-xl font-bold pl-2 mx-1 min-[426px]:mx-3">
                   VOUCHER TRACKER
@@ -71,11 +71,11 @@ const Header = () => {
             </a>
           </div>
 
-          {userType&&<div className="flex  pt-2 sm:content-center w-fit mx-auto md:mx-0 justify-end max-md:invisible">
+          {userType&&<div className="flex  sm:content-center w-fit mx-auto md:mx-0 justify-end max-md:invisible">
             <ul className="list-reset flex justify-end flex-1 md:flex-none items-center">
               <li className="mr-4 ">
                 <button
-                  className="shadow-[0_0_0_3px_white_inset] px-6 py-2 bg-transparent border border-black dark:border-white dark:text-white text-white rounded-lg font-bold transform hover:-translate-y-1 transition duration-400  hover:bg-white hover:text-black"
+                  className="shadow-[0_0_0_3px_white_inset] px-6 py-2 bg-transparent border  dark:border-white dark:text-white text-white rounded-lg font-bold transform hover:-translate-y-1 transition duration-400  hover:bg-white hover:text-black"
                   onClick={() => {
                     // setOpen(true);
                     setTourModal(true);
@@ -174,12 +174,12 @@ const Header = () => {
 
           {(userType?.isAdmin || userType?.supervisor)  && (
             <div
-              className="md:invisible border-2 border-[#40a4ce]  cursor-pointer rounded absolute right-0 mx-2 min-[330px]:mx-6"
+              className="md:invisible border-2 border-[#dbc234]  cursor-pointer rounded absolute right-0 mx-2 min-[330px]:mx-6"
               onClick={() => {
                 setOpenNavbar(!openNavbar);
               }}
             >
-              <MdMenu className="h-[25px] w-[25px] text-[#40a4ce] "></MdMenu>
+              <MdMenu className="h-[25px] w-[25px] text-[#dbc234] "></MdMenu>
             </div>
           )}
         </div>
@@ -431,8 +431,8 @@ const Header = () => {
                     localStorage.removeItem("token");
                     ctx.logOutHandler();
                     setOpenNavbar(false);
-                    // window.location.href = "/login";
-                    navigate("/home");
+                    window.location.href = "/login";
+                    // navigate("/home");
                   }}
                 >
                   LogOut

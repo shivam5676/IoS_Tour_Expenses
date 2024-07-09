@@ -66,50 +66,49 @@ function UsersTour(props) {
                 <p className="w-[25%] px-1 text-center"></p>
               </div>
             </div>
-            <div className="w-[100%] h-[calc(40vh-110px)] min-h-[calc(250px-90px)] overflow-y-auto">
+            <div className="w-full h-[calc(40vh-85px)] min-h-[calc(250px-85px)] overflow-y-auto bg-gray-100 rounded-lg shadow-md">
               {ctx.onGoingData?.map((current) => {
                 return (
                   <div
-                    // onClick={() => {
-                    //   selected != current.id && fetchTourDetails(current.id);
-                    //   selected != current.id && ctx.currentTourId(current.id);
-                    //   selected != current.id && setSelected(current.id);
-                    //   props.selected();
-                    // }}
-                    className={`mx-2 ${
-                      selected != current.id ? "bg-white" : "bg-yellow-500"
-                    } hover:bg-yellow-300 text-black flex items-center py-1 text-[.9rem] font-semibold`}
+                    key={current.id}
+                    className={`mx-2 my-1 p-2 ${
+                      selected !== current.id ? "bg-white" : "bg-yellow-500"
+                    } hover:bg-yellow-300 text-black flex items-center rounded-lg shadow-sm transition-all duration-200 ease-in-out`}
                   >
-                    <p className="w-[10%] px-1 overflow-hidden whitespace-nowrap overflow-ellipsis">
+                    <p className="w-[10%] px-2 overflow-hidden whitespace-nowrap overflow-ellipsis">
                       {current.id}
                     </p>
-                    <p className="w-[35%] px-1 overflow-hidden whitespace-nowrap overflow-ellipsis">
+                    <p className="w-[35%] px-2 overflow-hidden whitespace-nowrap overflow-ellipsis">
                       {current.tourLocation}
                     </p>
-                    <p className="w-[30%] px-1 overflow-hidden whitespace-nowrap overflow-ellipsis">
+                    <p className="w-[30%] px-2 overflow-hidden whitespace-nowrap overflow-ellipsis">
                       {current.tourDate}
                     </p>
 
-                    <div className="w-[25%] flex px-1 overflow-hidden whitespace-nowrap overflow-ellipsis ">
-                      <p
-                        className="bg-blue-500 cursor-pointer overflow-hidden whitespace-nowrap overflow-ellipsis text-white font-bold text-center rounded text-sm hover:bg-blue-700 p-1"
+                    <div className="w-[25%] flex items-center px-2 overflow-hidden whitespace-nowrap overflow-ellipsis">
+                      <button
+                        className={`bg-blue-500 cursor-pointer overflow-hidden whitespace-nowrap overflow-ellipsis text-white font-bold text-center rounded text-sm hover:bg-blue-700 p-2 transition-all duration-200 ease-in-out ${
+                          selected === current.id
+                            ? "bg-blue-700"
+                            : "bg-blue-500"
+                        }`}
                         onClick={() => {
-                          selected != current.id &&
+                          if (selected !== current.id) {
                             fetchTourDetails(current.id);
-                          selected != current.id &&
                             ctx.currentTourId(current.id);
-                          selected != current.id && setSelected(current.id);
-                          props.selected();
+                            setSelected(current.id);
+                            props.selected();
+                          }
                         }}
                       >
-                        {selected == current.id ? "Selected" : "Select"}
-                      </p>
+                        {selected === current.id ? "Selected" : "Select"}
+                      </button>
                       <MdDelete
-                        className=" w-[25px] h-[25px] hover:text-red-800 text-red-600 mx-1"
+                        className="w-[25px] h-[25px] text-red-600 hover:text-red-800 ml-2 cursor-pointer transition-all duration-200 ease-in-out"
                         onClick={() => {
                           DeleteOnGoingTourHandler(current.id);
                         }}
-                      ></MdDelete>
+                      />
                     </div>
                   </div>
                 );

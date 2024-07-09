@@ -26,6 +26,12 @@ function AddtourDescriptionModal(props) {
   const departureTimeRef = useRef();
   const tourDescriptionHandler = async () => {
     setSaveLoader(true);
+    if (arrivalDateRef.current.value < departureDateRef.current.value) {
+      
+      toast.error("arrival date can not less than departure date");
+      return;
+    }
+
     const data = {
       purpose: purposeRef.current.value,
       arrivalDate: arrivalDateRef.current.value,

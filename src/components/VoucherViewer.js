@@ -440,13 +440,13 @@ export default function VoucherViewer(props) {
                     </div>
                     <div className="text-2xl flex flex-col items-center justify-center w-[100%] border-b-2 font-bold pb-3">
                       <p>Tour Voucher</p>{" "}
-                      <FaRegEdit
+                      {path == "/YOURVOUCHER"&&<FaRegEdit
                         className="text-blue-500 m-1 cursor-pointer w-[25px] h-[25px]"
                         onClick={() => setOpenDescription(true)}
-                      ></FaRegEdit>
+                      ></FaRegEdit>}
                     </div>
                     {/* <div className="flex w-[100%] min-[700px]:flex-row flex-col"></div> */}
-                    <div className="overflow-y-scroll h-[calc(100%-50px)]">
+                    <div className="overflow-y-scroll h-[calc(100%-70px)]">
                       <div className="flex w-[100%] min-[700px]:flex-row flex-col">
                         <div className="w-[40%] px-2 border-2 max-[700px]:w-[100%] flex py-1">
                           <p className="font-semibold">Name : </p>
@@ -471,13 +471,13 @@ export default function VoucherViewer(props) {
                       </div>
                       <div className="flex w-[100%] min-[700px]:flex-row flex-col">
                         <p className="w-[100%] px-2 py-1 font-semibold border-2">
-                          Purpose : {voucherData.voucherDescription?.purpose}
+                          Purpose : {voucherData?.voucherDescription?.purpose}
                         </p>
                       </div>
                       <div className="flex w-[100%] min-[700px]:flex-row flex-col">
                         <p className="w-[100%] px-2 py-1 font-semibold border-2">
                           Voucher Id :
-                          {`OMR/${voucherData?.tourDate.split("/")[2]}/${
+                          {`OMR/${voucherData?.tourDate?.split("/")[2]}/${
                             voucherData?.id
                           }`}
                         </p>
@@ -491,7 +491,7 @@ export default function VoucherViewer(props) {
                       <p className="justify-center font-bold text-xl py-2 flex">
                         Tour Duration{" "}
                         <span>
-                          <FaRegEdit className="text-blue-500 m-1 cursor-pointer w-[25px] h-[25px]"></FaRegEdit>
+                          {/* <FaRegEdit className="text-blue-500 m-1 cursor-pointer w-[25px] h-[25px]"></FaRegEdit> */}
                         </span>
                       </p>
                       <div className="flex w-[100%] min-[700px]:flex-row flex-col">

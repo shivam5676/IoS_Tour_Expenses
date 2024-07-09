@@ -35,39 +35,41 @@ function CompletedVouchers(props) {
               <p className="w-[15%] px-1 text-center"></p>
             </div>
           </div>
-          <div className="w-[100%] h-[calc(40vh-90px)] min-h-[calc(250px-90px)] overflow-y-auto">
-            {props.accepted.map((current) => {
-              return (
-                <div className="mx-2 bg-[white] text-black flex py-1 text-[.8rem] font-semibold" key= {current?.Voucher?.id}>
-                  <p className="w-[13%] px-1 overflow-hidden whitespace-nowrap overflow-ellipsis">
-                    {current?.Voucher?.id}
-                  </p>
-                  <p className="w-[27%] px-1 overflow-hidden whitespace-nowrap overflow-ellipsis">
-                    {current.user?.firstName + " " + current.user?.lastName}{" "}
-                  </p>
-                  <p className="w-[25%] px-1 overflow-hidden whitespace-nowrap overflow-ellipsis">
-                    {current?.Voucher?.tourLocation}
-                  </p>
-                  <p className="w-[20%] px-1 overflow-hidden whitespace-nowrap overflow-ellipsis">
-                    {current?.Voucher?.tourDate}{" "}
-                  </p>
-                  <div className="w-[15%] px-1 overflow-hidden whitespace-nowrap overflow-ellipsis ">
-                    <p
-                      className="bg-blue-500 text-white font-bold text-center rounded hover:bg-blue-700 cursor-pointer"
-                      onClick={() => {
-                        setOpen(true);
-                        setId(current?.Voucher?.id);
-                      }}
-                    >
-                      {" "}
-                      View
-                    </p>
-                  </div>
-                </div>
-              );
-            })}
-            {/* {props.accepted.map(current=>{}}) */}
-          </div>
+          <div className="w-full h-[calc(40vh-90px)] min-h-[calc(250px-90px)] overflow-y-auto bg-gray-100 rounded-lg shadow-md">
+  {props.accepted.map((current, index) => (
+    <div
+      key={current?.Voucher?.id}
+      className={`mx-2 my-1 py-1 px-2 flex items-center rounded-lg shadow-sm transition-all duration-200 ease-in-out ${
+        index % 2 === 0 ? "bg-white" : "bg-gray-200"
+      }`}
+    >
+      <p className="w-[13%] px-1 overflow-hidden whitespace-nowrap overflow-ellipsis">
+        {current?.Voucher?.id}
+      </p>
+      <p className="w-[27%] px-1 overflow-hidden whitespace-nowrap overflow-ellipsis">
+        {current.user?.firstName + " " + current.user?.lastName}
+      </p>
+      <p className="w-[25%] px-1 overflow-hidden whitespace-nowrap overflow-ellipsis">
+        {current?.Voucher?.tourLocation}
+      </p>
+      <p className="w-[20%] px-1 overflow-hidden whitespace-nowrap overflow-ellipsis">
+        {current?.Voucher?.tourDate}
+      </p>
+      <div className="w-[15%] px-1 overflow-hidden whitespace-nowrap overflow-ellipsis">
+        <p
+          className="bg-blue-500 text-white font-bold text-center rounded hover:bg-blue-700 cursor-pointer transition-all duration-200 ease-in-out"
+          onClick={() => {
+            setOpen(true);
+            setId(current?.Voucher?.id);
+          }}
+        >
+          View
+        </p>
+      </div>
+    </div>
+  ))}
+</div>
+
         </>
       )}
     </div>
