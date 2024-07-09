@@ -185,7 +185,7 @@ const Header = () => {
         </div>
       </nav>
       {openNavbar && (
-        <div className="min-[924px]:hidden  h-[calc(100vh-64px)] w-[100%] min-[500px]:w-[300px] absolute backdrop-blur-sm bg-[#3B4D5D] right-0  mt-[15px] z-50 animate-slideIn">
+        <div className="min-[924px]:hidden  h-[calc(100vh-64px)] w-[100%] min-[500px]:w-[300px] absolute backdrop-blur-sm bg-[#3B4D5D] right-0  mt-[15px] z-50 ">
           <div className="flex flex-col  ">
             <>
               <div className="bg-[#40a4ce] h-[fit]  w-[100%] text-white">

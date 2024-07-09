@@ -58,7 +58,7 @@ const Login = React.memo(() => {
         "BitrixAuth",
         `width=${width},height=${height},top=${top},left=${left}`
       );
-  
+      
       const pollTimer = window.setInterval(() => {
         try {
           if (authWindow.closed) {
