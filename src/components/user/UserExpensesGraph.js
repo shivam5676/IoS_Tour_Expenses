@@ -48,8 +48,8 @@ function UserExpensesGraph(props) {
     ],
   };
   return (
-    <div className="  w-[100%]  min-[689px]:w-[40%]  min-h-[250px] h-[40vh]  min-[689px]:m-2 my-2 bg-white rounded-lg shadow-md shadow-gray-700 text-center ">
-      <p className={` border-white  py-2 font-bold CARDHEADERCOLOR font-sans text-2xl rounded-t-lg text-white`}>
+    <div className="  w-[100%]  min-[689px]:max-w-[40%]  min-h-[250px] h-[40vh]  min-[689px]:m-2 my-2 bg-white rounded-lg shadow-md shadow-gray-700 text-center ">
+      <p className={` border-white  py-2 font-bold CARDHEADERCOLOR font-sans text-2xl md:text-3xl rounded-t-lg text-white`}>
         Expense Graph
       </p>
 
@@ -61,7 +61,7 @@ function UserExpensesGraph(props) {
         <>
           <div className="w-[100%] h-[calc(40vh-110px)] min-h-[calc(250px-90px)] my-2 text-black flex justify-center items-center flex-col font-bold">
             <img src={expenseGif} className="h-[80px]" draggable={false}></img>{" "}
-            <p>no data found</p>
+            <p className=" text-xl">no data found</p>
           </div>
         </>
       ) : (

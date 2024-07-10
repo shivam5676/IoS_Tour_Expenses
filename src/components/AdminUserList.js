@@ -40,8 +40,8 @@ function AdminUserList(props) {
     }
   };
   return (
-    <div className="shadow-md shadow-gray-700 w-[100%]  min-[689px]:w-[60%]  min-h-[250px] h-[40vh] min-[689px]:m-2 my-2 bg-white  rounded-lg">
-      <p className={` CARDHEADERCOLOR  py-2 font-bold text-2xl text-center text-white rounded-t-lg h-[47px]`}>
+    <div className="shadow-md shadow-gray-700 w-[100%]  min-[689px]:max-w-[100%]  min-h-[250px] h-[40vh] min-[689px]:m-2 my-2 bg-white  rounded-lg">
+      <p className={` CARDHEADERCOLOR  py-2 font-bold text-2xl md:text-3xl text-center text-white rounded-t-lg h-[47px]`}>
         All users
       </p>
       <div className="w-[100%]">

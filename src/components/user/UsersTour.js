@@ -38,11 +38,11 @@ function UsersTour(props) {
     }
   };
   return (
-    <div className=" w-[100%]  md:w-[60%]  min-h-[250px] h-[40vh] my-2   bg-white">
+    <div className=" w-[100%]  md:max-w-[100%] md:min-w-[60%]  min-h-[250px] h-[40vh] my-2   bg-white">
       <div className="sm:mx-2 shadow-md shadow-gray-700 h-[100%]  rounded-lg">
         {" "}
         <p
-          className={`CARDHEADERCOLOR py-2 font-bold text-2xl text-center text-white rounded-t-lg h-[47px]  font-sans`}
+          className={`CARDHEADERCOLOR py-2 font-bold text-2xl md:text-3xl text-center text-white rounded-t-lg h-[47px]  font-sans`}
         >
           OnGoing Tour
         </p>
@@ -50,7 +50,7 @@ function UsersTour(props) {
           <>
             <div className="w-[100%] h-[calc(40vh-90px)] min-h-[calc(250px-90px)] text-black flex justify-center items-center flex-col">
               <img src={travelGif} className="h-[80px]" draggable={false}></img>
-              <p className="font-bold">no Ongoing Tour </p>
+              <p className="font-bold text-xl">no Ongoing Tour </p>
             </div>
           </>
         )}
@@ -61,12 +61,12 @@ function UsersTour(props) {
               <div className="mx-2 bg-white text-black flex h-[35px] font-bold items-center border-b-2">
                 <p className="w-[10%] px-1">Id</p>
                 <p className="w-[35%] px-1">Tour Name</p>
-                <p className="w-[30%] px-1">Date</p>
+                <p className="w-[25%] md:w-[30%] px-1">Date</p>
 
-                <p className="w-[25%] px-1 text-center"></p>
+                <p className="w-[30%] md:w-[25%] px-1 text-center"></p>
               </div>
             </div>
-            <div className="w-full h-[calc(40vh-85px)] min-h-[calc(250px-85px)] overflow-y-auto bg-gray-100 rounded-lg shadow-md">
+            <div className="w-full h-[calc(40vh-85px)] min-h-[calc(250px-85px)] max-md:text-[.9rem] max-md:font-semibold  overflow-y-auto bg-gray-100 rounded-lg shadow-md">
               {ctx.onGoingData?.map((current) => {
                 return (
                   <div
@@ -81,13 +81,13 @@ function UsersTour(props) {
                     <p className="w-[35%] px-2 overflow-hidden whitespace-nowrap overflow-ellipsis">
                       {current.tourLocation}
                     </p>
-                    <p className="w-[30%] px-2 overflow-hidden whitespace-nowrap overflow-ellipsis">
+                    <p className="w-[25%] md:w-[30%] px-2 overflow-hidden whitespace-nowrap overflow-ellipsis">
                       {current.tourDate}
                     </p>
 
-                    <div className="w-[25%] flex items-center px-2 overflow-hidden whitespace-nowrap overflow-ellipsis">
+                    <div className="w-[30%] md:w-[25%] flex items-center px-2 overflow-hidden whitespace-nowrap overflow-ellipsis">
                       <button
-                        className={`bg-blue-500 cursor-pointer overflow-hidden whitespace-nowrap overflow-ellipsis text-white font-bold text-center rounded text-sm hover:bg-blue-700 p-2 transition-all duration-200 ease-in-out ${
+                        className={`bg-blue-500 cursor-pointer overflow-hidden whitespace-nowrap overflow-ellipsis text-white md:font-bold text-center rounded text-sm hover:bg-blue-700 p-1 md:p-2 transition-all duration-200 ease-in-out ${
                           selected === current.id
                             ? "bg-blue-700"
                             : "bg-blue-500"

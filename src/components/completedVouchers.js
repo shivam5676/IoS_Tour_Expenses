@@ -13,14 +13,14 @@ function CompletedVouchers(props) {
         voucherId={Id}
         open={open}
       ></VoucherViewer>{" "}
-      <p className={` py-2 font-bold text-2xl text-center  rounded-t-lg text-white   CARDHEADERCOLOR font-sans`}>
+      <p className={` py-2 font-bold text-2xl md:text-3xl text-center  rounded-t-lg text-white   CARDHEADERCOLOR font-sans`}>
         Accepted Vouchers{" "}
       </p>{" "}
       {props?.accepted?.length == 0 && (
         <>
           <div className="w-[100%] h-[calc(40vh-90px)] min-h-[calc(250px-90px)] text-black flex justify-center items-center flex-col">
             <img src={acceptedGif} className="h-[80px]" draggable={false}></img>
-            <p className="font-bold">no Accepted Voucher </p>
+            <p className="font-bold  text-xl">no Accepted Voucher </p>
           </div>
         </>
       )}

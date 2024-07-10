@@ -58,7 +58,7 @@ function UserExpenseList(props) {
       ></AddExpenseModal>
       <div className="shadow-md shadow-gray-700 w-[100%] min-h-[250px] h-[40vh]  bg-white min-[689px]:m-2 my-2 rounded-lg">
         <div
-          className={` p-2 font-bold text-lg min-[400px]:text-2xl flex justify-between rounded-t-lg text-white CARDHEADERCOLOR font-sans items-center`}
+          className={` p-2 font-bold text-lg min-[400px]:text-2xl md:3xl flex justify-between rounded-t-lg text-white CARDHEADERCOLOR font-sans items-center`}
         >
           <p> Expenses List</p>
           <p
@@ -84,7 +84,7 @@ function UserExpenseList(props) {
           <>
             <div className="w-[100%] h-[calc(40vh-90px)] min-h-[calc(250px-90px)] text-black flex justify-center items-center flex-col">
               {/* <img src={pendingGif} className="h-[80px]" draggable={false}></img> */}
-              <p className="font-bold">
+              <p className="font-bold text-center text-xl">
                 No Expenses ....plz add some expenses{" "}
               </p>
             </div>

@@ -45,7 +45,7 @@ function AccountDepartment() {
         <>
           <div className="w-[100%] h-[calc(40vh-90px)] min-h-[calc(250px-90px)] text-black flex justify-center items-center flex-col">
             <img src={pendingGif} className="h-[80px]" draggable={false}></img>
-            <p className="font-bold">no Pending Voucher </p>
+            <p className="font-bold  text-xl">no Pending Voucher </p>
           </div>
         </>
       )}

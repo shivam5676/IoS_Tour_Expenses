@@ -35,8 +35,8 @@ function UserPendingVouchers(props) {
     fetchData();
   }, []);
   return (
-    <div className=" w-[100%] max-w-[1200px]  min-h-[250px] h-[40vh]  bg-white my-2 ">
-      <div className="mx-2 shadow-md shadow-gray-700 h-[100%]  rounded-lg  mx-2 min-[1000px]:mx-12">
+    <div className=" w-[100%] max-w-[100%]  min-h-[250px] h-[40vh]  bg-white my-2 ">
+      <div className="mx-2 shadow-md shadow-gray-700 h-[100%]  rounded-lg   min-[1000px]:mx-14">
         <VoucherViewer
           close={() => {
             setOpen(!open);
@@ -45,7 +45,7 @@ function UserPendingVouchers(props) {
           open={open}
         ></VoucherViewer>
         <p
-          className={` py-2 font-bold text-2xl text-center rounded-t-lg text-white CARDHEADERCOLOR font-sans`}
+          className={` py-2 font-bold text-2xl md:text-3xl  text-center rounded-t-lg text-white CARDHEADERCOLOR font-sans`}
         >
           Your Vouchers{" "}
         </p>{" "}
@@ -58,7 +58,7 @@ function UserPendingVouchers(props) {
                 className="h-[80px]"
                 draggable={false}
               ></img>
-              <p className="font-bold">no Pending Voucher </p>
+              <p className="font-bold  text-xl">no Pending Voucher </p>
             </div>
           </>
         )}

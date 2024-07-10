@@ -17,7 +17,7 @@ function UsersAllVouchers() {
         voucherId={Id}
         open={open}
       ></VoucherViewer>{" "}
-      <p className=" py-2 font-bold text-2xl text-center  rounded-t-lg text-white  bg-[#2980b9] font-sans">
+      <p className=" py-2 font-bold text-2xl md:text-3xl text-center  rounded-t-lg text-white  bg-[#2980b9] font-sans">
         {ctx.adminCurrentUserData?.firstName}`s Vouchers{" "}
       </p>{" "}
       {ctx.adminCurrentUserData?.Vouchers && (

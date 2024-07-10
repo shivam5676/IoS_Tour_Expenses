@@ -18,7 +18,7 @@ function AdminPEndingVouchers(props) {
         open={open}
       ></VoucherViewer>{" "}
       <p
-        className={` py-2 font-bold text-2xl text-center rounded-t-lg text-white  CARDHEADERCOLOR font-sans `}
+        className={` py-2 font-bold text-2xl md:text-3xl text-center rounded-t-lg text-white  CARDHEADERCOLOR font-sans `}
       >
         Pending Vouchers{" "}
       </p>

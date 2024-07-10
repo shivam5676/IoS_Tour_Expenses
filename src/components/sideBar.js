@@ -13,6 +13,7 @@ const Sidebar = () => {
   const navigate = useNavigate();
   const ctx = useContext(Context);
   const [openTourModal, setTourModal] = useState(false);
+  const [activeLink, setActiveLink] = useState(null);
   const user = JSON.parse(localStorage.getItem("token"));
   return (
     <>
@@ -30,8 +31,18 @@ const Sidebar = () => {
           <ul className="list-reset flex flex-row  md:flex-col md:pt-3 md:py-3 px-1 md:px-2 text-center max-md:items-center md:text-left">
             <li className="mr-3 flex-1 ">
               <NavLink
+                onClick={() => {
+                  setActiveLink("home");
+                }}
                 to="/"
-                className="flex  flex-col md:flex-row py-1 md:py-3 pl-1 items-center text-white no-underline hover:text-white   border-b-2 border-transparent hover:border-b-2  hover:border-white"
+                className={`flex  flex-col md:flex-row py-1 md:py-3 pl-1 items-center text-white no-underline hover:text-white   border-b-2 border-transparent    ${
+                  activeLink != "/YourVoucher" &&
+                  activeLink != "/adminVouchers" &&
+                  activeLink != "/adminUserPanel" &&
+                  activeLink != "/adminReport" &&
+                  activeLink != "/Accounts" &&
+                  "border-white"
+                }`}
               >
                 <FaHome className="fas fa-tasks pr-0 md:pr-3 h-6 w-8 md:h-8 md:w-10"></FaHome>
                 <span className="pb-1 md:pb-0 text-sm md:text-base md:text-white-400 max-md:flex md:text-[1rem] md:text-white block md:inline-block max-md:p-1 max-md:font-bold">
@@ -46,7 +57,7 @@ const Sidebar = () => {
                   // setOpen(true);
                   setTourModal(true);
                 }}
-                className="flex flex-col md:flex-row max-w-[425px]:flex-col py-1 md:py-3 pl-1 items-center text-white no-underline hover:text-white  border-b-2 border-transparent hover:border-b-2  hover:border-white "
+                className="flex flex-col md:flex-row max-w-[425px]:flex-col py-1 md:py-3 pl-1 items-center text-white no-underline hover:text-white  border-b-2 border-transparent    "
               >
                 <MdAddCircle className="fas fa-tasks pr-0 md:pr-3 h-8 w-10" />
                 {/* <BsCash /> */}
@@ -58,8 +69,13 @@ const Sidebar = () => {
             </li>
             <li className="mr-3 flex-1">
               <NavLink
+                onClick={() => {
+                  setActiveLink("/YourVoucher");
+                }}
                 to="/YourVoucher"
-                className="flex flex-col md:flex-row  py-1 md:py-3 pl-1 items-center text-white no-underline hover:text-white  border-b-2 border-transparent hover:border-b-2  hover:border-white"
+                className={`flex flex-col md:flex-row  py-1 md:py-3 pl-1 items-center text-white no-underline hover:text-white  border-b-2 border-transparent    ${
+                  activeLink == "/YourVoucher" && "border-white"
+                }`}
               >
                 <FaCarTunnel className="fas fa-tasks pr-0 md:pr-3 h-8 w-10" />
                 {/* <FaHome ></FaHome> */}
@@ -71,8 +87,13 @@ const Sidebar = () => {
             {(user?.isAdmin || user?.supervisor) && (
               <li className="mr-3 flex-1 max-md:hidden">
                 <NavLink
+                  onClick={() => {
+                    setActiveLink("/adminVouchers");
+                  }}
                   to="/adminVouchers"
-                  className="flex py-1 md:py-3 pl-1 items-center text-white no-underline hover:text-white  border-b-2 border-transparent hover:border-b-2  hover:border-white"
+                  className={`flex py-1 md:py-3 pl-1 items-center text-white no-underline hover:text-white  border-b-2 border-transparent    ${
+                    activeLink == "/adminVouchers" && "border-white"
+                  }`}
                 >
                   <BsCash className="fas fa-tasks pr-0 md:pr-3 h-8 w-10" />
                   {/* <FaHome className="fas fa-tasks pr-0 md:pr-3 h-8 w-10"></FaHome> */}
@@ -85,11 +106,16 @@ const Sidebar = () => {
             {user?.isAdmin && (
               <li className="mr-3 flex-1 max-md:hidden">
                 <NavLink
+                  onClick={() => {
+                    setActiveLink("/adminUserPanel");
+                  }}
                   to="/adminUserPanel"
-                  className=" flex items-center py-1 md:py-3 pl-1 align-middle text-white no-underline hover:text-white  border-b-2 border-transparent hover:border-b-2  hover:border-white"
+                  className={` flex items-center py-1 md:py-3 pl-1 align-middle text-white no-underline hover:text-white  border-b-2 border-transparent    ${
+                    activeLink == "/adminUserPanel" && "border-white"
+                  }`}
                 >
                   <FaUsers className="fa fa-envelope pr-0 md:pr-3 h-8 w-10" />
-                  {/* <i "></i> */}
+
                   <span className="pb-1 md:pb-0 text-xs md:text-base text-gray-400 md:text-white block md:inline-block">
                     Users
                   </span>
@@ -99,8 +125,13 @@ const Sidebar = () => {
             {user?.isAdmin && (
               <li className="mr-3 flex-1 max-md:hidden">
                 <NavLink
+                  onClick={() => {
+                    setActiveLink("/adminReport");
+                  }}
                   to="/adminReport"
-                  className="flex items-center py-1 md:py-3 pl-1 align-middle text-white no-underline hover:text-white  border-b-2 border-transparent hover:border-b-2  hover:border-white"
+                  className={`flex items-center py-1 md:py-3 pl-1 align-middle text-white no-underline hover:text-white  border-b-2 border-transparent ${
+                    activeLink == "/adminReport" && "border-white"
+                  }`}
                 >
                   <IoBarChart className="fa fa-wallet pr-0 md:pr-3  h-8 w-10" />
                   {/* <TbReportSearch />{" "} */}
@@ -113,8 +144,13 @@ const Sidebar = () => {
             {(user?.isAdmin || user?.supervisor) && (
               <li className="mr-3 flex-1 max-md:hidden">
                 <NavLink
+                  onClick={() => {
+                    setActiveLink("/Accounts");
+                  }}
                   to="/Accounts"
-                  className="flex items-centerpy-1 md:py-3 pl-0 md:pl-1 align-middle text-white no-underline hover:text-white  border-b-2 border-transparent hover:border-b-2  hover:border-white"
+                  className={`flex items-centerpy-1 md:py-3 pl-0 md:pl-1 align-middle text-white no-underline hover:text-white  border-b-2 border-transparent    ${
+                    activeLink == "/Accounts" && "border-white"
+                  }`}
                 >
                   <TbReportSearch className="fa fa-wallet pr-0 md:pr-3  h-8 w-10" />
                   {/* <i ></i> */}
@@ -133,7 +169,7 @@ const Sidebar = () => {
                   // navigate("/");
                   // setOpenNavbar(false);
                 }}
-                className="cursor-pointer flex items-center py-1 md:py-3 pl-1 align-middle text-white no-underline hover:text-white border-b-2 border-transparent hover:border-b-2  hover:border-white"
+                className="cursor-pointer flex items-center py-1 md:py-3 pl-1 align-middle text-white no-underline hover:text-white border-b-2 border-transparent   "
               >
                 <GrLogout className="fa fa-wallet pr-0 md:pr-3  h-8 w-10" />
                 {/* <TbReportSearch />{" "} */}

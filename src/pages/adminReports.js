@@ -70,7 +70,7 @@ function AdminReportPanel() {
         >
           <div className="flex">
             <div className="flex w-[100%]  flex-col md:flex-row m-2 bg-[#2980b9] rounded-md">
-              <p className="p-2 font-bold text-2xl text-center">
+              <p className="p-2 font-bold text-2xl text-center text-white">
                 Report Generation :
               </p>
               <div className="flex justify-center py-2 max-[400px]:flex-col max-[400px]:items-center">
