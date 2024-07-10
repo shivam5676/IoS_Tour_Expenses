@@ -133,7 +133,7 @@ const MyDocument = (props) => (
           <Text>Voucher No :</Text>
           <Text
             style={{ borderTop: "1px", fontFamily: "Roboto", fontSize: "13" }}
-          >{`OMR/${props?.voucherData?.tourDate.split("/")[2]}/${
+          >{`OMR/${props?.voucherData?.tourDate?.split("/")[2]}/${
             props?.voucherData?.id
           }`}</Text>
         </View>
@@ -179,7 +179,7 @@ const MyDocument = (props) => (
                 Employee Id
               </Text>
               <Text style={{ paddingVertical: "10" }}>
-                OMR/ID/{props.voucherData.userId}
+                OMR/ID/{props?.voucherData?.userId}
               </Text>
             </View>
           </View>

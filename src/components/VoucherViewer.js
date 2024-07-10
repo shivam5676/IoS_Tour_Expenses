@@ -402,7 +402,7 @@ export default function VoucherViewer(props) {
           </Transition.Child>
 
           {voucherData && (
-            <div className="fixed inset-0 z-10 w-screen overflow-y-auto pt-[90px] md:pt-[70px]">
+            <div className="fixed inset-0 z-10 w-screen overflow-y-auto pt-[70px] ">
               <div className="flex min-h-full  justify-center   text-center items-center">
                 <Transition.Child
                   as={Fragment}
