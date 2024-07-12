@@ -49,7 +49,7 @@ function UserPendingVouchers(props) {
         >
           Your Vouchers{" "}
         </p>{" "}
-        {console.log(PendingVoucherData?.length)}{" "}
+        {console.log(PendingVoucherData?.length)}
         {!PendingVoucherData && (
           <>
             <div className="w-[100%] h-[calc(40vh-90px)] min-h-[calc(250px-90px)] text-black flex justify-center items-center flex-col">

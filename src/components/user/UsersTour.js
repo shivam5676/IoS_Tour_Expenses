@@ -66,7 +66,7 @@ function UsersTour(props) {
                 <p className="w-[30%] md:w-[25%] px-1 text-center"></p>
               </div>
             </div>
-            <div className="w-full h-[calc(40vh-85px)] min-h-[calc(250px-85px)] max-md:text-[.9rem] max-md:font-semibold  overflow-y-auto bg-gray-100 rounded-lg shadow-md">
+            <div className="w-full h-[calc(40vh-85px)] min-h-[calc(250px-85px)] max-md:text-[.9rem] max-md:font-semibold  overflow-y-auto bg-gray-100 rounded-lg shadow-md" style={{scrollbarWidth:"thin"}}>
               {ctx.onGoingData?.map((current) => {
                 return (
                   <div

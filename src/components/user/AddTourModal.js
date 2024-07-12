@@ -21,6 +21,8 @@ function AddTourModal(props) {
   const [stateSearch, setStateSearch] = useState("");
   const [citySearch, setCitySearch] = useState("");
 
+  const [multipleCity, setMultipleCity] = useState([]);
+
   const currencyRef = useRef("");
   const cityRef = useRef("");
 
@@ -60,6 +62,15 @@ function AddTourModal(props) {
   };
 
   const saveTourHandler = async () => {
+    let cityAsString=""
+    if(multipleCity.length>0){
+       cityAsString = multipleCity.join(", ");
+      
+    }
+    else{
+      cityAsString= citySelected || cityRef.current.value
+      
+    }
     setCreateLoader(true);
     try {
       const response = await axios.post(
@@ -67,7 +78,7 @@ function AddTourModal(props) {
         {
           token: user.access_token,
           domain: user.domain,
-          city: citySelected || cityRef.current.value,
+          city: cityAsString,
           currency: currencyRef.current.value,
         }
       );
@@ -91,7 +102,33 @@ function AddTourModal(props) {
     const selectedCurrency = currencyRef.current.value;
     console.log("Selected currency:", selectedCurrency);
   };
-
+  const addMoreCityHandler = (newCity) => {
+    if(!newCity){
+      toast.error("please select a city first !!!")
+      return;
+    }
+    const duplicateCityChecker=multipleCity.find(current=>current==newCity)
+    if(duplicateCityChecker){
+      toast.error("can not add same city twice")
+      return;
+    }
+    setMultipleCity((prev) => {
+      return [...prev, newCity.toUpperCase()];
+    });
+    setStateSelected(null);
+    setCitySelected(null);
+    setCityList([]);
+    setStateSearch("");
+    setCitySearch("");
+    cityRef.current.value=""
+  };
+  console.log(multipleCity);
+  const removeCityFromMultipleCityHandler = (delIndex) => {
+    const updatedCity = multipleCity.filter((current,index) => {
+      return index != delIndex;
+    });
+    setMultipleCity(updatedCity);
+  };
   return (
     <Transition.Root show={props.open} as={Fragment}>
       <Dialog
@@ -137,6 +174,25 @@ function AddTourModal(props) {
                     </div>
                     <div className="bg-gradient-to-r from-blue-600 to-white flex-1 h-[2px]" />
                   </div>
+                </div>
+                <div className="min-[370px]:mx-12 flex text-[.9rem] font-semibold">
+                  <p>Cities :</p>
+                  {multipleCity.map((current, index) => {
+                    return (
+                      <div
+                        className="rounded-lg bg-[#2980b9] text-white w-fit p-1 mx-2 text-[.8rem] font-semibold flex items-center"
+                        key={index}
+                      >
+                        <p>{current}</p>
+                        <IoIosCloseCircle
+                          className="w-[15px] h-[15px] ms-1 hover:text-gray-300 cursor-pointer"
+                          onClick={() => {
+                            removeCityFromMultipleCityHandler(index);
+                          }}
+                        />
+                      </div>
+                    );
+                  })}
                 </div>
                 <div className="flex flex-col sm:flex-row min-[370px]:px-12">
                   <div className="flex flex-col px-2 w-[100%] py-2 relative font-semibold">
@@ -296,7 +352,17 @@ function AddTourModal(props) {
                     </select>
                   </div>
                 </div>
-                <div className="flex justify-end m-4">
+                <div className="flex justify-between m-4">
+                  <button
+                    type="button"
+                    className="inline-flex justify-center rounded-md border border-transparent bg-blue-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+                    onClick={() => {
+                      addMoreCityHandler(citySelected || cityRef.current.value);
+                    }}
+                    disabled={createLoader}
+                  >
+                    Add more city
+                  </button>
                   <button
                     type="button"
                     className="inline-flex justify-center rounded-md border border-transparent bg-blue-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"

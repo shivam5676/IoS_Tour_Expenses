@@ -106,7 +106,7 @@ const Header = () => {
                     </button>
                     <div
                       id="myDropdown"
-                      className={`dropdownlist absolute bg-gray-800 text-white right-0 mt-3 p-3 overflow-auto z-30 ${
+                      className={`dropdownlist absolute  bg-gray-800 text-white right-0 mt-3 p-3 overflow-auto z-30 ${
                         dropdownOpen ? "" : "invisible"
                       }`}
                     >
@@ -150,8 +150,8 @@ const Header = () => {
                           localStorage.removeItem("token");
                           ctx.logOutHandler();
                           setOpenNavbar(false);
-                          // window.location.href = "/login";
-                          navigate("/home");
+                          window.location.href = "";
+                          // navigate("/home");
                         }}
                         className="flex cursor-pointer  p-2 hover:bg-gray-800 text-white text-lg no-underline hover:no-underline items-center font-semibold hover:text-red-400"
                       >
@@ -294,7 +294,7 @@ const Header = () => {
                     localStorage.removeItem("token");
                     ctx.logOutHandler();
                     setOpenNavbar(false);
-                    window.location.href = "/login";
+                    window.location.href = "";
                     // navigate("/home");
                   }}
                 >

@@ -98,7 +98,7 @@ const Login = React.memo(() => {
         backgroundSize: "cover",
       }}
     >
-      <div className="flex w-[1400px] pt-[90px] flex-col sm:flex-row">
+      <div className="flex w-[1400px] flex-col sm:flex-row">
         <div className="w-[100%] sm:w-[50%] h-[100%] flex flex-col justify-center items-center">
           <p className="text-2xl md:text-3xl lg:text-4xl font-bold text-[#2980b9] px-2 py-3 w-[100%] text-center">
             IOS <span className="text-[#2980b9]">V</span>oucher{" "}

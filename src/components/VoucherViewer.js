@@ -461,8 +461,10 @@ export default function VoucherViewer(props) {
                       </div>
                       <div className="flex w-[100%] min-[700px]:flex-row flex-col">
                         <div className="w-[40%] px-2 border-2 max-[700px]:w-[100%] flex py-1">
-                          <p className="font-semibold">Location : </p>
-                          {voucherData?.tourLocation}
+                          <p className="font-semibold">Voucher Id : </p>
+                          {`OMR/${voucherData?.tourDate?.split("/")[2]}/${
+                            voucherData?.id
+                          }`}
                         </div>
                         <div className="w-[60%] px-2 border-2 max-[700px]:w-[100%] flex py-1 ">
                           <p className="font-semibold ">Employee id : </p>
@@ -476,10 +478,9 @@ export default function VoucherViewer(props) {
                       </div>
                       <div className="flex w-[100%] min-[700px]:flex-row flex-col">
                         <p className="w-[100%] px-2 py-1 font-semibold border-2">
-                          Voucher Id :
-                          {`OMR/${voucherData?.tourDate?.split("/")[2]}/${
-                            voucherData?.id
-                          }`}
+                        Location : {voucherData?.tourLocation}
+                          
+                          
                         </p>
                       </div>
                       <div className="flex w-[100%] min-[700px]:flex-row flex-col">
@@ -682,7 +683,7 @@ export default function VoucherViewer(props) {
                               <div className="w-[110px]  px-2">
                                 {current?.voucherNo}
                               </div>
-                              {console.log(voucherData?.userId, user?.id)}
+                             
                               {voucherData?.userId == user?.id &&
                                 voucherData?.statusType != "Accepted" &&
                                 voucherData?.statusType != "Closed" && (
