@@ -39,7 +39,7 @@ const UserHome = () => {
     <section className="main-content flex-1 bg-white pt-5 md:pt-3  md:mt-2 pb-24 md:pb-5">
       <div className="flex  flex-col min-[689px]:flex-row mx-2 min-[1000px]:mx-12">
         <UsersTour
-          selected={() => {
+          selected={() => {              
             setTourSelected(true);
           }}
           deSelect={() => {
@@ -47,13 +47,14 @@ const UserHome = () => {
           }}
         ></UsersTour>
         {tourSelected && (
-          <UserExpensesGraph tourSelected={tourSelected}></UserExpensesGraph>
+          <UserExpensesGraph tourSelected={tourSelected} selected={tourSelected}></UserExpensesGraph>
         )}
       </div>
       {tourSelected && (
         <div className="flex flex-col min-[689px]:flex-row  mx-2 min-[1000px]:mx-12">
           <UserExpenseList
             removeOnGoingTour={() => setTourSelected(null)}
+            selected={tourSelected}
           ></UserExpenseList>
         </div>
       )}

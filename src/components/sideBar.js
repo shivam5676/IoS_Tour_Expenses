@@ -25,7 +25,7 @@ const Sidebar = () => {
       ></AddTourModal>
       <nav
         aria-label="alternative nav"
-        className={`SIDEBARCOLOR shadow-xl h-20 fixed bottom-0  md:relative md:h-[calc(100vh-50px)] z-10  w-full md:w-56 lg:w-[300px]  content-center font-[Poppins] `}
+        className={`SIDEBARCOLOR shadow-xl h-20 fixed bottom-0  md:relative md:h-[calc(100vh-50px)] z-10  w-full md:w-56 lg:w-[280px]  content-center font-[Poppins] `}
       >
         <div className="md:mt-16 md:w-56  md:fixed md:left-0 md:top-0 content-center md:content-start text-left justify-between">
           <ul className="list-reset flex flex-row  md:flex-col md:pt-3 md:py-3 px-1 md:px-2 text-center max-md:items-center md:text-left">

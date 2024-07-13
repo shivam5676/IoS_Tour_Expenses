@@ -106,6 +106,9 @@ function UserWiseReportGeneration(props) {
         });
         setReportData(expensesObj);
       } catch (err) {
+        if (err.response && err.response.data.msg) {
+          toast.error(err.response.data.msg);
+        }
         console.log(err);
       }
     }

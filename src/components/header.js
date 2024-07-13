@@ -106,7 +106,7 @@ const Header = () => {
                     </button>
                     <div
                       id="myDropdown"
-                      className={`dropdownlist absolute  bg-gray-800 text-white right-0 mt-3 p-3 overflow-auto z-30 ${
+                      className={`dropdownlist absolute cd bg-gray-800 text-white right-0 mt-3 p-3 overflow-auto z-30 ${
                         dropdownOpen ? "" : "invisible"
                       }`}
                     >
@@ -191,7 +191,7 @@ const Header = () => {
 
       {/* //side bar opens  */}
       {openNavbar && (
-        <section className="min-[924px]:hidden  h-[calc(100vh-64px)] w-[100%] min-[500px]:w-[300px] absolute backdrop-blur-sm bg-[#3B4D5D] right-0  mt-[15px] z-50 ">
+        <section className="min-[924px]:hidden  h-[calc(100vh-64px)] w-[100%] min-[500px]:w-[300px] fixed backdrop-blur-sm bg-[#3B4D5D] right-0  mt-[15px] z-50 " >
           <div className="flex flex-col  ">
             <>
               <div className="bg-[#40a4ce] h-[fit]  w-[100%] text-white">

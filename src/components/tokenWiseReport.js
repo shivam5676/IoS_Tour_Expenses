@@ -26,14 +26,17 @@ function TokenWiseReport(props) {
             domain: user.domain,
           }
         );
-        console.log(response,"kwdhjshjdfgsjdghh")
-      if(response.data.response.length==0){
-        toast.error("no data found for this voucher")
-        return
-      }
+        console.log(response, "kwdhjshjdfgsjdghh");
+        if (response.data.response.length == 0) {
+          toast.error("no data found for this voucher");
+          return;
+        }
         setImageArray(response.data.imagePaths);
         setVoucherData(response.data.response);
       } catch (err) {
+        if (err.response && err.response.data.msg) {
+          toast.error(err.response.data.msg);
+        }
         console.log(err);
       }
     }

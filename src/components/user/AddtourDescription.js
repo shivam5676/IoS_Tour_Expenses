@@ -56,7 +56,7 @@ function AddtourDescriptionModal(props) {
       );
       const res = response.data;
       ctx.removeOnGoingTour(res.details.id);
-      props.close();
+      props.close("success");
       toast.success("voucher has been send to admin ...wait for thier action");
       setSaveLoader(false);
     } catch (err) {

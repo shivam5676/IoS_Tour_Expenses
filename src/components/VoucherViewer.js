@@ -440,10 +440,12 @@ export default function VoucherViewer(props) {
                     </div>
                     <div className="text-2xl flex flex-col items-center justify-center w-[100%] border-b-2 font-bold pb-3">
                       <p>Tour Voucher</p>{" "}
-                      {path == "/YOURVOUCHER"&&<FaRegEdit
-                        className="text-blue-500 m-1 cursor-pointer w-[25px] h-[25px]"
-                        onClick={() => setOpenDescription(true)}
-                      ></FaRegEdit>}
+                      {path == "/YOURVOUCHER" && (
+                        <FaRegEdit
+                          className="text-blue-500 m-1 cursor-pointer w-[25px] h-[25px]"
+                          onClick={() => setOpenDescription(true)}
+                        ></FaRegEdit>
+                      )}
                     </div>
                     {/* <div className="flex w-[100%] min-[700px]:flex-row flex-col"></div> */}
                     <div className="overflow-y-scroll h-[calc(100%-70px)]">
@@ -478,9 +480,7 @@ export default function VoucherViewer(props) {
                       </div>
                       <div className="flex w-[100%] min-[700px]:flex-row flex-col">
                         <p className="w-[100%] px-2 py-1 font-semibold border-2">
-                        Location : {voucherData?.tourLocation}
-                          
-                          
+                          Location : {voucherData?.tourLocation}
                         </p>
                       </div>
                       <div className="flex w-[100%] min-[700px]:flex-row flex-col">
@@ -589,7 +589,8 @@ export default function VoucherViewer(props) {
                           {expenseData?.Misc +
                             expenseData?.accomondation +
                             expenseData?.travel +
-                            expenseData?.food}
+                            expenseData?.food
+                            }
                         </p>
                       </div>
                       <p className="text-center font-bold">
@@ -683,7 +684,7 @@ export default function VoucherViewer(props) {
                               <div className="w-[110px]  px-2">
                                 {current?.voucherNo}
                               </div>
-                             
+
                               {voucherData?.userId == user?.id &&
                                 voucherData?.statusType != "Accepted" &&
                                 voucherData?.statusType != "Closed" && (
@@ -1016,7 +1017,7 @@ export default function VoucherViewer(props) {
                             </p>
                           </div>
                         )}
-                        <div className="mt-[100px]"> </div>
+                      <div className="mt-[100px]"> </div>
                       <DownloadPdfButton
                         expenseData={expenseData}
                         data={{

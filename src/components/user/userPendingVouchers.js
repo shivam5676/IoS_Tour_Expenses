@@ -78,7 +78,7 @@ function UserPendingVouchers(props) {
                 return (
                   <div
                     key={current.id}
-                    className={`mx-2 my-1 py-1 px-2 flex items-center rounded-lg shadow-sm transition-all duration-200 ease-in-out ${
+                    className={`mx-2 my-1 py-1 hover:bg-blue-300 md:font-semibold cursor-pointer px-2 flex items-center rounded-lg shadow-sm transition-all duration-200 ease-in-out ${
                       index % 2 === 0 ? "bg-white" : "bg-gray-200"
                     }`}
                     onClick={() => {
@@ -89,9 +89,7 @@ function UserPendingVouchers(props) {
                     <p className="w-[20%] px-1 overflow-hidden whitespace-nowrap overflow-ellipsis">
                       {current.id}
                     </p>
-                    {/* <p className="w-[30%] px-1 overflow-hidden whitespace-nowrap overflow-ellipsis">
-          {current.user?.firstName}
-        </p> */}
+
                     <p className="w-[30%] px-1 overflow-hidden whitespace-nowrap overflow-ellipsis">
                       {current.tourLocation}
                     </p>

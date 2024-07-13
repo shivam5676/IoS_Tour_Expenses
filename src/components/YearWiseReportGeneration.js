@@ -119,6 +119,9 @@ function YearWiseReportGeneration(props) {
         // setReportData(response.data.data);
         // ctx.AllVoucher(response.data.userList);
       } catch (err) {
+        if(err.response&&err.response.data.msg){
+          toast.error(err.response.data.msg)
+        }
         console.log(err);
       }
     }

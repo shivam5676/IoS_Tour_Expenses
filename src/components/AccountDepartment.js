@@ -38,7 +38,7 @@ function AccountDepartment() {
         voucherId={Id}
         open={open}
       ></VoucherViewer>
-      <p className={` py-2 font-bold text-2xl text-center rounded-t-lg text-white CARDHEADERCOLOR font-sans`}>
+      <p className={` py-2 font-bold text-2xl md:text-3xl text-center rounded-t-lg text-white CARDHEADERCOLOR font-sans `}>
         All Vouchers{" "}
       </p>{" "}
       {!PendingVoucherData && (

@@ -45,9 +45,11 @@ function UserExpenseList(props) {
       ></UpdateExpenseModal>
       <AddtourDescriptionModal
         open={openDescription}
-        close={() => {
+        close={(data) => {
           setOpenDescription(false);
-          props.removeOnGoingTour();
+          if (data == "success") {
+            props.removeOnGoingTour();
+          }
         }}
       ></AddtourDescriptionModal>
       <AddExpenseModal
