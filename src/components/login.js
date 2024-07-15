@@ -19,7 +19,7 @@ const Login = React.memo(() => {
       const response = await axios.get(
         `${connectionString}:${process.env.REACT_APP_BACKEND_PORT}/callback/${code}`
       );
-      console.log(response);
+  
       if (response.data.data.access_token) {
         localStorage.setItem("token", JSON.stringify(response.data.data));
         ctx.loginDataHandler(response.data.data);
@@ -46,7 +46,7 @@ const Login = React.memo(() => {
         `${connectionString}:${process.env.REACT_APP_BACKEND_PORT}/queryParams/`
       );
       const queryParams = response.data.data;
-      console.log("Query parameters for authorization:", queryParams); // Log the query parameters
+    
       const authorizationUrl = `${process.env.REACT_APP_BITRIX_URL}/oauth/authorize?${queryParams}`;
       const width = 500;
       const height = 600;
@@ -67,7 +67,7 @@ const Login = React.memo(() => {
             const searchParams = new URL(authWindow.location).searchParams;
             const authCode = searchParams.get("code");
             if (authCode) {
-              console.log("Authorization Code:", authCode);
+              
               getAccessToken(authCode);
               authWindow.close();
               // Redirect to your main application route and pass the authorization code

@@ -12,7 +12,6 @@ import { TbReportSearch } from "react-icons/tb";
 import { IoBarChart } from "react-icons/io5";
 
 const Header = () => {
-
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const userData = JSON.parse(localStorage.getItem("token"));
   const [openTourModal, setTourModal] = useState(false);
@@ -55,23 +54,25 @@ const Header = () => {
         }}
       ></AddTourModal>
       <nav
-        className={`NAVBARCOLOR pt-2 md:pt-1 pb-1 px-1 mt-0 h-16 fixed w-full z-20 top-0 blur-80`}
+        className={`NAVBARCOLOR pt-2 md:pt-1 pb-1 px-1 mt-0 h-16 fixed w-full z-20 top-0 `}
       >
         <div className="flex flex-wrap items-center h-[100%] justify-between">
-          <div className="flex flex-shrink h-[100%]  justify-center items-center md:justify-start text-white font-[poppins] md:font-[cursive] ">
+          <div className="flex flex-shrink h-[100%]  justify-center items-center md:justify-start text-white font-[poppins] md:font-[cursive]">
             <a href="/" aria-label="Home">
               <p className="flex items-center mx-1 min-[426px]:mx-6">
-                <img
-                  src={iosLogo}
-                  className="w-14 h-8 min-[386px]:h-10 min-[386px]:w-16   sm:h-12 sm:w-24 mx-1  m-4"
-                ></img>
+                <div className=" h-fit bg-black/20 backdrop-blur-md">
+                  <img
+                    src={iosLogo}
+                    className="w-14 h-8 min-[386px]:h-10 min-[386px]:w-16   md:h-[56px] sm:w-24 my-2 md:my-1  mx-4"
+                  ></img>
+                </div>
                 <span className=" sm:text-3xl min-[386px]:text-2xl text-xl font-bold pl-2 mx-1 min-[426px]:mx-3">
                   VOUCHER TRACKER
                 </span>
               </p>
             </a>
           </div>
-{/* sidebar open button for bigger display */}
+          {/* sidebar open button for bigger display */}
           {userType && (
             <div className="flex  sm:content-center w-fit mx-auto md:mx-0 justify-end max-md:invisible">
               <ul className="list-reset flex justify-end flex-1 md:flex-none items-center">
@@ -175,7 +176,7 @@ const Header = () => {
             </div>
           )}
 
- {/* sidebar open button for small screen */}
+          {/* sidebar open button for small screen */}
           {(userType?.isAdmin || userType?.supervisor) && (
             <div
               className="md:invisible border-2 border-[#e3c935] hover:border-[#948030] cursor-pointer rounded absolute right-0 mx-2 min-[330px]:mx-6"
@@ -188,10 +189,9 @@ const Header = () => {
           )}
         </div>
       </nav>
-
       {/* //side bar opens  */}
       {openNavbar && (
-        <section className="min-[924px]:hidden  h-[calc(100vh-64px)] w-[100%] min-[500px]:w-[300px] fixed backdrop-blur-sm bg-[#3B4D5D] right-0  mt-[15px] z-50 " >
+        <section className="min-[924px]:hidden  h-[calc(100vh-64px)] w-[100%] min-[500px]:w-[300px] fixed backdrop-blur-sm bg-[#3B4D5D] right-0  mt-[15px] z-50 ">
           <div className="flex flex-col  ">
             <>
               <div className="bg-[#40a4ce] h-[fit]  w-[100%] text-white">
@@ -285,7 +285,7 @@ const Header = () => {
                   </li>
                 )}
               </ul>
-             
+
               {userType && (
                 <div
                   // href="/login"
@@ -302,7 +302,6 @@ const Header = () => {
                 </div>
               )}
             </div>
-           
           </div>
         </section>
       )}

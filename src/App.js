@@ -39,7 +39,7 @@ function App() {
     JSON.parse(localStorage.getItem("token"))
   );
 
-  console.log(JSON.parse(localStorage.getItem("token")));
+
   useEffect(() => {
     const tokenValidationChecker = async () => {
       if (isLoggedIn) {
@@ -53,7 +53,7 @@ function App() {
               refreshToken: token.refresh_token,
             }
           );
-          console.log(response);
+         
         } catch (err) {
           setOpen(true);
           console.log(err);
@@ -76,10 +76,10 @@ function App() {
   }, [ctx.loginData]);
   const tokenIsValid = true;
   // const isLoggedIn = ctx.loginData
-  console.log(ctx.loginData);
+ 
 
   return (
-    <div className="">
+    <div className="BGCOLOR">
       {isLoggedIn && (
         <TokenValidator
           close={() => setOpen(false)}

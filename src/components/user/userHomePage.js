@@ -23,7 +23,6 @@ function UserHomePage() {
         });
 
         const res = response.data.vouchers;
-        console.log(res)
         ctx.onGoingTour(res)
         // res.forEach((current) => {
         //   ctx.onGoingTour(current);

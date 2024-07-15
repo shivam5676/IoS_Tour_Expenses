@@ -22,7 +22,7 @@ const reducerFn = (state, action) => {
     return { ...state, allUser: [...action.payload] };
   }
   if (action.type === "currentUserDetails") {
-    console.log("current user", action.payload);
+
 
     return {
       ...state,
@@ -33,7 +33,7 @@ const reducerFn = (state, action) => {
     };
   }
   if (action.type === "allVoucher") {
-    console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+   
     return {
       ...state,
       allVoucherData: [...action.payload],
@@ -75,11 +75,11 @@ const reducerFn = (state, action) => {
     };
   }
   if (action.type === "removeOnGoingTour") {
-    console.log(action.payload);
+    
     const arrayAfterRemove = state.onGoingData.filter((current) => {
       return current.id != action.payload;
     });
-    console.log("=>>>>", arrayAfterRemove);
+  
     return {
       ...state,
       onGoingData: arrayAfterRemove,
@@ -87,7 +87,7 @@ const reducerFn = (state, action) => {
     };
   }
   if (action.type === "saveLoginDetails") {
-    console.log("inside payload", action.payload);
+   
     return {
       ...state,
       loginData: action.payload,
@@ -106,17 +106,16 @@ const reducerFn = (state, action) => {
   }
   if (action.type === "changeStateFromAllVoucher") {
     const allVoucherDataCopy = [...state.allVoucherData];
-    console.log(allVoucherDataCopy);
+
     const findVoucherId = allVoucherDataCopy.findIndex(
       (current) => current.Voucher.id == action.payload.id
     );
-    console.log(findVoucherId,action.payload);
-    console.log(allVoucherDataCopy[findVoucherId]);
+   
     allVoucherDataCopy[findVoucherId].Voucher.statusType =
       action.payload.status;
     allVoucherDataCopy[findVoucherId].status = action.payload.status;
 
-    console.log(allVoucherDataCopy[findVoucherId]);
+
 
     // allVoucherDataCopy[findVoucherId];
     // return;
@@ -126,7 +125,7 @@ const reducerFn = (state, action) => {
     };
   }
   if (action.type == "updateCurrentTourExpenses") {
-    console.log(action.payload);
+    
     const ExpenseList = [...state.userCurrentTourExpensesData];
     const expenseIndex = ExpenseList.findIndex(
       (current) => current.id == action.payload.id
@@ -164,11 +163,11 @@ const ContextProvider = (props) => {
     dispatch({ type: "signupModal" });
   };
   const adduserDataHandler = (userData) => {
-    console.log(userData);
+  
     dispatch({ type: "addUser", payload: userData });
   };
   const AdminCurrentUserHandler = (userData) => {
-    console.log(userData);
+   
     dispatch({ type: "currentUserDetails", payload: userData });
   };
   const allVoucherHandler = (vouchers) => {
@@ -198,7 +197,7 @@ const ContextProvider = (props) => {
     dispatch({ type: "deleteExpense", payload: id });
   };
   const removeVoucherfromAllVoucher = (id) => {
-    console.log(id);
+ 
     dispatch({ type: "changeStateFromAllVoucher", payload: id });
   };
   const addTourInOngoingHandler = (tour) => {

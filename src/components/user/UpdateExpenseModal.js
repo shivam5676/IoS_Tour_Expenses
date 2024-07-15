@@ -9,7 +9,7 @@ import { IoIosCloseCircle } from "react-icons/io";
 import { RotatingLines } from "react-loader-spinner";
 
 function UpdateExpenseModal(props) {
-  console.log(props.voucherId);
+
   const connectionUrl = process.env.REACT_APP_CONNECTION_STRING;
   //   const [open, setOpen] = useState(true);
   const [createLoader, setCreateLoader] = useState(false);
@@ -39,11 +39,10 @@ function UpdateExpenseModal(props) {
       };
     }
   };
-  console.log(props);
+  
   const updateExpenseHandler = async () => {
     setCreateLoader(true)
-    console.log(props.updateData?.expenseType);
-    console.log(expenseCategoryRef.current);
+
     let base64Image = "";
     if (billImageRef.current.files[0]) {
       const file = billImageRef.current.files[0];
@@ -71,7 +70,7 @@ function UpdateExpenseModal(props) {
             data
           );
           const res = response.data.expenseData;
-          console.log(res);
+      
           ctx.updateCurrentTourExpenses(res);
           toast.success("Expense added.");
           setCreateLoader(false)

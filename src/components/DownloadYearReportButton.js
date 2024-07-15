@@ -4,7 +4,7 @@ import FileSaver from "file-saver";
 import YearlyPdf from "./YearlyPdf";
 
 function DownloadYearReportButton(props) {
-  console.log(props);
+ 
   const [category, setCategory] = useState({
     food: 0,
     travel: 0,

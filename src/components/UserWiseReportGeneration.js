@@ -114,7 +114,7 @@ function UserWiseReportGeneration(props) {
     }
     fetchFilterData();
   }, [props.userId]);
-  console.log(expenseData);
+  
   return (
     <>
       <DownloadUserPdfButton

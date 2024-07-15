@@ -16,7 +16,7 @@ const AllTimeReportGeneration = () => {
             domain: user.domain,
           }
         );
-        console.log(response);
+        
         // response?.data?.allVouchers.map((currentVoucher) => {
         //   const year = currentVoucher.tourDate.split("/")[2];
         //   console.log(year);

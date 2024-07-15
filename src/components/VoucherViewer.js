@@ -105,7 +105,6 @@ export default function VoucherViewer(props) {
       CommentRef.current = { value: voucherData.comment };
     }
     try {
-      console.log(props?.voucherId);
       const response = await axios.post(
         `${connectionUrl}:${process.env.REACT_APP_BACKEND_PORT}/admin/acceptVoucher`,
         {
@@ -196,7 +195,6 @@ export default function VoucherViewer(props) {
             domain: user.domain,
           }
         );
-        console.log(response);
         setImageArray(response.data.imagePaths);
         setVoucherData(response.data.response);
         CommentRef.current.value = response.data.response.comment;
@@ -365,7 +363,6 @@ export default function VoucherViewer(props) {
       console.log(err);
     }
   };
-  console.log(voucherData?.id);
   return (
     <>
       <UpdateExpenseModal

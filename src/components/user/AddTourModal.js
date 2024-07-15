@@ -97,15 +97,16 @@ function AddTourModal(props) {
 
   const handleCurrencyChange = () => {
     const selectedCurrency = currencyRef.current.value;
-    console.log("Selected currency:", selectedCurrency);
+   
   };
   const addMoreCityHandler = (newCity) => {
     if (!newCity) {
       toast.error("please select a city first !!!");
       return;
     }
+
     const duplicateCityChecker = multipleCity.find(
-      (current) => current == newCity
+      (current) => current.toUpperCase() == newCity.toUpperCase()
     );
     if (duplicateCityChecker) {
       toast.error("can not add same city twice");
@@ -121,7 +122,7 @@ function AddTourModal(props) {
     setCitySearch("");
     cityRef.current.value = "";
   };
-  console.log(multipleCity);
+  
   const removeCityFromMultipleCityHandler = (delIndex) => {
     const updatedCity = multipleCity.filter((current, index) => {
       return index != delIndex;

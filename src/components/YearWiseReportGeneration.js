@@ -7,7 +7,6 @@ import DownloadYearReportButton from "./DownloadYearReportButton";
 import { toast } from "react-toastify";
 
 function YearWiseReportGeneration(props) {
-  console.log(props, ".....kldljd");
   const user = JSON.parse(localStorage.getItem("token"));
   const connectionUrl = process.env.REACT_APP_CONNECTION_STRING;
   const [reportData, setReportData] = useState(null);
@@ -42,13 +41,11 @@ function YearWiseReportGeneration(props) {
             domain: user.domain,
           }
         );
-        console.log(response,".,wkldjwkdyuwtfdy3tgyrduytws")
         if(response.data.data.length==0){
           toast.error("no expense found for given year ")
           return
         }
         response.data.data.forEach((current) => {
-          console.log(current);
           const dateObj = new Date(current.date);
           const MonthIndex = dateObj.getMonth();
           const monthName = monthNameArray[MonthIndex];
@@ -91,7 +88,6 @@ function YearWiseReportGeneration(props) {
             };
             if (current.paymentType == "Cash") {
               // console.log("object", +current.Amount *+current.Voucher.exchangeRates)
-              console.log(current.Voucher)
               cashExpense += +current.Amount * +current.Voucher.exchangeRates;
               expensesObj[monthName].cash += +current.Amount;
             }
@@ -108,11 +104,7 @@ function YearWiseReportGeneration(props) {
         });
 
         setReportData(expensesObj);
-        console.log({
-          cashExpense: cashExpense,
-          digitalExpense: digitalExpense,
-          expensesObj,
-        });
+       
         setExpenseData((prev) => {
           return { cashExpense: cashExpense, digitalExpense: digitalExpense };
         });

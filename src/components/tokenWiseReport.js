@@ -26,7 +26,7 @@ function TokenWiseReport(props) {
             domain: user.domain,
           }
         );
-        console.log(response, "kwdhjshjdfgsjdghh");
+        
         if (response.data.response.length == 0) {
           toast.error("no data found for this voucher");
           return;

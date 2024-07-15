@@ -7,7 +7,7 @@ function DownloadPdfButton(props) {
   const expenseData = props.expenseData;
   const data = props.data;
   const voucherData = props.voucherData;
-  console.log(expenseData, data,voucherData,props.bills);
+ 
   return (
     <BlobProvider
       document={

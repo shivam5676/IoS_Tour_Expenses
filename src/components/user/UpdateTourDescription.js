@@ -7,7 +7,7 @@ import { IoIosCloseCircle } from "react-icons/io";
 import { RotatingLines } from "react-loader-spinner";
 
 const UpdateTourDescription = (props) => {
-  console.log(props);
+ 
   const connectionUrl = process.env.REACT_APP_CONNECTION_STRING;
   const [saveLoader, setSaveLoader] = useState(false);
 

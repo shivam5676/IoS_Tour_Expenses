@@ -476,7 +476,7 @@ const MyDocument = (props) => (
             <View
               style={{ borderTop: "1px", padding: "4px", fontFamily: "Roboto" }}
             >
-              {console.log(props?.expenseData)}
+             
               <Text>
                 {`Total Expenses (${props?.voucherData?.currency}) :`}
                 {+props.expenseData?.Misc +
@@ -508,7 +508,7 @@ const MyDocument = (props) => (
           >
             Payable Amount :
           </Text>
-          {console.log(props?.data)}
+          
           <View style={{ width: "50%", padding: "10" }}>
             <Text>{props.data?.settlementAmount}</Text>
           </View>

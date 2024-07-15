@@ -6,7 +6,7 @@ function UsersAllVouchers() {
   const [open, setOpen] = useState(false);
   const [Id, setId] = useState(null);
   const ctx = useContext(Context);
-  console.log(ctx.adminCurrentUserData);
+
   return (
     <div className="shadow-md shadow-gray-700 w-[100%]  min-[689px]:w-[60%]  min-h-[250px] h-[40vh]  bg-white min-[689px]:m-2 my-2 rounded-lg">
       {" "}
@@ -20,7 +20,8 @@ function UsersAllVouchers() {
       <p className=" py-2 font-bold text-2xl md:text-3xl text-center  rounded-t-lg text-white  bg-[#2980b9] font-sans">
         {ctx.adminCurrentUserData?.firstName}`s Vouchers{" "}
       </p>{" "}
-      {ctx.adminCurrentUserData?.Vouchers && (
+      {ctx.adminCurrentUserData?.Vouchers?.length == 0 && <div className="flex justify-center items-center h-[100%] font-bold">No Voucher to display</div>}
+      {ctx.adminCurrentUserData?.Vouchers?.length > 0 && (
         <>
           {" "}
           <div className="w-[100%]">

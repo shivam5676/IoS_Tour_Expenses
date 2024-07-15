@@ -10,22 +10,22 @@ function AdminUserList(props) {
   const user = JSON.parse(localStorage.getItem("token"));
 
   const ctx = useContext(Context);
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.post(`${connectionUrl}:${process.env.REACT_APP_BACKEND_PORT}/admin/getAllUser`, {
-          token: user.access_token,
-          domain: user.domain,
-        });
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     try {
+  //       const response = await axios.post(`${connectionUrl}:${process.env.REACT_APP_BACKEND_PORT}/admin/getAllUser`, {
+  //         token: user.access_token,
+  //         domain: user.domain,
+  //       });
      
-        ctx.addUserData(response.data.users);
+  //       ctx.addUserData(response.data.users);
 
-      } catch (err) {
-        console.log(err);
-      }
-    };
-    fetchData();
-  }, []);
+  //     } catch (err) {
+  //       console.log(err);
+  //     }
+  //   };
+  //   fetchData();
+  // }, []);
   const fetchUserDetails = async (id) => {
     try {
       const response = await axios.post(

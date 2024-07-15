@@ -13,7 +13,6 @@ function UserSidePanel() {
     <div className="w-[250px] h-[81vh] max-[923px]:hidden   min-[980px]:w-[300px] backdrop-blur-sm bg-[#2c3e50]  text-white rounded-2xl my-1 min-[1400px]:my-2 shadow-md shadow-gray-700 font-['Poppins']">
       <div className="bg-[#2980b9] h-[150px] rounded-md m-4 max-w-[270px] text-white">
         <div className="flex ">
-          {console.log(userData?.profilePic)}{" "}
           {!userData?.profilePic ? (
             <FaRegUserCircle className="w-[60px] h-[80px] m-2" />
           ) : (

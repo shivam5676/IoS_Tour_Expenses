@@ -112,7 +112,7 @@ const BarChartUser = (props) => {
   const data = props.reportData || {};
 
   // Extract city names and categories
-  console.log(data)
+  
   const cities = Object.keys(data);
   const categories = ["food", "travel", "accomondation", "misc"];
 

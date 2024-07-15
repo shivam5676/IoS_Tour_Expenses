@@ -9,10 +9,8 @@ console.log("inside auth ")
     const authCode = searchParams.get("code");
 
     if (authCode) {
-      console.log('Authorization Code:', authCode);
-      // Proceed with using the authorization code, e.g., exchange for access token
 
-      // Redirect to the main application page after handling the authorization code
+  
       navigate("/");
     }
   }, [navigate]);
