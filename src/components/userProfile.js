@@ -5,7 +5,7 @@ import Context from "../store/Context";
 import { toast } from "react-toastify";
 
 function UserProfile() {
-  const connectionUrl = process.env.REACT_APP_CONNECTION_STRING;
+  const connectionUrl = process.env.REACT_APP_BACKEND_URL
 
   const ctx = useContext(Context);
   console.log(ctx.adminCurrentUserData);
@@ -14,7 +14,7 @@ function UserProfile() {
   const deleteUserHandler = async (id) => {
     try {
       const response = await axios.post(
-        `${connectionUrl}:${process.env.REACT_APP_BACKEND_PORT}/admin/deleteUser`,
+        `${connectionUrl}/admin/deleteUser`,
         {
           delId: id,
           token: user.access_token,
@@ -34,7 +34,7 @@ function UserProfile() {
   const assignAdminHandler = async (id) => {
     try {
       const response = await axios.post(
-        `${connectionUrl}:${process.env.REACT_APP_BACKEND_PORT}/admin/assignAsAdmin`,
+        `${connectionUrl}/admin/assignAsAdmin`,
         {
           adminId: id,
           token: user.access_token,
@@ -57,7 +57,7 @@ function UserProfile() {
   const removeAdminHandler = async (id) => {
     try {
       const response = await axios.post(
-        `${connectionUrl}:${process.env.REACT_APP_BACKEND_PORT}/admin/removeAsAdmin`,
+        `${connectionUrl}/admin/removeAsAdmin`,
         {
           adminId: id,
           token: user.access_token,

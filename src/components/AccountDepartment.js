@@ -10,14 +10,14 @@ function AccountDepartment() {
   const [open, setOpen] = useState(false);
   const [Id, setId] = useState(null);
   const user = JSON.parse(localStorage.getItem("token"));
-  const connectionUrl = process.env.REACT_APP_CONNECTION_STRING;
+  const connectionUrl =process.env.REACT_APP_BACKEND_URL
   const [loadingPendingDAta, setLoadingPendingData] = useState(false);
 
   useEffect(() => {
     async function fetchData() {
       try {
         const response = await axios.post(
-          `${connectionUrl}:${process.env.REACT_APP_BACKEND_PORT}/admin/getPaymentVoucher`,
+          `${connectionUrl}/admin/getPaymentVoucher`,
           {
             token: user.access_token,
             domain: user.domain,

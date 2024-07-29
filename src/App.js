@@ -32,7 +32,7 @@ import AuthHandler from "./components/AuthHandler";
 function App() {
   const [open, setOpen] = useState(false);
 
-  const connectionUrl = process.env.REACT_APP_CONNECTION_STRING;
+  const connectionUrl = process.env.REACT_APP_BACKEND_URL;
 
   const ctx = useContext(Context);
   const [isLoggedIn, setIsLoggedIn] = useState(
@@ -46,7 +46,7 @@ function App() {
         const token = JSON.parse(localStorage.getItem("token"));
         try {
           const response = await axios.post(
-            `${connectionUrl}:${process.env.REACT_APP_BACKEND_PORT}/user/sessionVerify`,
+            `${connectionUrl}/user/sessionVerify`,
             {
               token: token.access_token,
               domain: token.domain,
@@ -66,7 +66,7 @@ function App() {
 
     const intervalId = setInterval(() => {
       tokenValidationChecker();
-    }, 300000); // 120000 ms = 2 minutes
+    }, 60000); // 120000 ms = 2 minutes
 
     // Cleanup interval on component unmount
     return () => clearInterval(intervalId);
@@ -76,7 +76,7 @@ function App() {
   }, [ctx.loginData]);
   const tokenIsValid = true;
   // const isLoggedIn = ctx.loginData
- 
+//  console.log("loginData")
 
   return (
     <div className="BGCOLOR">

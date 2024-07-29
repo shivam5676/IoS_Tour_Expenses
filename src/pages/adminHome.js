@@ -10,7 +10,7 @@ import { toast } from "react-toastify";
 import { RotatingSquare } from "react-loader-spinner";
 const AdminHome = () => {
   const [data, setData] = useState([]);
-  const connectionUrl = process.env.REACT_APP_CONNECTION_STRING;
+  const connectionUrl = process.env.REACT_APP_BACKEND_URL
   const ctx = useContext(Context);
   const allVoucherData = ctx.allVoucherData;
   const [open, setOpen] = useState(true);
@@ -21,7 +21,7 @@ const AdminHome = () => {
     async function fetchData() {
       try {
         const response = await axios.post(
-          `${connectionUrl}:${process.env.REACT_APP_BACKEND_PORT}/admin/AllVoucher`,
+          `${connectionUrl}/admin/AllVoucher`,
           {
             token: user.access_token,
             domain: user.domain,
@@ -39,7 +39,7 @@ const AdminHome = () => {
       }
     }
     fetchData();
-  }, []);
+  }, [ctx.loginData]);
   const vouchers = { pending: [], accepted: [], rejected: [] };
   const allData = [...allVoucherData];
   allData?.forEach((current) => {

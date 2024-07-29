@@ -20,6 +20,8 @@ const Context = createContext({
   removeVoucherfromAllVoucher: () => {},
   currentTourId: () => {},
   currentTourIdData: "",
+  currentTourDetailsHandler: ()=>{},
+  currentTourDetailsData:{},
   loginDataHandler: () => {},
   loginData: "",
   logOutHandler: () => {},

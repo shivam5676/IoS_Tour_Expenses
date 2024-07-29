@@ -8,7 +8,7 @@ import { toast } from "react-toastify";
 import { IoIosCloseCircle } from "react-icons/io";
 import { RotatingLines } from "react-loader-spinner";
 function AddtourDescriptionModal(props) {
-  const connectionUrl = process.env.REACT_APP_CONNECTION_STRING;
+  const connectionUrl = process.env.REACT_APP_BACKEND_URL;
   const [saveLoader, setSaveLoader] = useState(false);
 
   const ctx = useContext(Context);
@@ -51,7 +51,7 @@ function AddtourDescriptionModal(props) {
     // return
     try {
       const response = await axios.post(
-        `${connectionUrl}:${process.env.REACT_APP_BACKEND_PORT}/user/addDetails`,
+        `${connectionUrl}/user/addDetails`,
         data
       );
       const res = response.data;

@@ -5,19 +5,22 @@ import Context from "../store/Context";
 import bitrixlogo from "../assests/images/bitrixLogo.png";
 import { ColorRing } from "react-loader-spinner";
 import loginImage from "../assests/loginImage2.png";
-import bgImage from "../assests/images/bg9.jpg";
+
 
 const Login = React.memo(() => {
   const [loginLoader, setLoginLoader] = useState(false);
   const navigate = useNavigate();
   const ctx = useContext(Context);
   const connectionString = process.env.REACT_APP_CONNECTION_STRING;
+  const frontendConnectionString=process.env.REACT_APP_FRONTEND_URL
+  const backendConnectionString=process.env.REACT_APP_BACKEND_URL
+
 
   const getAccessToken = async (code) => {
     setLoginLoader(true);
     try {
       const response = await axios.get(
-        `${connectionString}:${process.env.REACT_APP_BACKEND_PORT}/callback/${code}`
+        `${backendConnectionString}/callback/${code}`
       );
   
       if (response.data.data.access_token) {
@@ -43,7 +46,7 @@ const Login = React.memo(() => {
     setLoginLoader(true);
     try {
       const response = await axios.get(
-        `${connectionString}:${process.env.REACT_APP_BACKEND_PORT}/queryParams/`
+        `${backendConnectionString}/queryParams/`
       );
       const queryParams = response.data.data;
     

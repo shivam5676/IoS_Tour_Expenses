@@ -10,7 +10,7 @@ import { RotatingLines } from "react-loader-spinner";
 
 function UpdateExpenseModal(props) {
 
-  const connectionUrl = process.env.REACT_APP_CONNECTION_STRING;
+  const connectionUrl = process.env.REACT_APP_BACKEND_URL
   //   const [open, setOpen] = useState(true);
   const [createLoader, setCreateLoader] = useState(false);
 
@@ -66,7 +66,7 @@ function UpdateExpenseModal(props) {
 
         try {
           const response = await axios.post(
-            `${connectionUrl}:${process.env.REACT_APP_BACKEND_PORT}/user/updateExpense`,
+            `${connectionUrl}/user/updateExpense`,
             data
           );
           const res = response.data.expenseData;

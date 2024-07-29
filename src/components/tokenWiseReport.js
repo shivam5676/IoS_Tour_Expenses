@@ -13,13 +13,13 @@ function TokenWiseReport(props) {
     cashExpense: 0,
     digitalExpense: 0,
   });
-  const connectionUrl = process.env.REACT_APP_CONNECTION_STRING;
+  const connectionUrl = process.env.REACT_APP_BACKEND_URL
   useEffect(() => {
     // setVoucherStatus("Pending");
     async function fetchData() {
       try {
         const response = await axios.post(
-          `${connectionUrl}:${process.env.REACT_APP_BACKEND_PORT}/admin/trackVoucher`,
+          `${connectionUrl}/admin/trackVoucher`,
           {
             voucherId: props.voucherId,
             token: user.access_token,

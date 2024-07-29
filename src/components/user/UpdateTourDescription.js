@@ -8,7 +8,7 @@ import { RotatingLines } from "react-loader-spinner";
 
 const UpdateTourDescription = (props) => {
  
-  const connectionUrl = process.env.REACT_APP_CONNECTION_STRING;
+  const connectionUrl = process.env.REACT_APP_BACKEND_URL
   const [saveLoader, setSaveLoader] = useState(false);
 
   const ctx = useContext(Context);
@@ -47,7 +47,7 @@ const UpdateTourDescription = (props) => {
     // return
     try {
       const response = await axios.post(
-        `${connectionUrl}:${process.env.REACT_APP_BACKEND_PORT}/user/updateDetails`,
+        `${connectionUrl}/user/updateDetails`,
         data
       );
       //   const res = response.data;

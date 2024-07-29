@@ -10,7 +10,7 @@ import AllTimeReportGeneration from "./../components/AllTimeReportGeneration";
 
 
 function AdminReportPanel() {
-  const connectionUrl = process.env.REACT_APP_CONNECTION_STRING;
+  const connectionUrl = process.env.REACT_APP_BACKEND_URL;
 
   const [startDate, setStartDate] = useState(new Date());
   const [reportType, setReportType] = useState("none");

@@ -6,7 +6,7 @@ import { MdDelete } from "react-icons/md";
 import DeletePopUpModal from "./DeletePopUpModal";
 import { RotatingSquare } from "react-loader-spinner";
 function UsersTour(props) {
-  const connectionUrl = process.env.REACT_APP_CONNECTION_STRING;
+  const connectionUrl =process.env.REACT_APP_BACKEND_URL
   const [selected, setSelected] = useState(null);
   const [open, setOpen] = useState(false);
   const [tourName, setTourName] = useState(null);
@@ -17,7 +17,7 @@ function UsersTour(props) {
   const fetchTourDetails = async (id) => {
     try {
       const response = await axios.post(
-        `${connectionUrl}:${process.env.REACT_APP_BACKEND_PORT}/user/getTourExpenses?id=${id}`,
+        `${connectionUrl}/user/getTourExpenses?id=${id}`,
         { token: user.access_token, domain: user.domain, voucherId: id }
       );
       response.data.expenses.forEach((current) => {
@@ -28,20 +28,7 @@ function UsersTour(props) {
       console.log(err);
     }
   };
-  // const DeleteOnGoingTourHandler = async (id) => {
-  //   try {
-  //     const response = await axios.post(
-  //       `${connectionUrl}:${process.env.REACT_APP_BACKEND_PORT}/user/deleteOnGoingTour`,
-  //       { token: user.access_token, domain: user.domain, voucherId: id }
-  //     );
-
-  //     ctx.removeOnGoingTour(id);
-  //     props.deSelect();
-  //     //  ctx.AdminCurrentUser(response.data.user);
-  //   } catch (err) {
-  //     console.log(err);
-  //   }
-  // };
+  
   return (
     <>
       <DeletePopUpModal
@@ -131,6 +118,7 @@ function UsersTour(props) {
                               if (selected !== current.id) {
                                 fetchTourDetails(current.id);
                                 ctx.currentTourId(current.id);
+                                ctx.currentTourDetailsHandler(current)
                                 setSelected(current.id);
                                 props.selected();
                               }

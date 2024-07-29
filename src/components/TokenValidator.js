@@ -1,20 +1,27 @@
 import { Dialog, Transition } from "@headlessui/react";
 import { ExclamationTriangleIcon } from "@heroicons/react/24/outline";
 import axios from "axios";
-import React, { Fragment, useEffect, useRef, useState } from "react";
+import React, {
+  Fragment,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import { ThreeDots } from "react-loader-spinner";
+import Context from "../store/Context";
 
 const TokenValidator = (props) => {
   const [createLoader, setCreateLoader] = useState(false);
   const cancelButtonRef = useRef();
-  const connectionUrl = process.env.REACT_APP_CONNECTION_STRING;
-  const user = JSON.parse(localStorage.getItem("token"));
-
+  const connectionUrl = process.env.REACT_APP_BACKEND_URL;
+  const ctx = useContext(Context);
   const siginValidator = async () => {
+    const user = JSON.parse(localStorage.getItem("token"));
     setCreateLoader(true);
     try {
       const response = await axios.post(
-        `${connectionUrl}:${process.env.REACT_APP_BACKEND_PORT}/user/sessionRefresh`,
+        `${connectionUrl}/user/sessionRefresh`,
         {
           token: user.access_token,
           domain: user.domain,
@@ -28,7 +35,7 @@ const TokenValidator = (props) => {
         access_token: response.data.access_token,
       };
       localStorage.setItem("token", JSON.stringify(updatedUser));
-
+      ctx.loginDataHandler(updatedUser);
       //   const res = response.data.voucher;
       setCreateLoader(false);
       //   ctx.addTourInOngoing(res);
@@ -47,7 +54,7 @@ const TokenValidator = (props) => {
   return (
     <Transition.Root show={props.open} as={Fragment}>
       <Dialog
-        className="relative z-10"
+        className="relative z-[100]"
         initialFocus={cancelButtonRef}
         onClose={() => {}}
       >
@@ -93,18 +100,24 @@ const TokenValidator = (props) => {
                       <div className="mt-2">
                         <p className="text-sm text-gray-500">
                           Your session has been Expired ,Click on Validate Now
-                          Button for getting Access in IOS Tour Voucher App
-                        </p>
+                          Button for getting Access in IOS Tour Voucher App.
+                        </p>{" "}
+                        <span className="text-sm text-gray-500 pt-4">
+                          if any problem occurs while validating in then You can
+                          logout
+                        </span>
                       </div>
                     </div>
                   </div>
                 </div>
-                <div className="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
+                <div className=" px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
                   <button
                     type="button"
-                    className="inline-flex w-full justify-center rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500 sm:ml-3 sm:w-auto"
+                    className="inline-flex w-full justify-center rounded-md bg-green-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-green-500 sm:ml-3 sm:w-auto"
                     // onClick={props.onDeactivate} // Use prop function to handle Deactivate action
-                    onClick={siginValidator}
+                    onClick={() => {
+                      siginValidator();
+                    }}
                   >
                     {!createLoader ? (
                       "Validate Sign-In"
@@ -121,14 +134,20 @@ const TokenValidator = (props) => {
                       />
                     )}
                   </button>
-                  {/* <button
+                  <button
                     type="button"
-                    className="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto"
-                    onClick={props.close}
+                    className="mt-3 inline-flex w-full justify-center rounded-md border-none outline-none hover:bg-red-600 px-3 py-2 text-sm font-semibold  shadow-sm ring-1 ring-inset ring-gray-300 text-white sm:mt-0 sm:w-auto bg-red-500"
+                    onClick={() => {
+                      localStorage.removeItem("token");
+                      ctx.logOutHandler();
+                      // setOpenNavbar(false);
+                      window.location.href = "";
+                      // navigate("/home");
+                    }}
                     ref={cancelButtonRef}
                   >
-                    Cancel
-                  </button> */}
+                    LogOut
+                  </button>
                 </div>
               </Dialog.Panel>
             </Transition.Child>

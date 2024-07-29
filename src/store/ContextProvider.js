@@ -11,6 +11,7 @@ const initialState = {
   onGoingData: [],
   userCurrentTourExpensesData: [],
   currentTourIdData: null,
+  currentTourDetailsData:{},
   loginData: null,
   token: null,
 };
@@ -22,8 +23,6 @@ const reducerFn = (state, action) => {
     return { ...state, allUser: [...action.payload] };
   }
   if (action.type === "currentUserDetails") {
-
-
     return {
       ...state,
       adminCurrentUserData: {
@@ -33,7 +32,6 @@ const reducerFn = (state, action) => {
     };
   }
   if (action.type === "allVoucher") {
-   
     return {
       ...state,
       allVoucherData: [...action.payload],
@@ -75,19 +73,17 @@ const reducerFn = (state, action) => {
     };
   }
   if (action.type === "removeOnGoingTour") {
-    
     const arrayAfterRemove = state.onGoingData.filter((current) => {
       return current.id != action.payload;
     });
-  
+
     return {
       ...state,
       onGoingData: arrayAfterRemove,
-      currentTourIdData:null
+      currentTourIdData: null,
     };
   }
   if (action.type === "saveLoginDetails") {
-   
     return {
       ...state,
       loginData: action.payload,
@@ -110,12 +106,10 @@ const reducerFn = (state, action) => {
     const findVoucherId = allVoucherDataCopy.findIndex(
       (current) => current.Voucher.id == action.payload.id
     );
-   
+
     allVoucherDataCopy[findVoucherId].Voucher.statusType =
       action.payload.status;
     allVoucherDataCopy[findVoucherId].status = action.payload.status;
-
-
 
     // allVoucherDataCopy[findVoucherId];
     // return;
@@ -125,7 +119,6 @@ const reducerFn = (state, action) => {
     };
   }
   if (action.type == "updateCurrentTourExpenses") {
-    
     const ExpenseList = [...state.userCurrentTourExpensesData];
     const expenseIndex = ExpenseList.findIndex(
       (current) => current.id == action.payload.id
@@ -153,6 +146,12 @@ const reducerFn = (state, action) => {
       token: null,
     };
   }
+  if(action.type=="addSelectedTourData"){
+    return {
+      ...state,
+      currentTourDetailsData: action.payload,
+    };
+  }
 
   return { ...state };
 };
@@ -163,11 +162,9 @@ const ContextProvider = (props) => {
     dispatch({ type: "signupModal" });
   };
   const adduserDataHandler = (userData) => {
-  
     dispatch({ type: "addUser", payload: userData });
   };
   const AdminCurrentUserHandler = (userData) => {
-   
     dispatch({ type: "currentUserDetails", payload: userData });
   };
   const allVoucherHandler = (vouchers) => {
@@ -197,7 +194,6 @@ const ContextProvider = (props) => {
     dispatch({ type: "deleteExpense", payload: id });
   };
   const removeVoucherfromAllVoucher = (id) => {
- 
     dispatch({ type: "changeStateFromAllVoucher", payload: id });
   };
   const addTourInOngoingHandler = (tour) => {
@@ -205,6 +201,9 @@ const ContextProvider = (props) => {
   };
   const updateCurrentTourExpensesHandler = (updatedTour) => {
     dispatch({ type: "updateCurrentTourExpenses", payload: updatedTour });
+  };
+  const currentTourDetailsHandler = (selectedTourData) => {
+    dispatch({ type: "addSelectedTourData", payload: selectedTourData });
   };
   const contextStore = {
     signUpModal: signupModalOpenHandler,
@@ -223,6 +222,8 @@ const ContextProvider = (props) => {
     deleteUserCurrentTourExpenseHandler: deleteUserCurrentTourExpenseHandler,
     currentTourId: currentTourIdHandler,
     currentTourIdData: currentState.currentTourIdData,
+    currentTourDetailsHandler: currentTourDetailsHandler,
+    currentTourDetailsData:currentState.currentTourDetailsData,
     removeOnGoingTour: removeOnGoingTourHandler,
     loginDataHandler: loginDataHandler,
     loginData: currentState.loginData,

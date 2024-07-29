@@ -11,17 +11,17 @@ import axios from "axios";
 import { RotatingSquare } from "react-loader-spinner";
 const AdminUserPanel = () => {
   const [showData, setShowData] = useState(false);
-  const connectionUrl = process.env.REACT_APP_CONNECTION_STRING;
+  const connectionUrl = process.env.REACT_APP_BACKEND_URL;
   const user = JSON.parse(localStorage.getItem("token"));
   const cancelButtonRef = useRef(null);
   const [loadingPendingDAta, setLoadingPendingData] = useState(false);
   const ctx = useContext(Context);
   useEffect(() => {
-    console.log("executing");
+    
     const fetchData = async () => {
       try {
         const response = await axios.post(
-          `${connectionUrl}:${process.env.REACT_APP_BACKEND_PORT}/admin/getAllUser`,
+          `${connectionUrl}/admin/getAllUser`,
           {
             token: user.access_token,
             domain: user.domain,
@@ -35,7 +35,7 @@ const AdminUserPanel = () => {
       }
     };
     fetchData();
-  }, []);
+  }, [ctx.loginData]);
   return (
     <>
       {" "}

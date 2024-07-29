@@ -6,7 +6,7 @@ import axios from "axios";
 
 
 function AdminUserList(props) {
-  const connectionUrl = process.env.REACT_APP_CONNECTION_STRING;
+  const connectionUrl = process.env.REACT_APP_BACKEND_URL;
   const user = JSON.parse(localStorage.getItem("token"));
 
   const ctx = useContext(Context);
@@ -29,7 +29,7 @@ function AdminUserList(props) {
   const fetchUserDetails = async (id) => {
     try {
       const response = await axios.post(
-        `${connectionUrl}:${process.env.REACT_APP_BACKEND_PORT}/admin/getUser?id=${id}`,{
+        `${connectionUrl}/admin/getUser?id=${id}`,{
           token: user.access_token,
           domain: user.domain,
         }

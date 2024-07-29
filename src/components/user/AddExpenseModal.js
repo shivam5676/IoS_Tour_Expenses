@@ -9,9 +9,11 @@ import { IoIosCloseCircle } from "react-icons/io";
 import { RotatingLines } from "react-loader-spinner";
 
 function AddExpenseModal(props) {
-  const connectionUrl = process.env.REACT_APP_CONNECTION_STRING;
+  const connectionUrl = process.env.REACT_APP_BACKEND_URL;
   //   const [open, setOpen] = useState(true);
   const ctx = useContext(Context);
+
+  // console.log(ctx.currentTourDetailsData.tourDate, "currentdataaaaaa");
   const cancelButtonRef = useRef(null);
   const amountRef = useRef();
   const expenseCategoryRef = useRef("Travel");
@@ -37,6 +39,29 @@ function AddExpenseModal(props) {
   const saveExpenseHandler = async () => {
     setSaveLoader(true);
     let base64Image = "";
+    const dateString = dateRef.current.value;
+
+    // Convert the date string to a Date object
+    const date = new Date(dateString);
+
+    // Get day, month, and year from the Date object
+    const day = String(date.getDate()).padStart(2, "0");
+    const month = String(date.getMonth() + 1).padStart(2, "0"); // Months are zero-based
+    const year = date.getFullYear();
+
+    // Format the date as dd/mm/yyyy
+    const formattedDate = `${day}/${month}/${year}`;
+
+    console.log(formattedDate); // Output: 30/07/2024
+    console.log("date", ctx?.currentTourDetailsData?.tourDate);
+
+    if (formattedDate < ctx?.currentTourDetailsData?.tourDate) {
+      toast.error(
+        "Expense date can not be smaller than tour creation(tour starting) date"
+      );
+      return;
+    }
+ 
     if (billImageRef.current.files[0]) {
       const file = billImageRef.current.files[0];
       const reader = new FileReader();
@@ -58,7 +83,7 @@ function AddExpenseModal(props) {
 
         try {
           const response = await axios.post(
-            `${connectionUrl}:${process.env.REACT_APP_BACKEND_PORT}/user/saveExpense`,
+            `${connectionUrl}/user/saveExpense`,
             data
           );
           const res = response.data.expenseData;
@@ -86,7 +111,7 @@ function AddExpenseModal(props) {
 
       try {
         const response = await axios.post(
-          `${connectionUrl}:${process.env.REACT_APP_BACKEND_PORT}/user/saveExpense`,
+          `${connectionUrl}/user/saveExpense`,
           data
         );
         const res = response.data.expenseData;
@@ -136,7 +161,6 @@ function AddExpenseModal(props) {
                   onClick={() => props.onClose()}
                 >
                   <IoIosCloseCircle className="w-[30px] h-[30px] text-blue-600"></IoIosCloseCircle>
-                 
                 </div>
                 <div className="text-center pb-4">
                   <div className="text-2xl font-semibold flex items-center">

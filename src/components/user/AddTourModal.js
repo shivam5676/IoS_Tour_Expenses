@@ -9,7 +9,7 @@ import { IoIosCloseCircle } from "react-icons/io";
 import { RotatingLines } from "react-loader-spinner";
 
 function AddTourModal(props) {
-  const connectionUrl = process.env.REACT_APP_CONNECTION_STRING;
+  const connectionUrl = process.env.REACT_APP_BACKEND_URL
   const [stateList, setStateList] = useState(State);
   const [cityList, setCityList] = useState([]);
   const [citySelected, setCitySelected] = useState(null);
@@ -71,7 +71,7 @@ function AddTourModal(props) {
     setCreateLoader(true);
     try {
       const response = await axios.post(
-        `${connectionUrl}:${process.env.REACT_APP_BACKEND_PORT}/user/createTour`,
+        `${connectionUrl}/user/createTour`,
         {
           token: user.access_token,
           domain: user.domain,

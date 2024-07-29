@@ -10,6 +10,8 @@ import Context from "../store/Context";
 import { GrLogout } from "react-icons/gr";
 import { TbReportSearch } from "react-icons/tb";
 import { IoBarChart } from "react-icons/io5";
+import { BsCash } from "react-icons/bs";
+
 
 const Header = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -57,16 +59,16 @@ const Header = () => {
         className={`NAVBARCOLOR pt-2 md:pt-1 pb-1 px-1 mt-0 h-16 fixed w-full z-20 top-0 `}
       >
         <div className="flex flex-wrap items-center h-[100%] justify-between">
-          <div className="flex flex-shrink h-[100%]  justify-center items-center md:justify-start text-white font-[poppins] md:font-[cursive]">
+          <div className="flex flex-shrink h-[100%]  justify-center items-center md:justify-start text-white font-[Poppins] sm:font-[OpenSans]">
             <a href="/" aria-label="Home">
               <p className="flex items-center mx-1 min-[426px]:mx-6">
                 <div className=" h-fit bg-black/20 backdrop-blur-md">
                   <img
                     src={iosLogo}
-                    className="w-14 h-8 min-[386px]:h-10 min-[386px]:w-16   md:h-[56px] sm:w-24 my-2 md:my-1  mx-4"
+                    className="w-14 h-8 min-[404px]:h-10 min-[404px]:w-16   md:h-[56px] sm:w-24 my-2 md:my-1 mx-2 min-[404px]:mx-4"
                   ></img>
                 </div>
-                <span className=" sm:text-3xl min-[386px]:text-2xl text-xl font-bold pl-2 mx-1 min-[426px]:mx-3">
+                <span className="text-lg min-[324px]:text-xl sm:text-3xl lg:text-4xl min-[404px]:text-2xl  font-bold pl-2 mx-1 min-[426px]:mx-3">
                   VOUCHER TRACKER
                 </span>
               </p>
@@ -76,9 +78,9 @@ const Header = () => {
           {userType && (
             <div className="flex  sm:content-center w-fit mx-auto md:mx-0 justify-end max-md:invisible">
               <ul className="list-reset flex justify-end flex-1 md:flex-none items-center">
-                <li className="mr-4 ">
+                <li className="min-[795px]:mr-4 mr-2">
                   <button
-                    className="shadow-[0_0_0_3px_white_inset] px-6 py-2 bg-transparent border  dark:border-white dark:text-white text-white rounded-lg font-bold transform hover:-translate-y-1 transition duration-400  hover:bg-white hover:text-black"
+                    className="shadow-[0_0_0_3px_white_inset] min-[795px]:px-6 px-3 py-2 bg-transparent border  dark:border-white dark:text-white text-white rounded-lg font-bold transform hover:-translate-y-1 transition duration-400  hover:bg-white hover:text-black"
                     onClick={() => {
                       // setOpen(true);
                       setTourModal(true);
@@ -179,7 +181,7 @@ const Header = () => {
           {/* sidebar open button for small screen */}
           {(userType?.isAdmin || userType?.supervisor) && (
             <div
-              className="md:invisible border-2 border-[#e3c935] hover:border-[#948030] cursor-pointer rounded absolute right-0 mx-2 min-[330px]:mx-6"
+              className="md:invisible border-2 border-[#e3c935] hover:border-[#948030] cursor-pointer rounded absolute right-0 mx-2 min-[350px]:mx-6"
               onClick={() => {
                 setOpenNavbar(!openNavbar);
               }}
@@ -266,6 +268,23 @@ const Header = () => {
                       </span>
                     </NavLink>
                   </li>
+                )}
+                {(userType?.isAdmin || userType?.supervisor) && (
+                  <li className="mr-3 flex-1 ">
+                  <NavLink
+                    to="/adminVouchers"
+                    className="flex  font-semibold items-center py-1 md:py-3 pl-1 align-middle text-white no-underline hover:text-white hover:border-b-2 hover:border-white"
+                    onClick={() => {
+                      setOpenNavbar(false);
+                    }}
+                  >
+                    <IoBarChart className="fa fa-wallet pr-0 md:pr-3  h-8 w-10" />
+                    {/* <TbReportSearch />{" "} */}
+                    <span className="pb-1 mx-3 md:pb-0 text-md md:text-base text-white md:text-white block md:flex items-center pt-1">
+                      Voucher Manager
+                    </span>
+                  </NavLink>
+                </li>
                 )}
                 {(userType?.isAdmin || userType?.supervisor) && (
                   <li className="mr-3 flex-1 ">

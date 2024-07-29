@@ -15,7 +15,7 @@ import { toast } from "react-toastify";
 const DeletePopUpModal = (props) => {
   const [createLoader, setCreateLoader] = useState(false);
   const cancelButtonRef = useRef();
-  const connectionUrl = process.env.REACT_APP_CONNECTION_STRING;
+  const connectionUrl = process.env.REACT_APP_BACKEND_URL
   const user = JSON.parse(localStorage.getItem("token"));
   const ctx = useContext(Context);
 
@@ -23,7 +23,7 @@ const DeletePopUpModal = (props) => {
     setCreateLoader(true);
     try {
       const response = await axios.post(
-        `${connectionUrl}:${process.env.REACT_APP_BACKEND_PORT}/user/deleteOnGoingTour`,
+        `${connectionUrl}/user/deleteOnGoingTour`,
         { token: user.access_token, domain: user.domain, voucherId: id }
       );
 

@@ -14,14 +14,14 @@ function UserExpenseList(props) {
   const [openDescription, setOpenDescription] = useState(false);
   const [update, setUpdate] = useState(false);
   const [updateData, setUpdateData] = useState(null);
-  const connectionUrl = process.env.REACT_APP_CONNECTION_STRING;
+  const connectionUrl = process.env.REACT_APP_BACKEND_URL
   const user = JSON.parse(localStorage.getItem("token"));
 
   const ctx = useContext(Context);
   const deleteExpenseHAndler = async (id) => {
     try {
       const response = await axios.post(
-        `${connectionUrl}:${process.env.REACT_APP_BACKEND_PORT}/user/deleteExpense`,
+        `${connectionUrl}/user/deleteExpense`,
         {
           expenseId: id,
           token: user.access_token,

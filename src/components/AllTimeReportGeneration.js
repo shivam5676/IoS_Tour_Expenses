@@ -4,13 +4,13 @@ import AllTimePdf from "./AllTimePdf";
 
 const AllTimeReportGeneration = () => {
   const user = JSON.parse(localStorage.getItem("token"));
-  const connectionUrl = process.env.REACT_APP_CONNECTION_STRING;
+  const connectionUrl = process.env.REACT_APP_BACKEND_URL
 
   useEffect(() => {
     async function fetchFilterData() {
       try {
         const response = await axios.post(
-          `${connectionUrl}:${process.env.REACT_APP_BACKEND_PORT}/admin/allTime`,
+          `${connectionUrl}/admin/allTime`,
           {
             token: user.access_token,
             domain: user.domain,

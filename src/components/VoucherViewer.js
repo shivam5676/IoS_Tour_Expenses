@@ -37,7 +37,7 @@ export default function VoucherViewer(props) {
   const [selectedSupervisor, setSelectedSupervisor] = useState(null);
 
   // const [voucherStatus, setVoucherStatus] = useState("Pending");
-  const connectionUrl = process.env.REACT_APP_CONNECTION_STRING;
+  const connectionUrl =process.env.REACT_APP_BACKEND_URL
   //   const [open, setOpen] = useState(false);
   const ctx = useContext(Context);
   const cancelButtonRef = useRef(null);
@@ -47,7 +47,7 @@ export default function VoucherViewer(props) {
   const deleteExpenseHAndler = async (id) => {
     try {
       const response = await axios.post(
-        `${connectionUrl}:${process.env.REACT_APP_BACKEND_PORT}/user/deleteExpense`,
+        `${connectionUrl}/user/deleteExpense`,
         {
           expenseId: id,
           token: user.access_token,
@@ -63,7 +63,7 @@ export default function VoucherViewer(props) {
   const reAssignVoucherHandler = async () => {
     try {
       const response = await axios.post(
-        `${connectionUrl}:${process.env.REACT_APP_BACKEND_PORT}/admin/reAssign`,
+        `${connectionUrl}/admin/reAssign`,
         {
           voucherId: props.voucherId,
 
@@ -106,7 +106,7 @@ export default function VoucherViewer(props) {
     }
     try {
       const response = await axios.post(
-        `${connectionUrl}:${process.env.REACT_APP_BACKEND_PORT}/admin/acceptVoucher`,
+        `${connectionUrl}}/admin/acceptVoucher`,
         {
           voucherId: props.voucherId,
           comment: CommentRef.current.value,
@@ -141,7 +141,7 @@ export default function VoucherViewer(props) {
   const rejectVoucherHandler = async () => {
     try {
       const response = await axios.post(
-        `${connectionUrl}:${process.env.REACT_APP_BACKEND_PORT}/admin/rejectVoucher`,
+        `${connectionUrl}/admin/rejectVoucher`,
         {
           voucherId: props.voucherId,
           token: user.access_token,
@@ -164,7 +164,7 @@ export default function VoucherViewer(props) {
   const closeVoucherHandler = async () => {
     try {
       const response = await axios.post(
-        `${connectionUrl}:${process.env.REACT_APP_BACKEND_PORT}/admin/closevoucher`,
+        `${connectionUrl}/admin/closevoucher`,
         {
           voucherId: props.voucherId,
           token: user.access_token,
@@ -188,7 +188,7 @@ export default function VoucherViewer(props) {
     async function fetchData() {
       try {
         const response = await axios.post(
-          `${connectionUrl}:${process.env.REACT_APP_BACKEND_PORT}/admin/trackVoucher`,
+          `${connectionUrl}/admin/trackVoucher`,
           {
             voucherId: props.voucherId,
             token: user.access_token,
@@ -209,7 +209,7 @@ export default function VoucherViewer(props) {
     async function fetchData() {
       try {
         const response = await axios.post(
-          `${connectionUrl}:${process.env.REACT_APP_BACKEND_PORT}/admin/getSuperVisor`,
+          `${connectionUrl}/admin/getSuperVisor`,
           {
             token: user.access_token,
             domain: user.domain,
@@ -339,7 +339,7 @@ export default function VoucherViewer(props) {
   const sendCommentHandler = async () => {
     try {
       const response = await axios.post(
-        `${connectionUrl}:${process.env.REACT_APP_BACKEND_PORT}/admin/postComment`,
+        `${connectionUrl}/admin/postComment`,
         {
           voucherId: props.voucherId,
           // userId: ,
