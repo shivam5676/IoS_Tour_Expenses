@@ -9,10 +9,10 @@ import { IoIosCloseCircle } from "react-icons/io";
 import { RotatingLines } from "react-loader-spinner";
 
 function UpdateExpenseModal(props) {
-
-  const connectionUrl = process.env.REACT_APP_BACKEND_URL
+  const connectionUrl = process.env.REACT_APP_BACKEND_URL;
   //   const [open, setOpen] = useState(true);
   const [createLoader, setCreateLoader] = useState(false);
+  const [imageRemoved, setImageRemoved] = useState(false);
 
   const ctx = useContext(Context);
   const cancelButtonRef = useRef(null);
@@ -39,9 +39,13 @@ function UpdateExpenseModal(props) {
       };
     }
   };
-  
+  const removeImageHandler = () => {
+    setImagePreview(null);
+    billImageRef.current.value = null;
+    setImageRemoved(true);
+  };
   const updateExpenseHandler = async () => {
-    setCreateLoader(true)
+    setCreateLoader(true);
 
     let base64Image = "";
     if (billImageRef.current.files[0]) {
@@ -70,13 +74,13 @@ function UpdateExpenseModal(props) {
             data
           );
           const res = response.data.expenseData;
-      
+
           ctx.updateCurrentTourExpenses(res);
           toast.success("Expense added.");
-          setCreateLoader(false)
+          setCreateLoader(false);
         } catch (err) {
           toast.error(err.response?.data?.msg);
-          setCreateLoader(false)
+          setCreateLoader(false);
         }
       };
     } else {
@@ -92,21 +96,21 @@ function UpdateExpenseModal(props) {
         voucherId: ctx.currentTourIdData,
         token: user.access_token,
         domain: user.domain,
-        billImage: base64Image,
+        billImage: imageRemoved ? "removed" : base64Image,
       };
 
       try {
         const response = await axios.post(
-          `${connectionUrl}:${process.env.REACT_APP_BACKEND_PORT}/user/updateExpense`,
+          `${connectionUrl}/user/updateExpense`,
           data
         );
         const res = response.data.expenseData;
         ctx.updateCurrentTourExpenses(res);
-        setCreateLoader(false)
+        setCreateLoader(false);
         toast.success("Expense added....");
       } catch (err) {
         toast.error(err.response?.data?.msg);
-        setCreateLoader(false)
+        setCreateLoader(false);
       }
     }
   };
@@ -116,7 +120,9 @@ function UpdateExpenseModal(props) {
       <Dialog
         className="relative z-10"
         initialFocus={cancelButtonRef}
-        onClose={props.onClose}
+        onClose={() => {
+          return
+        }}
       >
         <Transition.Child
           as={Fragment}
@@ -258,17 +264,31 @@ function UpdateExpenseModal(props) {
                     onChange={handleImageChange}
                   ></input>
 
-                  {props.updateData?.imagePath && !imagePreview && (
-                    <div className="mt-4">
-                      <img
-                        src={`${connectionUrl}:${process.env.REACT_APP_BACKEND_PORT}/${props.updateData?.imagePath}`}
-                        alt="Bill Preview"
-                        className="max-w-[100%] h-auto"
-                      />
-                    </div>
-                  )}
+                  {props.updateData?.imagePath &&
+                    !imagePreview &&
+                    !imageRemoved && (
+                      <div className="mt-4">
+                        <div
+                          className="flex justify-end text-red-500 underline"
+                          onClick={removeImageHandler}
+                        >
+                          Remove Image
+                        </div>
+                        <img
+                          src={`${connectionUrl}/${props.updateData?.imagePath}`}
+                          alt="Bill Preview"
+                          className="max-w-[100%] h-auto"
+                        />
+                      </div>
+                    )}
                   {imagePreview && (
                     <div className="mt-4">
+                      <div
+                        className="flex justify-end text-red-500 underline"
+                        onClick={removeImageHandler}
+                      >
+                        Remove Image
+                      </div>
                       <img
                         src={imagePreview}
                         alt="Bill Preview"

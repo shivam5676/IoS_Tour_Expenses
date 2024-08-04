@@ -106,7 +106,7 @@ export default function VoucherViewer(props) {
     }
     try {
       const response = await axios.post(
-        `${connectionUrl}}/admin/acceptVoucher`,
+        `${connectionUrl}/admin/acceptVoucher`,
         {
           voucherId: props.voucherId,
           comment: CommentRef.current.value,
@@ -195,6 +195,13 @@ export default function VoucherViewer(props) {
             domain: user.domain,
           }
         );
+        // console.log(response.data.response.voucherExpenses,"response");
+      //  const imageObj= response.data.response.voucherExpenses.forEach(current=>{
+      //   if(current.imagePath){
+      //     setImageArray()
+      //   }
+      //   return {billName}
+      //  })
         setImageArray(response.data.imagePaths);
         setVoucherData(response.data.response);
         CommentRef.current.value = response.data.response.comment;
@@ -711,8 +718,9 @@ export default function VoucherViewer(props) {
                       </div>
                       {imageArray &&
                         imageArray.map((current, index) => {
+                          console.log(current);
                           return (
-                            <div className="text-center font-semibold  text-white">
+                            <div className="text-center font-semibold  text-white" key={index}>
                               <p>Bill Image-{index + 1}</p>
                               <img
                                 src={`${current}`}
@@ -845,7 +853,7 @@ export default function VoucherViewer(props) {
                           </div>
                         )}
                       {user?.isAdmin &&
-                        voucherData?.statusType != "Pending" &&
+                        voucherData?.statusType != "Pending" &&path != "/YOURVOUCHER"&&
                         !reAssignVoucher && (
                           <div className="my-4 flex w-[100%]  border-b-2  items-center pb-2">
                             <p className="mx-2  font-semibold">

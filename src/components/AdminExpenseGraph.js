@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { VscDebugBreakpointLog } from "react-icons/vsc";
-import expenseGif from "../assests/budgeting.gif"
+import expenseGif from "../assests/budgeting.gif";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import { Doughnut } from "react-chartjs-2";
 import Context from "../store/Context";
@@ -15,6 +15,7 @@ function AdminExpenseGraph(props) {
   const location = useLocation();
   if (location.pathname.toUpperCase() == "/ADMINUSER") {
     ctx.adminCurrentUserData.Vouchers?.forEach((current) => {
+      console.log(current);
       if (current.statusType == "Pending") {
         pending++;
       } else if (current.statusType == "Accepted") {
@@ -25,6 +26,7 @@ function AdminExpenseGraph(props) {
     });
   } else {
     ctx.allVoucherData?.forEach((current) => {
+      console.log(current);
       if (current.status == "Pending") {
         pending++;
       } else if (current.status == "Accepted") {
@@ -34,7 +36,7 @@ function AdminExpenseGraph(props) {
       }
     });
   }
-
+  console.log(pending);
   ChartJS.register(ArcElement, Tooltip, Legend);
 
   const data = {
@@ -59,7 +61,7 @@ function AdminExpenseGraph(props) {
       },
     ],
   };
- 
+
   return (
     <div className=" w-[100%]  min-[689px]:w-[40%] min-h-[250px] h-[40vh] min-[689px]:m-2 my-2 bg-[white] rounded-lg shadow-md shadow-gray-700 text-center ">
       <p
@@ -68,55 +70,53 @@ function AdminExpenseGraph(props) {
         Vouchers Graph
       </p>
 
-      {pending > 0 ||
-        rejected > 0 ||
-        (accepted > 0 && (
-          <>
-            <div className="w-[100%]  h-[calc(40vh-110px)] min-h-[calc(250px-90px)] my-2">
-              {" "}
-              <Doughnut
-                data={data}
-                options={{
-                  plugins: {
-                    legend: {
-                      display: false, // hide legend
-                    },
-                    tooltip: {
-                      enabled: true, // hide tooltip
-                    },
+      {(pending > 0 || rejected > 0 || accepted > 0) && (
+        <>
+          <div className="w-[100%]  h-[calc(40vh-110px)] min-h-[calc(250px-90px)] my-2">
+            {" "}
+            <Doughnut
+              data={data}
+              options={{
+                plugins: {
+                  legend: {
+                    display: false, // hide legend
                   },
-                  cutout: "70%",
-                  responsive: true,
-                  maintainAspectRatio: false,
-                }}
-              />
+                  tooltip: {
+                    enabled: true, // hide tooltip
+                  },
+                },
+                cutout: "70%",
+                responsive: true,
+                maintainAspectRatio: false,
+              }}
+            />
+          </div>
+          <div className="text-black flex justify-between text-[.8rem] px-2 font-bold">
+            <div className="flex justify-center">
+              {" "}
+              <span className="text-center">
+                <VscDebugBreakpointLog className="w-[20px] h-[20px] text-green-500" />
+              </span>
+              Accepted
             </div>
-            <div className="text-black flex justify-between text-[.8rem] px-2 font-bold">
-              <div className="flex justify-center">
-                {" "}
-                <span className="text-center">
-                  <VscDebugBreakpointLog className="w-[20px] h-[20px] text-green-500" />
-                </span>
-                Accepted
-              </div>
 
-              <div className="flex justify-center">
-                {" "}
-                <span className="text-center">
-                  <VscDebugBreakpointLog className="w-[20px] h-[20px] text-yellow-500" />
-                </span>
-                Pending
-              </div>
-              <div className="flex justify-center px-2">
-                {" "}
-                <span className="text-center">
-                  <VscDebugBreakpointLog className="w-[20px] h-[20px] text-red-500" />
-                </span>
-                Rejected
-              </div>
+            <div className="flex justify-center">
+              {" "}
+              <span className="text-center">
+                <VscDebugBreakpointLog className="w-[20px] h-[20px] text-yellow-500" />
+              </span>
+              Pending
             </div>
-          </>
-        ))}
+            <div className="flex justify-center px-2">
+              {" "}
+              <span className="text-center">
+                <VscDebugBreakpointLog className="w-[20px] h-[20px] text-red-500" />
+              </span>
+              Rejected
+            </div>
+          </div>
+        </>
+      )}
       {pending == 0 && rejected == 0 && accepted == 0 && (
         <div className="w-[100%] h-[calc(40vh-110px)] min-h-[calc(250px-90px)] my-2 text-black flex justify-center items-center flex-col font-bold">
           <img src={expenseGif} className="h-[80px]" draggable={false}></img>{" "}

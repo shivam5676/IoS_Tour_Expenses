@@ -75,8 +75,7 @@ function AddtourDescriptionModal(props) {
         className="relative z-10"
         initialFocus={cancelButtonRef}
         onClose={() => {
-          props.close();
-          // props.removeOnGoingTour()
+          return;
         }}
       >
         <Transition.Child

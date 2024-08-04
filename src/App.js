@@ -39,7 +39,6 @@ function App() {
     JSON.parse(localStorage.getItem("token"))
   );
 
-
   useEffect(() => {
     const tokenValidationChecker = async () => {
       if (isLoggedIn) {
@@ -53,7 +52,6 @@ function App() {
               refreshToken: token.refresh_token,
             }
           );
-         
         } catch (err) {
           setOpen(true);
           console.log(err);
@@ -76,7 +74,7 @@ function App() {
   }, [ctx.loginData]);
   const tokenIsValid = true;
   // const isLoggedIn = ctx.loginData
-//  console.log("loginData")
+  //  console.log("loginData")
 
   return (
     <div className="BGCOLOR">
@@ -92,7 +90,7 @@ function App() {
 
           <Routes>
             <Route path="*" element={<Login />}></Route>{" "}
-            <Route path="/auth.html" element={<AuthHandler />} />
+            {/* <Route path="/auth.html" element={<AuthHandler />} /> */}
           </Routes>
         </div>
       )}
@@ -100,45 +98,47 @@ function App() {
         <div className={`BGCOLOR font-sans leading-normal tracking-normal`}>
           <Header />
           <div className="flex flex-col md:flex-row mt-12">
-            <Sidebar></Sidebar>
-            
-            <Routes>
-              <Route path="*" element={<UserHome></UserHome>}></Route>
+            <div>
+              <Sidebar></Sidebar>
+            </div>
+            <div className="w-[100%]">
+              {" "}
+              <Routes>
+                <Route path="*" element={<UserHome></UserHome>}></Route>
 
-              {(isLoggedIn?.isAdmin || isLoggedIn?.supervisor) && (
+                {(isLoggedIn?.isAdmin || isLoggedIn?.supervisor) && (
+                  <Route
+                    path="/adminVouchers"
+                    element={<AdminHome></AdminHome>}
+                  ></Route>
+                )}
+                {isLoggedIn?.isAdmin && (
+                  <Route
+                    path="/adminUserPanel"
+                    element={<AdminUserPanel></AdminUserPanel>}
+                  ></Route>
+                )}
+                {isLoggedIn?.isAdmin && (
+                  <Route
+                    path="/adminReport"
+                    element={<AdminReportPanel></AdminReportPanel>}
+                  ></Route>
+                )}
                 <Route
-                  path="/adminVouchers"
-                  element={<AdminHome></AdminHome>}
+                  path="/YourVoucher"
+                  element={<YourVoucher></YourVoucher>}
                 ></Route>
-              )}
-              {isLoggedIn?.isAdmin && (
-                <Route
-                  path="/adminUserPanel"
-                  element={<AdminUserPanel></AdminUserPanel>}
-                ></Route>
-              )}
-              {isLoggedIn?.isAdmin && (
-                <Route
-                  path="/adminReport"
-                  element={<AdminReportPanel></AdminReportPanel>}
-                ></Route>
-              )}
-              <Route
-                path="/YourVoucher"
-                element={<YourVoucher></YourVoucher>}
-              ></Route>
-              {(isLoggedIn?.isAdmin || isLoggedIn?.supervisor) && (
-                <Route
-                  path="/Accounts"
-                  element={<AccountsDepartment></AccountsDepartment>}
-                ></Route>
-              )}
-            </Routes>
-            {/* <Main></Main> */}
+                {(isLoggedIn?.isAdmin || isLoggedIn?.supervisor) && (
+                  <Route
+                    path="/Accounts"
+                    element={<AccountsDepartment></AccountsDepartment>}
+                  ></Route>
+                )}
+              </Routes>
+            </div>
           </div>
         </div>
       )}
-      {/* <Header></Header> */}
     </div>
   );
 }

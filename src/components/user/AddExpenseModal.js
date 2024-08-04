@@ -7,6 +7,7 @@ import Context from "../../store/Context";
 import { toast } from "react-toastify";
 import { IoIosCloseCircle } from "react-icons/io";
 import { RotatingLines } from "react-loader-spinner";
+import { MdClose } from "react-icons/md";
 
 function AddExpenseModal(props) {
   const connectionUrl = process.env.REACT_APP_BACKEND_URL;
@@ -36,6 +37,10 @@ function AddExpenseModal(props) {
       };
     }
   };
+  const removeImageHandler = () => {
+    setImagePreview(null);
+    billImageRef.current.value = null;
+  };
   const saveExpenseHandler = async () => {
     setSaveLoader(true);
     let base64Image = "";
@@ -52,16 +57,13 @@ function AddExpenseModal(props) {
     // Format the date as dd/mm/yyyy
     const formattedDate = `${day}/${month}/${year}`;
 
-    console.log(formattedDate); // Output: 30/07/2024
-    console.log("date", ctx?.currentTourDetailsData?.tourDate);
-
     if (formattedDate < ctx?.currentTourDetailsData?.tourDate) {
       toast.error(
         "Expense date can not be smaller than tour creation(tour starting) date"
       );
       return;
     }
- 
+
     if (billImageRef.current.files[0]) {
       const file = billImageRef.current.files[0];
       const reader = new FileReader();
@@ -130,7 +132,9 @@ function AddExpenseModal(props) {
       <Dialog
         className="relative z-10"
         initialFocus={cancelButtonRef}
-        onClose={props.onClose}
+        onClose={() => {
+          return;
+        }}
       >
         <Transition.Child
           as={Fragment}
@@ -202,7 +206,7 @@ function AddExpenseModal(props) {
                         Travel
                       </option>
                       <option value="Food(Da)" className="bg-blue-400">
-                        Food(Da)
+                        Food
                       </option>
                       <option value="Accomondation" className="bg-blue-400">
                         Accomondation
@@ -267,7 +271,13 @@ function AddExpenseModal(props) {
                   ></input>
 
                   {imagePreview && (
-                    <div className="mt-4">
+                    <div className="mt-4 ">
+                      <div
+                        className="flex justify-end text-red-500 underline"
+                        onClick={removeImageHandler}
+                      >
+                        Remove Image
+                      </div>
                       <img
                         src={imagePreview}
                         alt="Bill Preview"

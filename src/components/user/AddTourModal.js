@@ -9,7 +9,7 @@ import { IoIosCloseCircle } from "react-icons/io";
 import { RotatingLines } from "react-loader-spinner";
 
 function AddTourModal(props) {
-  const connectionUrl = process.env.REACT_APP_BACKEND_URL
+  const connectionUrl = process.env.REACT_APP_BACKEND_URL;
   const [stateList, setStateList] = useState(State);
   const [cityList, setCityList] = useState([]);
   const [citySelected, setCitySelected] = useState(null);
@@ -70,19 +70,17 @@ function AddTourModal(props) {
     }
     setCreateLoader(true);
     try {
-      const response = await axios.post(
-        `${connectionUrl}/user/createTour`,
-        {
-          token: user.access_token,
-          domain: user.domain,
-          city: cityAsString,
-          currency: currencyRef.current.value,
-        }
-      );
+      const response = await axios.post(`${connectionUrl}/user/createTour`, {
+        token: user.access_token,
+        domain: user.domain,
+        city: cityAsString,
+        currency: currencyRef.current.value,
+      });
       const res = response.data.voucher;
       setCreateLoader(false);
       ctx.addTourInOngoing(res);
       toast.success("Tour created successfully...");
+      clearFieldHandler();
       props.close();
     } catch (err) {
       setCreateLoader(false);
@@ -94,10 +92,16 @@ function AddTourModal(props) {
       console.log(err);
     }
   };
+  const clearFieldHandler = () => {
+    setStateSelected(null);
+    setCitySelected(null);
+    cityRef.current.value = null;
+    setStateSearch("");
+    setCitySearch("");
+  };
 
   const handleCurrencyChange = () => {
     const selectedCurrency = currencyRef.current.value;
-   
   };
   const addMoreCityHandler = (newCity) => {
     if (!newCity) {
@@ -122,7 +126,7 @@ function AddTourModal(props) {
     setCitySearch("");
     cityRef.current.value = "";
   };
-  
+
   const removeCityFromMultipleCityHandler = (delIndex) => {
     const updatedCity = multipleCity.filter((current, index) => {
       return index != delIndex;
@@ -134,7 +138,9 @@ function AddTourModal(props) {
       <Dialog
         className="relative z-10"
         initialFocus={cancelButtonRef}
-        onClose={props.close}
+        onClose={() => {
+          return;
+        }}
       >
         <Transition.Child
           as={Fragment}
