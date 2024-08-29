@@ -7,7 +7,7 @@ import UsersTour from "./../components/user/UsersTour";
 import UserExpensesGraph from "./../components/user/UserExpensesGraph";
 
 const UserHome = () => {
-  const connectionUrl = process.env.REACT_APP_BACKEND_URL
+  const connectionUrl = process.env.REACT_APP_BACKEND_URL;
   const ctx = useContext(Context);
   const [tourSelected, setTourSelected] = useState(false);
   const [loadingPendingDAta, setLoadingPendingData] = useState(false);
@@ -16,14 +16,11 @@ const UserHome = () => {
   useEffect(() => {
     const fetchTour = async () => {
       try {
-        const response = await axios.post(
-          `${connectionUrl}/user/gettour`,
-          {
-            // userId: user.id,
-            token: user.access_token,
-            domain: user.domain,
-          }
-        );
+        const response = await axios.post(`${connectionUrl}/user/gettour`, {
+          // userId: user.id,
+          token: user.access_token,
+          domain: user.domain,
+        });
 
         const res = response.data.vouchers;
         console.log(res);
@@ -37,7 +34,7 @@ const UserHome = () => {
     fetchTour();
   }, [ctx.loginData]);
   return (
-    <section className="main-content flex-1 bg-white pt-5 md:pt-3  md:mt-2 pb-24 md:pb-5">
+    <section className="main-content flex-1  h-[calc(100%-10px)] bg-white pt-5 md:pt-3  md:mt-2 pb-24 md:pb-5">
       <div className="flex  flex-col min-[689px]:flex-row mx-2 min-[1000px]:mx-12">
         <UsersTour
           loadingPendingDAta={loadingPendingDAta}

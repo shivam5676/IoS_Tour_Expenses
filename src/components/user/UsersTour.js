@@ -94,8 +94,8 @@ function UsersTour(props) {
                       <div
                         key={current.id}
                         className={`mx-2 my-1 p-2 ${
-                          selected !== current.id ? "bg-white" : "bg-yellow-500"
-                        } hover:bg-yellow-300 text-black flex items-center rounded-lg shadow-sm transition-all duration-200 ease-in-out`}
+                          selected !== current.id ? "bg-white" : "bg-blue-500"
+                        } hover:bg-blue-300 text-black flex items-center rounded-lg shadow-sm transition-all duration-200 ease-in-out`}
                       >
                         <p className="w-[10%] px-2 overflow-hidden whitespace-nowrap overflow-ellipsis">
                           {current.id}

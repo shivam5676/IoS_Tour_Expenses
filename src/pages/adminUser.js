@@ -54,7 +54,7 @@ const AdminUserPanel = () => {
         </div>
       )}
       {loadingPendingDAta && (
-        <section className="main-content flex-1 bg-white pt-5 md:pt-3 md:mt-2 pb-24 md:pb-5 ">
+        <section className="main-content  h-[calc(100%-10px)] flex-1 bg-white pt-5 md:pt-3 md:mt-2 pb-24 md:pb-5 ">
           <div className="flex  flex-col min-[689px]:flex-row  mx-2 min-[1000px]:mx-12">
             <AdminUserList showData={() => setShowData(true)}></AdminUserList>
             {showData && <UserProfile></UserProfile>}

@@ -7,6 +7,8 @@ import City from "../../assests/Cities";
 import { toast } from "react-toastify";
 import { IoIosCloseCircle } from "react-icons/io";
 import { RotatingLines } from "react-loader-spinner";
+import DatePicker from "react-datepicker";
+import { format } from "date-fns";
 
 function AddTourModal(props) {
   const connectionUrl = process.env.REACT_APP_BACKEND_URL;
@@ -15,17 +17,18 @@ function AddTourModal(props) {
   const [citySelected, setCitySelected] = useState(null);
   const [cityDropDownOpen, setCityDropDownOpen] = useState(false);
   const [createLoader, setCreateLoader] = useState(false);
-
+  const [selectedDate, setSelectedDate] = useState();
   const [stateSelected, setStateSelected] = useState(null);
   const [stateDropDownOpen, setStateDropDownOpen] = useState(false);
   const [stateSearch, setStateSearch] = useState("");
   const [citySearch, setCitySearch] = useState("");
 
   const [multipleCity, setMultipleCity] = useState([]);
-
+  const [selectedDateWithoutFormat, setSelectedDateWithoutFormat] =
+    useState(null);
   const currencyRef = useRef("");
   const cityRef = useRef("");
-
+  const dateRef = useRef();
   const ctx = useContext(Context);
 
   const cancelButtonRef = useRef(null);
@@ -75,6 +78,7 @@ function AddTourModal(props) {
         domain: user.domain,
         city: cityAsString,
         currency: currencyRef.current.value,
+        date: selectedDate,
       });
       const res = response.data.voucher;
       setCreateLoader(false);
@@ -102,6 +106,7 @@ function AddTourModal(props) {
 
   const handleCurrencyChange = () => {
     const selectedCurrency = currencyRef.current.value;
+    console.log(dateRef.current.value);
   };
   const addMoreCityHandler = (newCity) => {
     if (!newCity) {
@@ -133,6 +138,13 @@ function AddTourModal(props) {
     });
     setMultipleCity(updatedCity);
   };
+  const handleDateChange = (date) => {
+    setSelectedDateWithoutFormat(date);
+    const formattedDate = format(date, "dd/MM/yyyy");
+    setSelectedDate(formattedDate);
+    console.log(formattedDate); // Output in dd/mm/yyyy format
+  };
+
   return (
     <Transition.Root show={props.open} as={Fragment}>
       <Dialog
@@ -181,7 +193,19 @@ function AddTourModal(props) {
                     <div className="bg-gradient-to-r from-blue-600 to-white flex-1 h-[2px]" />
                   </div>
                 </div>
-                <div className="min-[370px]:mx-12 flex text-[.9rem] font-semibold ">
+                <div className="min-[370px]:mx-12 flex text-[1rem] py-2 font-semibold border-b">
+                  <p className="px-2">Starting Date</p>
+                  <DatePicker
+                    showIcon
+                    toggleCalendarOnIconClick
+                    selected={selectedDateWithoutFormat}
+                    onChange={handleDateChange}
+                    placeholderText="DD/MM/YYYY"
+                    className=" border-2 border-blue-500"
+                    dateFormat="dd/MM/yyyy"
+                  />
+                </div>
+                <div className="min-[370px]:mx-12 flex text-[.9rem] font-semibold border-b">
                   <p className="text-nowrap">Cities :</p>
                   <div className=" flex flex-wrap">
                     {multipleCity.map((current, index) => {
