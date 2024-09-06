@@ -241,8 +241,7 @@ const MyDocument = (props) => (
               <View style={{ width: "100%" }}>
                 <Text style={{ borderTop: "1px", padding: "5px" }}>
                   Total Duration (hrs) :{" "}
-                  {props.data?.dateDifferenceInHour -
-                    props.data?.tourDurationHours}
+                  {props.data?.dateDifferenceInHour}
                 </Text>
               </View>
             </View>
@@ -283,7 +282,7 @@ const MyDocument = (props) => (
                 </Text>
                 <Text style={{ padding: "4px" }}>
                   DA (per hrs) :{" "}
-                  {props.voucherData?.voucherDescription?.dailyAllowance / 24}
+                  {(props.voucherData?.voucherDescription?.dailyAllowance / 24).toFixed(2)}
                 </Text>
               </View>
 
@@ -506,11 +505,14 @@ const MyDocument = (props) => (
               paddingHorizontal: "10",
             }}
           >
-            Payable Amount :
+            {`Payable Amount (${props?.voucherData?.currency}) :`}
           </Text>
           
           <View style={{ width: "50%", padding: "10" }}>
-            <Text>{props.data?.settlementAmount}</Text>
+            {/* <Text></Text> */}
+            {props.data?.settlementAmount>0&&<Text style={{backgroundColor:"green"}}>{props.data?.settlementAmount}</Text>}
+            {props.data?.settlementAmount<0&&<Text style={{backgroundColor:"red"}}>{props.data?.settlementAmount}</Text>}
+            {props.data?.settlementAmount==0&&<Text style={{backgroundColor:"yellow"}}>{props.data?.settlementAmount}</Text>}
           </View>
         </View>
       </View>

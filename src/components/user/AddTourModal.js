@@ -8,6 +8,7 @@ import { toast } from "react-toastify";
 import { IoIosCloseCircle } from "react-icons/io";
 import { RotatingLines } from "react-loader-spinner";
 import DatePicker from "react-datepicker";
+
 import { format } from "date-fns";
 
 function AddTourModal(props) {
@@ -106,7 +107,7 @@ function AddTourModal(props) {
 
   const handleCurrencyChange = () => {
     const selectedCurrency = currencyRef.current.value;
-    console.log(dateRef.current.value);
+
   };
   const addMoreCityHandler = (newCity) => {
     if (!newCity) {

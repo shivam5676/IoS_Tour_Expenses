@@ -9,6 +9,8 @@ import { IoIosCloseCircle } from "react-icons/io";
 import { RotatingLines } from "react-loader-spinner";
 
 function UpdateExpenseModal(props) {
+  console.log(props,"...>")
+  
   const connectionUrl = process.env.REACT_APP_BACKEND_URL;
   //   const [open, setOpen] = useState(true);
   const [createLoader, setCreateLoader] = useState(false);
@@ -46,7 +48,7 @@ function UpdateExpenseModal(props) {
   };
   const updateExpenseHandler = async () => {
     setCreateLoader(true);
-
+console.log(props.voucherId,"vou")
     let base64Image = "";
     if (billImageRef.current.files[0]) {
       const file = billImageRef.current.files[0];
@@ -62,7 +64,7 @@ function UpdateExpenseModal(props) {
           voucher: voucherRef.current.value,
           paymentType: paymentTypeRef.current.value,
           description: descriptionRef.current.value,
-          voucherId: ctx.currentTourIdData,
+          voucherId: props.voucherId,
           token: user.access_token,
           domain: user.domain,
           billImage: base64Image,
@@ -93,7 +95,7 @@ function UpdateExpenseModal(props) {
         voucher: voucherRef.current.value,
         paymentType: paymentTypeRef.current.value,
         description: descriptionRef.current.value,
-        voucherId: ctx.currentTourIdData,
+        voucherId: props.voucherId,
         token: user.access_token,
         domain: user.domain,
         billImage: imageRemoved ? "removed" : base64Image,
@@ -107,7 +109,7 @@ function UpdateExpenseModal(props) {
         const res = response.data.expenseData;
         ctx.updateCurrentTourExpenses(res);
         setCreateLoader(false);
-        toast.success("Expense added....");
+        toast.success("Expense aupdated....refresh the page to see the updated data");
       } catch (err) {
         toast.error(err.response?.data?.msg);
         setCreateLoader(false);

@@ -37,7 +37,7 @@ export default function VoucherViewer(props) {
   const [selectedSupervisor, setSelectedSupervisor] = useState(null);
 
   // const [voucherStatus, setVoucherStatus] = useState("Pending");
-  const connectionUrl =process.env.REACT_APP_BACKEND_URL
+  const connectionUrl = process.env.REACT_APP_BACKEND_URL;
   //   const [open, setOpen] = useState(false);
   const ctx = useContext(Context);
   const cancelButtonRef = useRef(null);
@@ -46,14 +46,11 @@ export default function VoucherViewer(props) {
   const user = JSON.parse(localStorage.getItem("token"));
   const deleteExpenseHAndler = async (id) => {
     try {
-      const response = await axios.post(
-        `${connectionUrl}/user/deleteExpense`,
-        {
-          expenseId: id,
-          token: user.access_token,
-          domain: user.domain,
-        }
-      );
+      const response = await axios.post(`${connectionUrl}/user/deleteExpense`, {
+        expenseId: id,
+        token: user.access_token,
+        domain: user.domain,
+      });
       ctx.deleteUserCurrentTourExpenseHandler(id);
       toast.success("expense deleted successfully");
     } catch (err) {
@@ -62,17 +59,14 @@ export default function VoucherViewer(props) {
   };
   const reAssignVoucherHandler = async () => {
     try {
-      const response = await axios.post(
-        `${connectionUrl}/admin/reAssign`,
-        {
-          voucherId: props.voucherId,
+      const response = await axios.post(`${connectionUrl}/admin/reAssign`, {
+        voucherId: props.voucherId,
 
-          token: user.access_token,
-          domain: user.domain,
-          AccountDepartment: selectedSupervisor?.id || undefined,
-          assignedName: `${selectedSupervisor?.firstName} ${selectedSupervisor?.lastName}`,
-        }
-      );
+        token: user.access_token,
+        domain: user.domain,
+        AccountDepartment: selectedSupervisor?.id || undefined,
+        assignedName: `${selectedSupervisor?.firstName} ${selectedSupervisor?.lastName}`,
+      });
       // setVoucherStatus("Accepted");
 
       setReAsignVoucher(false);
@@ -163,14 +157,11 @@ export default function VoucherViewer(props) {
   };
   const closeVoucherHandler = async () => {
     try {
-      const response = await axios.post(
-        `${connectionUrl}/admin/closevoucher`,
-        {
-          voucherId: props.voucherId,
-          token: user.access_token,
-          domain: user.domain,
-        }
-      );
+      const response = await axios.post(`${connectionUrl}/admin/closevoucher`, {
+        voucherId: props.voucherId,
+        token: user.access_token,
+        domain: user.domain,
+      });
       // ctx.removeVoucherfromAllVoucher({
       //   id: props?.voucherId,
       //   status: "Rejected",
@@ -196,12 +187,12 @@ export default function VoucherViewer(props) {
           }
         );
         // console.log(response.data.response.voucherExpenses,"response");
-      //  const imageObj= response.data.response.voucherExpenses.forEach(current=>{
-      //   if(current.imagePath){
-      //     setImageArray()
-      //   }
-      //   return {billName}
-      //  })
+        //  const imageObj= response.data.response.voucherExpenses.forEach(current=>{
+        //   if(current.imagePath){
+        //     setImageArray()
+        //   }
+        //   return {billName}
+        //  })
         setImageArray(response.data.imagePaths);
         setVoucherData(response.data.response);
         CommentRef.current.value = response.data.response.comment;
@@ -280,35 +271,85 @@ export default function VoucherViewer(props) {
     });
   }, [voucherData]);
 
-  const departureTimeArray =
-    voucherData?.voucherDescription?.departureTime?.split(":");
-  const arrivalTimeArray =
-    voucherData?.voucherDescription?.arrivalTime?.split(":");
+  // const departureTimeArray =
+  //   voucherData?.voucherDescription?.departureTime?.split(":");
+  // const arrivalTimeArray =
+  //   voucherData?.voucherDescription?.arrivalTime?.split(":");
 
-  const departureTimeInMinutes = departureTimeArray
-    ? +departureTimeArray[0] * 60 + +departureTimeArray[1]
-    : 0;
-  const arrivalTimeInMinutes = arrivalTimeArray
-    ? +arrivalTimeArray[0] * 60 + +arrivalTimeArray[1]
-    : 0;
-  const tourDuration = arrivalTimeInMinutes - departureTimeInMinutes;
-  const tourDurationHours = Math.abs(tourDuration / 60);
-  const tourDurationMinutes = Math.abs(tourDuration % 60);
-  function calculateHourDifference() {
+  // const departureTimeInMinutes = departureTimeArray
+  //   ? +departureTimeArray[0] * 60 + +departureTimeArray[1]
+  //   : 0;
+  // const arrivalTimeInMinutes = arrivalTimeArray
+  //   ? +arrivalTimeArray[0] * 60 + +arrivalTimeArray[1]
+  //   : 0;
+  // const tourDuration = arrivalTimeInMinutes - departureTimeInMinutes;
+  // const tourDurationHours = Math.abs(tourDuration / 60);
+  // const tourDurationMinutes = Math.abs(tourDuration % 60);
+  // function calculateHourDifference() {
+  //   // Check if voucherData and required properties exist
+  //   if (
+  //     voucherData &&
+  //     voucherData.voucherDescription &&
+  //     voucherData.voucherDescription.departureDate &&
+  //     voucherData.voucherDescription.arrivalDate
+  //   ) {
+  //     // Get the date strings
+  //     let departureDateStr = voucherData.voucherDescription.departureDate;
+  //     let arrivalDateStr = voucherData.voucherDescription.arrivalDate;
+
+  //     // Parse the date strings directly to Date objects
+  //     let departureDate = new Date(departureDateStr);
+  //     let arrivalDate = new Date(arrivalDateStr);
+
+  //     // Check for invalid dates
+  //     if (isNaN(departureDate) || isNaN(arrivalDate)) {
+  //       return 0;
+  //     }
+
+  //     // Calculate the difference in milliseconds
+  //     let timeDifference = arrivalDate - departureDate;
+
+  //     // Convert the difference from milliseconds to hours
+  //     let hoursDifference = timeDifference / (1000 * 60 * 60);
+
+  //     return Math.abs(hoursDifference);
+  //   } else {
+  //     // Return 0 if either date is missing
+  //     return 0;
+  //   }
+  // }
+
+  // let dateDifferenceInHour = calculateHourDifference();
+  // const totalDa = (
+  //   (Math.abs(tourDurationHours - dateDifferenceInHour) *
+  //     +voucherData?.voucherDescription?.dailyAllowance) /
+  //   24
+  // ).toFixed(2);
+  function calculateHourDifference(voucherData) {
     // Check if voucherData and required properties exist
     if (
       voucherData &&
       voucherData.voucherDescription &&
       voucherData.voucherDescription.departureDate &&
-      voucherData.voucherDescription.arrivalDate
+      voucherData.voucherDescription.arrivalDate &&
+      voucherData.voucherDescription.departureTime &&
+      voucherData.voucherDescription.arrivalTime
     ) {
       // Get the date strings
       let departureDateStr = voucherData.voucherDescription.departureDate;
       let arrivalDateStr = voucherData.voucherDescription.arrivalDate;
 
-      // Parse the date strings directly to Date objects
-      let departureDate = new Date(departureDateStr);
-      let arrivalDate = new Date(arrivalDateStr);
+      // Get the time strings
+      let departureTimeStr = voucherData.voucherDescription.departureTime;
+      let arrivalTimeStr = voucherData.voucherDescription.arrivalTime;
+
+      // Combine the date and time strings into one string
+      let departureDateTimeStr = `${departureDateStr} ${departureTimeStr}`;
+      let arrivalDateTimeStr = `${arrivalDateStr} ${arrivalTimeStr}`;
+
+      // Parse the combined date and time strings into Date objects
+      let departureDate = new Date(departureDateTimeStr);
+      let arrivalDate = new Date(arrivalDateTimeStr);
 
       // Check for invalid dates
       if (isNaN(departureDate) || isNaN(arrivalDate)) {
@@ -316,24 +357,38 @@ export default function VoucherViewer(props) {
       }
 
       // Calculate the difference in milliseconds
-      let timeDifference = arrivalDate - departureDate;
+      let timeDifferenceInMs = arrivalDate - departureDate;
 
-      // Convert the difference from milliseconds to hours
-      let hoursDifference = timeDifference / (1000 * 60 * 60);
+      // Convert the difference from milliseconds to hours and minutes
+      let hoursDifference = timeDifferenceInMs / (1000 * 60 * 60); // Convert ms to hours
 
-      return Math.abs(hoursDifference);
+      return Math.abs(hoursDifference); // Return the absolute difference in hours
     } else {
-      // Return 0 if either date is missing
+      // Return 0 if required data is missing
       return 0;
     }
   }
 
-  let dateDifferenceInHour = calculateHourDifference();
-  const totalDa = (
-    (Math.abs(tourDurationHours - dateDifferenceInHour) *
-      +voucherData?.voucherDescription?.dailyAllowance) /
-    24
-  ).toFixed(2);
+  let dateDifferenceInHour = calculateHourDifference(voucherData);
+
+  // Declare totalDa outside the if statement
+  let totalDa = 0;
+
+  // Step 2: Calculate the total daily allowance based on the duration
+  const dailyAllowance = +voucherData?.voucherDescription?.dailyAllowance || 0; // Get daily allowance, default to 0 if undefined
+
+  // Ensure dateDifferenceInHour is valid
+  if (dateDifferenceInHour > 0) {
+    // Step 3: Calculate the totalDA inside the if block
+    totalDa = ((dateDifferenceInHour * dailyAllowance) / 24).toFixed(2);
+
+    console.log(`Total Daily Allowance (DA) inside block: ${totalDa}`);
+  } else {
+    console.log("Invalid tour duration.");
+  }
+
+  // Now you can use totalDa outside the if block as well
+  console.log(`Total Daily Allowance (DA) outside block: ${totalDa}`);
 
   let settlementAmount = 0;
   if (voucherData) {
@@ -345,16 +400,13 @@ export default function VoucherViewer(props) {
   }
   const sendCommentHandler = async () => {
     try {
-      const response = await axios.post(
-        `${connectionUrl}/admin/postComment`,
-        {
-          voucherId: props.voucherId,
-          // userId: ,
-          token: user.access_token,
-          domain: user.domain,
-          comment: CommentRef.current.value,
-        }
-      );
+      const response = await axios.post(`${connectionUrl}/admin/postComment`, {
+        voucherId: props.voucherId,
+        // userId: ,
+        token: user.access_token,
+        domain: user.domain,
+        comment: CommentRef.current.value,
+      });
       // setVoucherStatus("Accepted");
 
       setEditComment(false);
@@ -444,12 +496,14 @@ export default function VoucherViewer(props) {
                     </div>
                     <div className="text-2xl flex flex-col items-center justify-center w-[100%] border-b-2 font-bold pb-3">
                       <p>Tour Voucher</p>{" "}
-                      {path == "/YOURVOUCHER" && (
-                        <FaRegEdit
-                          className="text-blue-500 m-1 cursor-pointer w-[25px] h-[25px]"
-                          onClick={() => setOpenDescription(true)}
-                        ></FaRegEdit>
-                      )}
+                      {path == "/YOURVOUCHER" &&
+                        (voucherData.statusType === "Created" ||
+                          voucherData.statusType === "Pending") && (
+                          <FaRegEdit
+                            className="text-blue-500 m-1 cursor-pointer w-[25px] h-[25px]"
+                            onClick={() => setOpenDescription(true)}
+                          ></FaRegEdit>
+                        )}
                     </div>
                     {/* <div className="flex w-[100%] min-[700px]:flex-row flex-col"></div> */}
                     <div className="overflow-y-scroll h-[calc(100%-70px)]">
@@ -534,9 +588,7 @@ export default function VoucherViewer(props) {
                       <div className="flex w-[100%] min-[700px]:flex-row flex-col">
                         <p className="w-[100%] px-2 font font-semibold bg-blue-300">
                           Total Tour Duration (hrs) :
-                          {Math.abs(
-                            tourDurationHours - dateDifferenceInHour
-                          ).toFixed(2)}
+                          {dateDifferenceInHour.toFixed(2)}
                         </p>
                       </div>
                       <p className="text-center font-bold text-xl py-2">
@@ -593,8 +645,7 @@ export default function VoucherViewer(props) {
                           {expenseData?.Misc +
                             expenseData?.accomondation +
                             expenseData?.travel +
-                            expenseData?.food
-                            }
+                            expenseData?.food}
                         </p>
                       </div>
                       <p className="text-center font-bold">
@@ -665,28 +716,46 @@ export default function VoucherViewer(props) {
                           <div className="w-[110px] font-bold px-2">
                             Bill No
                           </div>
-                          <div className="w-[110px] font-bold px-2"></div>
+                          {/* <div className="w-[110px] font-bold px-2"></div> */}
                         </div>
                         {voucherData?.voucherExpenses?.map((current) => {
                           return (
                             <div className="flex w-[810px]  border-b-2">
-                              <div className="w-[120px]  px-2">
-                                {current?.date}
+                               <div className="flex w-[120px]   overflow-x-hidden break-words">
+                                <p className="w-[100%] px-2">
+                                  {" "}
+                                  {current?.date}
+                                </p>
                               </div>
-                              <div className="w-[130px] px-2">
-                                {current?.description}
+                              <div className="flex w-[130px]   overflow-x-hidden break-words">
+                                <p className="w-[100%] px-2">
+                                  {" "}
+                                  {current?.description}
+                                </p>
                               </div>
-                              <div className="w-[125px]  px-2">
-                                {current?.expenseType}
+                              <div className="flex w-[125px]   overflow-x-hidden break-words">
+                                <p className="w-[100%] px-2">
+                                  {" "}
+                                  {current?.expenseType}
+                                </p>
                               </div>
-                              <div className="w-[135px]  px-2">
-                                {current?.paymentType}
+                              <div className="flex w-[135px]   overflow-x-hidden break-words">
+                                <p className="w-[100%] px-2">
+                                  {" "}
+                                  {current?.paymentType}
+                                </p>
                               </div>
-                              <div className="w-[110px]  px-2">
-                                {current?.Amount}
+                              <div className="flex w-[110px]   overflow-x-hidden break-words">
+                                <p className="w-[100%] px-2">
+                                  {" "}
+                                  {current?.Amount}
+                                </p>
                               </div>
-                              <div className="w-[110px]  px-2">
-                                {current?.voucherNo}
+                              <div className="flex w-[110px]   overflow-x-hidden break-words">
+                                <p className="w-[100%] px-2">
+                                  {" "}
+                                  {current?.voucherNo}
+                                </p>
                               </div>
 
                               {voucherData?.userId == user?.id &&
@@ -720,7 +789,10 @@ export default function VoucherViewer(props) {
                         imageArray.map((current, index) => {
                           console.log(current);
                           return (
-                            <div className="text-center font-semibold  text-white" key={index}>
+                            <div
+                              className="text-center font-semibold  text-white"
+                              key={index}
+                            >
                               <p>Bill Image-{index + 1}</p>
                               <img
                                 src={`${current}`}
@@ -853,7 +925,8 @@ export default function VoucherViewer(props) {
                           </div>
                         )}
                       {user?.isAdmin &&
-                        voucherData?.statusType != "Pending" &&path != "/YOURVOUCHER"&&
+                        voucherData?.statusType != "Pending" &&
+                        path != "/YOURVOUCHER" &&
                         !reAssignVoucher && (
                           <div className="my-4 flex w-[100%]  border-b-2  items-center pb-2">
                             <p className="mx-2  font-semibold">
@@ -1028,7 +1101,6 @@ export default function VoucherViewer(props) {
                         data={{
                           settlementAmount,
                           dateDifferenceInHour,
-                          tourDurationHours,
                           expenseData,
                           totalDa,
                         }}

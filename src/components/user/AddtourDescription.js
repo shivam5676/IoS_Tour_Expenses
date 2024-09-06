@@ -41,7 +41,7 @@ function AddtourDescriptionModal(props) {
       arrivalTime: arrivalTimeRef.current.value,
       departureTime: departureTimeRef.current.value,
       advanceCash: advanceCashRef.current.value,
-
+      uid: user.id,
       dailyAllowance: 0,
       voucherId: ctx.currentTourIdData,
       token: user.access_token,
