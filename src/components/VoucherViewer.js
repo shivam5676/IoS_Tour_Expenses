@@ -392,6 +392,22 @@ export default function VoucherViewer(props) {
 
   let settlementAmount = 0;
   if (voucherData) {
+    if (totalDa > expenseData?.food) {
+      settlementAmount =
+        expenseData?.Misc +
+        expenseData?.accomondation +
+        expenseData?.travel +
+        Math.abs(expenseData?.food - totalDa) -
+        voucherData?.voucherDescription?.advanceCash;
+    }
+    if (totalDa < expenseData?.food) {
+      settlementAmount =
+        expenseData?.Misc +
+        expenseData?.accomondation +
+        expenseData?.travel -
+        Math.abs(expenseData?.food - totalDa) -
+        voucherData?.voucherDescription?.advanceCash;
+    }
     settlementAmount = (
       +expenseData.cashExpense +
       +totalDa -
@@ -721,7 +737,7 @@ export default function VoucherViewer(props) {
                         {voucherData?.voucherExpenses?.map((current) => {
                           return (
                             <div className="flex w-[810px]  border-b-2">
-                               <div className="flex w-[120px]   overflow-x-hidden break-words">
+                              <div className="flex w-[120px]   overflow-x-hidden break-words">
                                 <p className="w-[100%] px-2">
                                   {" "}
                                   {current?.date}
