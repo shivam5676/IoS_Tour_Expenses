@@ -228,6 +228,9 @@ export default function VoucherViewer(props) {
   let travel = 0;
   let Misc = 0;
   let accomondation = 0;
+  let travelOnline = 0,
+    MiscOnline = 0,
+    accomondationOnline = 0;
   useEffect(() => {
     cashExpense = 0;
     onlinePayment = 0;
@@ -236,6 +239,9 @@ export default function VoucherViewer(props) {
     travel = 0;
     Misc = 0;
     accomondation = 0;
+    travelOnline = 0;
+    MiscOnline = 0;
+    accomondationOnline = 0;
     voucherData &&
       voucherData.voucherExpenses?.forEach((current) => {
         if (current.paymentType === "Cash") {
@@ -250,26 +256,64 @@ export default function VoucherViewer(props) {
         if (current.expenseType === "Food(Da)") {
           food += +current.Amount;
         }
-        if (current.expenseType === "Misc") {
+        if (
+          current.expenseType === "Misc" &&
+          current.paymentType !== "Credit Card" &&
+          current.paymentType !== "Online (train/flight)"
+        ) {
           Misc += +current.Amount;
         }
-        if (current.expenseType === "Travel") {
+        if (
+          current.expenseType === "Travel" &&
+          current.paymentType !== "Credit Card" &&
+          current.paymentType !== "Online (train/flight)"
+        ) {
           travel += +current.Amount;
         }
-        if (current.expenseType === "Accomondation") {
+        if (
+          current.expenseType === "Accomondation" &&
+          current.paymentType !== "Credit Card" &&
+          current.paymentType !== "Online (train/flight)"
+        ) {
           accomondation += +current.Amount;
+        }
+        if (
+          current.expenseType === "Misc" &&
+          (current.paymentType === "Credit Card" ||
+            current.paymentType === "Online (train/flight)")
+        ) {
+          MiscOnline += +current.Amount;
+        }
+        if (
+          current.expenseType === "Travel" &&
+          (current.paymentType === "Credit Card" ||
+            current.paymentType === "Online (train/flight)")
+        ) {
+          travelOnline += +current.Amount;
+        }
+        if (
+          current.expenseType === "Accomondation" &&
+          (current.paymentType === "Credit Card" ||
+            current.paymentType === "Online (train/flight)")
+        ) {
+          accomondationOnline += +current.Amount;
         }
       });
     setExpenseData({
       cashExpense: cashExpense,
       digitalExpense: onlinePayment + creditCard,
+      onlinePayment: onlinePayment,
       creditCard,
       accomondation,
       food,
       Misc,
       travel,
+      travelOnline,
+      MiscOnline,
+      accomondationOnline,
     });
   }, [voucherData]);
+  console.log(expenseData, "expenses is here");
 
   // const departureTimeArray =
   //   voucherData?.voucherDescription?.departureTime?.split(":");
@@ -392,27 +436,31 @@ export default function VoucherViewer(props) {
 
   let settlementAmount = 0;
   if (voucherData) {
-    if (totalDa > expenseData?.food) {
+    const expensesExpectFood =
+      expenseData?.Misc + expenseData?.accomondation + expenseData?.travel;
+    console.log(
+      "EXPENSEEXPECTEDFOOD",
+      expensesExpectFood,
+      "TOTALdA",
+      totalDa,
+      "ADV.caSH",
+      voucherData?.voucherDescription?.advanceCash,
+      "food",
+      food
+    );
+
+    if (totalDa > 0) {
       settlementAmount =
-        expenseData?.Misc +
-        expenseData?.accomondation +
-        expenseData?.travel +
-        Math.abs(expenseData?.food - totalDa) -
+        +expensesExpectFood + 
+        +totalDa -
         voucherData?.voucherDescription?.advanceCash;
     }
-    if (totalDa < expenseData?.food) {
+    if (totalDa == 0 || isNaN(totalDa)) {
       settlementAmount =
-        expenseData?.Misc +
-        expenseData?.accomondation +
-        expenseData?.travel -
-        Math.abs(expenseData?.food - totalDa) -
+        +expensesExpectFood +
+        +expenseData?.food -
         voucherData?.voucherDescription?.advanceCash;
     }
-    settlementAmount = (
-      +expenseData.cashExpense +
-      +totalDa -
-      +voucherData?.voucherDescription?.advanceCash
-    ).toFixed(2);
   }
   const sendCommentHandler = async () => {
     try {
@@ -682,7 +730,7 @@ export default function VoucherViewer(props) {
                       <div className="flex w-[100%] min-[700px]:flex-row flex-col font-semibold">
                         <p className="w-[100%] px-2 border-2 max-[700px]:w-[100%]">
                           online (train/bus/flight tickets by office):
-                          {expenseData?.digitalExpense}
+                          {expenseData?.onlinePayment}
                         </p>
                       </div>
                       <div className="flex w-[100%] min-[700px]:flex-row flex-col">

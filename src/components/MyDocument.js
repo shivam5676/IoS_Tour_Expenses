@@ -468,7 +468,7 @@ const MyDocument = (props) => (
                   >
                     <Text>flight/bus</Text> <Text>(office)</Text>
                   </View>
-                  <Text> {props.expenseData?.Misc}</Text>
+                  <Text> {props.expenseData?.onlinePayment}</Text>
                 </View>
               </View>
             </View>
