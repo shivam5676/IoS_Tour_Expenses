@@ -44,6 +44,7 @@ function AddExpenseModal(props) {
   const saveExpenseHandler = async () => {
     setSaveLoader(true);
     let base64Image = "";
+
     const dateString = dateRef.current.value;
 
     // Convert the date string to a Date object
@@ -57,74 +58,122 @@ function AddExpenseModal(props) {
     // Format the date as dd/mm/yyyy
     const formattedDate = `${day}/${month}/${year}`;
 
-    if (formattedDate < ctx?.currentTourDetailsData?.tourDate) {
+    const expenseDateArray = formattedDate.split("/").map(Number);
+    const tourDateArray = ctx?.currentTourDetailsData?.tourDate
+      .split("/")
+      .map(Number);
+    console.log(expenseDateArray, "current date", "tourdate", tourDateArray);
+    // Compare year, then month, then day
+    if (
+      expenseDateArray[2] < tourDateArray[2] || // Compare years
+      (expenseDateArray[2] === tourDateArray[2] &&
+        expenseDateArray[1] < tourDateArray[1]) || // Compare months
+      (expenseDateArray[2] === tourDateArray[2] &&
+        expenseDateArray[1] === tourDateArray[1] &&
+        expenseDateArray[0] < tourDateArray[0]) // Compare days
+    ) {
       toast.error(
-        "Expense date can not be smaller than tour creation(tour starting) date"
+        "Expense date can not be smaller than tour creation (tour starting) date"
       );
+      setSaveLoader(false);
       return;
     }
+    const formData = new FormData();
+    formData.append("date", dateRef.current.value);
+    formData.append("amount", amountRef.current.value);
+    formData.append("expenseType", expenseCategoryRef.current);
+    formData.append("voucher", voucherRef.current.value);
+    formData.append("paymentType", paymentTypeRef.current.value);
+    formData.append("description", descriptionRef.current.value);
+    formData.append("voucherId", ctx.currentTourIdData);
+    formData.append("token", user.access_token);
+    formData.append("domain", user.domain);
 
+    // Check if the image is uploaded
     if (billImageRef.current.files[0]) {
-      const file = billImageRef.current.files[0];
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onloadend = async () => {
-        base64Image = reader.result;
-        const data = {
-          date: dateRef.current.value,
-          amount: amountRef.current.value,
-          expenseType: expenseCategoryRef.current,
-          voucher: voucherRef.current.value,
-          paymentType: paymentTypeRef.current.value,
-          description: descriptionRef.current.value,
-          voucherId: ctx.currentTourIdData,
-          token: user.access_token,
-          domain: user.domain,
-          billImage: base64Image,
-        };
-
-        try {
-          const response = await axios.post(
-            `${connectionUrl}/user/saveExpense`,
-            data
-          );
-          const res = response.data.expenseData;
-          ctx.userCurrentTourExpenses(res);
-          toast.success("Expense added.");
-          setSaveLoader(false);
-        } catch (err) {
-          toast.error(err.response?.data?.msg);
-          setSaveLoader(false);
-        }
-      };
-    } else {
-      const data = {
-        date: dateRef.current.value,
-        amount: amountRef.current.value,
-        expenseType: expenseCategoryRef.current,
-        voucher: voucherRef.current.value,
-        paymentType: paymentTypeRef.current.value,
-        description: descriptionRef.current.value,
-        voucherId: ctx.currentTourIdData,
-        token: user.access_token,
-        domain: user.domain,
-        billImage: base64Image,
-      };
-
-      try {
-        const response = await axios.post(
-          `${connectionUrl}/user/saveExpense`,
-          data
-        );
-        const res = response.data.expenseData;
-        ctx.userCurrentTourExpenses(res);
-        toast.success("Expense added.");
-        setSaveLoader(false);
-      } catch (err) {
-        toast.error(err.response?.data?.msg);
-        setSaveLoader(false);
-      }
+      formData.append("billImage", billImageRef.current.files[0]); // Add the file to FormData
     }
+
+    try {
+      const response = await axios.post(
+        `${connectionUrl}/user/saveExpense`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data", // Specify multipart/form-data for file uploads
+          },
+        }
+      );
+      const res = response.data.expenseData;
+      ctx.userCurrentTourExpenses(res);
+      toast.success("Expense added.");
+      setSaveLoader(false);
+    } catch (err) {
+      toast.error(err.response?.data?.msg);
+      setSaveLoader(false);
+    }
+    // if (billImageRef.current.files[0]) {
+    //   const file = billImageRef.current.files[0];
+    //   const reader = new FileReader();
+    //   reader.readAsDataURL(file);
+    //   reader.onloadend = async () => {
+    //     base64Image = reader.result;
+    //     const data = {
+    //       date: dateRef.current.value,
+    //       amount: amountRef.current.value,
+    //       expenseType: expenseCategoryRef.current,
+    //       voucher: voucherRef.current.value,
+    //       paymentType: paymentTypeRef.current.value,
+    //       description: descriptionRef.current.value,
+    //       voucherId: ctx.currentTourIdData,
+    //       token: user.access_token,
+    //       domain: user.domain,
+    //       billImage: base64Image,
+    //     };
+
+    //     try {
+    //       const response = await axios.post(
+    //         `${connectionUrl}/user/saveExpense`,
+    //         data
+    //       );
+    //       const res = response.data.expenseData;
+    //       ctx.userCurrentTourExpenses(res);
+    //       toast.success("Expense added.");
+
+    //       setSaveLoader(false);
+    //     } catch (err) {
+    //       toast.error(err.response?.data?.msg);
+    //       setSaveLoader(false);
+    //     }
+    //   };
+    // } else {
+    //   const data = {
+    //     date: dateRef.current.value,
+    //     amount: amountRef.current.value,
+    //     expenseType: expenseCategoryRef.current,
+    //     voucher: voucherRef.current.value,
+    //     paymentType: paymentTypeRef.current.value,
+    //     description: descriptionRef.current.value,
+    //     voucherId: ctx.currentTourIdData,
+    //     token: user.access_token,
+    //     domain: user.domain,
+    //     billImage: base64Image,
+    //   };
+
+    //   try {
+    //     const response = await axios.post(
+    //       `${connectionUrl}/user/saveExpense`,
+    //       data
+    //     );
+    //     const res = response.data.expenseData;
+    //     ctx.userCurrentTourExpenses(res);
+    //     toast.success("Expense added.");
+    //     setSaveLoader(false);
+    //   } catch (err) {
+    //     toast.error(err.response?.data?.msg);
+    //     setSaveLoader(false);
+    //   }
+    // }
   };
 
   return (

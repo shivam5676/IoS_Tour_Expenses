@@ -438,16 +438,16 @@ export default function VoucherViewer(props) {
   if (voucherData) {
     const expensesExpectFood =
       expenseData?.Misc + expenseData?.accomondation + expenseData?.travel;
-    console.log(
-      "EXPENSEEXPECTEDFOOD",
-      expensesExpectFood,
-      "TOTALdA",
-      totalDa,
-      "ADV.caSH",
-      voucherData?.voucherDescription?.advanceCash,
-      "food",
-      food
-    );
+    // console.log(
+    //   "EXPENSEEXPECTEDFOOD",
+    //   expensesExpectFood,
+    //   "TOTALdA",
+    //   totalDa,
+    //   "ADV.caSH",
+    //   voucherData?.voucherDescription?.advanceCash,
+    //   "food",
+    //   food
+    // );
 
     if (totalDa > 0) {
       settlementAmount =
@@ -684,24 +684,43 @@ export default function VoucherViewer(props) {
                         Tour Expenses
                       </p>
                       <div className="flex w-[100%] min-[700px]:flex-row flex-col">
-                        <div className="w-[50%] px-2 border-2 max-[700px]:w-[100%] flex py-1">
-                          <p className="font-semibold"> FOOD : </p>
+                        <div className="w-[100%] px-2 border-2 max-[700px]:w-[100%] flex py-1">
+                          <p className="font-semibold"> FOOD (cash + Online): </p>
                           {expenseData?.food}
                         </div>
-                        <div className="w-[50%] px-2 border-2 max-[700px]:w-[100%] flex py-1 ">
+                        {/* <div className="w-[50%] px-2 border-2 max-[700px]:w-[100%] flex py-1 ">
                           <p className="font-semibold"> Travel : </p>
                           {expenseData?.travel}
+                        </div> */}
+                      </div>   <div className="flex w-[100%] min-[700px]:flex-row flex-col">
+                      <div className="w-[50%] px-2 border-2 max-[700px]:w-[100%] flex py-1 ">
+                          <p className="font-semibold"> Travel (Cash): </p>
+                          {expenseData?.travel}
+                        </div>
+                        <div className="w-[50%] px-2 border-2 max-[700px]:w-[100%] flex py-1 ">
+                          <p className="font-semibold"> Travel (Online): </p>
+                          {expenseData?.travelOnline}
                         </div>
                       </div>
                       <div className="flex w-[100%] min-[700px]:flex-row flex-col">
                         <div className="w-[50%] px-2 border-2 max-[700px]:w-[100%] flex py-1">
-                          <p className="font-semibold"> Accomondation : </p>
+                          <p className="font-semibold"> Accomondation (Cash): </p>
                           {expenseData?.accomondation}
                         </div>
-                        <div className="w-[50%] px-2 border-2 max-[700px]:w-[100%] flex py-1 ">
-                          <p className="font-semibold"> Misc : </p>
-                          {expenseData?.Misc}
+                        <div className="w-[50%] px-2 border-2 max-[700px]:w-[100%] flex py-1">
+                          <p className="font-semibold"> Accomondation (online): </p>
+                          {expenseData?.accomondationOnline}
                         </div>
+                      </div>
+                      <div className="flex w-[100%] min-[700px]:flex-row flex-col">
+                       <div className="w-[50%] px-2 border-2 max-[700px]:w-[100%] flex py-1 ">
+                          <p className="font-semibold"> Misc (Cash): </p>
+                          {expenseData?.Misc}
+                        </div> <div className="w-[50%] px-2 border-2 max-[700px]:w-[100%] flex py-1">
+                          <p className="font-semibold"> Misc (Online) : </p>
+                          {expenseData?.MiscOnline}
+                        </div>
+                        
                       </div>
                       <div className="flex w-[100%] min-[700px]:flex-row flex-col">
                         <p className="w-[100%] px-2 font font-semibold bg-blue-300">

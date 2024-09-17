@@ -107,8 +107,8 @@ const styles = StyleSheet.create({
     lineHeight: 1.5,
   },
   image: {
-    width: 80,
-    height: 80,
+    width: 60,
+    height: 60,
     marginBottom: 10,
   },
 });
@@ -122,7 +122,7 @@ const MyDocument = (props) => (
           style={{
             position: "absolute",
             right: 20,
-            marginTop: "20",
+            marginTop: "12",
             border: "2",
             paddingHorizontal: "15",
             paddingVertical: "7",
@@ -240,8 +240,7 @@ const MyDocument = (props) => (
               </View>
               <View style={{ width: "100%" }}>
                 <Text style={{ borderTop: "1px", padding: "5px" }}>
-                  Total Duration (hrs) :{" "}
-                  {props.data?.dateDifferenceInHour}
+                  Total Duration (hrs) : {props.data?.dateDifferenceInHour}
                 </Text>
               </View>
             </View>
@@ -282,7 +281,9 @@ const MyDocument = (props) => (
                 </Text>
                 <Text style={{ padding: "4px" }}>
                   DA (per hrs) :{" "}
-                  {(props.voucherData?.voucherDescription?.dailyAllowance / 24).toFixed(2)}
+                  {(
+                    props.voucherData?.voucherDescription?.dailyAllowance / 24
+                  ).toFixed(2)}
                 </Text>
               </View>
 
@@ -355,7 +356,7 @@ const MyDocument = (props) => (
                       fontWeight: "500",
                     }}
                   >
-                    <Text style={{ width: "55%" }}> Food</Text>
+                    <Text style={{ width: "55%" }}> Food (C+O)</Text>
                     <Text> {props.expenseData?.food}</Text>
                   </View>{" "}
                   <View
@@ -367,7 +368,7 @@ const MyDocument = (props) => (
                       marginBottom: "4px",
                     }}
                   >
-                    <Text style={{ width: "55%" }}> Travel</Text>
+                    <Text style={{ width: "55%" }}> Travel (C)</Text>
                     <Text> {props.expenseData?.travel}</Text>
                   </View>{" "}
                   <View
@@ -379,7 +380,7 @@ const MyDocument = (props) => (
                       fontWeight: "500",
                     }}
                   >
-                    <Text style={{ width: "55%" }}> Accomon.</Text>
+                    <Text style={{ width: "55%" }}> Accomon.(C)</Text>
                     <Text> {props.expenseData?.accomondation}</Text>
                   </View>{" "}
                   <View
@@ -391,8 +392,44 @@ const MyDocument = (props) => (
                       fontWeight: "500",
                     }}
                   >
-                    <Text style={{ width: "55%" }}> Misc</Text>
+                    <Text style={{ width: "55%" }}> Misc (C)</Text>
                     <Text> {props.expenseData?.Misc}</Text>
+                  </View>
+                  <View
+                    style={{
+                      flexDirection: "row",
+                      width: "100%",
+                      marginBottom: "4px",
+                      fontFamily: "Roboto",
+                      fontWeight: "500",
+                    }}
+                  >
+                    <Text style={{ width: "55%" }}> Accom.(Online)</Text>
+                    <Text> {props.expenseData?.accomondationOnline}</Text>
+                  </View>{" "}
+                  <View
+                    style={{
+                      flexDirection: "row",
+                      width: "100%",
+                      marginBottom: "4px",
+                      fontFamily: "Roboto",
+                      fontWeight: "500",
+                    }}
+                  >
+                    <Text style={{ width: "55%" }}> Misc (Online)</Text>
+                    <Text> {props.expenseData?.MiscOnline}</Text>
+                  </View>
+                  <View
+                    style={{
+                      flexDirection: "row",
+                      width: "100%",
+                      marginBottom: "4px",
+                      fontFamily: "Roboto",
+                      fontWeight: "500",
+                    }}
+                  >
+                    <Text style={{ width: "55%" }}> travel (Online)</Text>
+                    <Text> {props.expenseData?.travelOnline}</Text>
                   </View>
                 </View>
               </View>
@@ -475,13 +512,15 @@ const MyDocument = (props) => (
             <View
               style={{ borderTop: "1px", padding: "4px", fontFamily: "Roboto" }}
             >
-             
               <Text>
-                {`Total Expenses (${props?.voucherData?.currency}) :`}
+                {`Total Expenses (${props?.voucherData?.currency}) (payable):`}
                 {+props.expenseData?.Misc +
                   +props.expenseData?.food +
                   +props.expenseData?.travel +
-                  +props.expenseData?.accomondation}
+                  +props.expenseData?.accomondation +
+                  +props.expenseData?.MiscOnline +
+                  +props.expenseData?.travelOnline +
+                  +props.expenseData?.accomondationOnline}
               </Text>
             </View>
           </View>
@@ -505,14 +544,26 @@ const MyDocument = (props) => (
               paddingHorizontal: "10",
             }}
           >
-            {`Payable Amount (${props?.voucherData?.currency}) :`}
+            {`Final Payable Amount (${props?.voucherData?.currency}) :`}
           </Text>
-          
+
           <View style={{ width: "50%", padding: "10" }}>
             {/* <Text></Text> */}
-            {props.data?.settlementAmount>0&&<Text style={{backgroundColor:"green"}}>{props.data?.settlementAmount}</Text>}
-            {props.data?.settlementAmount<0&&<Text style={{backgroundColor:"red"}}>{props.data?.settlementAmount}</Text>}
-            {props.data?.settlementAmount==0&&<Text style={{backgroundColor:"yellow"}}>{props.data?.settlementAmount}</Text>}
+            {props.data?.settlementAmount > 0 && (
+              <Text style={{ backgroundColor: "green" }}>
+                {props.data?.settlementAmount}
+              </Text>
+            )}
+            {props.data?.settlementAmount < 0 && (
+              <Text style={{ backgroundColor: "red" }}>
+                {props.data?.settlementAmount}
+              </Text>
+            )}
+            {props.data?.settlementAmount == 0 && (
+              <Text style={{ backgroundColor: "yellow" }}>
+                {props.data?.settlementAmount}
+              </Text>
+            )}
           </View>
         </View>
       </View>
