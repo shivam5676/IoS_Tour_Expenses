@@ -9,8 +9,8 @@ import { IoIosCloseCircle } from "react-icons/io";
 import { RotatingLines } from "react-loader-spinner";
 
 function UpdateExpenseModal(props) {
-  console.log(props,"...>")
-  
+  console.log(props, "...>");
+
   const connectionUrl = process.env.REACT_APP_BACKEND_URL;
   //   const [open, setOpen] = useState(true);
   const [createLoader, setCreateLoader] = useState(false);
@@ -48,72 +48,44 @@ function UpdateExpenseModal(props) {
   };
   const updateExpenseHandler = async () => {
     setCreateLoader(true);
-console.log(props.voucherId,"vou")
-    let base64Image = "";
+    console.log(props.voucherId, "vou");
+
+    const formData = new FormData();
+    formData.append("expenseId", props.updateData.id);
+    formData.append("date", dateRef.current.value);
+    formData.append("amount", amountRef.current.value);
+    formData.append("expenseType", expenseCategoryRef.current);
+    formData.append("voucher", voucherRef.current.value);
+    formData.append("paymentType", paymentTypeRef.current.value);
+    formData.append("description", descriptionRef.current.value);
+    formData.append("voucherId", props.updateData.VoucherId);
+    formData.append("token", user.access_token);
+    formData.append("domain", user.domain);
+
     if (billImageRef.current.files[0]) {
-      const file = billImageRef.current.files[0];
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onloadend = async () => {
-        base64Image = reader.result;
-        const data = {
-          expenseId: props.updateData.id,
-          date: dateRef.current.value,
-          amount: amountRef.current.value,
-          expenseType: expenseCategoryRef.current,
-          voucher: voucherRef.current.value,
-          paymentType: paymentTypeRef.current.value,
-          description: descriptionRef.current.value,
-          voucherId: props.voucherId,
-          token: user.access_token,
-          domain: user.domain,
-          billImage: base64Image,
-        };
+      formData.append("billImage", billImageRef.current.files[0]);
+    } else if (imageRemoved) {
+      formData.append("billImage", "removed");
+    }
 
-        try {
-          const response = await axios.post(
-            `${connectionUrl}/user/updateExpense`,
-            data
-          );
-          const res = response.data.expenseData;
-
-          ctx.updateCurrentTourExpenses(res);
-          toast.success("Expense added.");
-          setCreateLoader(false);
-        } catch (err) {
-          toast.error(err.response?.data?.msg);
-          setCreateLoader(false);
+    try {
+      const response = await axios.post(
+        `${connectionUrl}/user/updateExpense`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
         }
-      };
-    } else {
-      const data = {
-        expenseId: props.updateData.id,
+      );
 
-        date: dateRef.current.value,
-        amount: amountRef.current.value,
-        expenseType: expenseCategoryRef.current,
-        voucher: voucherRef.current.value,
-        paymentType: paymentTypeRef.current.value,
-        description: descriptionRef.current.value,
-        voucherId: props.voucherId,
-        token: user.access_token,
-        domain: user.domain,
-        billImage: imageRemoved ? "removed" : base64Image,
-      };
-
-      try {
-        const response = await axios.post(
-          `${connectionUrl}/user/updateExpense`,
-          data
-        );
-        const res = response.data.expenseData;
-        ctx.updateCurrentTourExpenses(res);
-        setCreateLoader(false);
-        toast.success("Expense aupdated....refresh the page to see the updated data");
-      } catch (err) {
-        toast.error(err.response?.data?.msg);
-        setCreateLoader(false);
-      }
+      const res = response.data.expenseData;
+      ctx.updateCurrentTourExpenses(res);
+      toast.success("Expense updated.");
+      setCreateLoader(false);
+    } catch (err) {
+      toast.error(err.response?.data?.msg);
+      setCreateLoader(false);
     }
   };
 
@@ -123,7 +95,7 @@ console.log(props.voucherId,"vou")
         className="relative z-10"
         initialFocus={cancelButtonRef}
         onClose={() => {
-          return
+          return;
         }}
       >
         <Transition.Child
