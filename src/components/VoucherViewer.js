@@ -229,6 +229,7 @@ export default function VoucherViewer(props) {
   let Misc = 0;
   let accomondation = 0;
   let travelOnline = 0,
+    foodOnline = 0,
     MiscOnline = 0,
     accomondationOnline = 0;
   useEffect(() => {
@@ -253,8 +254,19 @@ export default function VoucherViewer(props) {
         if (current.paymentType === "Credit Card") {
           creditCard += +current.Amount;
         }
-        if (current.expenseType === "Food(Da)") {
+        if (
+          current.expenseType === "Food(Da)" &&
+          current.paymentType !== "Credit Card" &&
+          current.paymentType !== "Online (train/flight)"
+        ) {
           food += +current.Amount;
+        }
+        if (
+          current.expenseType === "Food(Da)" &&
+          (current.paymentType === "Credit Card" ||
+            current.paymentType === "Online (train/flight)")
+        ) {
+          foodOnline += +current.Amount;
         }
         if (
           current.expenseType === "Misc" &&
@@ -306,6 +318,7 @@ export default function VoucherViewer(props) {
       creditCard,
       accomondation,
       food,
+      foodOnline,
       Misc,
       travel,
       travelOnline,
@@ -449,18 +462,19 @@ export default function VoucherViewer(props) {
     //   food
     // );
 
-    if (totalDa > 0) {
+    if (totalDa >= 0) {
       settlementAmount =
-        +expensesExpectFood + 
+        +expensesExpectFood +
         +totalDa -
         voucherData?.voucherDescription?.advanceCash;
     }
-    if (totalDa == 0 || isNaN(totalDa)) {
-      settlementAmount =
-        +expensesExpectFood +
-        +expenseData?.food -
-        voucherData?.voucherDescription?.advanceCash;
-    }
+    // if (totalDa == 0 || isNaN(totalDa) || !totalDa) {
+    //   // totalDa=+expenseData?.food ||0;
+    //   settlementAmount =
+    //     +expensesExpectFood -
+    //     // +totalDa -
+    //     voucherData?.voucherDescription?.advanceCash;
+    // }
   }
   const sendCommentHandler = async () => {
     try {
@@ -533,7 +547,7 @@ export default function VoucherViewer(props) {
                   leaveFrom="opacity-100 translate-y-0 sm:scale-100"
                   leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
                 >
-                  <Dialog.Panel className="relative transform  rounded-lg text-left shadow-xl transition-all sm:my-8 h-[80vh] w-[100%] min-[700px]:w-[700px]  py-4 bg-white text-black">
+                  <Dialog.Panel className="relative transform  rounded-lg text-left shadow-xl transition-all sm:my-8 h-[80vh] w-[100%] min-[800px]:w-[800px]   py-4 bg-white text-black">
                     {voucherData.statusType == "Accepted" && (
                       <img
                         className="fixed left-4 w-[90px]  top-0 flex cursor-pointer font-bold underline"
@@ -684,16 +698,17 @@ export default function VoucherViewer(props) {
                         Tour Expenses
                       </p>
                       <div className="flex w-[100%] min-[700px]:flex-row flex-col">
-                        <div className="w-[100%] px-2 border-2 max-[700px]:w-[100%] flex py-1">
-                          <p className="font-semibold"> FOOD (cash + Online): </p>
+                        <div className="w-[50%] px-2 border-2 max-[700px]:w-[100%] flex py-1">
+                          <p className="font-semibold"> FOOD (cash): </p>
                           {expenseData?.food}
                         </div>
-                        {/* <div className="w-[50%] px-2 border-2 max-[700px]:w-[100%] flex py-1 ">
-                          <p className="font-semibold"> Travel : </p>
-                          {expenseData?.travel}
-                        </div> */}
-                      </div>   <div className="flex w-[100%] min-[700px]:flex-row flex-col">
-                      <div className="w-[50%] px-2 border-2 max-[700px]:w-[100%] flex py-1 ">
+                        <div className="w-[50%] px-2 border-2 max-[700px]:w-[100%] flex py-1 ">
+                          <p className="font-semibold"> Food (Online): </p>
+                          {expenseData?.foodOnline}
+                        </div>
+                      </div>{" "}
+                      <div className="flex w-[100%] min-[700px]:flex-row flex-col">
+                        <div className="w-[50%] px-2 border-2 max-[700px]:w-[100%] flex py-1 ">
                           <p className="font-semibold"> Travel (Cash): </p>
                           {expenseData?.travel}
                         </div>
@@ -704,31 +719,61 @@ export default function VoucherViewer(props) {
                       </div>
                       <div className="flex w-[100%] min-[700px]:flex-row flex-col">
                         <div className="w-[50%] px-2 border-2 max-[700px]:w-[100%] flex py-1">
-                          <p className="font-semibold"> Accomondation (Cash): </p>
+                          <p className="font-semibold">
+                            {" "}
+                            Accomondation (Cash):{" "}
+                          </p>
                           {expenseData?.accomondation}
                         </div>
                         <div className="w-[50%] px-2 border-2 max-[700px]:w-[100%] flex py-1">
-                          <p className="font-semibold"> Accomondation (online): </p>
+                          <p className="font-semibold">
+                            {" "}
+                            Accomondation (online):{" "}
+                          </p>
                           {expenseData?.accomondationOnline}
                         </div>
                       </div>
                       <div className="flex w-[100%] min-[700px]:flex-row flex-col">
-                       <div className="w-[50%] px-2 border-2 max-[700px]:w-[100%] flex py-1 ">
+                        <div className="w-[50%] px-2 border-2 max-[700px]:w-[100%] flex py-1 ">
                           <p className="font-semibold"> Misc (Cash): </p>
                           {expenseData?.Misc}
-                        </div> <div className="w-[50%] px-2 border-2 max-[700px]:w-[100%] flex py-1">
+                        </div>{" "}
+                        <div className="w-[50%] px-2 border-2 max-[700px]:w-[100%] flex py-1">
                           <p className="font-semibold"> Misc (Online) : </p>
                           {expenseData?.MiscOnline}
                         </div>
-                        
                       </div>
                       <div className="flex w-[100%] min-[700px]:flex-row flex-col">
-                        <p className="w-[100%] px-2 font font-semibold bg-blue-300">
-                          Total Tour Expenses ({voucherData?.currency}) :
+                        <p className="w-[100%] px-2 font font-semibold bg-blue-600 text-white">
+                          Total Tour Expenses (cash) ({voucherData?.currency}) :
                           {expenseData?.Misc +
                             expenseData?.accomondation +
                             expenseData?.travel +
                             expenseData?.food}
+                        </p>
+                      </div>
+                      <div className="flex w-[100%] min-[700px]:flex-row flex-col">
+                        <p className="w-[100%] px-2 font font-semibold bg-blue-600 text-white">
+                          Total Tour Expenses (online) ({voucherData?.currency})
+                          :
+                          {expenseData?.MiscOnline +
+                            expenseData?.accomondationOnline +
+                            expenseData?.travelOnline +
+                            expenseData?.foodOnline}
+                        </p>
+                      </div>
+                      <div className="flex w-[100%] min-[700px]:flex-row flex-col">
+                        <p className="w-[100%] px-2 font font-semibold bg-blue-300">
+                          Total Tour Expenses (overall) ({voucherData?.currency}
+                          ) :
+                          {expenseData?.Misc +
+                            +expenseData?.accomondation +
+                            +expenseData?.travel +
+                            +expenseData?.food +
+                            +expenseData?.MiscOnline +
+                            +expenseData?.accomondationOnline +
+                            +expenseData?.travelOnline +
+                            +expenseData?.foodOnline}
                         </p>
                       </div>
                       <p className="text-center font-bold">
@@ -775,11 +820,10 @@ export default function VoucherViewer(props) {
                         {settlementAmount == 0 ||
                           (!settlementAmount && (
                             <p
-                              className={`w-[100%] px-2 font font-semibold ${"bg-yellow-400"} text-white p-2`}
+                              className={`w-[100%] px-2 font font-semibold ${"bg-yellow-600"} text-white p-2`}
                             >
                               Amount for settlement : {settlementAmount} (
                               {voucherData?.currency})
-                              <span> (user will recieve from office )</span>
                             </p>
                           ))}
                       </div>

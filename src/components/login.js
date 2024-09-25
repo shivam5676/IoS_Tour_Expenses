@@ -6,15 +6,13 @@ import bitrixlogo from "../assests/images/bitrixLogo.png";
 import { ColorRing } from "react-loader-spinner";
 import loginImage from "../assests/loginImage2.png";
 
-
 const Login = React.memo(() => {
   const [loginLoader, setLoginLoader] = useState(false);
   const navigate = useNavigate();
   const ctx = useContext(Context);
   const connectionString = process.env.REACT_APP_CONNECTION_STRING;
-  const frontendConnectionString=process.env.REACT_APP_FRONTEND_URL
-  const backendConnectionString=process.env.REACT_APP_BACKEND_URL
-
+  const frontendConnectionString = process.env.REACT_APP_FRONTEND_URL;
+  const backendConnectionString = process.env.REACT_APP_BACKEND_URL;
 
   const getAccessToken = async (code) => {
     setLoginLoader(true);
@@ -22,7 +20,7 @@ const Login = React.memo(() => {
       const response = await axios.get(
         `${backendConnectionString}/callback/${code}`
       );
-  
+
       if (response.data.data.access_token) {
         localStorage.setItem("token", JSON.stringify(response.data.data));
         ctx.loginDataHandler(response.data.data);
@@ -38,18 +36,22 @@ const Login = React.memo(() => {
         // window.location.href = `${connectionString}:${process.env.REACT_APP_FRONTEND_PORT}`;
       }
     } catch (error) {
+      localStorage.removeItem("token");
+
       console.error("Error fetching the access token", error);
     }
   };
 
   const bitrixHandler = useCallback(async () => {
+    localStorage.removeItem("token");
+
     setLoginLoader(true);
     try {
       const response = await axios.get(
         `${backendConnectionString}/queryParams/`
       );
       const queryParams = response.data.data;
-    
+
       const authorizationUrl = `${process.env.REACT_APP_BITRIX_URL}/oauth/authorize?${queryParams}`;
       const width = 500;
       const height = 600;
@@ -70,7 +72,6 @@ const Login = React.memo(() => {
             const searchParams = new URL(authWindow.location).searchParams;
             const authCode = searchParams.get("code");
             if (authCode) {
-              
               getAccessToken(authCode);
               authWindow.close();
               // Redirect to your main application route and pass the authorization code
@@ -85,6 +86,7 @@ const Login = React.memo(() => {
       setLoginLoader(false);
     } catch (err) {
       console.log(err);
+      localStorage.removeItem("token");
       setLoginLoader(false);
     }
   }, [connectionString, navigate]);

@@ -297,7 +297,9 @@ const MyDocument = (props) => (
                   }}
                 >
                   {`Total DA Calculated(${props?.voucherData?.currency}) `}:{" "}
-                  {props.data?.totalDa}
+                  {typeof props.data?.totalDa === "number"
+                    ? props.data.totalDa.toFixed(2)
+                    : "0.00"}
                 </Text>
               </View>
             </View>
@@ -357,7 +359,10 @@ const MyDocument = (props) => (
                     }}
                   >
                     <Text style={{ width: "55%" }}> Food (C+O)</Text>
-                    <Text> {props.expenseData?.food}</Text>
+                    <Text>
+                      {" "}
+                      {props.expenseData?.food + props.expenseData?.foodOnline}
+                    </Text>
                   </View>{" "}
                   <View
                     style={{
@@ -380,9 +385,33 @@ const MyDocument = (props) => (
                       fontWeight: "500",
                     }}
                   >
+                    <Text style={{ width: "55%" }}> travel (Online)</Text>
+                    <Text> {props.expenseData?.travelOnline}</Text>
+                  </View>
+                  <View
+                    style={{
+                      flexDirection: "row",
+                      width: "100%",
+                      marginBottom: "4px",
+                      fontFamily: "Roboto",
+                      fontWeight: "500",
+                    }}
+                  >
                     <Text style={{ width: "55%" }}> Accomon.(C)</Text>
                     <Text> {props.expenseData?.accomondation}</Text>
                   </View>{" "}
+                  <View
+                    style={{
+                      flexDirection: "row",
+                      width: "100%",
+                      marginBottom: "4px",
+                      fontFamily: "Roboto",
+                      fontWeight: "500",
+                    }}
+                  >
+                    <Text style={{ width: "55%" }}> Accom.(Online)</Text>
+                    <Text> {props.expenseData?.accomondationOnline}</Text>
+                  </View>
                   <View
                     style={{
                       flexDirection: "row",
@@ -404,22 +433,10 @@ const MyDocument = (props) => (
                       fontWeight: "500",
                     }}
                   >
-                    <Text style={{ width: "55%" }}> Accom.(Online)</Text>
-                    <Text> {props.expenseData?.accomondationOnline}</Text>
-                  </View>{" "}
-                  <View
-                    style={{
-                      flexDirection: "row",
-                      width: "100%",
-                      marginBottom: "4px",
-                      fontFamily: "Roboto",
-                      fontWeight: "500",
-                    }}
-                  >
                     <Text style={{ width: "55%" }}> Misc (Online)</Text>
                     <Text> {props.expenseData?.MiscOnline}</Text>
                   </View>
-                  <View
+                  {/* <View
                     style={{
                       flexDirection: "row",
                       width: "100%",
@@ -430,7 +447,7 @@ const MyDocument = (props) => (
                   >
                     <Text style={{ width: "55%" }}> travel (Online)</Text>
                     <Text> {props.expenseData?.travelOnline}</Text>
-                  </View>
+                  </View> */}
                 </View>
               </View>
               <View
@@ -513,14 +530,17 @@ const MyDocument = (props) => (
               style={{ borderTop: "1px", padding: "4px", fontFamily: "Roboto" }}
             >
               <Text>
-                {`Total Expenses (${props?.voucherData?.currency}) (payable):`}
-                {+props.expenseData?.Misc +
-                  +props.expenseData?.food +
-                  +props.expenseData?.travel +
-                  +props.expenseData?.accomondation +
-                  +props.expenseData?.MiscOnline +
-                  +props.expenseData?.travelOnline +
-                  +props.expenseData?.accomondationOnline}
+                {`Total Expenses (${props?.voucherData?.currency}): `}
+                {(
+                  (Number(props.expenseData?.Misc) || 0) +
+                  (Number(props.expenseData?.food) || 0) +
+                  (Number(props.expenseData?.foodOnline) || 0) +
+                  (Number(props.expenseData?.travel) || 0) +
+                  (Number(props.expenseData?.accomondation) || 0) +
+                  (Number(props.expenseData?.MiscOnline) || 0) +
+                  (Number(props.expenseData?.travelOnline) || 0) +
+                  (Number(props.expenseData?.accomondationOnline) || 0)
+                ).toFixed(2)}
               </Text>
             </View>
           </View>
