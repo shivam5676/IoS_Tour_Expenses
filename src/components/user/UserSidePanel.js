@@ -58,12 +58,12 @@ function UserSidePanel() {
           >
             Vouchers
           </p>
-          {/* <p
+          <p
             className="font-bold cursor-pointer hover:bg-[#3498db] w-[60%]  my-1 min-[1400px]:my-2 text-center hover:text-white"
-            onClick={() => navigate("/changePassword")}
+            onClick={() => navigate("/Accounts")}
           >
-            change password
-          </p> */}
+            Accounts Mode
+          </p>
         </div>
         <div className=" min-w-[100%] max-w-[270px] text-white ">
           <div className="flex m-4  bg-[#2980b9] rounded-md py-2 items-center justify-center">

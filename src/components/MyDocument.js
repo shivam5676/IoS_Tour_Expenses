@@ -14,6 +14,7 @@ import {
   Font,
 } from "@react-pdf/renderer";
 import VoucherDocumentExpenseList from "./VoucherDocumentExpenseList";
+import MyDocumentManual from "./myDocumentUsageMAnual";
 Font.register({
   family: "Roboto",
   fonts: [
@@ -588,7 +589,6 @@ const MyDocument = (props) => (
         </View>
       </View>
     </Page>
-
     <VoucherDocumentExpenseList
       expenseList={props.voucherData}
     ></VoucherDocumentExpenseList>
@@ -599,8 +599,10 @@ const MyDocument = (props) => (
           <Image src={imageurl}></Image>
         </Page>
       );
-    })}
+    })}{" "}
+    <MyDocumentManual/>
   </Document>
+
   // <PDFViewer style={{ position: "absolute", height: "400px", width: "500px" }}>
   //   {" "}
 

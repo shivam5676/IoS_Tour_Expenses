@@ -12,7 +12,6 @@ import { TbReportSearch } from "react-icons/tb";
 import { IoBarChart } from "react-icons/io5";
 import { BsCash } from "react-icons/bs";
 
-
 const Header = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const userData = JSON.parse(localStorage.getItem("token"));
@@ -271,38 +270,38 @@ const Header = () => {
                 )}
                 {(userType?.isAdmin || userType?.supervisor) && (
                   <li className="mr-3 flex-1 ">
-                  <NavLink
-                    to="/adminVouchers"
-                    className="flex  font-semibold items-center py-1 md:py-3 pl-1 align-middle text-white no-underline hover:text-white hover:border-b-2 hover:border-white"
-                    onClick={() => {
-                      setOpenNavbar(false);
-                    }}
-                  >
-                    <IoBarChart className="fa fa-wallet pr-0 md:pr-3  h-8 w-10" />
-                    {/* <TbReportSearch />{" "} */}
-                    <span className="pb-1 mx-3 md:pb-0 text-md md:text-base text-white md:text-white block md:flex items-center pt-1">
-                      Voucher Manager
-                    </span>
-                  </NavLink>
-                </li>
-                )}
-                {(userType?.isAdmin || userType?.supervisor) && (
-                  <li className="mr-3 flex-1 ">
                     <NavLink
-                      to="/Accounts"
-                      className="flex  font-semibold items-centerpy-1 py-1 md:py-3 pl-0 md:pl-1 align-middle text-white no-underline hover:text-white hover:border-b-2  hover:border-white"
+                      to="/adminVouchers"
+                      className="flex  font-semibold items-center py-1 md:py-3 pl-1 align-middle text-white no-underline hover:text-white hover:border-b-2 hover:border-white"
                       onClick={() => {
                         setOpenNavbar(false);
                       }}
                     >
-                      <TbReportSearch className="fa fa-wallet pr-0 md:pr-3  h-8 w-10" />
-                      {/* <i ></i> */}
-                      <span className="pb-1 md:pb-0 mx-3 text-md md:text-base text-whiteblock md:flex items-center pt-1">
-                        Accounts Mode
+                      <IoBarChart className="fa fa-wallet pr-0 md:pr-3  h-8 w-10" />
+                      {/* <TbReportSearch />{" "} */}
+                      <span className="pb-1 mx-3 md:pb-0 text-md md:text-base text-white md:text-white block md:flex items-center pt-1">
+                        Voucher Manager
                       </span>
                     </NavLink>
                   </li>
                 )}
+                {/* {(userType?.isAdmin || userType?.supervisor) && ( */}
+                <li className="mr-3 flex-1 ">
+                  <NavLink
+                    to="/Accounts"
+                    className="flex  font-semibold items-centerpy-1 py-1 md:py-3 pl-0 md:pl-1 align-middle text-white no-underline hover:text-white hover:border-b-2  hover:border-white"
+                    onClick={() => {
+                      setOpenNavbar(false);
+                    }}
+                  >
+                    <TbReportSearch className="fa fa-wallet pr-0 md:pr-3  h-8 w-10" />
+                    {/* <i ></i> */}
+                    <span className="pb-1 md:pb-0 mx-3 text-md md:text-base text-whiteblock md:flex items-center pt-1">
+                      Accounts Mode
+                    </span>
+                  </NavLink>
+                </li>
+                {/* )} */}
               </ul>
 
               {userType && (

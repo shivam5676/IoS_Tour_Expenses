@@ -141,25 +141,23 @@ const Sidebar = () => {
                 </NavLink>
               </li>
             )}
-            {(user?.isAdmin || user?.supervisor) && (
-              <li className="mr-3 flex-1 max-md:hidden">
-                <NavLink
-                  onClick={() => {
-                    setActiveLink("/Accounts");
-                  }}
-                  to="/Accounts"
-                  className={`flex items-centerpy-1 md:py-3 pl-0 md:pl-1 align-middle text-white no-underline hover:text-white  border-b-2 border-transparent    ${
-                    activeLink == "/Accounts" && "border-white"
-                  }`}
-                >
-                  <TbReportSearch className="fa fa-wallet pr-0 md:pr-3  h-8 w-10" />
-                  {/* <i ></i> */}
-                  <span className="pb-1 md:pb-0 text-xs md:text-base text-gray-400 md:text-white block md:flex items-center">
-                    Accounts Mode
-                  </span>
-                </NavLink>
-              </li>
-            )}
+            <li className="mr-3 flex-1 max-md:hidden">
+              <NavLink
+                onClick={() => {
+                  setActiveLink("/Accounts");
+                }}
+                to="/Accounts"
+                className={`flex items-centerpy-1 md:py-3 pl-0 md:pl-1 align-middle text-white no-underline hover:text-white  border-b-2 border-transparent    ${
+                  activeLink == "/Accounts" && "border-white"
+                }`}
+              >
+                <TbReportSearch className="fa fa-wallet pr-0 md:pr-3  h-8 w-10" />
+                {/* <i ></i> */}
+                <span className="pb-1 md:pb-0 text-xs md:text-base text-gray-400 md:text-white block md:flex items-center">
+                  Accounts Mode
+                </span>
+              </NavLink>
+            </li>
             <li className="mr-3 flex-1 max-md:hidden">
               <div
                 onClick={() => {

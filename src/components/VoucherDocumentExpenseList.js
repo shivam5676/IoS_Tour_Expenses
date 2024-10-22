@@ -15,6 +15,7 @@ const styles = StyleSheet.create({
 });
 
 const VoucherDocumentExpenseList = (props) => {
+
   return (
     <Page size="A4" style={styles.page}>
       <View style={styles.section}>
@@ -58,7 +59,7 @@ const VoucherDocumentExpenseList = (props) => {
                 {current.Amount}
               </Text>
               <Text style={{ width: "15%", paddingHorizontal: "3px" }}>
-                {current.voucherId}
+                {current.voucherNo}
               </Text>
               <Text style={{ width: "15%", paddingHorizontal: "3px" }}>
                 {current.date}

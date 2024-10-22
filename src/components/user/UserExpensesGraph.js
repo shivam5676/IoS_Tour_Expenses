@@ -12,6 +12,7 @@ function UserExpensesGraph(props) {
   let Misc = 0;
   let Accomondation = 0;
   ctx.userCurrentTourExpenseData.forEach((current) => {
+    console.log(current)
     if (current.expenseType == "Food(Da)") {
       food += +current.Amount;
     } else if (current.expenseType == "Travel") {
@@ -22,7 +23,7 @@ function UserExpensesGraph(props) {
       Accomondation += +current.Amount;
     }
   });
-  
+  console.log(Travel, Misc, food, Accomondation)
   const data = {
     labels: ["Misc", "Travel", "Food", "Accomondation"],
     datasets: [

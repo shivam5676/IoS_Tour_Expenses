@@ -170,6 +170,7 @@ export default function VoucherViewer(props) {
       setVoucherData((prev) => {
         return { ...prev, statusType: "Closed" };
       });
+      toast.success("Voucher verified and closed by accounts team")
     } catch (err) {
       console.log(err);
     }
@@ -1207,7 +1208,7 @@ export default function VoucherViewer(props) {
                         </div>
                       )}
                       {/* {console.log(voucherData)} */}
-                      {(user?.isAdmin || user?.supervisor) &&
+                      {
                         path == "/ACCOUNTS" &&
                         voucherData?.assignedTo == user?.id &&
                         voucherData?.statusType == "Accepted" && (

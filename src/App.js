@@ -128,12 +128,16 @@ function App() {
                   path="/YourVoucher"
                   element={<YourVoucher></YourVoucher>}
                 ></Route>
-                {(isLoggedIn?.isAdmin || isLoggedIn?.supervisor) && (
                   <Route
                     path="/Accounts"
                     element={<AccountsDepartment></AccountsDepartment>}
                   ></Route>
-                )}
+                {/* {(isLoggedIn?.isAdmin || isLoggedIn?.supervisor) && (
+                  <Route
+                    path="/Accounts"
+                    element={<AccountsDepartment></AccountsDepartment>}
+                  ></Route>
+                )} */}
               </Routes>
             </div>
           </div>
